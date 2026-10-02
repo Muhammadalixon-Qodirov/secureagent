@@ -1,0 +1,5 @@
+# Keep LF everywhere: evaluation data is frozen by SHA-256 of its bytes,
+# and CRLF conversion on checkout would break those hashes.
+* text=auto eol=lf
+*.sqlite binary
+*.pdf binary
