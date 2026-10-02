@@ -1,0 +1,265 @@
+{
+  "system": "agent_single_pass",
+  "metrics": {
+    "sql_injection": {
+      "tp": 4,
+      "fn": 3,
+      "fp_lookalike": 0,
+      "fp_unmatched": 0,
+      "precision": 1.0,
+      "precision_ci95": [
+        0.51,
+        1.0
+      ],
+      "recall": 0.571,
+      "recall_ci95": [
+        0.25,
+        0.842
+      ],
+      "f1": 0.727,
+      "lookalike_fp_rate": 0.0,
+      "safe_cases": 7
+    },
+    "path_traversal": {
+      "tp": 0,
+      "fn": 6,
+      "fp_lookalike": 0,
+      "fp_unmatched": 0,
+      "precision": null,
+      "precision_ci95": null,
+      "recall": 0.0,
+      "recall_ci95": [
+        0.0,
+        0.39
+      ],
+      "f1": null,
+      "lookalike_fp_rate": 0.0,
+      "safe_cases": 8
+    },
+    "authorization_idor": {
+      "tp": 0,
+      "fn": 9,
+      "fp_lookalike": 0,
+      "fp_unmatched": 0,
+      "precision": null,
+      "precision_ci95": null,
+      "recall": 0.0,
+      "recall_ci95": [
+        0.0,
+        0.299
+      ],
+      "f1": null,
+      "lookalike_fp_rate": 0.0,
+      "safe_cases": 11
+    },
+    "micro": {
+      "tp": 4,
+      "fn": 18,
+      "fp_lookalike": 0,
+      "fp_unmatched": 0,
+      "precision": 1.0,
+      "precision_ci95": [
+        0.51,
+        1.0
+      ],
+      "recall": 0.182,
+      "recall_ci95": [
+        0.073,
+        0.385
+      ],
+      "f1": 0.308,
+      "lookalike_fp_rate": 0.0,
+      "safe_cases": 26
+    }
+  },
+  "per_app": {
+    "bookshelf": {
+      "tp": [
+        "B1"
+      ],
+      "fn": [
+        "B4",
+        "B6"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-89",
+          "file": "app.py",
+          "ranges": [
+            [
+              20,
+              20
+            ]
+          ],
+          "title": "Potential SQL Injection in /books endpoint"
+        }
+      ],
+      "seconds": 85.7
+    },
+    "clinic": {
+      "tp": [],
+      "fn": [
+        "C1",
+        "C3"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [],
+      "seconds": 15.0
+    },
+    "filestore": {
+      "tp": [],
+      "fn": [
+        "F3",
+        "F4",
+        "F5"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [],
+      "seconds": 28.3
+    },
+    "media": {
+      "tp": [],
+      "fn": [
+        "M2",
+        "M3"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [],
+      "seconds": 59.4
+    },
+    "orgreports": {
+      "tp": [],
+      "fn": [
+        "O1",
+        "O3"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [],
+      "seconds": 129.2
+    },
+    "projects": {
+      "tp": [
+        "P2"
+      ],
+      "fn": [
+        "P3"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-89",
+          "file": "app.py",
+          "ranges": [
+            [
+              32,
+              33
+            ],
+            [
+              33,
+              34
+            ]
+          ],
+          "title": "Potential SQL Injection in /projects/report Route"
+        }
+      ],
+      "seconds": 118.2
+    },
+    "school": {
+      "tp": [],
+      "fn": [
+        "H3"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [],
+      "seconds": 13.1
+    },
+    "shop": {
+      "tp": [
+        "S2"
+      ],
+      "fn": [
+        "S4"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-89",
+          "file": "app.py",
+          "ranges": [
+            [
+              31,
+              33
+            ]
+          ],
+          "title": "Potential SQL Injection in /products/top route"
+        }
+      ],
+      "seconds": 32.8
+    },
+    "tickets": {
+      "tp": [
+        "T4"
+      ],
+      "fn": [
+        "T2",
+        "T3"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-89",
+          "file": "app.py",
+          "ranges": [
+            [
+              60,
+              63
+            ]
+          ],
+          "title": "Potential SQL Injection in Search Route"
+        }
+      ],
+      "seconds": 85.8
+    },
+    "wiki": {
+      "tp": [],
+      "fn": [
+        "W2",
+        "W3"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [],
+      "seconds": 14.3
+    }
+  }
+}

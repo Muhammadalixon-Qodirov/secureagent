@@ -1,0 +1,19 @@
+{
+  "frozen_at": "2026-10-02T11:04:08+00:00",
+  "combined_sha256": "aaa26b9746a77249abf2e3154e5a33478e959551c525d8003997681cd9881e0a",
+  "files": {
+    "apps/bookshelf/app.py": "fcdbc5dffbb9186c3ae61bf6e3d96d32f737d85033c814db60fb24fc5c3912b6",
+    "apps/clinic/app.py": "d3c01dcd55e6a6a34f0ac76311a9cbadc017381aa25cfc7a74c7ea80df73a35d",
+    "apps/clinic/database.py": "e31433c89c643428d65eadb5adb70fac9ddbe9e83828a8bbd41f86dbb9e903c6",
+    "apps/clinic/queries.py": "94c0e09e941024c86e1f5dbd4fb4f5fdc0390ee54b6e0030ce3fc22a1d3cd3d7",
+    "apps/filestore/app.py": "5310f365648a3dae98d184c39c71b0ff395a59beb4b9d5c426ce99eb1691cb83",
+    "apps/media/app.py": "a1e0108e7ffa8110b1273a7787c3688c422bdd70cbdf19b39027a07a659d72ac",
+    "apps/orgreports/app.py": "280572c93577d8b1fccce8a3a83a5ca6f921a3bd8cb6b500959a6d1e883f16a8",
+    "apps/projects/app.py": "9f3c9a42c6f29192969ad52a2bd98eec1f03bc891be92fda50dd0fdf014eef78",
+    "apps/school/app.py": "0de24ca83c01c21565779ba50dee4f829216f97feef5ddc835dc50f1f9d1ae92",
+    "apps/shop/app.py": "859121e3cc8c52968fbee5832cc03dd54b32efd07bb73944374b87a3bdb4ea86",
+    "apps/tickets/app.py": "4b7daba9705983dbe85fb56b8a92afbee449f02f40c0ca261c763609760e8acb",
+    "apps/wiki/app.py": "b791664cf2004a9ddaafdc52e9cc9d148a46dbe41266b3fa3035a7d19015e262",
+    "manifest.yaml": "03ad35bcbf58a81db95bb33c6a760014d8b6f5e0a56a86e198631aca2cd53594"
+  }
+}

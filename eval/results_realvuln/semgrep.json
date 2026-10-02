@@ -1,0 +1,494 @@
+{
+  "system": "semgrep",
+  "metrics": {
+    "sql_injection": {
+      "tp": 8,
+      "fn": 20,
+      "fp_lookalike": 0,
+      "fp_unmatched": 0,
+      "precision": 1.0,
+      "precision_ci95": [
+        0.676,
+        1.0
+      ],
+      "recall": 0.286,
+      "recall_ci95": [
+        0.153,
+        0.471
+      ],
+      "f1": 0.444,
+      "lookalike_fp_rate": 0.0,
+      "safe_cases": 35
+    },
+    "path_traversal": {
+      "tp": 1,
+      "fn": 8,
+      "fp_lookalike": 0,
+      "fp_unmatched": 1,
+      "precision": 0.5,
+      "precision_ci95": [
+        0.095,
+        0.905
+      ],
+      "recall": 0.111,
+      "recall_ci95": [
+        0.02,
+        0.435
+      ],
+      "f1": 0.182,
+      "lookalike_fp_rate": 0.0,
+      "safe_cases": 3
+    },
+    "authorization_idor": {
+      "tp": 0,
+      "fn": 53,
+      "fp_lookalike": 0,
+      "fp_unmatched": 0,
+      "precision": null,
+      "precision_ci95": null,
+      "recall": 0.0,
+      "recall_ci95": [
+        0.0,
+        0.068
+      ],
+      "f1": null,
+      "lookalike_fp_rate": 0.0,
+      "safe_cases": 2
+    },
+    "micro": {
+      "tp": 9,
+      "fn": 81,
+      "fp_lookalike": 0,
+      "fp_unmatched": 1,
+      "precision": 0.9,
+      "precision_ci95": [
+        0.596,
+        0.982
+      ],
+      "recall": 0.1,
+      "recall_ci95": [
+        0.054,
+        0.179
+      ],
+      "f1": 0.18,
+      "lookalike_fp_rate": 0.0,
+      "safe_cases": 40
+    }
+  },
+  "per_app": {
+    "damn-vulnerable-flask-app": {
+      "tp": [],
+      "fn": [
+        "damn-vulnerable-flask-app-012",
+        "damn-vulnerable-flask-app-013",
+        "damn-vulnerable-flask-app-014",
+        "damn-vulnerable-flask-app-015"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [],
+      "seconds": 12.8
+    },
+    "dvblab": {
+      "tp": [
+        "dvblab-002",
+        "dvblab-001",
+        "dvblab-004",
+        "dvblab-003"
+      ],
+      "fn": [
+        "dvblab-010",
+        "dvblab-011",
+        "dvblab-021"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-89",
+          "file": "backend/routes/auth_routes.py",
+          "ranges": [
+            [
+              23,
+              23
+            ]
+          ],
+          "title": "flask-sqli-string-built-query"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "backend/routes/auth_routes.py",
+          "ranges": [
+            [
+              37,
+              37
+            ]
+          ],
+          "title": "flask-sqli-string-built-query"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "backend/routes/transaction_routes.py",
+          "ranges": [
+            [
+              50,
+              50
+            ]
+          ],
+          "title": "flask-sqli-string-built-query"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "backend/routes/transaction_routes.py",
+          "ranges": [
+            [
+              95,
+              95
+            ]
+          ],
+          "title": "flask-sqli-string-built-query"
+        }
+      ],
+      "seconds": 9.9
+    },
+    "dvga": {
+      "tp": [],
+      "fn": [
+        "dvga-001",
+        "dvga-010",
+        "dvga-012",
+        "dvga-013",
+        "dvga-014",
+        "dvga-021",
+        "dvga-022",
+        "dvga-023",
+        "dvga-024",
+        "dvga-027",
+        "dvga-029",
+        "dvga-030",
+        "dvga-035",
+        "dvga-036"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [],
+      "seconds": 10.4
+    },
+    "extremely-vulnerable-flask-app": {
+      "tp": [
+        "extremely-vulnerable-flask-app-002"
+      ],
+      "fn": [
+        "extremely-vulnerable-flask-app-001",
+        "extremely-vulnerable-flask-app-009",
+        "extremely-vulnerable-flask-app-010",
+        "extremely-vulnerable-flask-app-011",
+        "extremely-vulnerable-flask-app-013"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-89",
+          "file": "routes/account.py",
+          "ranges": [
+            [
+              33,
+              33
+            ]
+          ],
+          "title": "flask-sqli-string-built-query"
+        }
+      ],
+      "seconds": 11.5
+    },
+    "flask-xss": {
+      "tp": [],
+      "fn": [
+        "flask-xss-017",
+        "flask-xss-024",
+        "flask-xss-025",
+        "flask-xss-028"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [],
+      "seconds": 9.7
+    },
+    "insecure-web": {
+      "tp": [
+        "insecure-web-001"
+      ],
+      "fn": [
+        "insecure-web-006"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-89",
+          "file": "app/app.py",
+          "ranges": [
+            [
+              34,
+              34
+            ]
+          ],
+          "title": "flask-sqli-string-built-query"
+        }
+      ],
+      "seconds": 9.0
+    },
+    "intentionally-vulnerable-python-app": {
+      "tp": [],
+      "fn": [
+        "intentionally-vulnerable-python-app-004"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [],
+      "seconds": 10.4
+    },
+    "owasp-web-playground": {
+      "tp": [],
+      "fn": [
+        "owasp-web-playground-001",
+        "owasp-web-playground-002",
+        "owasp-web-playground-003",
+        "owasp-web-playground-007",
+        "owasp-web-playground-008",
+        "owasp-web-playground-019",
+        "owasp-web-playground-024",
+        "owasp-web-playground-028"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [],
+      "seconds": 14.9
+    },
+    "realvuln-python-app": {
+      "tp": [
+        "realvuln-python-app-007"
+      ],
+      "fn": [
+        "realvuln-python-app-001",
+        "realvuln-python-app-008",
+        "realvuln-python-app-013"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [
+        {
+          "cwe": "CWE-22",
+          "file": "target/project/controllers/Validator.py",
+          "ranges": [
+            [
+              31,
+              31
+            ]
+          ],
+          "title": "flask-path-traversal-file-access",
+          "case": "realvuln-python-app-007"
+        }
+      ],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-22",
+          "file": "target/project/controllers/Validator.py",
+          "ranges": [
+            [
+              30,
+              30
+            ]
+          ],
+          "title": "flask-path-traversal-file-access"
+        },
+        {
+          "cwe": "CWE-22",
+          "file": "target/project/controllers/Validator.py",
+          "ranges": [
+            [
+              31,
+              31
+            ]
+          ],
+          "title": "flask-path-traversal-file-access"
+        }
+      ],
+      "seconds": 10.1
+    },
+    "threatbyte": {
+      "tp": [
+        "threatbyte-001"
+      ],
+      "fn": [
+        "threatbyte-010",
+        "threatbyte-011",
+        "threatbyte-012",
+        "threatbyte-014",
+        "threatbyte-018"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-22",
+          "file": "server/routes.py",
+          "ranges": [
+            [
+              364,
+              364
+            ]
+          ],
+          "title": "flask-path-traversal-file-access",
+          "family": "path_traversal"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-89",
+          "file": "server/routes.py",
+          "ranges": [
+            [
+              138,
+              138
+            ]
+          ],
+          "title": "flask-sqli-string-built-query"
+        },
+        {
+          "cwe": "CWE-22",
+          "file": "server/routes.py",
+          "ranges": [
+            [
+              364,
+              364
+            ]
+          ],
+          "title": "flask-path-traversal-file-access"
+        }
+      ],
+      "seconds": 12.0
+    },
+    "vampi": {
+      "tp": [],
+      "fn": [
+        "vampi-001",
+        "vampi-002",
+        "vampi-003",
+        "vampi-004",
+        "vampi-005",
+        "vampi-011",
+        "vampi-013"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [],
+      "seconds": 15.6
+    },
+    "vulnerable-api": {
+      "tp": [],
+      "fn": [
+        "vulnerable-api-001",
+        "vulnerable-api-004",
+        "vulnerable-api-005",
+        "vulnerable-api-014"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [],
+      "seconds": 8.9
+    },
+    "vulnerable-flask-app": {
+      "tp": [
+        "vulnerable-flask-app-002"
+      ],
+      "fn": [
+        "vulnerable-flask-app-009",
+        "vulnerable-flask-app-010"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-89",
+          "file": "app/app.py",
+          "ranges": [
+            [
+              265,
+              265
+            ]
+          ],
+          "title": "flask-sqli-string-built-query"
+        }
+      ],
+      "seconds": 8.8
+    },
+    "vulnerable-python-apps": {
+      "tp": [],
+      "fn": [
+        "vulnerable-python-apps-001",
+        "vulnerable-python-apps-002",
+        "vulnerable-python-apps-005",
+        "vulnerable-python-apps-006",
+        "vulnerable-python-apps-007",
+        "vulnerable-python-apps-008",
+        "vulnerable-python-apps-018"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [],
+      "seconds": 11.9
+    },
+    "vulpy": {
+      "tp": [],
+      "fn": [
+        "vulpy-001",
+        "vulpy-002",
+        "vulpy-003",
+        "vulpy-006",
+        "vulpy-012",
+        "vulpy-013",
+        "vulpy-015",
+        "vulpy-019",
+        "vulpy-020",
+        "vulpy-026",
+        "vulpy-030",
+        "vulpy-031",
+        "vulpy-037"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [],
+      "seconds": 9.8
+    }
+  }
+}

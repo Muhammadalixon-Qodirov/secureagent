@@ -1,0 +1,388 @@
+{
+  "system": "agent_no_verify",
+  "metrics": {
+    "sql_injection": {
+      "tp": 5,
+      "fn": 2,
+      "fp_lookalike": 0,
+      "fp_unmatched": 0,
+      "precision": 1.0,
+      "precision_ci95": [
+        0.566,
+        1.0
+      ],
+      "recall": 0.714,
+      "recall_ci95": [
+        0.359,
+        0.918
+      ],
+      "f1": 0.833,
+      "lookalike_fp_rate": 0.0,
+      "safe_cases": 7
+    },
+    "path_traversal": {
+      "tp": 4,
+      "fn": 2,
+      "fp_lookalike": 2,
+      "fp_unmatched": 0,
+      "precision": 0.667,
+      "precision_ci95": [
+        0.3,
+        0.903
+      ],
+      "recall": 0.667,
+      "recall_ci95": [
+        0.3,
+        0.903
+      ],
+      "f1": 0.667,
+      "lookalike_fp_rate": 0.25,
+      "safe_cases": 8
+    },
+    "authorization_idor": {
+      "tp": 0,
+      "fn": 9,
+      "fp_lookalike": 1,
+      "fp_unmatched": 0,
+      "precision": 0.0,
+      "precision_ci95": [
+        0.0,
+        0.793
+      ],
+      "recall": 0.0,
+      "recall_ci95": [
+        0.0,
+        0.299
+      ],
+      "f1": 0.0,
+      "lookalike_fp_rate": 0.091,
+      "safe_cases": 11
+    },
+    "micro": {
+      "tp": 9,
+      "fn": 13,
+      "fp_lookalike": 3,
+      "fp_unmatched": 0,
+      "precision": 0.75,
+      "precision_ci95": [
+        0.468,
+        0.911
+      ],
+      "recall": 0.409,
+      "recall_ci95": [
+        0.233,
+        0.613
+      ],
+      "f1": 0.529,
+      "lookalike_fp_rate": 0.115,
+      "safe_cases": 26
+    }
+  },
+  "per_app": {
+    "bookshelf": {
+      "tp": [
+        "B1",
+        "B4"
+      ],
+      "fn": [
+        "B6"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-89",
+          "file": "app.py",
+          "ranges": [
+            [
+              20,
+              20
+            ],
+            [
+              27,
+              27
+            ]
+          ],
+          "title": "Potential SQL Injection Vulnerability"
+        },
+        {
+          "cwe": "CWE-22",
+          "file": "app.py",
+          "ranges": [
+            [
+              40,
+              40
+            ]
+          ],
+          "title": "Potential path traversal vulnerability in file serving logic"
+        }
+      ],
+      "seconds": 142.1
+    },
+    "clinic": {
+      "tp": [],
+      "fn": [
+        "C1",
+        "C3"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [],
+      "seconds": 52.2
+    },
+    "filestore": {
+      "tp": [
+        "F4",
+        "F5"
+      ],
+      "fn": [
+        "F3"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-22",
+          "file": "app.py",
+          "ranges": [
+            [
+              38,
+              40
+            ]
+          ],
+          "title": "Potential Path Traversal Vulnerability in /delete endpoint"
+        },
+        {
+          "cwe": "CWE-22",
+          "file": "app.py",
+          "ranges": [
+            [
+              45,
+              48
+            ]
+          ],
+          "title": "Potential Path Traversal Vulnerability in /archive endpoint"
+        }
+      ],
+      "seconds": 77.0
+    },
+    "media": {
+      "tp": [
+        "M3"
+      ],
+      "fn": [
+        "M2"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-22",
+          "file": "app.py",
+          "ranges": [
+            [
+              46,
+              46
+            ],
+            [
+              46,
+              46
+            ]
+          ],
+          "title": "Potential Path Traversal Vulnerability in /media/raw Endpoint"
+        }
+      ],
+      "seconds": 66.4
+    },
+    "orgreports": {
+      "tp": [
+        "O1"
+      ],
+      "fn": [
+        "O3"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-89",
+          "file": "app.py",
+          "ranges": [
+            [
+              27,
+              27
+            ]
+          ],
+          "title": "Potential SQL Injection Vulnerability"
+        }
+      ],
+      "seconds": 113.7
+    },
+    "projects": {
+      "tp": [
+        "P2"
+      ],
+      "fn": [
+        "P3"
+      ],
+      "fp_safe": [
+        "P4"
+      ],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-89",
+          "file": "app.py",
+          "ranges": [
+            [
+              33,
+              33
+            ],
+            [
+              34,
+              34
+            ]
+          ],
+          "title": "SQL Injection Vulnerability via String-Based Query Construction"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app.py",
+          "ranges": [
+            [
+              25,
+              25
+            ],
+            [
+              50,
+              50
+            ]
+          ],
+          "title": "Potential Broken Object-Level Authorization (IDOR) Vulnerability"
+        }
+      ],
+      "seconds": 208.4
+    },
+    "school": {
+      "tp": [],
+      "fn": [
+        "H3"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [],
+      "seconds": 53.8
+    },
+    "shop": {
+      "tp": [
+        "S2"
+      ],
+      "fn": [
+        "S4"
+      ],
+      "fp_safe": [
+        "S5"
+      ],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-89",
+          "file": "app.py",
+          "ranges": [
+            [
+              32,
+              32
+            ]
+          ],
+          "title": "SQL Injection Vulnerability in Product Query"
+        },
+        {
+          "cwe": "CWE-22",
+          "file": "app.py",
+          "ranges": [
+            [
+              49,
+              49
+            ]
+          ],
+          "title": "Potential Path Traversal Vulnerability in Invoice File Generation"
+        }
+      ],
+      "seconds": 113.2
+    },
+    "tickets": {
+      "tp": [
+        "T4"
+      ],
+      "fn": [
+        "T2",
+        "T3"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-89",
+          "file": "app.py",
+          "ranges": [
+            [
+              62,
+              62
+            ],
+            [
+              73,
+              73
+            ]
+          ],
+          "title": "SQL Injection Vulnerability in Search Query Construction"
+        }
+      ],
+      "seconds": 127.6
+    },
+    "wiki": {
+      "tp": [],
+      "fn": [
+        "W2",
+        "W3"
+      ],
+      "fp_safe": [
+        "W1"
+      ],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-22",
+          "file": "app.py",
+          "ranges": [
+            [
+              17,
+              17
+            ]
+          ],
+          "title": "Potential Path Traversal Vulnerability in File Operations"
+        }
+      ],
+      "seconds": 111.2
+    }
+  }
+}

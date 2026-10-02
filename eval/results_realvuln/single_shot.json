@@ -1,0 +1,1782 @@
+{
+  "system": "single_shot",
+  "metrics": {
+    "sql_injection": {
+      "tp": 15,
+      "fn": 13,
+      "fp_lookalike": 4,
+      "fp_unmatched": 8,
+      "precision": 0.556,
+      "precision_ci95": [
+        0.373,
+        0.724
+      ],
+      "recall": 0.536,
+      "recall_ci95": [
+        0.358,
+        0.705
+      ],
+      "f1": 0.545,
+      "lookalike_fp_rate": 0.114,
+      "safe_cases": 35
+    },
+    "path_traversal": {
+      "tp": 2,
+      "fn": 7,
+      "fp_lookalike": 1,
+      "fp_unmatched": 3,
+      "precision": 0.333,
+      "precision_ci95": [
+        0.097,
+        0.7
+      ],
+      "recall": 0.222,
+      "recall_ci95": [
+        0.063,
+        0.547
+      ],
+      "f1": 0.267,
+      "lookalike_fp_rate": 0.333,
+      "safe_cases": 3
+    },
+    "authorization_idor": {
+      "tp": 15,
+      "fn": 38,
+      "fp_lookalike": 0,
+      "fp_unmatched": 19,
+      "precision": 0.441,
+      "precision_ci95": [
+        0.289,
+        0.605
+      ],
+      "recall": 0.283,
+      "recall_ci95": [
+        0.18,
+        0.416
+      ],
+      "f1": 0.345,
+      "lookalike_fp_rate": 0.0,
+      "safe_cases": 2
+    },
+    "micro": {
+      "tp": 32,
+      "fn": 58,
+      "fp_lookalike": 5,
+      "fp_unmatched": 30,
+      "precision": 0.478,
+      "precision_ci95": [
+        0.363,
+        0.595
+      ],
+      "recall": 0.356,
+      "recall_ci95": [
+        0.264,
+        0.459
+      ],
+      "f1": 0.408,
+      "lookalike_fp_rate": 0.125,
+      "safe_cases": 40
+    }
+  },
+  "per_app": {
+    "damn-vulnerable-flask-app": {
+      "tp": [
+        "damn-vulnerable-flask-app-012",
+        "damn-vulnerable-flask-app-014"
+      ],
+      "fn": [
+        "damn-vulnerable-flask-app-013",
+        "damn-vulnerable-flask-app-015"
+      ],
+      "fp_safe": [
+        "damn-vulnerable-flask-app-fp-001"
+      ],
+      "fp_unmatched": [],
+      "duplicates": [
+        {
+          "cwe": "CWE-639",
+          "file": "app.py",
+          "ranges": [
+            [
+              140,
+              140
+            ]
+          ],
+          "title": "Broken Object-Level Authorization in Lookup Route",
+          "case": "damn-vulnerable-flask-app-012"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app.py",
+          "ranges": [
+            [
+              190,
+              190
+            ]
+          ],
+          "title": "Broken Object-Level Authorization in Sayhi Route",
+          "case": "damn-vulnerable-flask-app-014"
+        }
+      ],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-89",
+          "file": "app.py",
+          "ranges": [
+            [
+              50,
+              50
+            ]
+          ],
+          "title": "SQL Injection in Login Route"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app.py",
+          "ranges": [
+            [
+              120,
+              120
+            ]
+          ],
+          "title": "Broken Object-Level Authorization in Evaluate Route"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app.py",
+          "ranges": [
+            [
+              140,
+              140
+            ]
+          ],
+          "title": "Broken Object-Level Authorization in Lookup Route"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app.py",
+          "ranges": [
+            [
+              169,
+              169
+            ]
+          ],
+          "title": "Broken Object-Level Authorization in XML Route"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app.py",
+          "ranges": [
+            [
+              190,
+              190
+            ]
+          ],
+          "title": "Broken Object-Level Authorization in Sayhi Route"
+        }
+      ],
+      "seconds": 10.2
+    },
+    "dvblab": {
+      "tp": [
+        "dvblab-002",
+        "dvblab-001",
+        "dvblab-011"
+      ],
+      "fn": [
+        "dvblab-003",
+        "dvblab-004",
+        "dvblab-010",
+        "dvblab-021"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-22",
+          "file": "backend/routes/transaction_routes.py",
+          "ranges": [
+            [
+              49,
+              49
+            ]
+          ],
+          "title": "Path Traversal in Transactions Endpoint",
+          "family": "path_traversal"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-89",
+          "file": "backend/routes/auth_routes.py",
+          "ranges": [
+            [
+              22,
+              22
+            ]
+          ],
+          "title": "SQL Injection in Register Endpoint"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "backend/routes/auth_routes.py",
+          "ranges": [
+            [
+              36,
+              36
+            ]
+          ],
+          "title": "SQL Injection in Login Endpoint"
+        },
+        {
+          "cwe": "CWE-22",
+          "file": "backend/routes/transaction_routes.py",
+          "ranges": [
+            [
+              49,
+              49
+            ]
+          ],
+          "title": "Path Traversal in Transactions Endpoint"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/routes/transaction_routes.py",
+          "ranges": [
+            [
+              53,
+              53
+            ]
+          ],
+          "title": "Broken Object-Level Authorization in Transactions Endpoint"
+        }
+      ],
+      "seconds": 13.2
+    },
+    "dvga": {
+      "tp": [
+        "dvga-013",
+        "dvga-021",
+        "dvga-012",
+        "dvga-014",
+        "dvga-036"
+      ],
+      "fn": [
+        "dvga-001",
+        "dvga-010",
+        "dvga-022",
+        "dvga-023",
+        "dvga-024",
+        "dvga-027",
+        "dvga-029",
+        "dvga-030",
+        "dvga-035"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-639",
+          "file": "core/views.py",
+          "ranges": [
+            [
+              358,
+              358
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "core/views.py",
+          "ranges": [
+            [
+              198,
+              198
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "core/views.py",
+          "ranges": [
+            [
+              210,
+              210
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "core/views.py",
+          "ranges": [
+            [
+              234,
+              234
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "core/views.py",
+          "ranges": [
+            [
+              328,
+              328
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "core/views.py",
+          "ranges": [
+            [
+              330,
+              330
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [
+        {
+          "cwe": "CWE-639",
+          "file": "core/views.py",
+          "ranges": [
+            [
+              381,
+              381
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "case": "dvga-012"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "core/views.py",
+          "ranges": [
+            [
+              386,
+              386
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "case": "dvga-012"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "core/views.py",
+          "ranges": [
+            [
+              390,
+              390
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "case": "dvga-012"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "core/views.py",
+          "ranges": [
+            [
+              148,
+              148
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "case": "dvga-013"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "core/views.py",
+          "ranges": [
+            [
+              175,
+              175
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "case": "dvga-014"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "core/views.py",
+          "ranges": [
+            [
+              319,
+              319
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "case": "dvga-036"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "core/views.py",
+          "ranges": [
+            [
+              373,
+              373
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "case": "dvga-021"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "core/views.py",
+          "ranges": [
+            [
+              379,
+              379
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "case": "dvga-012"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "core/views.py",
+          "ranges": [
+            [
+              381,
+              381
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "case": "dvga-012"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "core/views.py",
+          "ranges": [
+            [
+              386,
+              386
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "case": "dvga-012"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "core/views.py",
+          "ranges": [
+            [
+              390,
+              390
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "case": "dvga-012"
+        }
+      ],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-639",
+          "file": "core/views.py",
+          "ranges": [
+            [
+              141,
+              141
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "core/views.py",
+          "ranges": [
+            [
+              358,
+              358
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "core/views.py",
+          "ranges": [
+            [
+              374,
+              374
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "core/views.py",
+          "ranges": [
+            [
+              379,
+              379
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "core/views.py",
+          "ranges": [
+            [
+              381,
+              381
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "core/views.py",
+          "ranges": [
+            [
+              386,
+              386
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "core/views.py",
+          "ranges": [
+            [
+              390,
+              390
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "core/views.py",
+          "ranges": [
+            [
+              148,
+              148
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "core/views.py",
+          "ranges": [
+            [
+              167,
+              167
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "core/views.py",
+          "ranges": [
+            [
+              175,
+              175
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "core/views.py",
+          "ranges": [
+            [
+              198,
+              198
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "core/views.py",
+          "ranges": [
+            [
+              210,
+              210
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "core/views.py",
+          "ranges": [
+            [
+              234,
+              234
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "core/views.py",
+          "ranges": [
+            [
+              295,
+              295
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "core/views.py",
+          "ranges": [
+            [
+              319,
+              319
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "core/views.py",
+          "ranges": [
+            [
+              328,
+              328
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "core/views.py",
+          "ranges": [
+            [
+              330,
+              330
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "core/views.py",
+          "ranges": [
+            [
+              373,
+              373
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "core/views.py",
+          "ranges": [
+            [
+              379,
+              379
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "core/views.py",
+          "ranges": [
+            [
+              381,
+              381
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "core/views.py",
+          "ranges": [
+            [
+              386,
+              386
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "core/views.py",
+          "ranges": [
+            [
+              390,
+              390
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        }
+      ],
+      "seconds": 60.6
+    },
+    "extremely-vulnerable-flask-app": {
+      "tp": [
+        "extremely-vulnerable-flask-app-001"
+      ],
+      "fn": [
+        "extremely-vulnerable-flask-app-002",
+        "extremely-vulnerable-flask-app-009",
+        "extremely-vulnerable-flask-app-010",
+        "extremely-vulnerable-flask-app-011",
+        "extremely-vulnerable-flask-app-013"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-639",
+          "file": "routes/registration_codes.py",
+          "ranges": [
+            [
+              20,
+              20
+            ]
+          ],
+          "title": "Broken Object-Level Authorization (IDOR)",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-89",
+          "file": "routes/signup.py",
+          "ranges": [
+            [
+              17,
+              17
+            ]
+          ],
+          "title": "SQL Injection in Query Construction"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "routes/registration_codes.py",
+          "ranges": [
+            [
+              20,
+              20
+            ]
+          ],
+          "title": "Broken Object-Level Authorization (IDOR)"
+        }
+      ],
+      "seconds": 10.5
+    },
+    "flask-xss": {
+      "tp": [],
+      "fn": [
+        "flask-xss-017",
+        "flask-xss-024",
+        "flask-xss-025",
+        "flask-xss-028"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-89",
+          "file": "app/blueprints/api/views.py",
+          "ranges": [
+            [
+              25,
+              25
+            ]
+          ],
+          "title": "SQL Injection in Message Retrieval",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "app/blueprints/api/views.py",
+          "ranges": [
+            [
+              35,
+              35
+            ]
+          ],
+          "title": "SQL Injection in Message Deletion",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "app/blueprints/api/views.py",
+          "ranges": [
+            [
+              61,
+              61
+            ]
+          ],
+          "title": "SQL Injection in Message Acknowledgment",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "app/blueprints/api/views.py",
+          "ranges": [
+            [
+              71,
+              71
+            ]
+          ],
+          "title": "SQL Injection in User Retrieval",
+          "family": "sql_injection"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-89",
+          "file": "app/blueprints/api/views.py",
+          "ranges": [
+            [
+              25,
+              25
+            ]
+          ],
+          "title": "SQL Injection in Message Retrieval"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "app/blueprints/api/views.py",
+          "ranges": [
+            [
+              35,
+              35
+            ]
+          ],
+          "title": "SQL Injection in Message Deletion"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "app/blueprints/api/views.py",
+          "ranges": [
+            [
+              61,
+              61
+            ]
+          ],
+          "title": "SQL Injection in Message Acknowledgment"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "app/blueprints/api/views.py",
+          "ranges": [
+            [
+              71,
+              71
+            ]
+          ],
+          "title": "SQL Injection in User Retrieval"
+        }
+      ],
+      "seconds": 14.1
+    },
+    "insecure-web": {
+      "tp": [
+        "insecure-web-001",
+        "insecure-web-006"
+      ],
+      "fn": [],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-89",
+          "file": "app/app.py",
+          "ranges": [
+            [
+              33,
+              33
+            ]
+          ],
+          "title": "SQL Injection in Login Route"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/app.py",
+          "ranges": [
+            [
+              46,
+              46
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        }
+      ],
+      "seconds": 3.7
+    },
+    "intentionally-vulnerable-python-app": {
+      "tp": [
+        "intentionally-vulnerable-python-app-004"
+      ],
+      "fn": [],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-639",
+          "file": "VulnerablePythonScript.py",
+          "ranges": [
+            [
+              45,
+              45
+            ]
+          ],
+          "title": "Broken Object-Level Authorization (IDOR)",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-89",
+          "file": "VulnerablePythonScript.py",
+          "ranges": [
+            [
+              46,
+              46
+            ]
+          ],
+          "title": "SQL Injection via String Concatenation"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "VulnerablePythonScript.py",
+          "ranges": [
+            [
+              45,
+              45
+            ]
+          ],
+          "title": "Broken Object-Level Authorization (IDOR)"
+        }
+      ],
+      "seconds": 3.5
+    },
+    "owasp-web-playground": {
+      "tp": [
+        "owasp-web-playground-001",
+        "owasp-web-playground-007",
+        "owasp-web-playground-003",
+        "owasp-web-playground-008"
+      ],
+      "fn": [
+        "owasp-web-playground-002",
+        "owasp-web-playground-019",
+        "owasp-web-playground-024",
+        "owasp-web-playground-028"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-89",
+          "file": "python/app.py",
+          "ranges": [
+            [
+              165,
+              165
+            ]
+          ],
+          "title": "SQL Injection in Login Route"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "python/app.py",
+          "ranges": [
+            [
+              357,
+              357
+            ]
+          ],
+          "title": "Broken Object-Level Authorization (IDOR) in Profile Route"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "python/app.py",
+          "ranges": [
+            [
+              492,
+              492
+            ]
+          ],
+          "title": "SQL Injection in Blind SQLi Endpoint"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "python/app.py",
+          "ranges": [
+            [
+              617,
+              617
+            ]
+          ],
+          "title": "Broken Object-Level Authorization (BOLA) in API User Endpoint"
+        }
+      ],
+      "seconds": 17.8
+    },
+    "realvuln-python-app": {
+      "tp": [
+        "realvuln-python-app-001"
+      ],
+      "fn": [
+        "realvuln-python-app-007",
+        "realvuln-python-app-008",
+        "realvuln-python-app-013"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-89",
+          "file": "target/project/controllers/Dashboard.py",
+          "ranges": [
+            [
+              12,
+              12
+            ]
+          ],
+          "title": "SQL Injection in getPage Method",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "target/project/controllers/Dashboard.py",
+          "ranges": [
+            [
+              12,
+              12
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-22",
+          "file": "target/project/controllers/Information.py",
+          "ranges": [
+            [
+              17,
+              17
+            ]
+          ],
+          "title": "Path Traversal via Base64 Decoding",
+          "family": "path_traversal"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-89",
+          "file": "target/project/controllers/Dashboard.py",
+          "ranges": [
+            [
+              12,
+              12
+            ]
+          ],
+          "title": "SQL Injection in getPage Method"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "target/project/controllers/Dashboard.py",
+          "ranges": [
+            [
+              12,
+              12
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        },
+        {
+          "cwe": "CWE-22",
+          "file": "target/project/controllers/Information.py",
+          "ranges": [
+            [
+              17,
+              17
+            ]
+          ],
+          "title": "Path Traversal via Base64 Decoding"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "target/project/models/Dashboard.py",
+          "ranges": [
+            [
+              7,
+              7
+            ]
+          ],
+          "title": "SQL Injection in getPage Method"
+        }
+      ],
+      "seconds": 12.3
+    },
+    "threatbyte": {
+      "tp": [
+        "threatbyte-001"
+      ],
+      "fn": [
+        "threatbyte-010",
+        "threatbyte-011",
+        "threatbyte-012",
+        "threatbyte-014",
+        "threatbyte-018"
+      ],
+      "fp_safe": [
+        "threatbyte-fp-004",
+        "threatbyte-fp-005"
+      ],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-639",
+          "file": "server/api/v1/api_v1.py",
+          "ranges": [
+            [
+              206,
+              206
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR in User Profile Update",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-22",
+          "file": "server/api/v1/api_v1.py",
+          "ranges": [
+            [
+              229,
+              229
+            ]
+          ],
+          "title": "Path Traversal in User Delete Endpoint",
+          "family": "path_traversal"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "server/routes.py",
+          "ranges": [
+            [
+              137,
+              137
+            ]
+          ],
+          "title": "Broken Object-Level Authorization in File Search",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-89",
+          "file": "server/api/v1/api_v1.py",
+          "ranges": [
+            [
+              123,
+              123
+            ]
+          ],
+          "title": "SQL Injection in User Login"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "server/api/v1/api_v1.py",
+          "ranges": [
+            [
+              206,
+              206
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR in User Profile Update"
+        },
+        {
+          "cwe": "CWE-22",
+          "file": "server/api/v1/api_v1.py",
+          "ranges": [
+            [
+              229,
+              229
+            ]
+          ],
+          "title": "Path Traversal in User Delete Endpoint"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "server/routes.py",
+          "ranges": [
+            [
+              137,
+              137
+            ]
+          ],
+          "title": "SQL Injection in Search Query Construction"
+        },
+        {
+          "cwe": "CWE-22",
+          "file": "server/routes.py",
+          "ranges": [
+            [
+              307,
+              307
+            ]
+          ],
+          "title": "Path Traversal Vulnerability in Profile Pictures Route"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "server/routes.py",
+          "ranges": [
+            [
+              137,
+              137
+            ]
+          ],
+          "title": "Broken Object-Level Authorization in File Search"
+        }
+      ],
+      "seconds": 19.8
+    },
+    "vampi": {
+      "tp": [
+        "vampi-002",
+        "vampi-001"
+      ],
+      "fn": [
+        "vampi-003",
+        "vampi-004",
+        "vampi-005",
+        "vampi-011",
+        "vampi-013"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-89",
+          "file": "api_views/books.py",
+          "ranges": [
+            [
+              51,
+              51
+            ]
+          ],
+          "title": "SQL Injection in get_by_title Function",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "api_views/books.py",
+          "ranges": [
+            [
+              63,
+              63
+            ]
+          ],
+          "title": "SQL Injection in get_by_title Function",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "api_views/books.py",
+          "ranges": [
+            [
+              30,
+              30
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR in get_by_title Function",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "api_views/users.py",
+          "ranges": [
+            [
+              46,
+              46
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR in get_by_username Function",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "api_views/users.py",
+          "ranges": [
+            [
+              206,
+              206
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR in delete_user Function",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "models/user_model.py",
+          "ranges": [
+            [
+              80,
+              80
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR in get_user Method",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-89",
+          "file": "api_views/books.py",
+          "ranges": [
+            [
+              51,
+              51
+            ]
+          ],
+          "title": "SQL Injection in get_by_title Function"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "api_views/books.py",
+          "ranges": [
+            [
+              63,
+              63
+            ]
+          ],
+          "title": "SQL Injection in get_by_title Function"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "api_views/books.py",
+          "ranges": [
+            [
+              30,
+              30
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR in get_by_title Function"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "api_views/users.py",
+          "ranges": [
+            [
+              46,
+              46
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR in get_by_username Function"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "api_views/users.py",
+          "ranges": [
+            [
+              185,
+              185
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR in update_password Function"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "api_views/users.py",
+          "ranges": [
+            [
+              206,
+              206
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR in delete_user Function"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "models/user_model.py",
+          "ranges": [
+            [
+              72,
+              72
+            ]
+          ],
+          "title": "SQL Injection in get_user Method"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "models/user_model.py",
+          "ranges": [
+            [
+              80,
+              80
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR in get_user Method"
+        }
+      ],
+      "seconds": 19.4
+    },
+    "vulnerable-api": {
+      "tp": [
+        "vulnerable-api-001",
+        "vulnerable-api-005"
+      ],
+      "fn": [
+        "vulnerable-api-004",
+        "vulnerable-api-014"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-639",
+          "file": "sqli.py",
+          "ranges": [
+            [
+              16,
+              16
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-89",
+          "file": "sqli.py",
+          "ranges": [
+            [
+              16,
+              16
+            ]
+          ],
+          "title": "SQL Injection via String Interpolation"
+        },
+        {
+          "cwe": "CWE-22",
+          "file": "lfi.py",
+          "ranges": [
+            [
+              15,
+              15
+            ]
+          ],
+          "title": "Path Traversal via User Input"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "sqli.py",
+          "ranges": [
+            [
+              16,
+              16
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        }
+      ],
+      "seconds": 5.9
+    },
+    "vulnerable-flask-app": {
+      "tp": [
+        "vulnerable-flask-app-002",
+        "vulnerable-flask-app-009",
+        "vulnerable-flask-app-010"
+      ],
+      "fn": [],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-639",
+          "file": "app/app.py",
+          "ranges": [
+            [
+              259,
+              259
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-89",
+          "file": "app/app.py",
+          "ranges": [
+            [
+              260,
+              260
+            ]
+          ],
+          "title": "SQL Injection via String Interpolation"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/app.py",
+          "ranges": [
+            [
+              207,
+              207
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/app.py",
+          "ranges": [
+            [
+              220,
+              220
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/app.py",
+          "ranges": [
+            [
+              259,
+              259
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        }
+      ],
+      "seconds": 10.8
+    },
+    "vulnerable-python-apps": {
+      "tp": [
+        "vulnerable-python-apps-001",
+        "vulnerable-python-apps-002"
+      ],
+      "fn": [
+        "vulnerable-python-apps-005",
+        "vulnerable-python-apps-006",
+        "vulnerable-python-apps-007",
+        "vulnerable-python-apps-008",
+        "vulnerable-python-apps-018"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-639",
+          "file": "Insecure_Deserialization/serialize_server.py",
+          "ranges": [
+            [
+              14,
+              14
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-22",
+          "file": "Directory_Traversal/Dir_Traversal.py",
+          "ranges": [
+            [
+              14,
+              14
+            ]
+          ],
+          "title": "Path Traversal via String Concatenation"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "Insecure_Deserialization/serialize_server.py",
+          "ranges": [
+            [
+              14,
+              14
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "SQLI/main.py",
+          "ranges": [
+            [
+              70,
+              70
+            ]
+          ],
+          "title": "SQL Injection via String Concatenation"
+        }
+      ],
+      "seconds": 16.0
+    },
+    "vulpy": {
+      "tp": [
+        "vulpy-001",
+        "vulpy-003",
+        "vulpy-030"
+      ],
+      "fn": [
+        "vulpy-002",
+        "vulpy-006",
+        "vulpy-012",
+        "vulpy-013",
+        "vulpy-015",
+        "vulpy-019",
+        "vulpy-020",
+        "vulpy-026",
+        "vulpy-031",
+        "vulpy-037"
+      ],
+      "fp_safe": [
+        "vulpy-fp-001",
+        "vulpy-fp-002"
+      ],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-89",
+          "file": "bad/mod_posts.py",
+          "ranges": [
+            [
+              18,
+              18
+            ]
+          ],
+          "title": "SQL Injection in get_posts",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "bad/mod_posts.py",
+          "ranges": [
+            [
+              18,
+              18
+            ]
+          ],
+          "title": "Broken Object-Level Authorization in get_posts",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-89",
+          "file": "bad/libuser.py",
+          "ranges": [
+            [
+              12,
+              12
+            ]
+          ],
+          "title": "SQL Injection in Login Function"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "bad/libuser.py",
+          "ranges": [
+            [
+              53,
+              53
+            ]
+          ],
+          "title": "SQL Injection in Password Change Function"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "bad/libposts.py",
+          "ranges": [
+            [
+              14,
+              14
+            ]
+          ],
+          "title": "SQL Injection in get_posts Function"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "bad/libposts.py",
+          "ranges": [
+            [
+              28,
+              28
+            ]
+          ],
+          "title": "SQL Injection in post Function"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "bad/mod_api.py",
+          "ranges": [
+            [
+              47,
+              47
+            ]
+          ],
+          "title": "Broken Object-Level Authorization in Post List Endpoint"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "bad/mod_posts.py",
+          "ranges": [
+            [
+              18,
+              18
+            ]
+          ],
+          "title": "SQL Injection in get_posts"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "bad/mod_posts.py",
+          "ranges": [
+            [
+              18,
+              18
+            ]
+          ],
+          "title": "Broken Object-Level Authorization in get_posts"
+        }
+      ],
+      "seconds": 36.3
+    }
+  }
+}

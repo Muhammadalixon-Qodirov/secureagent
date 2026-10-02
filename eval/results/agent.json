@@ -1,0 +1,262 @@
+{
+  "system": "agent",
+  "metrics": {
+    "sql_injection": {
+      "tp": 1,
+      "fn": 6,
+      "fp_lookalike": 0,
+      "fp_unmatched": 0,
+      "precision": 1.0,
+      "precision_ci95": [
+        0.207,
+        1.0
+      ],
+      "recall": 0.143,
+      "recall_ci95": [
+        0.026,
+        0.513
+      ],
+      "f1": 0.25,
+      "lookalike_fp_rate": 0.0,
+      "safe_cases": 7
+    },
+    "path_traversal": {
+      "tp": 1,
+      "fn": 5,
+      "fp_lookalike": 0,
+      "fp_unmatched": 0,
+      "precision": 1.0,
+      "precision_ci95": [
+        0.207,
+        1.0
+      ],
+      "recall": 0.167,
+      "recall_ci95": [
+        0.03,
+        0.564
+      ],
+      "f1": 0.286,
+      "lookalike_fp_rate": 0.0,
+      "safe_cases": 8
+    },
+    "authorization_idor": {
+      "tp": 0,
+      "fn": 9,
+      "fp_lookalike": 1,
+      "fp_unmatched": 0,
+      "precision": 0.0,
+      "precision_ci95": [
+        0.0,
+        0.793
+      ],
+      "recall": 0.0,
+      "recall_ci95": [
+        0.0,
+        0.299
+      ],
+      "f1": 0.0,
+      "lookalike_fp_rate": 0.091,
+      "safe_cases": 11
+    },
+    "micro": {
+      "tp": 2,
+      "fn": 20,
+      "fp_lookalike": 1,
+      "fp_unmatched": 0,
+      "precision": 0.667,
+      "precision_ci95": [
+        0.208,
+        0.939
+      ],
+      "recall": 0.091,
+      "recall_ci95": [
+        0.025,
+        0.278
+      ],
+      "f1": 0.16,
+      "lookalike_fp_rate": 0.038,
+      "safe_cases": 26
+    }
+  },
+  "per_app": {
+    "bookshelf": {
+      "tp": [],
+      "fn": [
+        "B1",
+        "B4",
+        "B6"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [],
+      "seconds": 143.8
+    },
+    "clinic": {
+      "tp": [],
+      "fn": [
+        "C1",
+        "C3"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [],
+      "seconds": 60.8
+    },
+    "filestore": {
+      "tp": [],
+      "fn": [
+        "F3",
+        "F4",
+        "F5"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [],
+      "seconds": 105.9
+    },
+    "media": {
+      "tp": [
+        "M3"
+      ],
+      "fn": [
+        "M2"
+      ],
+      "fp_safe": [
+        "M1"
+      ],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-22",
+          "file": "app.py",
+          "ranges": [
+            [
+              8,
+              8
+            ],
+            [
+              46,
+              46
+            ]
+          ],
+          "title": "Potential Path Traversal Vulnerability via MEDIA Path Construction"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app.py",
+          "ranges": [
+            [
+              23,
+              24
+            ],
+            [
+              27,
+              37
+            ]
+          ],
+          "title": "Potential Broken Object-Level Authorization (IDOR) Vulnerability"
+        }
+      ],
+      "seconds": 143.6
+    },
+    "orgreports": {
+      "tp": [],
+      "fn": [
+        "O1",
+        "O3"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [],
+      "seconds": 138.6
+    },
+    "projects": {
+      "tp": [
+        "P2"
+      ],
+      "fn": [
+        "P3"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-89",
+          "file": "app.py",
+          "ranges": [
+            [
+              33,
+              33
+            ]
+          ],
+          "title": "Potential SQL Injection Vulnerability"
+        }
+      ],
+      "seconds": 124.1
+    },
+    "school": {
+      "tp": [],
+      "fn": [
+        "H3"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [],
+      "seconds": 125.1
+    },
+    "shop": {
+      "tp": [],
+      "fn": [
+        "S2",
+        "S4"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [],
+      "seconds": 203.8
+    },
+    "tickets": {
+      "tp": [],
+      "fn": [
+        "T2",
+        "T3",
+        "T4"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [],
+      "seconds": 140.0
+    },
+    "wiki": {
+      "tp": [],
+      "fn": [
+        "W2",
+        "W3"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [],
+      "seconds": 126.2
+    }
+  }
+}

@@ -1,0 +1,292 @@
+{
+  "system": "agent_no_cards",
+  "metrics": {
+    "sql_injection": {
+      "tp": 2,
+      "fn": 5,
+      "fp_lookalike": 0,
+      "fp_unmatched": 0,
+      "precision": 1.0,
+      "precision_ci95": [
+        0.342,
+        1.0
+      ],
+      "recall": 0.286,
+      "recall_ci95": [
+        0.082,
+        0.641
+      ],
+      "f1": 0.444,
+      "lookalike_fp_rate": 0.0,
+      "safe_cases": 7
+    },
+    "path_traversal": {
+      "tp": 1,
+      "fn": 5,
+      "fp_lookalike": 2,
+      "fp_unmatched": 0,
+      "precision": 0.333,
+      "precision_ci95": [
+        0.061,
+        0.792
+      ],
+      "recall": 0.167,
+      "recall_ci95": [
+        0.03,
+        0.564
+      ],
+      "f1": 0.222,
+      "lookalike_fp_rate": 0.25,
+      "safe_cases": 8
+    },
+    "authorization_idor": {
+      "tp": 0,
+      "fn": 9,
+      "fp_lookalike": 1,
+      "fp_unmatched": 0,
+      "precision": 0.0,
+      "precision_ci95": [
+        0.0,
+        0.793
+      ],
+      "recall": 0.0,
+      "recall_ci95": [
+        0.0,
+        0.299
+      ],
+      "f1": 0.0,
+      "lookalike_fp_rate": 0.091,
+      "safe_cases": 11
+    },
+    "micro": {
+      "tp": 3,
+      "fn": 19,
+      "fp_lookalike": 3,
+      "fp_unmatched": 0,
+      "precision": 0.5,
+      "precision_ci95": [
+        0.188,
+        0.812
+      ],
+      "recall": 0.136,
+      "recall_ci95": [
+        0.047,
+        0.333
+      ],
+      "f1": 0.214,
+      "lookalike_fp_rate": 0.115,
+      "safe_cases": 26
+    }
+  },
+  "per_app": {
+    "bookshelf": {
+      "tp": [
+        "B1",
+        "B4"
+      ],
+      "fn": [
+        "B6"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-89",
+          "file": "app.py",
+          "ranges": [
+            [
+              20,
+              20
+            ]
+          ],
+          "title": "SQL Injection Vulnerability in Book Search Query"
+        },
+        {
+          "cwe": "CWE-22",
+          "file": "app.py",
+          "ranges": [
+            [
+              40,
+              40
+            ]
+          ],
+          "title": "Potential Path Traversal Vulnerability via send_file"
+        }
+      ],
+      "seconds": 152.4
+    },
+    "clinic": {
+      "tp": [
+        "C1"
+      ],
+      "fn": [
+        "C3"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-89",
+          "file": "queries.py",
+          "ranges": [
+            [
+              6,
+              16
+            ]
+          ],
+          "title": "Potential SQL Injection Vulnerability in search_patients Function"
+        }
+      ],
+      "seconds": 117.3
+    },
+    "filestore": {
+      "tp": [],
+      "fn": [
+        "F3",
+        "F4",
+        "F5"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [],
+      "seconds": 105.0
+    },
+    "media": {
+      "tp": [],
+      "fn": [
+        "M2",
+        "M3"
+      ],
+      "fp_safe": [
+        "M5"
+      ],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-22",
+          "file": "app.py",
+          "ranges": [
+            [
+              40,
+              40
+            ]
+          ],
+          "title": "Potential Path Traversal Vulnerability via os.path.join in send_file"
+        }
+      ],
+      "seconds": 133.9
+    },
+    "orgreports": {
+      "tp": [],
+      "fn": [
+        "O1",
+        "O3"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [],
+      "seconds": 122.2
+    },
+    "projects": {
+      "tp": [],
+      "fn": [
+        "P2",
+        "P3"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [],
+      "seconds": 146.4
+    },
+    "school": {
+      "tp": [],
+      "fn": [
+        "H3"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [],
+      "seconds": 51.3
+    },
+    "shop": {
+      "tp": [],
+      "fn": [
+        "S2",
+        "S4"
+      ],
+      "fp_safe": [
+        "S5",
+        "S3"
+      ],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-22",
+          "file": "app.py",
+          "ranges": [
+            [
+              49,
+              49
+            ]
+          ],
+          "title": "Path Traversal Vulnerability via os.path.join"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app.py",
+          "ranges": [
+            [
+              40,
+              40
+            ]
+          ],
+          "title": "Potential Broken Object-Level Authorization (IDOR) Vulnerability"
+        }
+      ],
+      "seconds": 153.3
+    },
+    "tickets": {
+      "tp": [],
+      "fn": [
+        "T2",
+        "T3",
+        "T4"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [],
+      "seconds": 127.2
+    },
+    "wiki": {
+      "tp": [],
+      "fn": [
+        "W2",
+        "W3"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [],
+      "seconds": 132.1
+    }
+  }
+}

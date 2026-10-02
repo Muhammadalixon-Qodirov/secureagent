@@ -1,0 +1,414 @@
+{
+  "system": "semgrep",
+  "metrics": {
+    "sql_injection": {
+      "tp": 5,
+      "fn": 2,
+      "fp_lookalike": 1,
+      "fp_unmatched": 0,
+      "precision": 0.833,
+      "precision_ci95": [
+        0.436,
+        0.97
+      ],
+      "recall": 0.714,
+      "recall_ci95": [
+        0.359,
+        0.918
+      ],
+      "f1": 0.769,
+      "lookalike_fp_rate": 0.143,
+      "safe_cases": 7
+    },
+    "path_traversal": {
+      "tp": 5,
+      "fn": 1,
+      "fp_lookalike": 3,
+      "fp_unmatched": 0,
+      "precision": 0.625,
+      "precision_ci95": [
+        0.306,
+        0.863
+      ],
+      "recall": 0.833,
+      "recall_ci95": [
+        0.436,
+        0.97
+      ],
+      "f1": 0.714,
+      "lookalike_fp_rate": 0.375,
+      "safe_cases": 8
+    },
+    "authorization_idor": {
+      "tp": 0,
+      "fn": 9,
+      "fp_lookalike": 0,
+      "fp_unmatched": 0,
+      "precision": null,
+      "precision_ci95": null,
+      "recall": 0.0,
+      "recall_ci95": [
+        0.0,
+        0.299
+      ],
+      "f1": null,
+      "lookalike_fp_rate": 0.0,
+      "safe_cases": 11
+    },
+    "micro": {
+      "tp": 10,
+      "fn": 12,
+      "fp_lookalike": 4,
+      "fp_unmatched": 0,
+      "precision": 0.714,
+      "precision_ci95": [
+        0.454,
+        0.883
+      ],
+      "recall": 0.455,
+      "recall_ci95": [
+        0.269,
+        0.653
+      ],
+      "f1": 0.556,
+      "lookalike_fp_rate": 0.154,
+      "safe_cases": 26
+    }
+  },
+  "per_app": {
+    "bookshelf": {
+      "tp": [
+        "B1",
+        "B4"
+      ],
+      "fn": [
+        "B6"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-89",
+          "file": "app.py",
+          "ranges": [
+            [
+              20,
+              20
+            ]
+          ],
+          "title": "flask-sqli-string-built-query"
+        },
+        {
+          "cwe": "CWE-22",
+          "file": "app.py",
+          "ranges": [
+            [
+              40,
+              40
+            ]
+          ],
+          "title": "flask-path-traversal-file-access"
+        }
+      ],
+      "seconds": 7.8
+    },
+    "clinic": {
+      "tp": [],
+      "fn": [
+        "C1",
+        "C3"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [],
+      "seconds": 8.1
+    },
+    "filestore": {
+      "tp": [
+        "F4",
+        "F5"
+      ],
+      "fn": [
+        "F3"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-22",
+          "file": "app.py",
+          "ranges": [
+            [
+              40,
+              40
+            ]
+          ],
+          "title": "flask-path-traversal-file-access"
+        },
+        {
+          "cwe": "CWE-22",
+          "file": "app.py",
+          "ranges": [
+            [
+              50,
+              50
+            ]
+          ],
+          "title": "flask-path-traversal-file-access"
+        }
+      ],
+      "seconds": 8.9
+    },
+    "media": {
+      "tp": [
+        "M3"
+      ],
+      "fn": [
+        "M2"
+      ],
+      "fp_safe": [
+        "M5"
+      ],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-22",
+          "file": "app.py",
+          "ranges": [
+            [
+              40,
+              40
+            ]
+          ],
+          "title": "flask-path-traversal-file-access"
+        },
+        {
+          "cwe": "CWE-22",
+          "file": "app.py",
+          "ranges": [
+            [
+              46,
+              46
+            ]
+          ],
+          "title": "flask-path-traversal-file-access"
+        }
+      ],
+      "seconds": 8.1
+    },
+    "orgreports": {
+      "tp": [
+        "O1"
+      ],
+      "fn": [
+        "O3"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-89",
+          "file": "app.py",
+          "ranges": [
+            [
+              27,
+              27
+            ]
+          ],
+          "title": "flask-sqli-string-built-query"
+        }
+      ],
+      "seconds": 8.0
+    },
+    "projects": {
+      "tp": [
+        "P2"
+      ],
+      "fn": [
+        "P3"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [
+        {
+          "cwe": "CWE-89",
+          "file": "app.py",
+          "ranges": [
+            [
+              34,
+              34
+            ]
+          ],
+          "title": "flask-sqli-string-built-query",
+          "case": "P2"
+        }
+      ],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-89",
+          "file": "app.py",
+          "ranges": [
+            [
+              33,
+              33
+            ]
+          ],
+          "title": "flask-sqli-string-built-query"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "app.py",
+          "ranges": [
+            [
+              34,
+              34
+            ]
+          ],
+          "title": "flask-sqli-string-built-query"
+        }
+      ],
+      "seconds": 8.9
+    },
+    "school": {
+      "tp": [],
+      "fn": [
+        "H3"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [],
+      "seconds": 7.8
+    },
+    "shop": {
+      "tp": [
+        "S2"
+      ],
+      "fn": [
+        "S4"
+      ],
+      "fp_safe": [
+        "S5"
+      ],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-89",
+          "file": "app.py",
+          "ranges": [
+            [
+              32,
+              32
+            ]
+          ],
+          "title": "flask-sqli-string-built-query"
+        },
+        {
+          "cwe": "CWE-22",
+          "file": "app.py",
+          "ranges": [
+            [
+              49,
+              49
+            ]
+          ],
+          "title": "flask-path-traversal-file-access"
+        }
+      ],
+      "seconds": 8.5
+    },
+    "tickets": {
+      "tp": [
+        "T4"
+      ],
+      "fn": [
+        "T2",
+        "T3"
+      ],
+      "fp_safe": [
+        "T5"
+      ],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-89",
+          "file": "app.py",
+          "ranges": [
+            [
+              62,
+              62
+            ]
+          ],
+          "title": "flask-sqli-string-built-query"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "app.py",
+          "ranges": [
+            [
+              73,
+              73
+            ]
+          ],
+          "title": "flask-sqli-string-built-query"
+        }
+      ],
+      "seconds": 8.6
+    },
+    "wiki": {
+      "tp": [
+        "W2"
+      ],
+      "fn": [
+        "W3"
+      ],
+      "fp_safe": [
+        "W1"
+      ],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-22",
+          "file": "app.py",
+          "ranges": [
+            [
+              25,
+              25
+            ]
+          ],
+          "title": "flask-path-traversal-file-access"
+        },
+        {
+          "cwe": "CWE-22",
+          "file": "app.py",
+          "ranges": [
+            [
+              31,
+              31
+            ]
+          ],
+          "title": "flask-path-traversal-file-access"
+        }
+      ],
+      "seconds": 8.7
+    }
+  }
+}

@@ -1,0 +1,68 @@
+# Synthetic holdout — ground truth. Written 2026-10-02 BEFORE any agent run on these apps.
+# The agent reviews each app directory as its authorized root and never sees this file.
+# A case is located by function name(s); line spans are computed from the AST at scoring time.
+# loci: [file, function] pairs that count as the location of the case (e.g. route + helper).
+version: 1
+families:
+  sql_injection: [CWE-89, CWE-564]
+  path_traversal: [CWE-22, CWE-23, CWE-36, CWE-73]
+  authorization_idor: [CWE-639, CWE-862, CWE-863, CWE-284, CWE-285]
+cases:
+  # ---------------- bookshelf
+  - {id: B1, app: bookshelf, family: sql_injection, vulnerable: true, loci: [[app.py, list_books]], why: "author formatted into SQL with str.format"}
+  - {id: B2, app: bookshelf, family: sql_injection, vulnerable: false, loci: [[app.py, count_books]], why: "%d after int() cast"}
+  - {id: B3, app: bookshelf, family: path_traversal, vulnerable: false, loci: [[app.py, cover]], why: "send_from_directory"}
+  - {id: B4, app: bookshelf, family: path_traversal, vulnerable: true, loci: [[app.py, download_export]], why: "query param concatenated into send_file path"}
+  - {id: B5, app: bookshelf, family: authorization_idor, vulnerable: false, loci: [[app.py, loan]], why: "borrower_id compared with current_user.id"}
+  - {id: B6, app: bookshelf, family: authorization_idor, vulnerable: true, loci: [[app.py, renew]], why: "any logged-in user can renew any loan"}
+  # ---------------- clinic (helpers in another file)
+  - {id: C1, app: clinic, family: sql_injection, vulnerable: true, loci: [[queries.py, patients_by_ward], [app.py, ward_patients]], why: "route param reaches f-string SQL in helper module"}
+  - {id: C2, app: clinic, family: sql_injection, vulnerable: false, loci: [[queries.py, search_patients], [app.py, search]], why: "LIKE pattern bound as parameter"}
+  - {id: C3, app: clinic, family: authorization_idor, vulnerable: true, loci: [[app.py, patient]], why: "patient notes returned without doctor_id check"}
+  - {id: C4, app: clinic, family: authorization_idor, vulnerable: false, loci: [[app.py, patient_summary]], why: "doctor_id compared with current_user.id"}
+  # ---------------- filestore
+  - {id: F1, app: filestore, family: path_traversal, vulnerable: false, loci: [[app.py, upload]], why: "secure_filename"}
+  - {id: F2, app: filestore, family: path_traversal, vulnerable: false, loci: [[app.py, template]], why: "safe_join with None check"}
+  - {id: F3, app: filestore, family: path_traversal, vulnerable: true, loci: [[app.py, preview]], why: "pathlib join of query param, read_text"}
+  - {id: F4, app: filestore, family: path_traversal, vulnerable: true, loci: [[app.py, delete]], why: "normpath without containment before os.remove"}
+  - {id: F5, app: filestore, family: path_traversal, vulnerable: true, loci: [[app.py, archive]], why: "startswith(base) without separator lets a sibling directory through"}
+  # ---------------- projects (SQLAlchemy)
+  - {id: P1, app: projects, family: sql_injection, vulnerable: false, loci: [[app.py, projects]], why: "sort column from allow-list dict"}
+  - {id: P2, app: projects, family: sql_injection, vulnerable: true, loci: [[app.py, report]], why: "status f-string inside text() although uid is bound"}
+  - {id: P3, app: projects, family: authorization_idor, vulnerable: true, loci: [[app.py, project]], why: "db.session.get by id, no owner check"}
+  - {id: P4, app: projects, family: authorization_idor, vulnerable: false, loci: [[app.py, rename]], why: "filter_by(id, owner_id=current_user.id)"}
+  - {id: P5, app: projects, family: authorization_idor, vulnerable: false, loci: [[app.py, projects]], why: "list scoped to owner_id=current_user.id"}
+  # ---------------- tickets (custom decorator)
+  - {id: T1, app: tickets, family: authorization_idor, vulnerable: false, loci: [[app.py, ticket], [app.py, ticket_owner_required]], why: "ownership enforced by decorator"}
+  - {id: T2, app: tickets, family: authorization_idor, vulnerable: true, loci: [[app.py, close_ticket]], why: "authenticated only, no ownership check"}
+  - {id: T3, app: tickets, family: authorization_idor, vulnerable: true, loci: [[app.py, tickets_by_user]], why: "user id taken from query parameter"}
+  - {id: T4, app: tickets, family: sql_injection, vulnerable: true, loci: [[app.py, search]], why: "q concatenated into LIKE although uid is bound"}
+  - {id: T5, app: tickets, family: sql_injection, vulnerable: false, loci: [[app.py, stats]], why: "f-string builds only ? placeholders"}
+  # ---------------- media (before_request login)
+  - {id: M1, app: media, family: authorization_idor, vulnerable: false, loci: [[app.py, download]], why: "owner_id compared with session uid"}
+  - {id: M2, app: media, family: authorization_idor, vulnerable: true, loci: [[app.py, thumb]], why: "thumbnail served for any media id"}
+  - {id: M3, app: media, family: path_traversal, vulnerable: true, loci: [[app.py, raw]], why: "query param joined into send_file path"}
+  - {id: M4, app: media, family: path_traversal, vulnerable: false, loci: [[app.py, download]], why: "send_from_directory with stored filename"}
+  - {id: M5, app: media, family: path_traversal, vulnerable: false, loci: [[app.py, thumb]], why: "file name built from integer id"}
+  # ---------------- orgreports (blueprint, tenant)
+  - {id: O1, app: orgreports, family: sql_injection, vulnerable: true, loci: [[app.py, org_reports]], why: "ORDER BY concatenation, no allow-list"}
+  - {id: O2, app: orgreports, family: authorization_idor, vulnerable: false, loci: [[app.py, org_reports], [app.py, is_member]], why: "membership checked, query filtered by org_id"}
+  - {id: O3, app: orgreports, family: authorization_idor, vulnerable: true, loci: [[app.py, org_report]], why: "membership checked for URL org, but report not filtered by org_id (cross-tenant)"}
+  - {id: O4, app: orgreports, family: authorization_idor, vulnerable: false, loci: [[app.py, archive]], why: "UPDATE filtered by report id AND org_id after membership check"}
+  # ---------------- shop
+  - {id: S1, app: shop, family: sql_injection, vulnerable: false, loci: [[app.py, products]], why: "text() with :c bound"}
+  - {id: S2, app: shop, family: sql_injection, vulnerable: true, loci: [[app.py, top_products]], why: "limit concatenated into text()"}
+  - {id: S3, app: shop, family: authorization_idor, vulnerable: false, loci: [[app.py, order]], why: "customer or admin check"}
+  - {id: S4, app: shop, family: authorization_idor, vulnerable: true, loci: [[app.py, invoice]], why: "invoice served for any order id"}
+  - {id: S5, app: shop, family: path_traversal, vulnerable: false, loci: [[app.py, invoice]], why: "file name built from integer id"}
+  # ---------------- wiki
+  - {id: W1, app: wiki, family: path_traversal, vulnerable: false, loci: [[app.py, page], [app.py, page_path]], why: "realpath + commonpath containment"}
+  - {id: W2, app: wiki, family: path_traversal, vulnerable: true, loci: [[app.py, history]], why: "slug joined without containment check"}
+  - {id: W3, app: wiki, family: sql_injection, vulnerable: true, loci: [[app.py, add_tags]], why: "form values formatted into executescript"}
+  - {id: W4, app: wiki, family: sql_injection, vulnerable: false, loci: [[app.py, search]], why: "LIKE pattern bound as parameter"}
+  # ---------------- school (SQLAlchemy, roles)
+  - {id: H1, app: school, family: sql_injection, vulnerable: false, loci: [[app.py, students]], why: "ORM order_by from allow-list dict"}
+  - {id: H2, app: school, family: authorization_idor, vulnerable: false, loci: [[app.py, grades]], why: "teacher role or self only"}
+  - {id: H3, app: school, family: authorization_idor, vulnerable: true, loci: [[app.py, contact]], why: "any logged-in user reads any student's contact data"}
+  - {id: H4, app: school, family: authorization_idor, vulnerable: false, loci: [[app.py, grade]], why: "teacher of the course only"}
+  - {id: H5, app: school, family: path_traversal, vulnerable: false, loci: [[app.py, attachment]], why: "send_from_directory"}

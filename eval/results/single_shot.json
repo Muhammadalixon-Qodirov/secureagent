@@ -1,0 +1,572 @@
+{
+  "system": "single_shot",
+  "metrics": {
+    "sql_injection": {
+      "tp": 7,
+      "fn": 0,
+      "fp_lookalike": 0,
+      "fp_unmatched": 2,
+      "precision": 0.778,
+      "precision_ci95": [
+        0.453,
+        0.937
+      ],
+      "recall": 1.0,
+      "recall_ci95": [
+        0.646,
+        1.0
+      ],
+      "f1": 0.875,
+      "lookalike_fp_rate": 0.0,
+      "safe_cases": 7
+    },
+    "path_traversal": {
+      "tp": 3,
+      "fn": 3,
+      "fp_lookalike": 3,
+      "fp_unmatched": 0,
+      "precision": 0.5,
+      "precision_ci95": [
+        0.188,
+        0.812
+      ],
+      "recall": 0.5,
+      "recall_ci95": [
+        0.188,
+        0.812
+      ],
+      "f1": 0.5,
+      "lookalike_fp_rate": 0.375,
+      "safe_cases": 8
+    },
+    "authorization_idor": {
+      "tp": 2,
+      "fn": 7,
+      "fp_lookalike": 4,
+      "fp_unmatched": 3,
+      "precision": 0.222,
+      "precision_ci95": [
+        0.063,
+        0.547
+      ],
+      "recall": 0.222,
+      "recall_ci95": [
+        0.063,
+        0.547
+      ],
+      "f1": 0.222,
+      "lookalike_fp_rate": 0.364,
+      "safe_cases": 11
+    },
+    "micro": {
+      "tp": 12,
+      "fn": 10,
+      "fp_lookalike": 7,
+      "fp_unmatched": 5,
+      "precision": 0.5,
+      "precision_ci95": [
+        0.314,
+        0.686
+      ],
+      "recall": 0.545,
+      "recall_ci95": [
+        0.347,
+        0.731
+      ],
+      "f1": 0.522,
+      "lookalike_fp_rate": 0.269,
+      "safe_cases": 26
+    }
+  },
+  "per_app": {
+    "bookshelf": {
+      "tp": [
+        "B1",
+        "B4"
+      ],
+      "fn": [
+        "B6"
+      ],
+      "fp_safe": [
+        "B5"
+      ],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-89",
+          "file": "app.py",
+          "ranges": [
+            [
+              20,
+              20
+            ]
+          ],
+          "title": "SQL Injection in /books Endpoint"
+        },
+        {
+          "cwe": "CWE-22",
+          "file": "app.py",
+          "ranges": [
+            [
+              40,
+              40
+            ]
+          ],
+          "title": "Path Traversal in /exports/download Endpoint"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app.py",
+          "ranges": [
+            [
+              47,
+              47
+            ]
+          ],
+          "title": "Broken Object-Level Authorization in /loans Endpoint"
+        }
+      ],
+      "seconds": 16.0
+    },
+    "clinic": {
+      "tp": [
+        "C1"
+      ],
+      "fn": [
+        "C3"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-639",
+          "file": "queries.py",
+          "ranges": [
+            [
+              11,
+              11
+            ]
+          ],
+          "title": "Broken Object-Level Authorization in patient_by_id",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-89",
+          "file": "queries.py",
+          "ranges": [
+            [
+              5,
+              5
+            ]
+          ],
+          "title": "SQL Injection in patients_by_ward"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "queries.py",
+          "ranges": [
+            [
+              11,
+              11
+            ]
+          ],
+          "title": "Broken Object-Level Authorization in patient_by_id"
+        }
+      ],
+      "seconds": 3.4
+    },
+    "filestore": {
+      "tp": [
+        "F4"
+      ],
+      "fn": [
+        "F3",
+        "F5"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-89",
+          "file": "app.py",
+          "ranges": [
+            [
+              34,
+              34
+            ]
+          ],
+          "title": "SQL Injection via String Concatenation",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app.py",
+          "ranges": [
+            [
+              39,
+              39
+            ]
+          ],
+          "title": "Broken Object-Level Authorization (IDOR)",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-89",
+          "file": "app.py",
+          "ranges": [
+            [
+              34,
+              34
+            ]
+          ],
+          "title": "SQL Injection via String Concatenation"
+        },
+        {
+          "cwe": "CWE-22",
+          "file": "app.py",
+          "ranges": [
+            [
+              39,
+              39
+            ]
+          ],
+          "title": "Path Traversal via os.path.join"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app.py",
+          "ranges": [
+            [
+              39,
+              39
+            ]
+          ],
+          "title": "Broken Object-Level Authorization (IDOR)"
+        }
+      ],
+      "seconds": 4.7
+    },
+    "media": {
+      "tp": [
+        "M3"
+      ],
+      "fn": [
+        "M2"
+      ],
+      "fp_safe": [
+        "M1"
+      ],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-89",
+          "file": "app.py",
+          "ranges": [
+            [
+              46,
+              46
+            ]
+          ],
+          "title": "SQL Injection in raw endpoint",
+          "family": "sql_injection"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-89",
+          "file": "app.py",
+          "ranges": [
+            [
+              46,
+              46
+            ]
+          ],
+          "title": "SQL Injection in raw endpoint"
+        },
+        {
+          "cwe": "CWE-22",
+          "file": "app.py",
+          "ranges": [
+            [
+              46,
+              46
+            ]
+          ],
+          "title": "Path Traversal via raw endpoint"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app.py",
+          "ranges": [
+            [
+              30,
+              30
+            ]
+          ],
+          "title": "Broken Object-Level Authorization in download endpoint"
+        }
+      ],
+      "seconds": 4.6
+    },
+    "orgreports": {
+      "tp": [
+        "O1",
+        "O3"
+      ],
+      "fn": [],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-89",
+          "file": "app.py",
+          "ranges": [
+            [
+              27,
+              27
+            ]
+          ],
+          "title": "SQL Injection in reports endpoint"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app.py",
+          "ranges": [
+            [
+              37,
+              37
+            ]
+          ],
+          "title": "Broken Object-Level Authorization in report retrieval"
+        }
+      ],
+      "seconds": 3.3
+    },
+    "projects": {
+      "tp": [
+        "P2",
+        "P3"
+      ],
+      "fn": [],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-89",
+          "file": "app.py",
+          "ranges": [
+            [
+              33,
+              33
+            ]
+          ],
+          "title": "SQL Injection in Report Endpoint"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app.py",
+          "ranges": [
+            [
+              40,
+              40
+            ]
+          ],
+          "title": "Broken Object-Level Authorization in Project Endpoint"
+        }
+      ],
+      "seconds": 3.5
+    },
+    "school": {
+      "tp": [],
+      "fn": [
+        "H3"
+      ],
+      "fp_safe": [
+        "H2",
+        "H5"
+      ],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-639",
+          "file": "app.py",
+          "ranges": [
+            [
+              43,
+              43
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        },
+        {
+          "cwe": "CWE-22",
+          "file": "app.py",
+          "ranges": [
+            [
+              67,
+              67
+            ]
+          ],
+          "title": "Path Traversal"
+        }
+      ],
+      "seconds": 3.6
+    },
+    "shop": {
+      "tp": [
+        "S2"
+      ],
+      "fn": [
+        "S4"
+      ],
+      "fp_safe": [
+        "S5",
+        "S3"
+      ],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-89",
+          "file": "app.py",
+          "ranges": [
+            [
+              32,
+              32
+            ]
+          ],
+          "title": "SQL Injection in /products/top Endpoint"
+        },
+        {
+          "cwe": "CWE-22",
+          "file": "app.py",
+          "ranges": [
+            [
+              49,
+              49
+            ]
+          ],
+          "title": "Path Traversal in /orders/<order_id>/invoice.pdf Endpoint"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app.py",
+          "ranges": [
+            [
+              40,
+              40
+            ]
+          ],
+          "title": "Broken Object-Level Authorization in /orders/<order_id> Endpoint"
+        }
+      ],
+      "seconds": 5.0
+    },
+    "tickets": {
+      "tp": [
+        "T4"
+      ],
+      "fn": [
+        "T2",
+        "T3"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-639",
+          "file": "app.py",
+          "ranges": [
+            [
+              73,
+              73
+            ]
+          ],
+          "title": "Broken Object-Level Authorization in Stats Endpoint",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-89",
+          "file": "app.py",
+          "ranges": [
+            [
+              62,
+              62
+            ]
+          ],
+          "title": "SQL Injection in Search Endpoint"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app.py",
+          "ranges": [
+            [
+              73,
+              73
+            ]
+          ],
+          "title": "Broken Object-Level Authorization in Stats Endpoint"
+        }
+      ],
+      "seconds": 3.6
+    },
+    "wiki": {
+      "tp": [
+        "W3"
+      ],
+      "fn": [
+        "W2"
+      ],
+      "fp_safe": [
+        "W1"
+      ],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-89",
+          "file": "app.py",
+          "ranges": [
+            [
+              39,
+              39
+            ]
+          ],
+          "title": "SQL Injection via String Concatenation in INSERT Statement"
+        },
+        {
+          "cwe": "CWE-22",
+          "file": "app.py",
+          "ranges": [
+            [
+              17,
+              17
+            ]
+          ],
+          "title": "Potential Path Traversal via Slug Parameter"
+        }
+      ],
+      "seconds": 3.5
+    }
+  }
+}

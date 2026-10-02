@@ -1,0 +1,1898 @@
+{
+  "schema_version": "1.0",
+  "repo_id": "vulpy",
+  "repo_url": "https://github.com/fportantier/vulpy",
+  "commit_sha": "5249cc8b05a1c37f6b2f757b1cf16a509c327122",
+  "type": 1,
+  "language": "python",
+  "framework": "flask",
+  "authorship": "human_authored",
+  "authorship_model": null,
+  "authorship_confidence": "high",
+  "authorship_evidence": "Vulpy is a deliberately vulnerable Flask application created by Fabian Portantier for web security training, pre-LLM era project with consistent human-authored commit history",
+  "findings": [
+    {
+      "id": "vulpy-001",
+      "is_vulnerable": true,
+      "vulnerability_class": "sql_injection",
+      "primary_cwe": "CWE-89",
+      "acceptable_cwes": [
+        "CWE-89",
+        "CWE-564",
+        "CWE-943"
+      ],
+      "file": "bad/libuser.py",
+      "location": {
+        "start_line": 12,
+        "end_line": 12,
+        "function": "login"
+      },
+      "severity": "critical",
+      "expected_category": "injection",
+      "evidence": {
+        "source": "manual_review",
+        "cve_id": null,
+        "description": "SQL injection via string format in login query: c.execute(\"SELECT * FROM users WHERE username = '{}' and password = '{}'\".format(username, password)). User-supplied username and password from request.form are directly interpolated into the SQL query without sanitization, allowing authentication bypass."
+      },
+      "cvss": {
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N",
+        "base_score": 9.1,
+        "severity": "CRITICAL"
+      }
+    },
+    {
+      "id": "vulpy-002",
+      "is_vulnerable": true,
+      "vulnerability_class": "sql_injection",
+      "primary_cwe": "CWE-89",
+      "acceptable_cwes": [
+        "CWE-89",
+        "CWE-564",
+        "CWE-943"
+      ],
+      "file": "bad/libuser.py",
+      "location": {
+        "start_line": 25,
+        "end_line": 25,
+        "function": "create"
+      },
+      "severity": "high",
+      "expected_category": "injection",
+      "evidence": {
+        "source": "manual_review",
+        "cve_id": null,
+        "description": "SQL injection via %-formatting in INSERT statement: c.execute(\"INSERT INTO users ... VALUES ('%s', '%s', ...\" %(username, password, ...)). User-supplied username and password are interpolated via % string formatting into the SQL query."
+      },
+      "cvss": {
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N",
+        "base_score": 9.1,
+        "severity": "CRITICAL"
+      }
+    },
+    {
+      "id": "vulpy-003",
+      "is_vulnerable": true,
+      "vulnerability_class": "sql_injection",
+      "primary_cwe": "CWE-89",
+      "acceptable_cwes": [
+        "CWE-89",
+        "CWE-564",
+        "CWE-943"
+      ],
+      "file": "bad/libuser.py",
+      "location": {
+        "start_line": 53,
+        "end_line": 53,
+        "function": "password_change"
+      },
+      "severity": "high",
+      "expected_category": "injection",
+      "evidence": {
+        "source": "manual_review",
+        "cve_id": null,
+        "description": "SQL injection via string format in UPDATE statement: c.execute(\"UPDATE users SET password = '{}' WHERE username = '{}'\".format(password, username)). The password parameter from user input is directly interpolated into the SQL query."
+      },
+      "cvss": {
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N",
+        "base_score": 9.1,
+        "severity": "CRITICAL"
+      }
+    },
+    {
+      "id": "vulpy-004",
+      "is_vulnerable": true,
+      "vulnerability_class": "stored_xss",
+      "primary_cwe": "CWE-79",
+      "acceptable_cwes": [
+        "CWE-79",
+        "CWE-80"
+      ],
+      "file": "bad/templates/posts.view.html",
+      "location": {
+        "start_line": 23,
+        "end_line": 23,
+        "function": null
+      },
+      "severity": "medium",
+      "expected_category": "xss",
+      "evidence": {
+        "source": "manual_review",
+        "cve_id": null,
+        "description": "Stored XSS via Jinja2 '| safe' filter: {{ post.text | safe }}. Post text is stored in the database and rendered without escaping using the 'safe' filter. An attacker can inject JavaScript in a post that executes when any user views the posts page."
+      },
+      "cvss": {
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:L/I:L/A:N",
+        "base_score": 6.4,
+        "severity": "MEDIUM"
+      }
+    },
+    {
+      "id": "vulpy-005",
+      "is_vulnerable": true,
+      "vulnerability_class": "reflected_xss",
+      "primary_cwe": "CWE-79",
+      "acceptable_cwes": [
+        "CWE-79",
+        "CWE-80"
+      ],
+      "file": "bad/templates/messages.html",
+      "location": {
+        "start_line": 8,
+        "end_line": 8,
+        "function": null
+      },
+      "severity": "medium",
+      "expected_category": "xss",
+      "evidence": {
+        "source": "manual_review",
+        "cve_id": null,
+        "description": "XSS via Jinja2 '| safe' filter on flash messages: {{ message | safe }}. Flash messages are rendered without escaping. While flash messages are set server-side, error messages like 'Invalid user or password' in the login flow are triggered by user input, and the SQL injection in login could be leveraged to inject HTML/JS content into flash messages indirectly."
+      },
+      "cvss": {
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
+        "base_score": 6.1,
+        "severity": "MEDIUM"
+      }
+    },
+    {
+      "id": "vulpy-006",
+      "is_vulnerable": true,
+      "vulnerability_class": "insecure_session",
+      "primary_cwe": "CWE-565",
+      "acceptable_cwes": [
+        "CWE-565",
+        "CWE-284",
+        "CWE-311",
+        "CWE-807"
+      ],
+      "file": "bad/libsession.py",
+      "location": {
+        "start_line": 6,
+        "end_line": 7,
+        "function": "create"
+      },
+      "severity": "high",
+      "expected_category": "auth",
+      "evidence": {
+        "source": "manual_review",
+        "cve_id": null,
+        "description": "Session cookie is merely base64-encoded JSON with no signing or encryption: base64.b64encode(json.dumps({'username': username}).encode()). An attacker can trivially forge any session by base64-encoding a JSON object with any username, achieving account takeover / authentication bypass."
+      },
+      "cvss": {
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N",
+        "base_score": 9.1,
+        "severity": "CRITICAL"
+      }
+    },
+    {
+      "id": "vulpy-007",
+      "is_vulnerable": true,
+      "vulnerability_class": "hardcoded_credentials",
+      "primary_cwe": "CWE-798",
+      "acceptable_cwes": [
+        "CWE-798",
+        "CWE-259"
+      ],
+      "file": "bad/db_init.py",
+      "location": {
+        "start_line": 9,
+        "end_line": 13,
+        "function": "db_init_users"
+      },
+      "severity": "medium",
+      "expected_category": "data_exposure",
+      "evidence": {
+        "source": "manual_review",
+        "cve_id": null,
+        "description": "Hardcoded default credentials for application users: admin/SuperSecret, elliot/123123123, tim/12345678. These are weak, well-known default passwords stored in plaintext in the source code."
+      },
+      "cvss": {
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N",
+        "base_score": 5.9,
+        "severity": "MEDIUM"
+      }
+    },
+    {
+      "id": "vulpy-008",
+      "is_vulnerable": true,
+      "vulnerability_class": "plaintext_password_storage",
+      "primary_cwe": "CWE-256",
+      "acceptable_cwes": [
+        "CWE-256",
+        "CWE-522",
+        "CWE-312",
+        "CWE-261"
+      ],
+      "file": "bad/libuser.py",
+      "location": {
+        "start_line": 12,
+        "end_line": 12,
+        "function": "login"
+      },
+      "severity": "high",
+      "expected_category": "data_exposure",
+      "evidence": {
+        "source": "manual_review",
+        "cve_id": null,
+        "description": "Passwords are stored and compared in plaintext. The login query compares password directly: WHERE ... password = '{}'. The create function also stores passwords in plaintext with no hashing. This means a database breach exposes all user passwords."
+      },
+      "cvss": {
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N",
+        "base_score": 6.5,
+        "severity": "MEDIUM"
+      }
+    },
+    {
+      "id": "vulpy-009",
+      "is_vulnerable": true,
+      "vulnerability_class": "security_misconfiguration",
+      "primary_cwe": "CWE-215",
+      "acceptable_cwes": [
+        "CWE-215",
+        "CWE-489",
+        "CWE-16"
+      ],
+      "file": "bad/vulpy.py",
+      "location": {
+        "start_line": 55,
+        "end_line": 55,
+        "function": null
+      },
+      "severity": "medium",
+      "expected_category": "data_exposure",
+      "evidence": {
+        "source": "manual_review",
+        "cve_id": null,
+        "description": "Flask debug mode enabled in production: app.run(debug=True, ...). Debug mode exposes the Werkzeug debugger, which allows arbitrary code execution if the debugger PIN is guessed or exposed, and leaks stack traces with sensitive information."
+      },
+      "cvss": {
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+        "base_score": 5.3,
+        "severity": "MEDIUM"
+      }
+    },
+    {
+      "id": "vulpy-010",
+      "is_vulnerable": true,
+      "vulnerability_class": "hardcoded_credentials",
+      "primary_cwe": "CWE-798",
+      "acceptable_cwes": [
+        "CWE-798",
+        "CWE-259",
+        "CWE-321"
+      ],
+      "file": "bad/vulpy.py",
+      "location": {
+        "start_line": 16,
+        "end_line": 16,
+        "function": null
+      },
+      "severity": "medium",
+      "expected_category": "data_exposure",
+      "evidence": {
+        "source": "manual_review",
+        "cve_id": null,
+        "description": "Weak hardcoded Flask SECRET_KEY: app.config['SECRET_KEY'] = 'aaaaaaa'. This trivially guessable key is used for Flask session signing. An attacker who knows the key can forge Flask sessions."
+      },
+      "cvss": {
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N",
+        "base_score": 5.9,
+        "severity": "MEDIUM"
+      }
+    },
+    {
+      "id": "vulpy-011",
+      "is_vulnerable": true,
+      "vulnerability_class": "weak_prng",
+      "primary_cwe": "CWE-330",
+      "acceptable_cwes": [
+        "CWE-330",
+        "CWE-338"
+      ],
+      "file": "bad/libapi.py",
+      "location": {
+        "start_line": 14,
+        "end_line": 14,
+        "function": "keygen"
+      },
+      "severity": "medium",
+      "expected_category": "other",
+      "evidence": {
+        "source": "manual_review",
+        "cve_id": null,
+        "description": "API key generation uses Python's random module (not cryptographically secure): hashlib.sha256(str(random.getrandbits(2048)).encode()).hexdigest(). The random module uses a Mersenne Twister PRNG which is predictable. Should use secrets or os.urandom for security-sensitive token generation."
+      },
+      "cvss": {
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N",
+        "base_score": 4.8,
+        "severity": "MEDIUM"
+      }
+    },
+    {
+      "id": "vulpy-012",
+      "is_vulnerable": true,
+      "vulnerability_class": "path_traversal",
+      "primary_cwe": "CWE-22",
+      "acceptable_cwes": [
+        "CWE-22",
+        "CWE-23",
+        "CWE-73"
+      ],
+      "file": "bad/libapi.py",
+      "location": {
+        "start_line": 16,
+        "end_line": 16,
+        "function": "keygen"
+      },
+      "severity": "high",
+      "expected_category": "injection",
+      "evidence": {
+        "source": "manual_review",
+        "cve_id": null,
+        "description": "Path traversal via unsanitized username in file glob and path creation: Path('/tmp/').glob('vulpy.apikey.' + username + '.*'). The username comes from user input (via API key generation endpoint). A crafted username with path separators or glob characters could manipulate file operations. Additionally, the keyfile path is constructed without validation: '/tmp/vulpy.apikey.{}.{}'.format(username, key)."
+      },
+      "cvss": {
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:L/A:N",
+        "base_score": 8.2,
+        "severity": "HIGH"
+      }
+    },
+    {
+      "id": "vulpy-013",
+      "is_vulnerable": true,
+      "vulnerability_class": "missing_authentication",
+      "primary_cwe": "CWE-306",
+      "acceptable_cwes": [
+        "CWE-306",
+        "CWE-862",
+        "CWE-287"
+      ],
+      "file": "bad/mod_mfa.py",
+      "location": {
+        "start_line": 57,
+        "end_line": 64,
+        "function": "do_mfa_disable"
+      },
+      "severity": "high",
+      "expected_category": "auth",
+      "evidence": {
+        "source": "manual_review",
+        "cve_id": null,
+        "description": "MFA disable endpoint uses GET method with no CSRF protection and no re-authentication: @mod_mfa.route('/disable', methods=['GET']). Any authenticated user can have their MFA disabled via a simple GET request, which can be triggered by an attacker via CSRF (e.g., an img tag or link)."
+      },
+      "cvss": {
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:L/A:N",
+        "base_score": 8.2,
+        "severity": "HIGH"
+      }
+    },
+    {
+      "id": "vulpy-014",
+      "is_vulnerable": true,
+      "vulnerability_class": "csrf",
+      "primary_cwe": "CWE-352",
+      "acceptable_cwes": [
+        "CWE-352"
+      ],
+      "file": "bad/mod_user.py",
+      "location": {
+        "start_line": 64,
+        "end_line": 83,
+        "function": "do_chpasswd"
+      },
+      "severity": "medium",
+      "expected_category": "session_config",
+      "evidence": {
+        "source": "manual_review",
+        "cve_id": null,
+        "description": "Password change form has no CSRF protection. The endpoint accepts POST requests without any CSRF token validation. An attacker can craft a malicious page that submits a password change form on behalf of an authenticated user, changing their password."
+      },
+      "acceptable_locations": [
+        {
+          "file": "bad/templates/user.chpasswd.html",
+          "start_line": 8,
+          "end_line": 8,
+          "function": null
+        }
+      ],
+      "cvss": {
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:L/A:N",
+        "base_score": 4.3,
+        "severity": "MEDIUM"
+      }
+    },
+    {
+      "id": "vulpy-015",
+      "is_vulnerable": true,
+      "vulnerability_class": "missing_authentication",
+      "primary_cwe": "CWE-862",
+      "acceptable_cwes": [
+        "CWE-862",
+        "CWE-306"
+      ],
+      "file": "bad/mod_user.py",
+      "location": {
+        "start_line": 64,
+        "end_line": 83,
+        "function": "do_chpasswd"
+      },
+      "severity": "high",
+      "expected_category": "auth",
+      "evidence": {
+        "source": "manual_review",
+        "cve_id": null,
+        "description": "Password change does not require current password verification. The do_chpasswd function only asks for the new password and password confirmation. Combined with the forged session vulnerability (base64-encoded cookie), an attacker can change any user's password without knowing their current password."
+      },
+      "cvss": {
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:L/A:N",
+        "base_score": 8.2,
+        "severity": "HIGH"
+      }
+    },
+    {
+      "id": "vulpy-016",
+      "is_vulnerable": true,
+      "vulnerability_class": "insecure_cookie",
+      "primary_cwe": "CWE-614",
+      "acceptable_cwes": [
+        "CWE-614",
+        "CWE-1004",
+        "CWE-16"
+      ],
+      "file": "bad/libsession.py",
+      "location": {
+        "start_line": 7,
+        "end_line": 7,
+        "function": "create"
+      },
+      "severity": "medium",
+      "expected_category": "session_config",
+      "evidence": {
+        "source": "manual_review",
+        "cve_id": null,
+        "description": "Session cookie set without Secure or HttpOnly flags: response.set_cookie('vulpy_session', session). The cookie lacks the Secure flag (transmittable over HTTP), HttpOnly flag (accessible via JavaScript), and SameSite attribute (vulnerable to CSRF). This makes the session cookie vulnerable to interception and theft via XSS."
+      },
+      "cvss": {
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+        "base_score": 5.3,
+        "severity": "MEDIUM"
+      }
+    },
+    {
+      "id": "vulpy-017",
+      "is_vulnerable": true,
+      "vulnerability_class": "password_complexity_bypass",
+      "primary_cwe": "CWE-521",
+      "acceptable_cwes": [
+        "CWE-521"
+      ],
+      "file": "bad/libuser.py",
+      "location": {
+        "start_line": 59,
+        "end_line": 60,
+        "function": "password_complexity"
+      },
+      "severity": "low",
+      "expected_category": "auth",
+      "evidence": {
+        "source": "manual_review",
+        "cve_id": null,
+        "description": "Password complexity check always returns True: def password_complexity(password): return True. This means any password, including empty or single-character passwords, passes the complexity check, enabling trivially brute-forceable passwords."
+      },
+      "cvss": {
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:N",
+        "base_score": 3.7,
+        "severity": "LOW"
+      }
+    },
+    {
+      "id": "vulpy-018",
+      "is_vulnerable": true,
+      "vulnerability_class": "sensitive_data_exposure",
+      "primary_cwe": "CWE-200",
+      "acceptable_cwes": [
+        "CWE-200",
+        "CWE-209",
+        "CWE-532"
+      ],
+      "file": "bad/libuser.py",
+      "location": {
+        "start_line": 8,
+        "end_line": 8,
+        "function": "login"
+      },
+      "severity": "low",
+      "expected_category": "data_exposure",
+      "evidence": {
+        "source": "manual_review",
+        "cve_id": null,
+        "description": "SQL trace callback prints all queries to stdout: conn.set_trace_callback(print). This logs all SQL queries including those containing plaintext passwords, potentially exposing credentials in server logs."
+      },
+      "cvss": {
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+        "base_score": 5.3,
+        "severity": "MEDIUM"
+      }
+    },
+    {
+      "id": "vulpy-019",
+      "is_vulnerable": true,
+      "vulnerability_class": "sql_injection",
+      "primary_cwe": "CWE-89",
+      "acceptable_cwes": [
+        "CWE-89",
+        "CWE-564",
+        "CWE-943"
+      ],
+      "file": "bad/db_init.py",
+      "location": {
+        "start_line": 20,
+        "end_line": 20,
+        "function": "db_init_users"
+      },
+      "severity": "medium",
+      "expected_category": "injection",
+      "evidence": {
+        "source": "manual_review",
+        "cve_id": null,
+        "description": "SQL injection via %-formatting in INSERT: c.execute(\"INSERT INTO users ... VALUES ('%s', '%s', ...)\" %(u, p, ...)). Although the values here are hardcoded, this establishes a vulnerable pattern used in the codebase."
+      },
+      "cvss": {
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N",
+        "base_score": 9.1,
+        "severity": "CRITICAL"
+      }
+    },
+    {
+      "id": "vulpy-020",
+      "is_vulnerable": true,
+      "vulnerability_class": "sql_injection",
+      "primary_cwe": "CWE-89",
+      "acceptable_cwes": [
+        "CWE-89",
+        "CWE-564",
+        "CWE-943"
+      ],
+      "file": "bad/db.py",
+      "location": {
+        "start_line": 19,
+        "end_line": 19,
+        "function": "db_init"
+      },
+      "severity": "medium",
+      "expected_category": "injection",
+      "evidence": {
+        "source": "manual_review",
+        "cve_id": null,
+        "description": "SQL injection via %-formatting in INSERT: c.execute(\"INSERT INTO users ... VALUES ('%s', '%s', '%d')\" %(u, p, 0)). Although values are hardcoded in this file, the pattern is vulnerable to injection if inputs change."
+      },
+      "cvss": {
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N",
+        "base_score": 9.1,
+        "severity": "CRITICAL"
+      }
+    },
+    {
+      "id": "vulpy-021",
+      "is_vulnerable": true,
+      "vulnerability_class": "hardcoded_credentials",
+      "primary_cwe": "CWE-798",
+      "acceptable_cwes": [
+        "CWE-798",
+        "CWE-259"
+      ],
+      "file": "bad/db.py",
+      "location": {
+        "start_line": 7,
+        "end_line": 11,
+        "function": "db_init"
+      },
+      "severity": "medium",
+      "expected_category": "data_exposure",
+      "evidence": {
+        "source": "manual_review",
+        "cve_id": null,
+        "description": "Hardcoded credentials: admin/123456, john/Password, tim/Vaider2. Weak default passwords for user accounts stored in source code."
+      },
+      "cvss": {
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N",
+        "base_score": 5.9,
+        "severity": "MEDIUM"
+      }
+    },
+    {
+      "id": "vulpy-022",
+      "is_vulnerable": true,
+      "vulnerability_class": "hardcoded_credentials",
+      "primary_cwe": "CWE-798",
+      "acceptable_cwes": [
+        "CWE-798",
+        "CWE-259",
+        "CWE-321"
+      ],
+      "file": "bad/vulpy-ssl.py",
+      "location": {
+        "start_line": 13,
+        "end_line": 13,
+        "function": null
+      },
+      "severity": "medium",
+      "expected_category": "data_exposure",
+      "evidence": {
+        "source": "manual_review",
+        "cve_id": null,
+        "description": "Weak hardcoded Flask SECRET_KEY in SSL variant: app.config['SECRET_KEY'] = 'aaaaaaa'."
+      },
+      "cvss": {
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N",
+        "base_score": 5.9,
+        "severity": "MEDIUM"
+      }
+    },
+    {
+      "id": "vulpy-023",
+      "is_vulnerable": true,
+      "vulnerability_class": "security_misconfiguration",
+      "primary_cwe": "CWE-215",
+      "acceptable_cwes": [
+        "CWE-215",
+        "CWE-489",
+        "CWE-16"
+      ],
+      "file": "bad/vulpy-ssl.py",
+      "location": {
+        "start_line": 29,
+        "end_line": 29,
+        "function": null
+      },
+      "severity": "medium",
+      "expected_category": "data_exposure",
+      "evidence": {
+        "source": "manual_review",
+        "cve_id": null,
+        "description": "Flask debug mode enabled in production: app.run(debug=True, ...) in the SSL variant. Exposes the Werkzeug interactive debugger."
+      },
+      "cvss": {
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+        "base_score": 5.3,
+        "severity": "MEDIUM"
+      }
+    },
+    {
+      "id": "vulpy-024",
+      "is_vulnerable": true,
+      "vulnerability_class": "stored_xss",
+      "primary_cwe": "CWE-79",
+      "acceptable_cwes": [
+        "CWE-79",
+        "CWE-80"
+      ],
+      "file": "good/templates/posts.view.html",
+      "location": {
+        "start_line": 23,
+        "end_line": 23,
+        "function": null
+      },
+      "severity": "medium",
+      "expected_category": "xss",
+      "evidence": {
+        "source": "manual_review",
+        "cve_id": null,
+        "description": "Stored XSS in the 'good' version via Jinja2 '| safe' filter: {{ post.text | safe }}. Despite being the 'good' version, the template still uses the safe filter on user-generated post content, allowing stored XSS."
+      },
+      "cvss": {
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:L/I:L/A:N",
+        "base_score": 6.4,
+        "severity": "MEDIUM"
+      }
+    },
+    {
+      "id": "vulpy-025",
+      "is_vulnerable": true,
+      "vulnerability_class": "reflected_xss",
+      "primary_cwe": "CWE-79",
+      "acceptable_cwes": [
+        "CWE-79",
+        "CWE-80"
+      ],
+      "file": "good/templates/messages.html",
+      "location": {
+        "start_line": 8,
+        "end_line": 8,
+        "function": null
+      },
+      "severity": "medium",
+      "expected_category": "xss",
+      "evidence": {
+        "source": "manual_review",
+        "cve_id": null,
+        "description": "XSS via Jinja2 '| safe' filter on flash messages in good version: {{ message | safe }}. Flash messages are rendered without HTML escaping, same vulnerability as in bad/ version."
+      },
+      "cvss": {
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
+        "base_score": 6.1,
+        "severity": "MEDIUM"
+      }
+    },
+    {
+      "id": "vulpy-026",
+      "is_vulnerable": true,
+      "vulnerability_class": "sql_injection",
+      "primary_cwe": "CWE-89",
+      "acceptable_cwes": [
+        "CWE-89",
+        "CWE-564",
+        "CWE-943"
+      ],
+      "file": "good/libuser.py",
+      "location": {
+        "start_line": 61,
+        "end_line": 61,
+        "function": "user_create"
+      },
+      "severity": "high",
+      "expected_category": "injection",
+      "evidence": {
+        "source": "manual_review",
+        "cve_id": null,
+        "description": "SQL injection in the 'good' version's user_create via %-formatting: c.execute(\"INSERT INTO users ... VALUES ('%s', '%s', ...)\" %(username, '', '', 0, 0, '')). Despite other improvements, the user creation function still uses string formatting for SQL."
+      },
+      "cvss": {
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N",
+        "base_score": 9.1,
+        "severity": "CRITICAL"
+      }
+    },
+    {
+      "id": "vulpy-027",
+      "is_vulnerable": true,
+      "vulnerability_class": "hardcoded_credentials",
+      "primary_cwe": "CWE-798",
+      "acceptable_cwes": [
+        "CWE-798",
+        "CWE-259",
+        "CWE-321"
+      ],
+      "file": "good/libapi.py",
+      "location": {
+        "start_line": 10,
+        "end_line": 10,
+        "function": null
+      },
+      "severity": "high",
+      "expected_category": "data_exposure",
+      "evidence": {
+        "source": "manual_review",
+        "cve_id": null,
+        "description": "Hardcoded JWT secret key: secret = 'MYSUPERSECRETKEY'. This secret is used to sign and verify JWT tokens. Knowing this secret allows forging arbitrary JWT tokens to impersonate any user."
+      },
+      "cvss": {
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N",
+        "base_score": 5.9,
+        "severity": "MEDIUM"
+      }
+    },
+    {
+      "id": "vulpy-028",
+      "is_vulnerable": true,
+      "vulnerability_class": "hardcoded_credentials",
+      "primary_cwe": "CWE-321",
+      "acceptable_cwes": [
+        "CWE-321",
+        "CWE-798",
+        "CWE-259"
+      ],
+      "file": "good/libsession.py",
+      "location": {
+        "start_line": 9,
+        "end_line": 9,
+        "function": null
+      },
+      "severity": "high",
+      "expected_category": "data_exposure",
+      "evidence": {
+        "source": "manual_review",
+        "cve_id": null,
+        "description": "Hardcoded Fernet encryption key: key = 'JHtM1wEt1I1J9N_Evjwqr3yYauXIqSxYzFnRhcf0ZG0='. This key is used to encrypt/decrypt session cookies. Knowing this key allows forging session tokens for any user."
+      },
+      "cvss": {
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N",
+        "base_score": 5.9,
+        "severity": "MEDIUM"
+      }
+    },
+    {
+      "id": "vulpy-029",
+      "is_vulnerable": true,
+      "vulnerability_class": "csrf",
+      "primary_cwe": "CWE-352",
+      "acceptable_cwes": [
+        "CWE-352",
+        "CWE-306"
+      ],
+      "file": "bad/mod_posts.py",
+      "location": {
+        "start_line": 24,
+        "end_line": 37,
+        "function": "do_create"
+      },
+      "severity": "medium",
+      "expected_category": "session_config",
+      "evidence": {
+        "source": "manual_review",
+        "cve_id": null,
+        "description": "Post creation endpoint has no CSRF protection. The POST /posts/ endpoint creates posts on behalf of the authenticated user without any CSRF token validation, allowing cross-site request forgery to create posts as the victim."
+      },
+      "additional_clusters": [
+        "missing_auth_decorator_on_sensitive_endpoint"
+      ],
+      "acceptable_locations": [
+        {
+          "file": "bad/templates/posts.view.html",
+          "start_line": 13,
+          "end_line": 13,
+          "function": null
+        }
+      ],
+      "cvss": {
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:L/A:N",
+        "base_score": 4.3,
+        "severity": "MEDIUM"
+      }
+    },
+    {
+      "id": "vulpy-030",
+      "is_vulnerable": true,
+      "vulnerability_class": "idor",
+      "primary_cwe": "CWE-639",
+      "acceptable_cwes": [
+        "CWE-639",
+        "CWE-284",
+        "CWE-862"
+      ],
+      "file": "bad/mod_api.py",
+      "location": {
+        "start_line": 47,
+        "end_line": 51,
+        "function": "do_post_list"
+      },
+      "severity": "medium",
+      "expected_category": "auth",
+      "evidence": {
+        "source": "manual_review",
+        "cve_id": null,
+        "description": "IDOR on API post listing: GET /api/post/<username> returns any user's posts without authentication. The endpoint has no access control \u2014 any unauthenticated user can enumerate and read any other user's posts by providing their username."
+      },
+      "cvss": {
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N",
+        "base_score": 6.5,
+        "severity": "MEDIUM"
+      }
+    },
+    {
+      "id": "vulpy-031",
+      "is_vulnerable": true,
+      "vulnerability_class": "path_traversal",
+      "primary_cwe": "CWE-22",
+      "acceptable_cwes": [
+        "CWE-22",
+        "CWE-23",
+        "CWE-73"
+      ],
+      "file": "bad/libapi.py",
+      "location": {
+        "start_line": 33,
+        "end_line": 34,
+        "function": "authenticate"
+      },
+      "severity": "high",
+      "expected_category": "injection",
+      "evidence": {
+        "source": "our-scanner",
+        "cve_id": null,
+        "description": "Path traversal via unsanitized API key in glob pattern in the authenticate() function: Path('/tmp/').glob('vulpy.apikey.*.' + key). The API key comes directly from request.headers['X-APIKEY'] without sanitization. An attacker can supply glob metacharacters (*, ?, []) to match unintended files and authenticate as another user. This is distinct from vulpy-012 which covers the keygen() function's username-based path traversal."
+      },
+      "cvss": {
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:L/A:N",
+        "base_score": 8.2,
+        "severity": "HIGH"
+      }
+    },
+    {
+      "id": "vulpy-032",
+      "is_vulnerable": true,
+      "vulnerability_class": "sensitive_data_exposure",
+      "primary_cwe": "CWE-312",
+      "acceptable_cwes": [
+        "CWE-312",
+        "CWE-313",
+        "CWE-922"
+      ],
+      "file": "bad/libapi.py",
+      "location": {
+        "start_line": 20,
+        "end_line": 22,
+        "function": "keygen"
+      },
+      "severity": "medium",
+      "expected_category": "data_exposure",
+      "evidence": {
+        "source": "our-scanner",
+        "cve_id": null,
+        "description": "API keys are stored as plaintext files in the world-readable /tmp/ directory. The key is embedded in the filename itself: '/tmp/vulpy.apikey.{username}.{key}'. Any local user or process can enumerate /tmp/ and extract all API keys from filenames. This is distinct from vulpy-011 (weak PRNG) and vulpy-012 (path traversal) which cover other aspects of the same function."
+      },
+      "cvss": {
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N",
+        "base_score": 6.5,
+        "severity": "MEDIUM"
+      }
+    },
+    {
+      "id": "vulpy-033",
+      "is_vulnerable": true,
+      "vulnerability_class": "sensitive_data_exposure",
+      "primary_cwe": "CWE-200",
+      "acceptable_cwes": [
+        "CWE-200",
+        "CWE-532"
+      ],
+      "file": "bad/libapi.py",
+      "location": {
+        "start_line": 17,
+        "end_line": 17,
+        "function": "keygen"
+      },
+      "severity": "low",
+      "expected_category": "data_exposure",
+      "evidence": {
+        "source": "our-scanner",
+        "cve_id": null,
+        "description": "Debug print statement outputs API key filenames to stdout: print('removing', f). The filename contains the username and API key (e.g., vulpy.apikey.admin.abc123...), exposing credentials in server logs during key rotation."
+      },
+      "cvss": {
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+        "base_score": 5.3,
+        "severity": "MEDIUM"
+      }
+    },
+    {
+      "id": "vulpy-034",
+      "is_vulnerable": true,
+      "vulnerability_class": "sensitive_data_exposure",
+      "primary_cwe": "CWE-200",
+      "acceptable_cwes": [
+        "CWE-200",
+        "CWE-532"
+      ],
+      "file": "bad/libposts.py",
+      "location": {
+        "start_line": 10,
+        "end_line": 10,
+        "function": "get_posts"
+      },
+      "severity": "low",
+      "expected_category": "data_exposure",
+      "evidence": {
+        "source": "our-scanner",
+        "cve_id": null,
+        "description": "SQL trace callback (conn.set_trace_callback(print)) logs all executed SQL queries to stdout, including user post content. Same pattern as vulpy-018 (bad/libuser.py) but in a different file logging different data (post content rather than credentials)."
+      },
+      "cvss": {
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+        "base_score": 5.3,
+        "severity": "MEDIUM"
+      }
+    },
+    {
+      "id": "vulpy-035",
+      "is_vulnerable": true,
+      "vulnerability_class": "missing_rate_limiting",
+      "primary_cwe": "CWE-307",
+      "acceptable_cwes": [
+        "CWE-307",
+        "CWE-799"
+      ],
+      "file": "bad/mod_user.py",
+      "location": {
+        "start_line": 9,
+        "end_line": 35,
+        "function": "do_login"
+      },
+      "severity": "medium",
+      "expected_category": "auth",
+      "evidence": {
+        "source": "our-scanner",
+        "cve_id": null,
+        "description": "The web login endpoint at /user/login has no rate limiting, account lockout, or CAPTCHA. An attacker can perform unlimited credential guessing attempts. The endpoint accepts POST with username/password and calls libuser.login() with no throttling mechanism."
+      },
+      "cvss": {
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+        "base_score": 5.3,
+        "severity": "MEDIUM"
+      }
+    },
+    {
+      "id": "vulpy-036",
+      "is_vulnerable": true,
+      "vulnerability_class": "missing_rate_limiting",
+      "primary_cwe": "CWE-307",
+      "acceptable_cwes": [
+        "CWE-307",
+        "CWE-799"
+      ],
+      "file": "bad/mod_api.py",
+      "location": {
+        "start_line": 30,
+        "end_line": 44,
+        "function": "do_key_create"
+      },
+      "severity": "medium",
+      "expected_category": "auth",
+      "evidence": {
+        "source": "our-scanner",
+        "cve_id": null,
+        "description": "The API key generation endpoint at POST /api/key accepts username/password credentials with no rate limiting or lockout. An attacker can perform unlimited brute force attempts against user credentials via this API endpoint."
+      },
+      "cvss": {
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+        "base_score": 5.3,
+        "severity": "MEDIUM"
+      }
+    },
+    {
+      "id": "vulpy-037",
+      "is_vulnerable": true,
+      "vulnerability_class": "idor",
+      "primary_cwe": "CWE-639",
+      "acceptable_cwes": [
+        "CWE-639",
+        "CWE-915",
+        "CWE-284",
+        "CWE-306"
+      ],
+      "file": "bad/mod_api.py",
+      "location": {
+        "start_line": 54,
+        "end_line": 70,
+        "function": "do_post_create"
+      },
+      "severity": "high",
+      "expected_category": "auth",
+      "evidence": {
+        "source": "our-scanner",
+        "cve_id": null,
+        "description": "Authorization bypass via mass assignment in API post creation. Line 57 sets data['username'] from the authenticated API key, but line 62 calls data.update(request.get_json()) which allows the attacker to override the username field with any value. An authenticated user can create posts as any other user by including '\"username\": \"victim\"' in the JSON body."
+      },
+      "additional_clusters": [
+        "missing_auth_decorator_on_sensitive_endpoint"
+      ],
+      "cvss": {
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:L/A:N",
+        "base_score": 8.2,
+        "severity": "HIGH"
+      }
+    },
+    {
+      "id": "vulpy-038",
+      "is_vulnerable": true,
+      "vulnerability_class": "csrf",
+      "primary_cwe": "CWE-352",
+      "acceptable_cwes": [
+        "CWE-352",
+        "CWE-306"
+      ],
+      "file": "bad/mod_mfa.py",
+      "location": {
+        "start_line": 35,
+        "end_line": 54,
+        "function": "do_mfa_enable"
+      },
+      "severity": "medium",
+      "expected_category": "session_config",
+      "evidence": {
+        "source": "our-scanner",
+        "cve_id": null,
+        "description": "The MFA enable endpoint (POST /mfa/) has no CSRF protection. An attacker can craft a malicious page that submits the MFA enable form with a known OTP secret, binding the attacker's TOTP device to the victim's account. This is distinct from vulpy-013 which covers the MFA disable endpoint."
+      },
+      "additional_clusters": [
+        "missing_auth_decorator_on_sensitive_endpoint"
+      ],
+      "acceptable_locations": [
+        {
+          "file": "bad/templates/mfa.enable.html",
+          "start_line": 8,
+          "end_line": 8,
+          "function": null
+        }
+      ],
+      "cvss": {
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:L/A:N",
+        "base_score": 4.3,
+        "severity": "MEDIUM"
+      }
+    },
+    {
+      "id": "vulpy-039",
+      "is_vulnerable": true,
+      "vulnerability_class": "weak_prng",
+      "primary_cwe": "CWE-338",
+      "acceptable_cwes": [
+        "CWE-338",
+        "CWE-330"
+      ],
+      "file": "utils/skey.py",
+      "location": {
+        "start_line": 9,
+        "end_line": 9,
+        "function": null
+      },
+      "severity": "medium",
+      "expected_category": "other",
+      "evidence": {
+        "source": "our-scanner",
+        "cve_id": null,
+        "description": "S/Key OTP generation utility uses Python's non-cryptographic random module: key = str(random.getrandbits(2048)).encode(). The Mersenne Twister PRNG is predictable and unsuitable for generating security tokens. The commented-out secrets.token_bytes() on line 8 shows the developer was aware of this issue."
+      },
+      "cvss": {
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N",
+        "base_score": 4.8,
+        "severity": "MEDIUM"
+      }
+    },
+    {
+      "id": "vulpy-040",
+      "is_vulnerable": true,
+      "vulnerability_class": "hardcoded_credentials",
+      "primary_cwe": "CWE-798",
+      "acceptable_cwes": [
+        "CWE-798",
+        "CWE-259",
+        "CWE-321"
+      ],
+      "file": "good/vulpy-ssl.py",
+      "location": {
+        "start_line": 13,
+        "end_line": 13,
+        "function": null
+      },
+      "severity": "medium",
+      "expected_category": "data_exposure",
+      "evidence": {
+        "source": "our-scanner",
+        "cve_id": null,
+        "description": "Weak hardcoded Flask SECRET_KEY in good version's SSL variant: app.config['SECRET_KEY'] = 'aaaaaaa'. Same trivially guessable key as the bad version (vulpy-022). An attacker who knows this key can forge Flask session cookies."
+      },
+      "cvss": {
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N",
+        "base_score": 5.9,
+        "severity": "MEDIUM"
+      }
+    },
+    {
+      "id": "vulpy-041",
+      "is_vulnerable": true,
+      "vulnerability_class": "hardcoded_credentials",
+      "primary_cwe": "CWE-798",
+      "acceptable_cwes": [
+        "CWE-798",
+        "CWE-259",
+        "CWE-321"
+      ],
+      "file": "good/vulpy.py",
+      "location": {
+        "start_line": 17,
+        "end_line": 17,
+        "function": null
+      },
+      "severity": "medium",
+      "expected_category": "data_exposure",
+      "evidence": {
+        "source": "our-scanner",
+        "cve_id": null,
+        "description": "Hardcoded Flask SECRET_KEY in good version: app.config['SECRET_KEY'] = '123aa8a93bdde342c871564a62282af857bda14b3359fde95d0c5e4b321610c1'. While longer than the bad version's key, it is still hardcoded in source code. Any party with source access can forge Flask session cookies."
+      },
+      "cvss": {
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N",
+        "base_score": 5.9,
+        "severity": "MEDIUM"
+      }
+    },
+    {
+      "id": "vulpy-042",
+      "is_vulnerable": true,
+      "vulnerability_class": "hardcoded_credentials",
+      "primary_cwe": "CWE-798",
+      "acceptable_cwes": [
+        "CWE-798",
+        "CWE-259"
+      ],
+      "file": "good/db_init.py",
+      "location": {
+        "start_line": 9,
+        "end_line": 13,
+        "function": "db_init_users"
+      },
+      "severity": "medium",
+      "expected_category": "data_exposure",
+      "evidence": {
+        "source": "our-scanner",
+        "cve_id": null,
+        "description": "Hardcoded default credentials in good version's database initialization: admin/SuperSecret, elliot/123123123, tim/12345678. Same credentials as the bad version (vulpy-007). While the good version properly hashes passwords via user_create(), the plaintext credentials are still visible in source code."
+      },
+      "cvss": {
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N",
+        "base_score": 5.9,
+        "severity": "MEDIUM"
+      }
+    },
+    {
+      "id": "vulpy-043",
+      "is_vulnerable": true,
+      "vulnerability_class": "security_misconfiguration",
+      "primary_cwe": "CWE-489",
+      "acceptable_cwes": [
+        "CWE-489",
+        "CWE-215",
+        "CWE-16"
+      ],
+      "file": "good/vulpy-ssl.py",
+      "location": {
+        "start_line": 29,
+        "end_line": 29,
+        "function": null
+      },
+      "severity": "medium",
+      "expected_category": "data_exposure",
+      "evidence": {
+        "source": "our-scanner",
+        "cve_id": null,
+        "description": "Flask debug mode enabled in good version's SSL variant: app.run(debug=True, host='127.0.1.1', ssl_context=...). Exposes the Werkzeug interactive debugger which allows arbitrary code execution. Same issue as vulpy-023 but in the good/ variant."
+      },
+      "cvss": {
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+        "base_score": 5.3,
+        "severity": "MEDIUM"
+      }
+    },
+    {
+      "id": "vulpy-044",
+      "is_vulnerable": true,
+      "vulnerability_class": "security_misconfiguration",
+      "primary_cwe": "CWE-489",
+      "acceptable_cwes": [
+        "CWE-489",
+        "CWE-215",
+        "CWE-16"
+      ],
+      "file": "good/vulpy.py",
+      "location": {
+        "start_line": 53,
+        "end_line": 53,
+        "function": null
+      },
+      "severity": "medium",
+      "expected_category": "data_exposure",
+      "evidence": {
+        "source": "our-scanner",
+        "cve_id": null,
+        "description": "Flask debug mode enabled in good version: app.run(debug=True, host='127.0.1.1', port=5001, extra_files='csp.txt'). Exposes the Werkzeug interactive debugger. Same issue as vulpy-009 but in the good/ variant."
+      },
+      "cvss": {
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+        "base_score": 5.3,
+        "severity": "MEDIUM"
+      }
+    },
+    {
+      "id": "vulpy-045",
+      "is_vulnerable": true,
+      "vulnerability_class": "missing_rate_limiting",
+      "primary_cwe": "CWE-307",
+      "acceptable_cwes": [
+        "CWE-307",
+        "CWE-799"
+      ],
+      "file": "good/mod_api.py",
+      "location": {
+        "start_line": 32,
+        "end_line": 46,
+        "function": "do_key_create"
+      },
+      "severity": "medium",
+      "expected_category": "auth",
+      "evidence": {
+        "source": "our-scanner",
+        "cve_id": null,
+        "description": "The good version's API key generation endpoint at POST /api/key has no rate limiting. Same as the bad version - an attacker can perform unlimited brute force attempts against user credentials via JSON schema-validated username/password."
+      },
+      "cvss": {
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+        "base_score": 5.3,
+        "severity": "MEDIUM"
+      }
+    },
+    {
+      "id": "vulpy-046",
+      "is_vulnerable": true,
+      "vulnerability_class": "missing_rate_limiting",
+      "primary_cwe": "CWE-307",
+      "acceptable_cwes": [
+        "CWE-307",
+        "CWE-799"
+      ],
+      "file": "good/mod_user.py",
+      "location": {
+        "start_line": 10,
+        "end_line": 36,
+        "function": "do_login"
+      },
+      "severity": "medium",
+      "expected_category": "auth",
+      "evidence": {
+        "source": "our-scanner",
+        "cve_id": null,
+        "description": "The good version's web login endpoint has no rate limiting, account lockout, or CAPTCHA. Despite using parameterized queries and Scrypt password hashing, the endpoint allows unlimited authentication attempts."
+      },
+      "cvss": {
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+        "base_score": 5.3,
+        "severity": "MEDIUM"
+      }
+    },
+    {
+      "id": "vulpy-047",
+      "is_vulnerable": true,
+      "vulnerability_class": "csrf",
+      "primary_cwe": "CWE-352",
+      "acceptable_cwes": [
+        "CWE-352"
+      ],
+      "file": "good/mod_mfa.py",
+      "location": {
+        "start_line": 36,
+        "end_line": 55,
+        "function": "do_mfa_enable"
+      },
+      "severity": "medium",
+      "expected_category": "session_config",
+      "evidence": {
+        "source": "our-scanner",
+        "cve_id": null,
+        "description": "The good version's MFA enable endpoint (POST /mfa/) has no CSRF protection. Same vulnerability as in the bad version - the form accepts OTP without a CSRF token. While the good version adds a Referer check on MFA disable, the enable endpoint remains unprotected."
+      },
+      "acceptable_locations": [
+        {
+          "file": "good/templates/mfa.enable.html",
+          "start_line": 8,
+          "end_line": 8,
+          "function": null
+        }
+      ],
+      "cvss": {
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:L/A:N",
+        "base_score": 4.3,
+        "severity": "MEDIUM"
+      }
+    },
+    {
+      "id": "vulpy-048",
+      "is_vulnerable": true,
+      "vulnerability_class": "insecure_cookie",
+      "primary_cwe": "CWE-1004",
+      "acceptable_cwes": [
+        "CWE-1004",
+        "CWE-614",
+        "CWE-16"
+      ],
+      "file": "good/libsession.py",
+      "location": {
+        "start_line": 32,
+        "end_line": 34,
+        "function": "create"
+      },
+      "severity": "low",
+      "expected_category": "session_config",
+      "evidence": {
+        "source": "our-scanner",
+        "cve_id": null,
+        "description": "The good version's session cookie is set without HttpOnly, Secure, or SameSite flags: response.set_cookie('vulpy_session', fernet.encrypt(...)). While the cookie is Fernet-encrypted (unlike the bad version's base64), the missing flags still allow JavaScript access and potential interception."
+      },
+      "cvss": {
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+        "base_score": 5.3,
+        "severity": "MEDIUM"
+      }
+    },
+    {
+      "id": "vulpy-049",
+      "is_vulnerable": true,
+      "vulnerability_class": "sensitive_data_exposure",
+      "primary_cwe": "CWE-200",
+      "acceptable_cwes": [
+        "CWE-200",
+        "CWE-532"
+      ],
+      "file": "good/libmfa.py",
+      "location": {
+        "start_line": 8,
+        "end_line": 8,
+        "function": "mfa_is_enabled"
+      },
+      "severity": "low",
+      "expected_category": "data_exposure",
+      "evidence": {
+        "source": "our-scanner",
+        "cve_id": null,
+        "description": "SQL trace callback (conn.set_trace_callback(print)) logs all MFA-related SQL queries to stdout. Present in multiple functions: mfa_is_enabled, mfa_disable, mfa_enable, mfa_get_secret, mfa_reset_secret. Logs usernames and MFA secrets in query traces."
+      },
+      "cvss": {
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+        "base_score": 5.3,
+        "severity": "MEDIUM"
+      }
+    },
+    {
+      "id": "vulpy-050",
+      "is_vulnerable": true,
+      "vulnerability_class": "sensitive_data_exposure",
+      "primary_cwe": "CWE-209",
+      "acceptable_cwes": [
+        "CWE-209",
+        "CWE-200",
+        "CWE-532"
+      ],
+      "file": "good/libuser.py",
+      "location": {
+        "start_line": 18,
+        "end_line": 18,
+        "function": "login"
+      },
+      "severity": "low",
+      "expected_category": "data_exposure",
+      "evidence": {
+        "source": "our-scanner",
+        "cve_id": null,
+        "description": "SQL trace callback (conn.set_trace_callback(print)) in the good version's login function logs SQL queries including usernames to stdout. Same pattern as vulpy-018 but in the good version. While passwords are properly hashed with Scrypt, the trace callback still exposes query details."
+      },
+      "cvss": {
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+        "base_score": 5.3,
+        "severity": "MEDIUM"
+      }
+    },
+    {
+      "id": "vulpy-051",
+      "is_vulnerable": true,
+      "vulnerability_class": "sensitive_data_exposure",
+      "primary_cwe": "CWE-209",
+      "acceptable_cwes": [
+        "CWE-209",
+        "CWE-200",
+        "CWE-532"
+      ],
+      "file": "good/libposts.py",
+      "location": {
+        "start_line": 24,
+        "end_line": 24,
+        "function": "post"
+      },
+      "acceptable_locations": [
+        {
+          "file": "good/libposts.py",
+          "start_line": 10,
+          "end_line": 10,
+          "function": "get_posts"
+        }
+      ],
+      "severity": "low",
+      "expected_category": "data_exposure",
+      "evidence": {
+        "source": "our-scanner",
+        "cve_id": null,
+        "description": "SQL trace callback (conn.set_trace_callback(print)) in the good version's libposts module logs SQL queries to stdout, including user post content. Present in both `get_posts` (line 10) and `post` (line 24). Same pattern as in bad/libposts.py."
+      },
+      "cvss": {
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+        "base_score": 5.3,
+        "severity": "MEDIUM"
+      }
+    },
+    {
+      "id": "vulpy-054",
+      "is_vulnerable": true,
+      "vulnerability_class": "weak_hash",
+      "primary_cwe": "CWE-916",
+      "acceptable_cwes": [
+        "CWE-916",
+        "CWE-328"
+      ],
+      "file": "utils/skey.py",
+      "location": {
+        "start_line": 11,
+        "end_line": 16,
+        "function": null
+      },
+      "severity": "low",
+      "expected_category": "other",
+      "evidence": {
+        "source": "snyk",
+        "cve_id": null,
+        "description": "S/Key OTP utility uses SHA-1 (ALGORITHM = 'sha1') for its hash chain via hashlib.new(). SHA-1 has known collision vulnerabilities and is deprecated for security use. While S/Key traditionally uses SHA-1 and preimage attacks are harder than collision attacks, modern security guidance recommends SHA-256 or stronger for all cryptographic operations."
+      },
+      "cvss": {
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:N",
+        "base_score": 3.7,
+        "severity": "LOW"
+      }
+    },
+    {
+      "id": "vulpy-fp-001",
+      "is_vulnerable": false,
+      "vulnerability_class": "sql_injection",
+      "primary_cwe": "CWE-89",
+      "acceptable_cwes": [
+        "CWE-89",
+        "CWE-943"
+      ],
+      "file": "bad/libposts.py",
+      "location": {
+        "start_line": 14,
+        "end_line": 14,
+        "function": "get_posts"
+      },
+      "severity": "high",
+      "expected_category": "injection",
+      "evidence": {
+        "source": "manual_review",
+        "cve_id": null,
+        "description": "Uses parameterized query with ? placeholder: c.execute(\"SELECT * FROM posts WHERE username = ? ORDER BY date DESC\", (username,)). The username parameter is properly bound, preventing SQL injection."
+      },
+      "cvss": {
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N",
+        "base_score": 9.1,
+        "severity": "CRITICAL"
+      }
+    },
+    {
+      "id": "vulpy-fp-002",
+      "is_vulnerable": false,
+      "vulnerability_class": "sql_injection",
+      "primary_cwe": "CWE-89",
+      "acceptable_cwes": [
+        "CWE-89",
+        "CWE-943"
+      ],
+      "file": "bad/libposts.py",
+      "location": {
+        "start_line": 28,
+        "end_line": 28,
+        "function": "post"
+      },
+      "severity": "high",
+      "expected_category": "injection",
+      "evidence": {
+        "source": "manual_review",
+        "cve_id": null,
+        "description": "Uses parameterized query with ? placeholders: c.execute(\"INSERT INTO posts ... VALUES (?, ?, DateTime('now'))\", (username, text)). Both username and text parameters are properly bound via parameterized query."
+      },
+      "cvss": {
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N",
+        "base_score": 9.1,
+        "severity": "CRITICAL"
+      }
+    },
+    {
+      "id": "vulpy-fp-003",
+      "is_vulnerable": false,
+      "vulnerability_class": "sql_injection",
+      "primary_cwe": "CWE-89",
+      "acceptable_cwes": [
+        "CWE-89",
+        "CWE-943"
+      ],
+      "file": "bad/libmfa.py",
+      "location": {
+        "start_line": 12,
+        "end_line": 12,
+        "function": "mfa_is_enabled"
+      },
+      "severity": "high",
+      "expected_category": "injection",
+      "evidence": {
+        "source": "manual_review",
+        "cve_id": null,
+        "description": "Uses parameterized query: c.execute(\"SELECT * FROM users WHERE username = ? and mfa_enabled = 1\", (username,)). The username parameter is properly bound via parameterized query, not vulnerable to SQL injection."
+      },
+      "cvss": {
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N",
+        "base_score": 9.1,
+        "severity": "CRITICAL"
+      }
+    },
+    {
+      "id": "vulpy-fp-004",
+      "is_vulnerable": false,
+      "vulnerability_class": "sql_injection",
+      "primary_cwe": "CWE-89",
+      "acceptable_cwes": [
+        "CWE-89",
+        "CWE-943"
+      ],
+      "file": "good/libuser.py",
+      "location": {
+        "start_line": 22,
+        "end_line": 22,
+        "function": "login"
+      },
+      "severity": "high",
+      "expected_category": "injection",
+      "evidence": {
+        "source": "manual_review",
+        "cve_id": null,
+        "description": "Uses parameterized query: c.execute(\"SELECT * FROM users WHERE username = ?\", (username,)). The good version's login function properly uses parameterized queries and Scrypt password hashing instead of string formatting."
+      },
+      "cvss": {
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N",
+        "base_score": 9.1,
+        "severity": "CRITICAL"
+      }
+    },
+    {
+      "id": "vulpy-fp-005",
+      "is_vulnerable": false,
+      "vulnerability_class": "sql_injection",
+      "primary_cwe": "CWE-89",
+      "acceptable_cwes": [
+        "CWE-89",
+        "CWE-943"
+      ],
+      "file": "good/libuser.py",
+      "location": {
+        "start_line": 92,
+        "end_line": 92,
+        "function": "password_set"
+      },
+      "severity": "high",
+      "expected_category": "injection",
+      "evidence": {
+        "source": "manual_review",
+        "cve_id": null,
+        "description": "Uses parameterized query for password update: c.execute(\"UPDATE users SET password = ?, salt = ? WHERE username = ?\", (...)). The good version properly uses parameterized queries for the password change operation, unlike the bad version."
+      },
+      "cvss": {
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N",
+        "base_score": 9.1,
+        "severity": "CRITICAL"
+      }
+    },
+    {
+      "id": "vulpy-fp-006",
+      "is_vulnerable": false,
+      "vulnerability_class": "command_injection",
+      "primary_cwe": "CWE-78",
+      "acceptable_cwes": [
+        "CWE-78",
+        "CWE-77"
+      ],
+      "file": "bad/brute.py",
+      "location": {
+        "start_line": 21,
+        "end_line": 21,
+        "function": null
+      },
+      "severity": "high",
+      "expected_category": "injection",
+      "evidence": {
+        "source": "manual_review",
+        "cve_id": null,
+        "description": "subprocess.run uses a list argument (not shell=True): subprocess.run([program, username, password], stdout=subprocess.DEVNULL). While program and username come from sys.argv, the use of list arguments with no shell=True prevents command injection. This is a client-side tool, not a web endpoint."
+      },
+      "cvss": {
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
+        "base_score": 6.5,
+        "severity": "MEDIUM"
+      }
+    },
+    {
+      "id": "vulpy-fp-011",
+      "is_vulnerable": true,
+      "vulnerability_class": "csrf",
+      "primary_cwe": "CWE-352",
+      "acceptable_cwes": [
+        "CWE-352"
+      ],
+      "file": "bad/mod_mfa.py",
+      "location": {
+        "start_line": 15,
+        "end_line": 15,
+        "function": "username"
+      },
+      "severity": "high",
+      "expected_category": "session_config",
+      "evidence": {
+        "source": "gt_expansion_verification_2026_04_29",
+        "cve_id": null,
+        "description": "CSRF vulnerability: GET route '/' checks g.session['username'] for auth. When MFA is not enabled, it calls libmfa.mfa_reset_secret() which executes an UPDATE query to reset the user's mfa_secret in the DB. A state-changi"
+      },
+      "cvss": {
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:L/A:N",
+        "base_score": 4.3,
+        "severity": "MEDIUM"
+      }
+    },
+    {
+      "id": "vulpy-fp-012",
+      "is_vulnerable": true,
+      "vulnerability_class": "csrf",
+      "primary_cwe": "CWE-352",
+      "acceptable_cwes": [
+        "CWE-352"
+      ],
+      "file": "good/mod_user.py",
+      "location": {
+        "start_line": 64,
+        "end_line": 64,
+        "function": "username"
+      },
+      "severity": "high",
+      "expected_category": "session_config",
+      "evidence": {
+        "source": "gt_expansion_verification_2026_04_29",
+        "cve_id": null,
+        "description": "CSRF vulnerability: POST route '/chpasswd' checks g.session['username'] for auth and calls libuser.password_set() which UPDATEs the user's password in the DB. While it also requires the current_password, this is not a su"
+      },
+      "acceptable_locations": [
+        {
+          "file": "good/templates/user.chpasswd.html",
+          "start_line": 8,
+          "end_line": 8,
+          "function": null
+        }
+      ],
+      "cvss": {
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:L/A:N",
+        "base_score": 4.3,
+        "severity": "MEDIUM"
+      }
+    },
+    {
+      "id": "vulpy-fp-013",
+      "is_vulnerable": true,
+      "vulnerability_class": "csrf",
+      "primary_cwe": "CWE-352",
+      "acceptable_cwes": [
+        "CWE-352"
+      ],
+      "file": "good/mod_mfa.py",
+      "location": {
+        "start_line": 16,
+        "end_line": 16,
+        "function": "username"
+      },
+      "severity": "high",
+      "expected_category": "session_config",
+      "evidence": {
+        "source": "gt_expansion_verification_2026_04_29",
+        "cve_id": null,
+        "description": "CSRF vulnerability: GET route '/' checks g.session['username'] for auth. When MFA is not enabled, it calls libmfa.mfa_reset_secret() which executes an UPDATE query to reset the user's mfa_secret in the DB. A state-changi"
+      },
+      "cvss": {
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:L/A:N",
+        "base_score": 4.3,
+        "severity": "MEDIUM"
+      }
+    },
+    {
+      "id": "vulpy-fp-014",
+      "is_vulnerable": true,
+      "vulnerability_class": "csrf",
+      "primary_cwe": "CWE-352",
+      "acceptable_cwes": [
+        "CWE-352"
+      ],
+      "file": "good/mod_posts.py",
+      "location": {
+        "start_line": 25,
+        "end_line": 25,
+        "function": "username"
+      },
+      "severity": "high",
+      "expected_category": "session_config",
+      "evidence": {
+        "source": "gt_expansion_verification_2026_04_29",
+        "cve_id": null,
+        "description": "CSRF vulnerability: POST route '/' checks g.session['username'] for auth and calls libposts.post() which INSERTs a new post into the DB. No CSRF token or CSRFProtect is present."
+      },
+      "acceptable_locations": [
+        {
+          "file": "good/templates/posts.view.html",
+          "start_line": 13,
+          "end_line": 17,
+          "function": null
+        }
+      ],
+      "cvss": {
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:L/A:N",
+        "base_score": 4.3,
+        "severity": "MEDIUM"
+      }
+    },
+    {
+      "id": "vulpy-052",
+      "is_vulnerable": true,
+      "vulnerability_class": "sensitive_data_exposure",
+      "primary_cwe": "CWE-200",
+      "acceptable_cwes": [
+        "CWE-200",
+        "CWE-532"
+      ],
+      "file": "bad/libmfa.py",
+      "location": {
+        "start_line": 8,
+        "end_line": 8,
+        "function": "mfa_is_enabled"
+      },
+      "acceptable_locations": [
+        {
+          "file": "bad/libmfa.py",
+          "start_line": 23,
+          "end_line": 23,
+          "function": "mfa_disable"
+        },
+        {
+          "file": "bad/libmfa.py",
+          "start_line": 38,
+          "end_line": 38,
+          "function": "mfa_enable"
+        },
+        {
+          "file": "bad/libmfa.py",
+          "start_line": 54,
+          "end_line": 54,
+          "function": "mfa_get_secret"
+        },
+        {
+          "file": "bad/libmfa.py",
+          "start_line": 72,
+          "end_line": 72,
+          "function": "mfa_reset_secret"
+        }
+      ],
+      "severity": "low",
+      "expected_category": "data_exposure",
+      "evidence": {
+        "source": "our-scanner",
+        "cve_id": null,
+        "description": "SQL trace callback (conn.set_trace_callback(print)) in bad/libmfa.py logs all MFA queries to stdout, exposing usernames and MFA secrets. Counterpart of vulpy-049 in the bad/ variant. Same pattern across mfa_is_enabled, mfa_disable, mfa_enable, mfa_get_secret, mfa_reset_secret."
+      },
+      "cvss": {
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+        "base_score": 5.3,
+        "severity": "MEDIUM"
+      }
+    }
+  ],
+  "loc": 1633,
+  "benchmark_version": "3.0.0",
+  "ground_truth_version": "3.0.0"
+}
