@@ -48,23 +48,29 @@ no matched traps. IDOR (11/53) and path traversal (2/9) remain weak.
 
 ## Quick start
 
+Tested from a fresh clone on Windows 11 (Python 3.10, Ollama 0.35, RTX 3050 8 GB): 93 tests pass.
+
 ```bash
-python -m venv .venv && .venv/Scripts/pip install -r requirements.txt   # Windows paths; use bin/ on Linux
+python -m venv .venv && .venv/Scripts/pip install -r requirements.txt   # use .venv/bin/ on Linux/macOS
 ollama pull qwen3:8b
 
-# knowledge base (network once, then offline)
-.venv/Scripts/python scripts/fetch_sources.py
-.venv/Scripts/python scripts/build_knowledge.py
+# knowledge index — built offline from the committed corpus (data/knowledge/)
 .venv/Scripts/python scripts/build_index.py
+# (only to rebuild the corpus from the original sources, needs network:)
+#   .venv/Scripts/python scripts/fetch_sources.py && .venv/Scripts/python scripts/build_knowledge.py
 
 # review a codebase you are authorized to review
-.venv/Scripts/python -m secagent review --target targets/demo_app          # v2 (default)
+.venv/Scripts/python -m secagent review --target targets/demo_app            # v2 (default)
 .venv/Scripts/python -m secagent review --target targets/demo_app --mode v1
 #   -> runs/<timestamp>/report.md, final.json, trace.jsonl
 
-# tests (no model needed) and evaluation (needs Ollama)
+# tests (no model needed)
 .venv/Scripts/python -m pytest -q
-.venv/Scripts/python -m secagent.evaluate --systems semgrep single_shot agent
+
+# evaluation (needs Ollama; RealVuln targets are fetched, not committed)
+.venv/Scripts/python -m secagent.evaluate --dataset holdout --systems semgrep single_shot agent_v2
+.venv/Scripts/python scripts/fetch_realvuln.py
+.venv/Scripts/python -m secagent.evaluate --dataset realvuln --systems agent_v2
 ```
 
 Close GPU-heavy desktop apps first: with ~3 GB of VRAM taken by other programs
