@@ -1,6 +1,6 @@
 # Reply to Safia (draft)
 
-> Fill in: `[UNIVERSITY]`, `[REPO URL]`. Review the "How I worked" paragraph and keep
+> Fill in: `[UNIVERSITY]`. Review the "How I worked" paragraph and keep
 > it accurate to how you used AI assistance.
 
 ---
@@ -9,7 +9,7 @@
 
 Dear Fahriddin,
 
-Thank you for the case study. My submission is here: **[REPO URL]**
+Thank you for the case study. My submission is here: **https://github.com/Muhammadalixon-Qodirov/secureagent**
 
 I am a 4th-year full-time student in the Artificial Intelligence program at
 [UNIVERSITY].
