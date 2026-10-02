@@ -1,0 +1,18 @@
+# local environment
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# employer's case-study brief: not ours to publish
+ML_Engineer_CaseStudy.pdf
+
+# rebuildable artifacts (scripts/fetch_sources.py + build_*.py)
+data/raw/
+data/index/
+
+# run outputs
+runs/
+
+# third-party evaluation targets (own licenses; fetched by scripts/fetch_realvuln.py)
+eval/realvuln/targets/

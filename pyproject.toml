@@ -1,0 +1,10 @@
+[project]
+name = "secagent"
+version = "0.1.0"
+description = "Local, evidence-driven security review agent for Python/Flask code"
+requires-python = ">=3.10"
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
+markers = ["integration: runs real scanners (semgrep, bandit)"]

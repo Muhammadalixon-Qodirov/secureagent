@@ -1,0 +1,15 @@
+# Trusted run configuration. The model can never widen any of these.
+model: qwen3:8b
+local_endpoint: http://localhost:11434      # must be localhost: no outbound channel
+authorized_roots:
+  - ./targets/example_app                   # only code you own or are authorized to review
+enabled_tools: [list_files, read_file, search_code, scan_static, retrieve_knowledge]
+enabled_families: [sql_injection, path_traversal, authorization_idor]
+response_language: en
+max_model_calls: 40
+max_tool_calls: 60
+max_seconds: 1800
+max_file_bytes: 200000
+max_context_tokens: 8192                    # T01: largest context that stays 100% on an 8 GB GPU
+runtime_tests_enabled: false                # lab verification is off by default
+lab_manifest: null

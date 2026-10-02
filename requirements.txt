@@ -1,0 +1,7 @@
+pyyaml==6.0.3
+lxml==6.1.3
+pydantic==2.13.5
+pytest==9.1.1
+bandit==1.9.4
+# 1.179.0 shipped without a Windows wheel (sdist lacks semgrep-core.exe); 1.178.0 has one.
+semgrep==1.178.0
