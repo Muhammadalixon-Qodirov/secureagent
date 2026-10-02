@@ -1,0 +1,104 @@
+# Knowledge card: broken authorization / IDOR (Python / Flask)
+# Claims are backed by `refs` (chunk ids) or marked `basis: reviewer_reasoning`.
+# Code examples are synthetic and written for this project.
+id: authorization_idor
+family: authorization_idor
+title: Broken object-level authorization (IDOR)
+cwe:
+  primary: CWE-639
+  related: [CWE-862, CWE-863, CWE-284, CWE-285]
+  mapping_note: >-
+    CWE-639 when a user-controlled key selects another user's object. CWE-862 when no
+    authorization check exists for the operation; CWE-863 when a check exists but is wrong.
+    CWE-284/285 are broad parents — use only when nothing more specific fits.
+stack: [python, flask, flask-login, sqlalchemy]
+
+untrusted_sources:
+  - object ids in URL path, query string, JSON body, hidden form fields
+  - ids stored client-side between steps of a multi-step flow
+refs_sources: [owasp-cs-authorization#006.0, owasp-cs-insecure_direct_object_reference_prevention#004.0]
+
+protected_operations:
+  - operation: >-
+      read, update, delete, export of an object looked up by id (Model.query.get, db.session.get,
+      SELECT ... WHERE id = ?) without a filter on owner / tenant
+    refs: [owasp-cs-insecure_direct_object_reference_prevention#003.0]
+  - operation: state transitions and payment/approval actions (who may perform them)
+    refs: [owasp-cs-transaction_authorization#000.0]
+
+effective_controls:
+  - control: Check authorization for each object the user tries to access
+    refs: [owasp-cs-insecure_direct_object_reference_prevention#004.0]
+  - control: Scope the lookup to data the user may access (e.g. filter by owner_id=current_user.id)
+    refs: [owasp-cs-insecure_direct_object_reference_prevention#004.0]
+  - control: Derive the acting user from the server-side session, not from a request field
+    refs: [owasp-cs-insecure_direct_object_reference_prevention#004.0]
+  - control: Deny by default; justify every grant explicitly
+    refs: [owasp-cs-authorization#002.0]
+  - control: Validate permissions on every request, preferably with a central mechanism
+    refs: [owasp-cs-authorization#003.0]
+  - control: Enforce checks server-side; never rely on client-side checks
+    refs: [owasp-cs-authorization#008.0]
+
+ineffective_or_partial_controls:
+  - control: "@login_required alone"
+    why: it ensures the user is logged in and authenticated — it says nothing about which objects they may access
+    refs: [doc-flask_login#020.0]
+  - control: Random / unguessable identifiers (UUIDs)
+    why: defense in depth only; access control is still required
+    refs: [owasp-cs-insecure_direct_object_reference_prevention#004.0, owasp-cs-authorization#006.0]
+  - control: Hiding the link or button in the UI
+    why: client-side; the request can still be sent
+    refs: [owasp-cs-authorization#008.0]
+
+false_positive_patterns:
+  - pattern: object is public by design (business context says any user may read it)
+    basis: reviewer_reasoning
+  - pattern: ownership is enforced elsewhere — a decorator, before_request hook, or a query helper that always filters by user
+    basis: reviewer_reasoning
+  - pattern: route restricted to an admin role and admins may access all objects by policy
+    basis: reviewer_reasoning
+
+review_questions:
+  - After authentication, what proves the current user may act on *this* object?
+  - Is the owner/tenant filter in the query itself, or only checked for some HTTP methods?
+  - Do update/delete routes have the same check as the read route?
+  - Is a missing object distinguished from a forbidden one in a way that leaks existence?
+
+example:
+  origin: synthetic (this project)
+  vulnerable: |
+    @app.get("/invoices/<int:invoice_id>")
+    @login_required
+    def get_invoice(invoice_id):
+        inv = db.session.get(Invoice, invoice_id)
+        if inv is None:
+            abort(404)
+        return jsonify(inv.to_dict())
+  fixed: |
+    @app.get("/invoices/<int:invoice_id>")
+    @login_required
+    def get_invoice(invoice_id):
+        inv = db.session.execute(
+            select(Invoice).where(Invoice.id == invoice_id, Invoice.owner_id == current_user.id)
+        ).scalar_one_or_none()
+        if inv is None:
+            abort(404)
+        return jsonify(inv.to_dict())
+  explanation: >-
+    Both versions require login; only the fixed one ties the object to the current user.
+
+verification:
+  method: >-
+    Lab with two synthetic users A and B, each owning one object. Authenticated as A, request B's
+    object id for read/update/delete. Property: every operation is denied; A's own object still works.
+  refs: [owasp-cs-insecure_direct_object_reference_prevention#003.0, owasp-cs-authorization#011.0]
+
+remediation: >-
+  Put the ownership/tenant condition into the lookup (or a shared helper used by all routes) and
+  return 404/403 when it does not match. Add tests with two users.
+
+regression_tests:
+  - user A cannot read, update or delete user B's object
+  - user A can still access own object
+  - unauthenticated request is rejected

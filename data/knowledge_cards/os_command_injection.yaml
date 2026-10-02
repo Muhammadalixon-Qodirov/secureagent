@@ -1,0 +1,96 @@
+# Knowledge card: OS command injection (Python)
+# Claims are backed by `refs` (chunk ids) or marked `basis: reviewer_reasoning`.
+# Code examples are synthetic and written for this project.
+id: os_command_injection
+family: os_command_injection
+title: OS command / argument injection
+cwe:
+  primary: CWE-78
+  related: [CWE-77, CWE-88]
+  mapping_note: >-
+    CWE-78 when untrusted data can change the shell command. CWE-88 when no shell is used but the
+    value can add options/arguments to the program. CWE-77 is the general parent.
+stack: [python, subprocess, os]
+
+untrusted_sources:
+  - request parameters used as host names, file names, formats or options passed to external tools
+
+sinks:
+  - api: subprocess.run / Popen / check_output / call with shell=True and a string command
+    dangerous_when: untrusted data is part of the command string
+    refs: [doc-python-subprocess#005.0]
+  - api: os.system, os.popen
+    dangerous_when: untrusted data is part of the command string (these run through a shell)
+    refs: [doc-python-subprocess#013.0]
+  - api: subprocess with an argument list (no shell)
+    dangerous_when: the value can start with "-" and be read as an option by the program (argument injection)
+    refs: [owasp-cs-os_command_injection_defense#001.0]
+
+effective_controls:
+  - control: Avoid the external command — use a library function instead
+    refs: [owasp-cs-os_command_injection_defense#002.0]
+  - control: Pass an argument list without shell=True; subprocess then does not invoke a shell
+    refs: [doc-python-subprocess#005.0]
+  - control: Allow-list the command and validate each argument (allow-list values or a strict regex)
+    refs: [owasp-cs-os_command_injection_defense#006.0]
+  - control: Put "--" before operands so values are not parsed as options
+    refs: [owasp-cs-os_command_injection_defense#006.0]
+
+ineffective_or_partial_controls:
+  - control: shlex.quote with shell=True
+    why: only valid on some platforms; prefer no shell
+    refs: [doc-python-subprocess#005.0]
+  - control: Escaping alone
+    why: prevents command injection but the attacker can still pass a single argument
+    refs: [owasp-cs-os_command_injection_defense#003.0]
+  - control: List form on Windows when launching .bat/.cmd files
+    why: batch files may be run by a shell regardless of the arguments passed
+    refs: [doc-python-subprocess#005.0]
+
+false_positive_patterns:
+  - pattern: shell=True with a command string that is a constant (no untrusted data on any path)
+    basis: reviewer_reasoning
+  - pattern: argument list where the untrusted value is validated against a fixed allow-list before use
+    refs: [owasp-cs-os_command_injection_defense#006.0]
+
+review_questions:
+  - Is a shell involved (shell=True, os.system, os.popen, .bat/.cmd on Windows)?
+  - Which argument positions does the user control, and can a value start with "-"?
+  - Is there a library alternative to calling the program at all?
+
+example:
+  origin: synthetic (this project)
+  vulnerable: |
+    @app.post("/ping")
+    def ping():
+        host = request.form["host"]
+        out = subprocess.run(f"ping -c 1 {host}", shell=True, capture_output=True, text=True)
+        return out.stdout
+  fixed: |
+    HOST_RE = re.compile(r"^[a-z0-9.-]{1,253}$")
+
+    @app.post("/ping")
+    def ping():
+        host = request.form["host"].lower()
+        if not HOST_RE.fullmatch(host) or host.startswith("-"):
+            abort(400)
+        out = subprocess.run(["ping", "-c", "1", "--", host], capture_output=True, text=True, timeout=5)
+        return out.stdout
+  explanation: >-
+    No shell, strict allow-list regex, and "--" before the operand.
+
+verification:
+  method: >-
+    In the isolated lab container, send a host value containing a shell separator followed by a
+    harmless marker command (e.g. creating a file in the container's temp dir). Property: the marker
+    must not appear; the input is rejected or treated as one argument.
+  basis: reviewer_reasoning
+
+remediation: >-
+  Replace the command with a library call when possible; otherwise use an argument list without a
+  shell, validate the values with an allow-list, and add "--" before operands.
+
+regression_tests:
+  - value with shell metacharacters is rejected or has no effect beyond one argument
+  - value starting with "-" is rejected
+  - valid host still works

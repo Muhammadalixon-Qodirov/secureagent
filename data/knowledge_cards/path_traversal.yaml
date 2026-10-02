@@ -1,0 +1,106 @@
+# Knowledge card: path traversal / unsafe file path (Python / Flask)
+# Claims are backed by `refs` (chunk ids) or marked `basis: reviewer_reasoning`.
+# Code examples are synthetic and written for this project.
+id: path_traversal
+family: path_traversal
+title: Path traversal / unsafe file path
+cwe:
+  primary: CWE-22
+  related: [CWE-23, CWE-36, CWE-73]
+  mapping_note: >-
+    CWE-22 is the default. CWE-23 (relative "../" form) or CWE-36 (absolute path form) may be
+    used when the specific variant is established. CWE-73 when the user controls the whole
+    file name/path rather than escaping a base directory.
+stack: [python, flask, werkzeug, os.path, pathlib]
+
+untrusted_sources:
+  - route parameters, especially <path:...> converters
+  - request.args / request.form / JSON fields naming a file
+  - uploaded file names (FileStorage.filename)
+
+sinks:
+  - api: open(), pathlib.Path.open/read_*/write_*, os.remove, shutil.* with a joined path
+    dangerous_when: the path is built from untrusted input without a containment check
+    basis: reviewer_reasoning
+  - api: flask.send_file(path)
+    dangerous_when: path is derived from user input; send_from_directory exists for this case
+    refs: [doc-werkzeug_safe_join#001.3]
+  - api: os.path.join(base, user_value)
+    dangerous_when: >-
+      user_value is absolute — all previous segments are ignored, so the result is outside base
+    refs: [doc-python-os_path#000.5]
+
+effective_controls:
+  - control: Do not use user input in file system calls; map an index/key to a file chosen in code
+    refs: [doc-owasp_path_traversal#001.0]
+  - control: flask.send_from_directory / werkzeug.security.safe_join for serving files under a trusted directory
+    refs: [doc-werkzeug_safe_join#001.3, doc-werkzeug_safe_join#004.1]
+  - control: werkzeug.utils.secure_filename for names of uploaded files before saving
+    refs: [doc-werkzeug_safe_join#004.1]
+  - control: >-
+      Canonical containment check — resolve the final path (os.path.realpath) and verify it is
+      inside the resolved base directory (os.path.commonpath), after joining
+    refs: [doc-python-os_path#000.1, doc-python-os_path#000.6]
+  - control: Validate by allow-list of known-good values rather than sanitizing the input
+    refs: [doc-owasp_path_traversal#001.0]
+
+ineffective_or_partial_controls:
+  - control: Removing "../" with str.replace
+    why: a single replacement pass can be bypassed by nested sequences; normalization is not containment
+    basis: reviewer_reasoning
+  - control: normpath/abspath without a containment check
+    why: normalization makes the path canonical but does not prove it is inside the base directory
+    basis: reviewer_reasoning
+  - control: path.startswith(base) string-prefix check
+    why: '"/srv/app_data_old" starts with "/srv/app_data"; compare with commonpath on resolved paths'
+    basis: reviewer_reasoning
+  - control: safe_join without considering symlinks
+    why: safe_join only considers the path name, not whether it is a symlink
+    refs: [doc-werkzeug_safe_join#004.1]
+
+false_positive_patterns:
+  - pattern: file name comes from a constant or from a DB row the user cannot influence
+    basis: reviewer_reasoning
+  - pattern: send_from_directory(base, filename) with base fixed in code
+    refs: [doc-werkzeug_safe_join#001.3]
+  - pattern: werkzeug route converter <string:name> (no "/" allowed) and an allow-listed extension check
+    basis: reviewer_reasoning
+
+review_questions:
+  - Which part of the final path does the user control — a name, a sub-path, or the whole path?
+  - Is the containment check applied to the *final* resolved path, after join and normalization?
+  - Can an absolute value or a drive letter (Windows) reach os.path.join?
+  - Is the same path used for read, write, and delete operations?
+
+example:
+  origin: synthetic (this project)
+  vulnerable: |
+    REPORTS = "/srv/app/reports"
+
+    @app.get("/reports/<path:name>")
+    def report(name):
+        return send_file(os.path.join(REPORTS, name))
+  fixed: |
+    REPORTS = "/srv/app/reports"
+
+    @app.get("/reports/<path:name>")
+    def report(name):
+        return send_from_directory(REPORTS, name)
+  explanation: >-
+    send_from_directory uses safe_join and returns 404 when the path would leave the directory.
+
+verification:
+  method: >-
+    In the local lab, request a name containing parent-directory segments and an absolute path.
+    Property: the response must not contain any file outside the reports directory (expect 404/400),
+    while a normal report name is still served.
+  basis: reviewer_reasoning
+
+remediation: >-
+  Prefer an id-to-file mapping. If a name must be accepted, use send_from_directory/safe_join, or
+  resolve and check containment with realpath + commonpath before any file operation.
+
+regression_tests:
+  - name with parent-directory segments is refused
+  - absolute path value is refused
+  - existing legitimate file is still returned

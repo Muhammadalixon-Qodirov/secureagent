@@ -1,0 +1,97 @@
+# Knowledge card: SQL injection (Python / Flask)
+# Every claim is either backed by `refs` (chunk ids in data/knowledge/chunks.jsonl)
+# or marked `basis: reviewer_reasoning`. Code examples are synthetic and written
+# for this project; they are not copied from a source.
+id: sql_injection
+family: sql_injection
+title: SQL injection
+cwe:
+  primary: CWE-89
+  related: [CWE-564]
+  mapping_note: >-
+    CWE-89 for SQL built from untrusted data. CWE-564 only when the injection is
+    through Hibernate-style ORM query language; rarely the right label for Python.
+stack: [python, flask, sqlite3, sqlalchemy]
+
+untrusted_sources:
+  - request.args / request.form / request.get_json() / request.view_args / request.cookies / request.headers
+  - values previously stored from users and later concatenated into SQL (second-order)
+
+sinks:
+  - api: "sqlite3: Cursor.execute / executemany, Connection.execute"
+    dangerous_when: the SQL string is built with f-string, %, str.format or + from untrusted data
+    refs: [doc-python-sqlite3#001.1]
+  - api: "SQLAlchemy: text(), Session.execute / Connection.execute of a string-built statement"
+    dangerous_when: the string passed to text() contains interpolated untrusted data instead of :name binds
+    refs: [doc-sqlalchemy_text#003.17]
+  - api: identifiers and keywords (table/column names, ORDER BY direction)
+    dangerous_when: taken from the request, because these parts cannot be bound as parameters
+    refs: [owasp-cs-sql_injection_prevention#014.0]
+
+effective_controls:
+  - control: Parameterized queries / placeholders (sqlite3 `?`, `:name`); data is bound, never formatted into SQL
+    refs: [owasp-cs-sql_injection_prevention#004.0, doc-python-sqlite3#001.1, owasp-cs-query_parameterization#000.0]
+  - control: SQLAlchemy text() with named bind parameters passed separately to execute()
+    refs: [doc-sqlalchemy_text#003.17]
+  - control: ORM query construction (filter_by / select().where with column objects)
+    refs: [owasp-cs-sql_injection_prevention#018.0]
+  - control: Allow-list mapping for identifiers / sort direction chosen in code, not taken from the user
+    refs: [owasp-cs-sql_injection_prevention#014.0, owasp-cs-sql_injection_prevention#015.0]
+  - control: Least-privilege DB account (defense in depth; does not remove the bug)
+    refs: [owasp-cs-sql_injection_prevention#020.0]
+
+ineffective_or_partial_controls:
+  - control: Manual escaping / quote replacement of user input
+    why: database-specific and fragile; OWASP strongly discourages it
+    refs: [owasp-cs-sql_injection_prevention#018.0]
+  - control: Client-side validation only
+    why: values can be modified after the client-side check
+    refs: [CWE-89#2.0]
+
+false_positive_patterns:
+  - pattern: f-string or format only inserts constants defined in code (no request data on any path)
+    basis: reviewer_reasoning
+  - pattern: f-string builds only the placeholder list, e.g. ",".join("?" * len(ids)), and values are bound
+    basis: reviewer_reasoning
+  - pattern: identifier comes from a fixed dict / allow-list lookup with a safe default
+    refs: [owasp-cs-sql_injection_prevention#015.0]
+
+review_questions:
+  - Does any request-controlled value reach the SQL *string* (not the parameters tuple/dict)?
+  - Is the value transformed on the way (int() cast, allow-list lookup) in a way that removes control?
+  - For dynamic identifiers, is there an allow-list, and is it checked before the query is built?
+  - Is the same helper called from other routes with different (unchecked) inputs?
+
+example:
+  origin: synthetic (this project)
+  vulnerable: |
+    @app.get("/search")
+    def search():
+        q = request.args.get("q", "")
+        rows = db.execute(f"SELECT id, title FROM notes WHERE title LIKE '%{q}%'").fetchall()
+        return jsonify(rows)
+  fixed: |
+    @app.get("/search")
+    def search():
+        q = request.args.get("q", "")
+        rows = db.execute("SELECT id, title FROM notes WHERE title LIKE ?", (f"%{q}%",)).fetchall()
+        return jsonify(rows)
+  explanation: >-
+    In the fixed version the LIKE pattern is still built with an f-string, but it is passed as a
+    bound parameter, so it can only be data. A reviewer must not flag the remaining f-string.
+
+verification:
+  method: >-
+    In the local lab, call the route with a value containing a single quote and SQL syntax.
+    Property: the query structure must not change — the request returns the same result as a
+    literal search for that string, and no SQL error is raised.
+  basis: reviewer_reasoning
+
+remediation: >-
+  Replace string-built SQL with placeholders (or ORM expressions). For identifiers, map user
+  choices to constants from an allow-list.
+
+regression_tests:
+  - input with quote and SQL keywords is treated as literal text (row count equals literal match)
+  - legitimate search still returns the expected rows
+  - unknown sort column is rejected or falls back to the default

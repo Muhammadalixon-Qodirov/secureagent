@@ -1,0 +1,577 @@
+schema_version: 1
+note: support_level becomes 'implemented' only when a detector and evaluation exist for the family. Being listed
+  here does not mean the agent reviewed for this family.
+cwe_release: v4.20
+top25_2025:
+- rank: 1
+  id: CWE-79
+  name: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')
+  family: xss
+- rank: 2
+  id: CWE-89
+  name: Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection')
+  family: sql_injection
+- rank: 3
+  id: CWE-352
+  name: Cross-Site Request Forgery (CSRF)
+  family: csrf
+- rank: 4
+  id: CWE-862
+  name: Missing Authorization
+  family: authorization_idor
+- rank: 5
+  id: CWE-787
+  name: Out-of-bounds Write
+  family: memory_safety
+- rank: 6
+  id: CWE-22
+  name: Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')
+  family: path_traversal
+- rank: 7
+  id: CWE-416
+  name: Use After Free
+  family: memory_safety
+- rank: 8
+  id: CWE-125
+  name: Out-of-bounds Read
+  family: memory_safety
+- rank: 9
+  id: CWE-78
+  name: Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')
+  family: os_command_injection
+- rank: 10
+  id: CWE-94
+  name: Improper Control of Generation of Code ('Code Injection')
+  family: code_injection
+- rank: 11
+  id: CWE-120
+  name: Buffer Copy without Checking Size of Input ('Classic Buffer Overflow')
+  family: memory_safety
+- rank: 12
+  id: CWE-434
+  name: Unrestricted Upload of File with Dangerous Type
+  family: file_upload
+- rank: 13
+  id: CWE-476
+  name: NULL Pointer Dereference
+  family: memory_safety
+- rank: 14
+  id: CWE-121
+  name: Stack-based Buffer Overflow
+  family: memory_safety
+- rank: 15
+  id: CWE-502
+  name: Deserialization of Untrusted Data
+  family: deserialization
+- rank: 16
+  id: CWE-122
+  name: Heap-based Buffer Overflow
+  family: memory_safety
+- rank: 17
+  id: CWE-863
+  name: Incorrect Authorization
+  family: authorization_idor
+- rank: 18
+  id: CWE-20
+  name: Improper Input Validation
+  family: input_validation
+- rank: 19
+  id: CWE-284
+  name: Improper Access Control
+  family: authorization_idor
+- rank: 20
+  id: CWE-200
+  name: Exposure of Sensitive Information to an Unauthorized Actor
+  family: information_exposure
+- rank: 21
+  id: CWE-306
+  name: Missing Authentication for Critical Function
+  family: missing_authentication
+- rank: 22
+  id: CWE-918
+  name: Server-Side Request Forgery (SSRF)
+  family: ssrf
+- rank: 23
+  id: CWE-77
+  name: Improper Neutralization of Special Elements used in a Command ('Command Injection')
+  family: os_command_injection
+- rank: 24
+  id: CWE-639
+  name: Authorization Bypass Through User-Controlled Key
+  family: authorization_idor
+- rank: 25
+  id: CWE-770
+  name: Allocation of Resources Without Limits or Throttling
+  family: resource_exhaustion
+owasp_top10_2025:
+  A01:2025:
+    title: Broken Access Control
+    mapped_cwe_count: 40
+  A02:2025:
+    title: Security Misconfiguration
+    mapped_cwe_count: 16
+  A03:2025:
+    title: Software Supply Chain Failures
+    mapped_cwe_count: 6
+  A04:2025:
+    title: Cryptographic Failures
+    mapped_cwe_count: 32
+  A05:2025:
+    title: Injection
+    mapped_cwe_count: 37
+  A06:2025:
+    title: Insecure Design
+    mapped_cwe_count: 39
+  A07:2025:
+    title: Authentication Failures
+    mapped_cwe_count: 36
+  A08:2025:
+    title: Software or Data Integrity Failures
+    mapped_cwe_count: 14
+  A09:2025:
+    title: Security Logging and Alerting Failures
+    mapped_cwe_count: 5
+  A10:2025:
+    title: Mishandling of Exceptional Conditions
+    mapped_cwe_count: 24
+families:
+- id: sql_injection
+  name: SQL injection
+  support_level: documented_only
+  mvp: true
+  cwe:
+  - id: CWE-89
+    name: Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection')
+    top25_2025_rank: 2
+  - id: CWE-564
+    name: 'SQL Injection: Hibernate'
+    top25_2025_rank: null
+  owasp_top10_2025:
+  - A05:2025
+  knowledge_sources:
+  - owasp-cs-sql_injection_prevention
+  - owasp-cs-query_parameterization
+  - owasp-cs-injection_prevention
+  - doc-python-sqlite3
+  - doc-sqlalchemy_text
+  knowledge_card: data/knowledge_cards/sql_injection.yaml
+  detector: null
+  verifier: null
+- id: path_traversal
+  name: Path traversal / unsafe file path
+  support_level: documented_only
+  mvp: true
+  cwe:
+  - id: CWE-22
+    name: Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')
+    top25_2025_rank: 6
+  - id: CWE-23
+    name: Relative Path Traversal
+    top25_2025_rank: null
+  - id: CWE-36
+    name: Absolute Path Traversal
+    top25_2025_rank: null
+  - id: CWE-73
+    name: External Control of File Name or Path
+    top25_2025_rank: null
+  owasp_top10_2025:
+  - A01:2025
+  - A06:2025
+  knowledge_sources:
+  - doc-owasp_path_traversal
+  - owasp-cs-input_validation
+  - owasp-cs-file_upload
+  - doc-werkzeug_safe_join
+  - doc-python-os_path
+  knowledge_card: data/knowledge_cards/path_traversal.yaml
+  detector: null
+  verifier: null
+- id: authorization_idor
+  name: Broken authorization / IDOR
+  support_level: documented_only
+  mvp: true
+  cwe:
+  - id: CWE-639
+    name: Authorization Bypass Through User-Controlled Key
+    top25_2025_rank: 24
+  - id: CWE-862
+    name: Missing Authorization
+    top25_2025_rank: 4
+  - id: CWE-863
+    name: Incorrect Authorization
+    top25_2025_rank: 17
+  - id: CWE-284
+    name: Improper Access Control
+    top25_2025_rank: 19
+  - id: CWE-285
+    name: Improper Authorization
+    top25_2025_rank: null
+  owasp_top10_2025:
+  - A01:2025
+  knowledge_sources:
+  - owasp-cs-authorization
+  - owasp-cs-insecure_direct_object_reference_prevention
+  - owasp-cs-transaction_authorization
+  - doc-flask_login
+  knowledge_card: data/knowledge_cards/authorization_idor.yaml
+  detector: null
+  verifier: null
+- id: os_command_injection
+  name: OS command injection
+  support_level: documented_only
+  mvp: stretch
+  cwe:
+  - id: CWE-78
+    name: Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')
+    top25_2025_rank: 9
+  - id: CWE-77
+    name: Improper Neutralization of Special Elements used in a Command ('Command Injection')
+    top25_2025_rank: 23
+  - id: CWE-88
+    name: Improper Neutralization of Argument Delimiters in a Command ('Argument Injection')
+    top25_2025_rank: null
+  owasp_top10_2025:
+  - A05:2025
+  knowledge_sources:
+  - owasp-cs-os_command_injection_defense
+  - doc-python-subprocess
+  knowledge_card: data/knowledge_cards/os_command_injection.yaml
+  detector: null
+  verifier: null
+- id: xss
+  name: Cross-site scripting
+  support_level: documented_only
+  mvp: stretch
+  cwe:
+  - id: CWE-79
+    name: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')
+    top25_2025_rank: 1
+  - id: CWE-80
+    name: Improper Neutralization of Script-Related HTML Tags in a Web Page (Basic XSS)
+    top25_2025_rank: null
+  - id: CWE-116
+    name: Improper Encoding or Escaping of Output
+    top25_2025_rank: null
+  owasp_top10_2025:
+  - A05:2025
+  knowledge_sources:
+  - owasp-cs-cross_site_scripting_prevention
+  - doc-jinja_autoescape
+  - doc-flask_web_security
+  - doc-flask_templating
+  knowledge_card: data/knowledge_cards/xss.yaml
+  detector: null
+  verifier: null
+- id: code_injection
+  name: Code / eval injection
+  support_level: documented_only
+  mvp: false
+  cwe:
+  - id: CWE-94
+    name: Improper Control of Generation of Code ('Code Injection')
+    top25_2025_rank: 10
+  - id: CWE-95
+    name: Improper Neutralization of Directives in Dynamically Evaluated Code ('Eval Injection')
+    top25_2025_rank: null
+  owasp_top10_2025:
+  - A05:2025
+  knowledge_sources:
+  - owasp-cs-injection_prevention
+  knowledge_card: null
+  detector: null
+  verifier: null
+- id: missing_authentication
+  name: Missing authentication for critical function
+  support_level: documented_only
+  mvp: false
+  cwe:
+  - id: CWE-306
+    name: Missing Authentication for Critical Function
+    top25_2025_rank: 21
+  - id: CWE-287
+    name: Improper Authentication
+    top25_2025_rank: null
+  owasp_top10_2025:
+  - A07:2025
+  knowledge_sources:
+  - owasp-cs-authentication
+  knowledge_card: null
+  detector: null
+  verifier: null
+- id: ssrf
+  name: Server-side request forgery
+  support_level: documented_only
+  mvp: false
+  cwe:
+  - id: CWE-918
+    name: Server-Side Request Forgery (SSRF)
+    top25_2025_rank: 22
+  owasp_top10_2025:
+  - A01:2025
+  knowledge_sources:
+  - owasp-cs-server_side_request_forgery_prevention
+  knowledge_card: null
+  detector: null
+  verifier: null
+- id: file_upload
+  name: Unrestricted file upload
+  support_level: documented_only
+  mvp: false
+  cwe:
+  - id: CWE-434
+    name: Unrestricted Upload of File with Dangerous Type
+    top25_2025_rank: 12
+  owasp_top10_2025:
+  - A06:2025
+  knowledge_sources:
+  - owasp-cs-file_upload
+  knowledge_card: null
+  detector: null
+  verifier: null
+- id: csrf
+  name: Cross-site request forgery
+  support_level: documented_only
+  mvp: false
+  cwe:
+  - id: CWE-352
+    name: Cross-Site Request Forgery (CSRF)
+    top25_2025_rank: 3
+  owasp_top10_2025:
+  - A01:2025
+  knowledge_sources:
+  - owasp-cs-cross-site_request_forgery_prevention
+  - doc-flask_web_security
+  knowledge_card: null
+  detector: null
+  verifier: null
+- id: session_token
+  name: Session / token management
+  support_level: documented_only
+  mvp: false
+  cwe:
+  - id: CWE-384
+    name: Session Fixation
+    top25_2025_rank: null
+  - id: CWE-613
+    name: Insufficient Session Expiration
+    top25_2025_rank: null
+  - id: CWE-347
+    name: Improper Verification of Cryptographic Signature
+    top25_2025_rank: null
+  - id: CWE-1004
+    name: Sensitive Cookie Without 'HttpOnly' Flag
+    top25_2025_rank: null
+  - id: CWE-614
+    name: Sensitive Cookie in HTTPS Session Without 'Secure' Attribute
+    top25_2025_rank: null
+  owasp_top10_2025:
+  - A02:2025
+  - A04:2025
+  - A07:2025
+  knowledge_sources:
+  - owasp-cs-session_management
+  - doc-flask_web_security
+  knowledge_card: null
+  detector: null
+  verifier: null
+- id: deserialization
+  name: Insecure deserialization
+  support_level: documented_only
+  mvp: false
+  cwe:
+  - id: CWE-502
+    name: Deserialization of Untrusted Data
+    top25_2025_rank: 15
+  owasp_top10_2025:
+  - A08:2025
+  knowledge_sources:
+  - owasp-cs-deserialization
+  - doc-python-pickle
+  knowledge_card: null
+  detector: null
+  verifier: null
+- id: mass_assignment
+  name: Mass assignment
+  support_level: documented_only
+  mvp: false
+  cwe:
+  - id: CWE-915
+    name: Improperly Controlled Modification of Dynamically-Determined Object Attributes
+    top25_2025_rank: null
+  owasp_top10_2025:
+  - A08:2025
+  knowledge_sources:
+  - owasp-cs-mass_assignment
+  knowledge_card: null
+  detector: null
+  verifier: null
+- id: secrets_configuration
+  name: Hard-coded secrets / insecure configuration
+  support_level: documented_only
+  mvp: false
+  cwe:
+  - id: CWE-798
+    name: Use of Hard-coded Credentials
+    top25_2025_rank: null
+  - id: CWE-259
+    name: Use of Hard-coded Password
+    top25_2025_rank: null
+  - id: CWE-321
+    name: Use of Hard-coded Cryptographic Key
+    top25_2025_rank: null
+  - id: CWE-489
+    name: Active Debug Code
+    top25_2025_rank: null
+  owasp_top10_2025:
+  - A02:2025
+  - A04:2025
+  - A07:2025
+  knowledge_sources:
+  - owasp-cs-secrets_management
+  - doc-flask_web_security
+  knowledge_card: null
+  detector: null
+  verifier: null
+- id: weak_cryptography
+  name: Weak cryptography / randomness / password storage
+  support_level: documented_only
+  mvp: false
+  cwe:
+  - id: CWE-327
+    name: Use of a Broken or Risky Cryptographic Algorithm
+    top25_2025_rank: null
+  - id: CWE-328
+    name: Use of Weak Hash
+    top25_2025_rank: null
+  - id: CWE-916
+    name: Use of Password Hash With Insufficient Computational Effort
+    top25_2025_rank: null
+  - id: CWE-330
+    name: Use of Insufficiently Random Values
+    top25_2025_rank: null
+  - id: CWE-338
+    name: Use of Cryptographically Weak Pseudo-Random Number Generator (PRNG)
+    top25_2025_rank: null
+  - id: CWE-295
+    name: Improper Certificate Validation
+    top25_2025_rank: null
+  owasp_top10_2025:
+  - A04:2025
+  - A07:2025
+  knowledge_sources:
+  - owasp-cs-cryptographic_storage
+  - owasp-cs-password_storage
+  - doc-python-secrets
+  - doc-python-hmac
+  knowledge_card: null
+  detector: null
+  verifier: null
+- id: information_exposure
+  name: Information exposure / error handling
+  support_level: documented_only
+  mvp: false
+  cwe:
+  - id: CWE-200
+    name: Exposure of Sensitive Information to an Unauthorized Actor
+    top25_2025_rank: 20
+  - id: CWE-209
+    name: Generation of Error Message Containing Sensitive Information
+    top25_2025_rank: null
+  - id: CWE-532
+    name: Insertion of Sensitive Information into Log File
+    top25_2025_rank: null
+  - id: CWE-755
+    name: Improper Handling of Exceptional Conditions
+    top25_2025_rank: null
+  owasp_top10_2025:
+  - A01:2025
+  - A09:2025
+  - A10:2025
+  knowledge_sources:
+  - owasp-cs-error_handling
+  - owasp-cs-logging
+  knowledge_card: null
+  detector: null
+  verifier: null
+- id: dependency_risk
+  name: Vulnerable or unmaintained dependencies
+  support_level: documented_only
+  mvp: false
+  cwe:
+  - id: CWE-1104
+    name: Use of Unmaintained Third Party Components
+    top25_2025_rank: null
+  - id: CWE-1395
+    name: Dependency on Vulnerable Third-Party Component
+    top25_2025_rank: null
+  owasp_top10_2025:
+  - A03:2025
+  knowledge_sources:
+  - owasp-cs-vulnerable_dependency_management
+  knowledge_card: null
+  detector: null
+  verifier: null
+- id: input_validation
+  name: Improper input validation (general)
+  support_level: documented_only
+  mvp: false
+  cwe:
+  - id: CWE-20
+    name: Improper Input Validation
+    top25_2025_rank: 18
+  owasp_top10_2025:
+  - A05:2025
+  knowledge_sources:
+  - owasp-cs-input_validation
+  knowledge_card: null
+  detector: null
+  verifier: null
+- id: resource_exhaustion
+  name: Uncontrolled resource consumption
+  support_level: documented_only
+  mvp: false
+  cwe:
+  - id: CWE-770
+    name: Allocation of Resources Without Limits or Throttling
+    top25_2025_rank: 25
+  - id: CWE-400
+    name: Uncontrolled Resource Consumption
+    top25_2025_rank: null
+  owasp_top10_2025: []
+  knowledge_sources: []
+  knowledge_card: null
+  detector: null
+  verifier: null
+- id: memory_safety
+  name: Memory safety (C/C++)
+  support_level: unsupported
+  mvp: false
+  cwe:
+  - id: CWE-787
+    name: Out-of-bounds Write
+    top25_2025_rank: 5
+  - id: CWE-416
+    name: Use After Free
+    top25_2025_rank: 7
+  - id: CWE-125
+    name: Out-of-bounds Read
+    top25_2025_rank: 8
+  - id: CWE-120
+    name: Buffer Copy without Checking Size of Input ('Classic Buffer Overflow')
+    top25_2025_rank: 11
+  - id: CWE-121
+    name: Stack-based Buffer Overflow
+    top25_2025_rank: 14
+  - id: CWE-122
+    name: Heap-based Buffer Overflow
+    top25_2025_rank: 16
+  - id: CWE-476
+    name: NULL Pointer Dereference
+    top25_2025_rank: 13
+  owasp_top10_2025:
+  - A10:2025
+  knowledge_sources: []
+  knowledge_card: null
+  detector: null
+  verifier: null
+  unsupported_reason: MVP reviews Python/Flask code; memory-safety weaknesses require native-code analysis.

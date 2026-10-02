@@ -1,0 +1,104 @@
+# Knowledge card: cross-site scripting in Flask / Jinja
+# Claims are backed by `refs` (chunk ids) or marked `basis: reviewer_reasoning`.
+# Code examples are synthetic and written for this project.
+id: xss
+family: xss
+title: Cross-site scripting (server-rendered Flask/Jinja)
+cwe:
+  primary: CWE-79
+  related: [CWE-80, CWE-116]
+  mapping_note: >-
+    CWE-79 for untrusted data rendered as active content. CWE-116 when the root cause is missing or
+    wrong output encoding for the context. A user-controlled *template* (render_template_string(user_input))
+    is server-side template injection, a different family — not labelled as XSS.
+stack: [python, flask, jinja2]
+
+untrusted_sources:
+  - request parameters echoed into a page
+  - stored user content (comments, profile fields) rendered later
+  - uploaded files served back to users
+
+sinks:
+  - api: HTML built in Python without Jinja (f-string / concatenation returned from a view)
+    dangerous_when: untrusted data is inserted into the string
+    refs: [doc-flask_web_security#002.0]
+  - api: Markup(...) or the |safe filter on user-controlled data
+    dangerous_when: escaping is explicitly disabled for that value
+    refs: [doc-flask_web_security#002.0, doc-flask_templating#003.0]
+  - api: Templates rendered with autoescaping off (non-.html extension, {% autoescape false %}, plain jinja2.Environment)
+    dangerous_when: untrusted data is rendered
+    refs: [doc-flask_templating#001.0, doc-jinja_autoescape#003.0]
+  - api: unquoted HTML attribute, href/src attribute, inline <script>, event handlers
+    dangerous_when: 'escaping does not cover the context (attribute injection, "javascript:" URLs)'
+    refs: [doc-flask_web_security#002.0, owasp-cs-cross_site_scripting_prevention#010.0]
+  - api: serving uploaded HTML / text files inline
+    dangerous_when: browser renders them as HTML
+    refs: [doc-flask_web_security#002.0]
+
+effective_controls:
+  - control: >-
+      Flask's default autoescaping — enabled for .html/.htm/.xml/.xhtml/.svg templates with
+      render_template() and for all strings with render_template_string()
+    refs: [doc-flask_templating#001.0]
+  - control: Quote every attribute that contains a Jinja expression
+    refs: [doc-flask_web_security#002.0]
+  - control: Validate URL scheme (allow http/https) before placing user URLs in href/src; CSP as an extra layer
+    refs: [doc-flask_web_security#002.0]
+  - control: Serve user uploads with Content-Disposition attachment
+    refs: [doc-flask_web_security#002.0]
+  - control: Context-specific output encoding; HTML sanitization when users must submit HTML
+    refs: [owasp-cs-cross_site_scripting_prevention#003.0, owasp-cs-cross_site_scripting_prevention#011.0]
+
+ineffective_or_partial_controls:
+  - control: Relying on plain Jinja defaults outside Flask
+    why: Jinja does not enable autoescaping by default
+    refs: [doc-jinja_autoescape#003.0]
+  - control: HTML escaping inside dangerous contexts (script blocks, event handlers, CSS)
+    why: output encoding does not fully protect these contexts
+    refs: [owasp-cs-cross_site_scripting_prevention#010.0]
+  - control: Content-Security-Policy as the only defense
+    why: not supported equally everywhere; CSP is defense in depth
+    refs: [owasp-cs-cross_site_scripting_prevention#017.0]
+
+false_positive_patterns:
+  - pattern: "{{ value }} in a quoted attribute or element body of an .html template rendered by Flask"
+    refs: [doc-flask_templating#001.0, doc-flask_web_security#002.0]
+  - pattern: "|safe / Markup applied to a constant or to output of a trusted sanitizer"
+    basis: reviewer_reasoning
+  - pattern: JSON API endpoint returning jsonify(...) (not rendered as HTML)
+    basis: reviewer_reasoning
+
+review_questions:
+  - Is the value rendered by Jinja with autoescape on, and in which HTML context?
+  - Is escaping disabled anywhere on the path (|safe, Markup, autoescape false)?
+  - Could the value be a URL placed in href/src?
+  - Is the template file extension one where Flask enables autoescape?
+
+example:
+  origin: synthetic (this project)
+  vulnerable: |
+    @app.get("/hello")
+    def hello():
+        name = request.args.get("name", "")
+        return f"<h1>Hello {name}</h1>"
+  fixed: |
+    @app.get("/hello")
+    def hello():
+        name = request.args.get("name", "")
+        return render_template("hello.html", name=name)   # hello.html: <h1>Hello {{ name }}</h1>
+  explanation: >-
+    The template is .html, so Flask autoescapes {{ name }}.
+
+verification:
+  method: >-
+    In the local lab, request the page with a value containing HTML markup. Property: the response
+    contains the value HTML-escaped (e.g. &lt;) rather than as markup.
+  basis: reviewer_reasoning
+
+remediation: >-
+  Render through Jinja templates with autoescape; never apply |safe/Markup to user data; quote
+  attributes; validate URL schemes; send uploads as attachments.
+
+regression_tests:
+  - markup in input is returned escaped
+  - plain text input renders unchanged
