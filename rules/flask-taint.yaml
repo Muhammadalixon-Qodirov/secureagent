@@ -1,0 +1,111 @@
+# Project-authored Semgrep taint rules for Flask (not copied from the Semgrep
+# registry, whose rules license forbids redistribution).
+#
+# They produce *signals* for the agent, not verdicts. Semgrep CE taint tracking
+# is intraprocedural (single function), so flows through helpers in other
+# functions/files are missed by design; the agent covers those.
+#
+# Run tests: .venv/Scripts/semgrep --test rules/ --metrics=off
+
+rules:
+  - id: flask-sqli-string-built-query
+    message: >-
+      Request data reaches a SQL execute call as part of the query string.
+      Bind it as a parameter instead (placeholders / text() binds).
+    severity: ERROR
+    languages: [python]
+    metadata:
+      family: sql_injection
+      cwe: ["CWE-89"]
+      knowledge_card: data/knowledge_cards/sql_injection.yaml
+    mode: taint
+    pattern-sources: &flask_sources
+      - pattern: flask.request.$ATTR
+      - pattern: flask.request.$METHOD(...)
+      # route parameters: @app.route / @app.get / @bp.post ... (Flask 2+ shortcuts)
+      - patterns:
+          - pattern-inside: |
+              @$APP.$ROUTE(...)
+              def $FUNC(..., $PARAM, ...):
+                ...
+          - metavariable-regex:
+              metavariable: $ROUTE
+              regex: ^(route|get|post|put|patch|delete)$
+          - pattern: $PARAM
+    pattern-sanitizers:
+      - pattern: int(...)
+      - pattern: float(...)
+    pattern-sinks:
+      - patterns:
+          - pattern-either:
+              - pattern: $CUR.execute($QUERY, ...)
+              - pattern: $CUR.executemany($QUERY, ...)
+              - pattern: $CUR.executescript($QUERY)
+              - pattern: sqlalchemy.text($QUERY)
+              - pattern: $CONN.exec_driver_sql($QUERY, ...)
+          - focus-metavariable: $QUERY
+
+  - id: flask-path-traversal-file-access
+    message: >-
+      Request data reaches a file system path. Use send_from_directory/safe_join,
+      or resolve the path and check it stays inside the base directory.
+    severity: ERROR
+    languages: [python]
+    metadata:
+      family: path_traversal
+      cwe: ["CWE-22"]
+      knowledge_card: data/knowledge_cards/path_traversal.yaml
+    mode: taint
+    pattern-sources: *flask_sources
+    pattern-sanitizers:
+      - pattern: werkzeug.utils.secure_filename(...)
+      - pattern: werkzeug.security.safe_join(...)
+      - pattern: flask.safe_join(...)
+    pattern-sinks:
+      - patterns:
+          - pattern-either:
+              - pattern: open($PATH, ...)
+              - pattern: flask.send_file($PATH, ...)
+              - pattern: os.remove($PATH)
+              - pattern: os.unlink($PATH)
+              - pattern: shutil.rmtree($PATH, ...)
+              - pattern: pathlib.Path($PATH)
+          - focus-metavariable: $PATH
+
+  - id: flask-command-injection-shell
+    message: >-
+      Request data reaches a command run through a shell. Pass an argument list
+      without shell=True and validate values against an allow-list.
+    severity: ERROR
+    languages: [python]
+    metadata:
+      family: os_command_injection
+      cwe: ["CWE-78"]
+      knowledge_card: data/knowledge_cards/os_command_injection.yaml
+    mode: taint
+    pattern-sources: *flask_sources
+    pattern-sinks:
+      - patterns:
+          - pattern-either:
+              - pattern: subprocess.$FN($CMD, ..., shell=True, ...)
+              - pattern: os.system($CMD)
+              - pattern: os.popen($CMD, ...)
+          - focus-metavariable: $CMD
+
+  - id: flask-xss-markup-on-request-data
+    message: >-
+      Request data is wrapped in Markup, which disables Jinja autoescaping for it.
+    severity: WARNING
+    languages: [python]
+    metadata:
+      family: xss
+      cwe: ["CWE-79"]
+      knowledge_card: data/knowledge_cards/xss.yaml
+    mode: taint
+    pattern-sources: *flask_sources
+    pattern-sinks:
+      - patterns:
+          - pattern-either:
+              - pattern: markupsafe.Markup($X)
+              - pattern: flask.Markup($X)
+          - focus-metavariable: $X
