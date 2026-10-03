@@ -31,7 +31,7 @@ def main(argv: list[str] | None = None) -> int:
     rv = sub.add_parser("review", help="review a codebase you are authorized to review")
     rv.add_argument("--target", type=Path, help="authorized root (overrides config authorized_roots)")
     rv.add_argument("--config", type=Path)
-    rv.add_argument("--mode", choices=["v3", "v2", "v1"], default="v2",
+    rv.add_argument("--mode", choices=["v4", "v3", "v2", "v1"], default="v2",
                     help="v2: coverage sweep + verifier (default); v3: v2 + deterministic authorization "
                          "analysis; v1: tool-using agent loop")
     rv.add_argument("--single-pass", action="store_true", help="v1 only: one open-ended pass instead of one per family")
@@ -54,9 +54,9 @@ def main(argv: list[str] | None = None) -> int:
     run_dir = a.run_dir or ROOT / "runs" / datetime.now().strftime("%Y%m%d-%H%M%S")
     registry = ToolRegistry(config, Trace(run_dir))
     model = OllamaModel(config, seed=a.seed)
-    if a.mode in ("v2", "v3"):
-        sw = run_sweep(config, model, registry, verify=not a.no_verify, run_dir=run_dir, authz=a.mode == "v3",
-                       harden=not a.no_harden)
+    if a.mode in ("v2", "v3", "v4"):
+        sw = run_sweep(config, model, registry, verify=not a.no_verify, run_dir=run_dir, authz=a.mode in ("v3", "v4"),
+                       harden=not a.no_harden, resolve=a.mode == "v4")
         final, notes = sw.final, sw.notes
         summary = {"mode": a.mode, "status": final.status, "findings": len(final.findings), "stats": sw.stats.__dict__,
                    "tool_reliability": registry.trace.reliability()}
@@ -71,7 +71,8 @@ def main(argv: list[str] | None = None) -> int:
                    "tool_reliability": registry.trace.reliability()}
     (run_dir / "result.json").write_text(json.dumps(summary, indent=2, ensure_ascii=False), encoding="utf-8")
     meta = {"model": config.model, "context": config.max_context_tokens,
-            "mode": {"v2": "v2 coverage sweep", "v3": "v3 coverage sweep + authorization analysis"}.get(a.mode) or ("v1 single pass" if a.single_pass else "v1 per family"),
+            "mode": {"v2": "v2 coverage sweep", "v3": "v3 coverage sweep + authorization analysis",
+                     "v4": "v4 coverage sweep + authorization analysis with helper resolution"}.get(a.mode) or ("v1 single pass" if a.single_pass else "v1 per family"),
             "verifier": "off" if a.no_verify else "on", "families": ", ".join(config.enabled_families)}
     (run_dir / "report.md").write_text(render(final, Path(config.authorized_roots[0]).name, meta, notes),
                                        encoding="utf-8")

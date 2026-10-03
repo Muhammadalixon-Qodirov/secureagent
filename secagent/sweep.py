@@ -61,6 +61,14 @@ class SweepReply(BaseModel):
     candidates: list[Candidate]
 
 
+class VerdictV4(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    analysis: str
+    claim_holds: bool
+    control_file: str | None = None     # set when the control is in a shown helper, not in the handler's file
+    control_line: int | None = None
+
+
 class VerdictV2(BaseModel):
     model_config = ConfigDict(extra="forbid")
     analysis: str                 # first: reason before committing to a verdict
@@ -100,6 +108,17 @@ VERIFY_SYSTEM = (
 )
 
 
+VERIFY_V4_ADDENDUM = (
+    "\nFor authorization claims you are also given AUTHZ FACTS computed from the code (trusted) and the bodies "
+    "of the project functions the handler calls that enforce access (each in its own UNTRUSTED block, with its "
+    "file path). Decide from those bodies: if a shown helper compares the object's owner / tenant / assignment "
+    "with the acting user and the handler's result depends on it, the claim fails - give that line in "
+    "control_line and the helper's path in control_file. A role check alone (admin, staff) does not scope "
+    "which objects a user of that role may touch; if sibling handlers scope the object and this one does not, "
+    "the claim holds. An endpoint that is public by design (catalogue, storefront, login) is not a finding."
+)
+
+
 @dataclass
 class SweepStats:
     windows: int = 0
@@ -133,12 +152,12 @@ def _python_files(root: Path) -> list[Path]:
     return out
 
 
-def _authz_seeds(root: Path, registry: ToolRegistry, stats: SweepStats, notes: list[str]):
+def _authz_seeds(root: Path, registry: ToolRegistry, stats: SweepStats, notes: list[str], resolve: bool = False):
     """v3: deterministic IDOR / missing-auth candidates from the ownership map and route facts
     (secagent/authz.py). Each handler is read through the registry so the finding has a real
     read event; the reason and the guarded siblings become verifier context."""
     seeds, context, handlers = [], {}, []
-    cands, owned, _ = idor_candidates(root, _python_files(root))
+    cands, owned, facts = idor_candidates(root, _python_files(root), resolve=resolve)
     if owned:
         notes.append("ownership map: " + ", ".join(f"{k} ({v.via})" for k, v in sorted(owned.items()))[:600])
     seen = set()
@@ -151,7 +170,8 @@ def _authz_seeds(root: Path, registry: ToolRegistry, stats: SweepStats, notes: l
         if ev.status != "ok":
             notes.append(f"authz seed {r.file}:{r.line_start} not read: {ev.error}")
             continue
-        c = Candidate(family="authorization_idor", reason=ic.reason, line=r.line_start,
+        line = r.access_line if resolve and r.line_start <= r.access_line <= r.line_end else r.line_start
+        c = Candidate(family="authorization_idor", reason=ic.reason, line=line,
                       title=("Missing authentication on " if ic.model.name == "(endpoint)" else
                              "Broken object-level authorization in ") + r.function)
         ctx = f"route facts (from AST, trusted): {render_facts(r)}"
@@ -162,13 +182,26 @@ def _authz_seeds(root: Path, registry: ToolRegistry, stats: SweepStats, notes: l
         seeds.append((c, ev.event_id, ev.data))
         handlers.append((r.file, r.line_start, r.line_end))
     stats.authz_seeds = len(seeds)
-    return seeds, context, handlers
+    return seeds, context, handlers, facts
+
+
+def _fact_for(facts, path: str, line: int):
+    return next((r for r in facts if r.file == path and r.line_start <= line <= r.line_end), None)
+
+
+def _facts_text(r) -> str:
+    txt = f"AUTHZ FACTS for {r.function} (from AST, trusted): {render_facts(r)}"
+    if r.helpers:
+        txt += "; access helpers called: " + ", ".join(f"{h[0]} [{h[4]} check, {h[1]}:{h[2]}]" for h in r.helpers)
+    return txt
 
 
 def run_sweep(config: Config, model, registry: ToolRegistry, verify: bool = True,
               run_dir: Path | None = None, authz: bool = False, sweep: bool = True,
-              harden: bool = False) -> SweepResult:
+              harden: bool = False, resolve: bool = False) -> SweepResult:
     """authz=True is v3 (deterministic IDOR seeds); sweep=False skips the model sweep (ablation);
+    resolve=True is v4: helpers/dependencies classified from their bodies, facts shown to the sweep,
+    helper bodies shown to the verifier;
     harden=True blanks comments/docstrings in what the model sees and requires a withdrawal's
     control line to be code (secagent/hardening.py)."""
     t0 = time.monotonic()
@@ -181,16 +214,22 @@ def run_sweep(config: Config, model, registry: ToolRegistry, verify: bool = True
     replies_log = []
     context: dict[int, str] = {}
     handlers: list[tuple[str, int, int]] = []
+    facts: list = []
     if authz and "authorization_idor" in families:
-        candidates, context, handlers = _authz_seeds(root, registry, stats, notes)
+        candidates, context, handlers, facts = _authz_seeds(root, registry, stats, notes, resolve)
 
     windows = []
     for py in (_python_files(root) if sweep else []):
         rel = py.relative_to(root).as_posix()
+        if resolve and "/migrations/" in "/" + rel:         # generated schema history, no request handling
+            continue
         src = py.read_text(encoding="utf-8", errors="replace")
         routes = route_inventory(src, rel)
         for a, b in chunk_file(src):
             windows.append((rel, a, b, routes))
+    if resolve:                                             # v4: spend the window budget on request handlers first
+        handler_files = {r.file for r in facts}
+        windows.sort(key=lambda w: (not (w[3] or w[0] in handler_files), w[0], w[1]))
     if len(windows) > MAX_WINDOWS:
         stats.windows_skipped = len(windows) - MAX_WINDOWS
         notes.append(f"coverage limited to {MAX_WINDOWS} of {len(windows)} windows; skipped: " +
@@ -209,6 +248,11 @@ def run_sweep(config: Config, model, registry: ToolRegistry, verify: bool = True
             if note not in notes:
                 notes.append(note)
         inv = "\n".join(r.render() for r in routes if r.line_end >= a and r.line_start <= b) or "(no routes in this window)"
+        if resolve:
+            in_win = [r for r in facts if r.file == rel and r.line_end >= a and r.line_start <= b]
+            if in_win:
+                inv += ("\n" + "\n".join(_facts_text(r) for r in in_win) + "\nDo not list an authorization "
+                        "candidate for a handler whose facts show an owner check, unless the code contradicts them.")
         user = f"FILE ROUTES (from AST, trusted):\n{inv}\n\n{renderer.observation(_shown(ev, root, harden))}"
         msgs = [{"role": "system", "content": system}, {"role": "user", "content": user}]
         stats.sweep_calls += 1
@@ -247,12 +291,15 @@ def run_sweep(config: Config, model, registry: ToolRegistry, verify: bool = True
         confidence = "medium"
         rationale = f"{'authz analysis' if seeded else 'sweep'} candidate: {c.reason[:300]}"
         if verify:
-            v, win_event = _verify(c, d["path"], registry, model, renderer, context.get(id(c), ""), root, harden)
+            fact = _fact_for(facts, d["path"], c.line) if resolve and c.family == "authorization_idor" else None
+            ctx = context.get(id(c), "")
+            if fact is not None:
+                ctx = (ctx + "\n" if ctx else "") + _facts_text(fact)
+            v, win_event, shown = _verify(c, d["path"], registry, model, renderer, ctx, root, harden, fact)
             if v is None:
                 stats.verifier_failed += 1
                 confidence, rationale = "low", rationale + " | verifier failed"
-            elif (not v.claim_holds and v.control_line is not None and _in_window(v.control_line, registry, win_event)
-                  and (not harden or _is_code(v.control_line, d["path"], root))):
+            elif not v.claim_holds and _control_ok(v, d["path"], registry, shown, root, harden):
                 stats.verifier_withdrawn += 1
                 hyps.append(HypothesisSummary(id=hid, question=c.title, analysis_status="rejected",
                                               verification_status="not_run",
@@ -319,22 +366,43 @@ def _is_code(line: int, path: str, root: Path) -> bool:
     return rows is None or line in rows
 
 
+def _control_ok(v, path: str, registry: ToolRegistry, shown: list[str], root: Path, harden: bool) -> bool:
+    """A withdrawal needs a control line inside something the verifier was shown, and (hardened) a code line."""
+    if v.control_line is None:
+        return False
+    cfile = getattr(v, "control_file", None) or path
+    for eid in shown:
+        d = registry.results[eid].data
+        if d and d["path"] == cfile and d["start_line"] <= v.control_line <= d["end_line"]:
+            return not harden or _is_code(v.control_line, cfile, root)
+    return False
+
+
 def _verify(c: Candidate, path: str, registry: ToolRegistry, model, renderer: Renderer, context: str = "",
-            root: Path | None = None, harden: bool = False):
-    win = registry.execute("read_file", {"path": path, "start_line": max(1, c.line - VERIFY_PADDING),
-                                         "end_line": c.line + VERIFY_PADDING})
+            root: Path | None = None, harden: bool = False, fact=None):
+    a, b = max(1, c.line - VERIFY_PADDING), c.line + VERIFY_PADDING
+    if fact is not None:                                   # v4: show the whole handler when it fits
+        a, b = min(a, fact.line_start), max(b, min(fact.line_end, fact.line_start + 110))
+    win = registry.execute("read_file", {"path": path, "start_line": a, "end_line": b})
     if win.status != "ok":
-        return None, win.event_id
+        return None, win.event_id, []
+    shown, extra = [win.event_id], ""
+    for name, hf, ha, hb, kind in (fact.helpers if fact is not None else []):
+        h = registry.execute("read_file", {"path": hf, "start_line": ha, "end_line": min(hb, ha + 60)})
+        if h.status == "ok":
+            shown.append(h.event_id)
+            extra += f"\n\nHELPER {name} ({kind} check):\n" + renderer.observation(_shown(h, root, harden))
     claim = f"CLAIM: {c.title} ({FAMILY_CWE[c.family]}) at {path}:{c.line}\nreason given: {c.reason}"
     if context:
         claim += "\n" + context
-    msgs = [{"role": "system", "content": VERIFY_SYSTEM},
-            {"role": "user", "content": claim + "\n\n" + renderer.observation(_shown(win, root, harden))}]
+    schema = VerdictV4 if fact is not None else VerdictV2
+    msgs = [{"role": "system", "content": VERIFY_SYSTEM + (VERIFY_V4_ADDENDUM if fact is not None else "")},
+            {"role": "user", "content": claim + "\n\n" + renderer.observation(_shown(win, root, harden)) + extra}]
     try:
-        reply = model.decide(msgs, schema=VerdictV2.model_json_schema())
-        return VerdictV2.model_validate_json(reply.content), win.event_id
+        reply = model.decide(msgs, schema=schema.model_json_schema())
+        return schema.model_validate_json(reply.content), win.event_id, shown
     except (ModelError, ValidationError, json.JSONDecodeError):
-        return None, win.event_id
+        return None, win.event_id, shown
 
 
 def _in_window(line: int, registry: ToolRegistry, event_id: str) -> bool:

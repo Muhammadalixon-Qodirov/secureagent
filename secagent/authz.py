@@ -54,7 +54,15 @@ ROUTE_ATTRS = {"route", "get", "post", "put", "patch", "delete", "api_route"}
 USER_TOKEN = re.compile(r"\b(user|actor|current_user|principal|me|viewer|requester|request)\b")
 OWNER_COMPARE = re.compile(r"\.\w+_id\b\s*(?:[=!]=|not\s+in\b|in\b)|[=!]=\s*[\w.]+\.\w+_id\b|"
                            r"\.(?:owner|user|author|creator|created_by)\b\s*[=!]=|[=!]=\s*[\w.]+\.(?:owner|user|author)\b|"
-                           r"\b\w+_id\s*=\s*(?:self\.)?(?:request\.user|current_user|user|actor)\b")
+                           r"(?:filter|filter_by|where|get|get_object_or_404|exclude)\([^\n]*\b\w+_id\s*=\s*"
+                           r"(?:self\.)?(?:request\.user|current_user|user|actor)\b")
+ADMIN_ONLY = re.compile(r"admin|superuser|is_staff\b", re.I)
+
+
+def _methods(tree: ast.AST) -> set[int]:
+    """ids of functions defined directly in a class body: `x.get(...)` must not resolve to SomeView.get."""
+    return {id(f) for c in ast.walk(tree) if isinstance(c, ast.ClassDef)
+            for f in c.body if isinstance(f, (ast.FunctionDef, ast.AsyncFunctionDef))}
 ROLE_CHECK = re.compile(r"\.role\b|\brole\s*(?:[=!]=|in\b|not\s+in\b)|is_admin|is_staff|is_superuser|has_role|"
                         r"require_role|has_perm|is_manager|\bpermissions?\b|\bscopes?\b", re.I)
 LOGIN_CHECK = re.compile(r"HTTP_401|status_code\s*=\s*401|abort\(\s*401|jwt\.decode|decode_token|verify_token|"
@@ -120,10 +128,18 @@ def _call_name(n: ast.AST) -> str:
 
 def _fk_target(call: ast.Call) -> str | None:
     for a in ast.walk(call):
-        if isinstance(a, ast.Call) and _call_name(a) == "ForeignKey" and a.args:
+        if isinstance(a, ast.Call) and _call_name(a) in ("ForeignKey", "OneToOneField") and a.args:
             t = a.args[0]
+            if isinstance(t, ast.Attribute) and t.attr == "AUTH_USER_MODEL":
+                return "user"                                    # Django: settings.AUTH_USER_MODEL
+            if isinstance(t, ast.Call) and _call_name(t) == "get_user_model":
+                return "user"
             if isinstance(t, ast.Constant) and isinstance(t.value, str):
-                return t.value.split(".")[0]
+                # SQLAlchemy Column(ForeignKey("users.id")) names table.column; Django ForeignKey("app.Model")
+                # (the field call itself) names app.Model
+                return t.value.split(".")[-1] if a is call else t.value.split(".")[0]
+            if isinstance(t, ast.Name):
+                return t.id
             if isinstance(t, ast.Attribute) and isinstance(t.value, ast.Name):
                 return t.value.id
         if isinstance(a, ast.keyword) and a.arg == "foreign_key" and isinstance(a.value, ast.Constant):
@@ -137,6 +153,8 @@ def _class_models(tree: ast.Module, file: str) -> list[dict]:
         if not isinstance(c, ast.ClassDef):
             continue
         cols, fks, table = [], {}, c.name.lower()
+        bases = [ast.unparse(b) for b in c.bases]
+        django_model = any(b.endswith("Model") or "AbstractUser" in b or "AbstractBaseUser" in b for b in bases)
         for st in c.body:
             target, value = None, None
             if isinstance(st, ast.Assign) and len(st.targets) == 1 and isinstance(st.targets[0], ast.Name):
@@ -148,14 +166,17 @@ def _class_models(tree: ast.Module, file: str) -> list[dict]:
                 continue
             if target is None or not isinstance(value, ast.Call):
                 continue
-            if _call_name(value) in ("Column", "mapped_column", "Field", "relationship"):
-                if _call_name(value) != "relationship":
+            cn = _call_name(value)
+            if cn in ("Column", "mapped_column", "Field", "relationship") or (
+                    django_model and (cn.endswith("Field") or cn in ("ForeignKey", "OneToOneField"))):
+                if cn not in ("relationship", "ManyToManyField"):
                     cols.append(target)
                 fk = _fk_target(value)
                 if fk:
                     fks[target] = fk
         if cols:
-            out.append({"name": c.name, "table": table, "columns": cols, "fks": fks, "file": file, "line": c.lineno})
+            out.append({"name": c.name, "table": table, "columns": cols, "fks": fks, "file": file, "line": c.lineno,
+                        "is_user": any("AbstractUser" in b or "AbstractBaseUser" in b for b in bases)})
     return out
 
 
@@ -219,8 +240,8 @@ def ownership_map(files: dict[str, str]) -> tuple[dict[str, OwnedModel], set[str
     for rel, src in files.items():                  # only for tables with no schema/model in the code
         raw += [m for m in _sql_usage_models(src, rel) if m["table"].lower() not in known]
     users = {m["name"] for m in raw if USER_TABLE_NAMES.match(m["table"]) or USER_TABLE_NAMES.match(m["name"])
-             or any(PASSWORD_COLUMNS.match(c) for c in m["columns"])}
-    user_keys = {u.lower() for u in users} | {m["table"].lower() for m in raw if m["name"] in users}
+             or any(PASSWORD_COLUMNS.match(c) for c in m["columns"]) or m.get("is_user")}
+    user_keys = {u.lower() for u in users} | {m["table"].lower() for m in raw if m["name"] in users} | {"user"}
     owned: dict[str, OwnedModel] = {}
     for m in raw:                                   # direct ownership
         if m["name"] in users:
@@ -302,13 +323,14 @@ def _models_accessed(body: str, owned: dict[str, OwnedModel]) -> list[str]:
     for name, om in owned.items():
         cls, tbl = re.escape(name), re.escape(om.table)
         if re.search(rf"\b{cls}\.(query|objects|get|select|filter)|\b{cls}\s*,|select\(\s*{cls}\b|query\(\s*{cls}\b|"
-                     rf"\b{cls}\.id\b|get_or_404\(\s*{cls}\b|\bget\(\s*{cls}\b", body) or \
+                     rf"\b{cls}\.id\b|get_or_404\(\s*{cls}\b|\bget\(\s*{cls}\b|get_list_or_404\(\s*{cls}\b|"
+                     rf"\bmodel\s*=\s*{cls}\b", body) or \
            re.search(rf"(FROM|UPDATE|INTO|DELETE\s+FROM)\s+[`\"]?{tbl}\b", body, re.I):
             hits.append(name)
     return hits
 
 
-USER_ID_EXPR = (r"(current_user\.id|current_user\b|user\.id|g\.user(\.id)?|me\.id|uid\b|"
+USER_ID_EXPR = (r"(current_user\.id|current_user\b|(?:self\.)?request\.user(?:\.id|\.pk)?\b|user\.id|g\.user(\.id)?|me\.id|uid\b|"
                 r"session\s*\[\s*['\"]\w+['\"]\s*\]|session\.get\([^)]*\)|current_user_id\(\))")
 
 
@@ -351,8 +373,9 @@ def helper_summaries(trees: dict, files: dict[str, str], owner_cols: set[str]) -
     info: dict[str, tuple[str | None, str, int, int, set[str]]] = {}
     for rel, tree in trees.items():
         lines = files[rel].splitlines()
+        methods = _methods(tree)
         for n in ast.walk(tree):
-            if isinstance(n, (ast.FunctionDef, ast.AsyncFunctionDef)) and n.name not in info:
+            if isinstance(n, (ast.FunctionDef, ast.AsyncFunctionDef)) and n.name not in info and id(n) not in methods:
                 is_route = _route_info(n)[0]
                 body = "\n".join(lines[n.lineno - 1:n.end_lineno])
                 called = {_call_name(c) for c in ast.walk(n) if isinstance(c, ast.Call)} - {n.name}
@@ -444,6 +467,9 @@ def route_facts(files: dict[str, str], owned: dict[str, OwnedModel], resolve: bo
                 elif auth == "none" and "login" in kinds:
                     auth, auth_ev = "login", [f"calls {h[0]}, which rejects unauthenticated requests"
                                               for h in helpers if h[4] == "login"]
+                elif auth == "none" and (GATE.search(body) or "owner" in kinds):
+                    # the handler itself answers 401/403, or delegates to an owner check: it knows a user
+                    auth, auth_ev = "login", ["the handler rejects requests with 401/403 or calls an owner check"]
                 helpers.sort(key=lambda h: -RANK[h[4]])
                 access = [m for m in models if m in owned]
                 for i, ln in enumerate(lines[fn.lineno - 1:fn.end_lineno], fn.lineno):
@@ -452,6 +478,73 @@ def route_facts(files: dict[str, str], owned: dict[str, OwnedModel], resolve: bo
                         break
             out.append(RouteFacts(rel, fn.name, start, fn.end_lineno, methods, path, id_params, auth, auth_ev,
                                   models, (bool(owner_ev) and not helper_only) or auth == "owner", owner_ev, writes,
+                                  access_line, helpers[:MAX_HELPERS]))
+    if resolve:
+        out += _django_facts(files, trees, defs, owned, owner_cols, summaries)
+    return out
+
+
+def _django_facts(files, trees, defs, owned, owner_cols, summaries) -> list[RouteFacts]:
+    from . import authz_django as dj
+    defs = {}                                       # plain functions only (see _methods)
+    for rel, tree in trees.items():
+        ls, methods = files[rel].splitlines(), _methods(tree)
+        for n in ast.walk(tree):
+            if isinstance(n, (ast.FunctionDef, ast.AsyncFunctionDef)) and id(n) not in methods:
+                defs.setdefault(n.name, "\n".join(ls[n.lineno - 1:n.end_lineno]))
+    dj_files = sorted(rel for rel in trees if dj.is_django(files[rel]))
+    if not dj_files:
+        return []
+    routed, default = dj.url_names(files), dj.global_auth(files)
+    class_src: dict[str, str] = {}
+    for rel, tree in trees.items():
+        ls = files[rel].splitlines()
+        for n in ast.walk(tree):
+            if isinstance(n, ast.ClassDef):
+                class_src.setdefault(n.name, "\n".join(ls[n.lineno - 1:n.end_lineno]))
+    skip = ("urls.py", "models.py", "admin.py", "settings.py", "serializers.py", "forms.py", "apps.py", "permissions.py")
+    out = []
+    for rel in dj_files:
+        if rel.endswith(skip) or "/migrations/" in rel or "/management/" in rel:
+            continue
+        lines = files[rel].splitlines()
+        for node, kind in dj.units(trees[rel], rel, routed):
+            start = min([d.lineno for d in node.decorator_list] + [node.lineno])
+            body = "\n".join(lines[node.lineno - 1:node.end_lineno])
+            called = {_call_name(c) for c in ast.walk(node) if isinstance(c, ast.Call)} - {node.name}
+            text = body + "\n" + "\n".join(defs[c] for c in called if c in defs)
+            methods, id_params = dj.unit_shape(node, kind, body, ID_PARAM)
+            auth, auth_ev, perm_owner = dj.unit_auth(node, body, lines, class_src,
+                                                     lambda b: _classify(b, owner_cols), default)
+            models = _models_accessed(text, owned)
+            owner_ev = _owner_constraint(text, owner_cols)
+            if owner_ev in ([], ["calls an access-check helper"]) and dj.DJANGO_SCOPED.search(text):
+                owner_ev = ["query or comparison scoped to request.user"]
+            helpers = [(name, *summaries[name][1:], summaries[name][0]) for name in sorted(called & set(summaries))]
+            kinds = {h[4] for h in helpers}
+            if "owner" in kinds:
+                owner_ev = [f"calls {h[0]} ({h[1]}:{h[2]}), which compares the object's owner with the user"
+                            for h in helpers if h[4] == "owner"]
+            if perm_owner:
+                owner_ev = [e for e in auth_ev if "owner" in e]
+            if auth != "role" and "role" in kinds:
+                auth, auth_ev = "role", auth_ev + ["role check in a called helper"]
+            elif auth == "none" and "login" in kinds:
+                auth, auth_ev = "login", ["a called helper rejects unauthenticated requests"]
+            helper_only = owner_ev == ["calls an access-check helper"]
+            m_req = REQUEST_OWNER.search(body)
+            if m_req:
+                owner_ev, helper_only = ["owner id taken from the request, not from the session"], True
+                id_params = sorted(set(id_params) | {f"{m_req.group(m_req.lastindex)} (request data)"})
+            writes = bool(set(methods) & {"POST", "PUT", "PATCH", "DELETE"}) or bool(dj.DJANGO_WRITE.search(body))
+            access_line = 0
+            for i, ln in enumerate(lines[node.lineno - 1:node.end_lineno], node.lineno):
+                if _models_accessed(ln, {m: owned[m] for m in models}):
+                    access_line = i
+                    break
+            helpers.sort(key=lambda h: -RANK[h[4]])
+            out.append(RouteFacts(rel, node.name, start, node.end_lineno, methods, None, id_params, auth, auth_ev,
+                                  models, bool(owner_ev) and not helper_only, owner_ev, writes,
                                   access_line, helpers[:MAX_HELPERS]))
     return out
 
@@ -478,7 +571,12 @@ def idor_candidates(root: Path, py_files: list[Path], resolve: bool = False
             # v4: a role check alone does not scope the object. Role-gated handlers are candidates only
             # when sibling handlers on the same model do scope it (consistency); otherwise the model is
             # treated as role-managed by design.
-            if resolve and r.auth == "role" and not siblings:
+            if resolve and r.auth == "role" and (not siblings or ADMIN_ONLY.search(" ".join(r.auth_evidence)
+                                                                                    + " " + " ".join(h[0] for h in r.helpers))):
+                continue                                    # admin-only handlers act on every object by design
+            # v4: an unauthenticated read has no user to compare the owner with - it is public by design
+            # or a missing-authentication problem (handled below), not object-level authorization
+            if resolve and r.auth == "none" and not r.writes:
                 continue
             reason = (f"{','.join(r.methods)} {r.path or r.function}: loads/changes owned model {mname} "
                       f"({owned[mname].via}: {', '.join(owned[mname].owner_columns)}) by request id "
