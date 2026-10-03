@@ -23,6 +23,7 @@ expensive to keep.
 from __future__ import annotations
 
 import json
+import re
 import time
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -45,6 +46,9 @@ CARDS = ROOT / "data" / "knowledge_cards"
 FAMILY_CWE = {"sql_injection": "CWE-89", "path_traversal": "CWE-22", "authorization_idor": "CWE-639"}
 TEST_DIRS = {"tests", "test", "testing"}
 MAX_WINDOWS = 40
+MAX_WINDOWS_V4 = 80                 # v4 reads more: the 40-window cap left 150 FastAPI windows unread (T11)
+SINK_HINT = re.compile(r"\.execute\(|\.raw\(|executescript\(|\btext\(|send_file\(|send_from_directory\(|\bopen\(|"
+                       r"FileResponse\(|os\.path\.join\(")
 VERIFY_PADDING = 25
 
 
@@ -115,7 +119,15 @@ VERIFY_V4_ADDENDUM = (
     "with the acting user and the handler's result depends on it, the claim fails - give that line in "
     "control_line and the helper's path in control_file. A role check alone (admin, staff) does not scope "
     "which objects a user of that role may touch; if sibling handlers scope the object and this one does not, "
-    "the claim holds. An endpoint that is public by design (catalogue, storefront, login) is not a finding."
+    "the claim holds. An unauthenticated read of content that is public by design (catalogue, storefront, "
+    "login form) is not a finding."
+)
+VERIFY_V4_MISSING_AUTH = (
+    "\nThis claim is about MISSING AUTHENTICATION on a sensitive operation. AUTHZ FACTS computed from the code "
+    "(trusted) and the bodies of helper functions the handler calls are shown. The claim fails only if the "
+    "shown code authenticates the caller before the operation - give that line in control_line (and the "
+    "helper's path in control_file if it is in a helper). That the operation looks harmless, or that other "
+    "bugs exist in the handler, is not a control."
 )
 
 
@@ -218,23 +230,26 @@ def run_sweep(config: Config, model, registry: ToolRegistry, verify: bool = True
     if authz and "authorization_idor" in families:
         candidates, context, handlers, facts = _authz_seeds(root, registry, stats, notes, resolve)
 
-    windows = []
+    windows, sink_files = [], set()
     for py in (_python_files(root) if sweep else []):
         rel = py.relative_to(root).as_posix()
         if resolve and "/migrations/" in "/" + rel:         # generated schema history, no request handling
             continue
         src = py.read_text(encoding="utf-8", errors="replace")
+        if SINK_HINT.search(src):
+            sink_files.add(rel)
         routes = route_inventory(src, rel)
         for a, b in chunk_file(src):
             windows.append((rel, a, b, routes))
-    if resolve:                                             # v4: spend the window budget on request handlers first
+    cap = MAX_WINDOWS_V4 if resolve else MAX_WINDOWS
+    if resolve:             # v4: spend the budget on request handlers and on files with SQL / file sinks first
         handler_files = {r.file for r in facts}
-        windows.sort(key=lambda w: (not (w[3] or w[0] in handler_files), w[0], w[1]))
-    if len(windows) > MAX_WINDOWS:
-        stats.windows_skipped = len(windows) - MAX_WINDOWS
-        notes.append(f"coverage limited to {MAX_WINDOWS} of {len(windows)} windows; skipped: " +
-                     ", ".join(sorted({w[0] for w in windows[MAX_WINDOWS:]})))
-        windows = windows[:MAX_WINDOWS]
+        windows.sort(key=lambda w: (not (w[3] or w[0] in handler_files or w[0] in sink_files), w[0], w[1]))
+    if len(windows) > cap:
+        stats.windows_skipped = len(windows) - cap
+        notes.append(f"coverage limited to {cap} of {len(windows)} windows; skipped: " +
+                     ", ".join(sorted({w[0] for w in windows[cap:]})))
+        windows = windows[:cap]
 
     # ---- A: coverage sweep
     for rel, a, b, routes in windows:
@@ -395,7 +410,9 @@ def _verify(c: Candidate, path: str, registry: ToolRegistry, model, renderer: Re
     if context:
         claim += "\n" + context
     schema = VerdictV4 if fact is not None else VerdictV2
-    msgs = [{"role": "system", "content": VERIFY_SYSTEM + (VERIFY_V4_ADDENDUM if fact is not None else "")},
+    addendum = "" if fact is None else (VERIFY_V4_MISSING_AUTH if c.title.startswith("Missing authentication")
+                                        else VERIFY_V4_ADDENDUM)
+    msgs = [{"role": "system", "content": VERIFY_SYSTEM + addendum},
             {"role": "user", "content": claim + "\n\n" + renderer.observation(_shown(win, root, harden)) + extra}]
     try:
         reply = model.decide(msgs, schema=schema.model_json_schema())
