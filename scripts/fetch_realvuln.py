@@ -55,7 +55,17 @@ def blank_comments(src: str) -> str:
 
 
 def main() -> int:
-    bench_sha = json.loads(get(f"https://api.github.com/repos/{BENCH}/commits/main"))["sha"]
+    import argparse
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--framework", default="flask")
+    ap.add_argument("--out", type=Path, default=OUT)
+    ap.add_argument("--commit", help="benchmark commit to pin (default: current main)")
+    a = ap.parse_args()
+    return fetch(a.framework, a.out, a.commit)
+
+
+def fetch(framework: str, OUT: Path, commit: str | None) -> int:
+    bench_sha = commit or json.loads(get(f"https://api.github.com/repos/{BENCH}/commits/main"))["sha"]
     tree = json.loads(get(f"https://api.github.com/repos/{BENCH}/git/trees/{bench_sha}?recursive=1"))
     gt_paths = [t["path"] for t in tree["tree"] if t["path"].endswith("ground-truth.json")]
     targets = []
@@ -63,11 +73,11 @@ def main() -> int:
     gt_dir.mkdir(parents=True, exist_ok=True)
     for p in gt_paths:
         gt = json.loads(get(f"https://raw.githubusercontent.com/{BENCH}/{bench_sha}/{p}"))
-        if gt.get("language") != "python" or gt.get("framework") != "flask":
+        if gt.get("language") != "python" or gt.get("framework") != framework:
             continue
         (gt_dir / f"{gt['repo_id']}.json").write_text(json.dumps(gt, indent=2), encoding="utf-8")
         targets.append(gt)
-    print(f"RealVuln {bench_sha[:12]}: {len(targets)} Flask targets")
+    print(f"RealVuln {bench_sha[:12]}: {len(targets)} {framework} targets")
 
     files_hash, removed = {}, {}
     for gt in targets:

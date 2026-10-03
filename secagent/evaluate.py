@@ -100,6 +100,9 @@ def load_realvuln(realvuln: Path = REALVULN) -> tuple[list[Case], dict[str, str]
 DATASETS = {
     "holdout": (load_holdout, HOLDOUT / "apps", OUT),
     "realvuln": (load_realvuln, REALVULN / "targets", ROOT / "runs" / "eval_realvuln"),
+    # test set for v3, frozen before v3 was written (docs/fastapi_protocol.md)
+    "realvuln_fastapi": (lambda: load_realvuln(ROOT / "eval" / "realvuln_fastapi"),
+                         ROOT / "eval" / "realvuln_fastapi" / "targets", ROOT / "runs" / "eval_fastapi"),
 }
 
 
