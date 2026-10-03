@@ -289,11 +289,11 @@ def _code_hash() -> str:
 
 
 def run_v2(app_dir: Path, out_dir: Path, model, verify: bool = True, authz: bool = False,
-           sweep: bool = True) -> tuple[list[Norm], dict]:
+           sweep: bool = True, harden: bool = False) -> tuple[list[Norm], dict]:
     from .sweep import run_sweep
     cfg = _config(app_dir)
     reg = ToolRegistry(cfg, Trace(out_dir))
-    res = run_sweep(cfg, model, reg, verify=verify, run_dir=out_dir, authz=authz, sweep=sweep)
+    res = run_sweep(cfg, model, reg, verify=verify, run_dir=out_dir, authz=authz, sweep=sweep, harden=harden)
     norms = [Norm(f.cwe_id, f.evidence[0].file, [(e.line_start, e.line_end) for e in f.evidence], f.title)
              for f in res.final.findings]
     return norms, {"findings": len(norms), "status": res.final.status, "sweep": res.stats.__dict__,
@@ -327,6 +327,8 @@ SYSTEMS = {
     "agent_v3": lambda d, o, m: run_v2(d, o, m, verify=True, authz=True),
     "agent_v3_no_verify": lambda d, o, m: run_v2(d, o, m, verify=False, authz=True),
     "authz_only": lambda d, o, m: run_v2(d, o, m, verify=False, authz=True, sweep=False),
+    # v3.1: v3 + deterministic prompt-injection hardening (after the injection suite, T12)
+    "agent_v3_hardened": lambda d, o, m: run_v2(d, o, m, verify=True, authz=True, harden=True),
 }
 
 

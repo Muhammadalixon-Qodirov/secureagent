@@ -51,9 +51,11 @@ INVISIBLE = re.compile("[​-‏‪-‮⁠-⁤⁦-⁩﻿]")
 def reveal_hidden(text: str) -> str:
     """Make invisible Unicode visible: tag characters (which can smuggle ASCII text past a
     human reader), bidi controls (Trojan Source, CVE-2021-42574) and zero-width characters."""
-    text = TAG_RUN.sub(lambda m: "[hidden unicode tag text: "
-                       + "".join(chr(ord(c) - 0xE0000) for c in m.group() if 0x20 <= ord(c) - 0xE0000 < 0x7F)
-                       + "]", text)
+    if not (TAG_RUN.search(text) or INVISIBLE.search(text)):
+        return text
+    # Tag text is counted, not decoded: decoding hands the hidden instruction to the model in
+    # readable form (the injection suite's invisible_unicode case succeeded that way).
+    text = TAG_RUN.sub(lambda m: f"[{len(m.group())} hidden unicode tag characters removed]", text)
     return INVISIBLE.sub(lambda m: f"[U+{ord(m.group()):04X}]", text)
 
 

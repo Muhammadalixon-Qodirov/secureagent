@@ -46,7 +46,7 @@ cross-validation for anything learned) and the dev target — never this set.
 ## Frozen code
 
 Recorded 2026-10-03, after v3 development on the dev sets
-(`docs/experiments.md#t08`) and **before any system was run on this set**.
+(`docs/experiments.md#t10`) and **before any system was run on this set**.
 
 - v3 = commit `a910323`; `secagent/*.py` code hash **`a4a4667ed531acd6`**
   (`secagent.evaluate._code_hash()`, LF line endings as checked out).
@@ -70,7 +70,7 @@ they are.
 
 All six systems ran once on 2026-10-03; the code hash was `a4a4667ed531acd6`
 before and after. Tables: `eval/results_fastapi/RESULTS.md`; discussion and a
-clearly separated post-hoc analysis: `docs/experiments.md#t09`. Headline:
+clearly separated post-hoc analysis: `docs/experiments.md#t11`. Headline:
 agent v3 61 TP / 273 FP (P 0.18, R 0.34, F1 0.24) vs. agent v2 43 / 191
 (P 0.18, R 0.24, F1 0.21).
 
@@ -79,11 +79,11 @@ agent v3 61 TP / 273 FP (P 0.18, R 0.34, F1 0.24) vs. agent v2 43 / 191
 1. 21 of the 23 targets have entries in the three families; the other two
    (`python-insecure-app`, `python-ssti`) contribute no cases and were not
    run.
-3. Order differed from the one stated above: the two model-free systems
+2. Order differed from the one stated above: the two model-free systems
    (`semgrep`, `authz_only`) ran first, while the GPU was busy with a dev
    run; then `single_shot`, `agent_v2`, `agent_v3`, `agent_v3_no_verify`. The
    `authz_only` total (46 TP / 223 FP) was therefore known before the model
    systems ran; no code changed in between (same hash).
-2. The model run was one process that survived a restart of the driving
+3. The model run was one process that survived a restart of the driving
    session; no app was re-run (the runner resumes from saved per-app results,
    and none existed for the affected systems).

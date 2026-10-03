@@ -33,8 +33,9 @@ from pydantic import BaseModel, ConfigDict, Field, ValidationError
 
 from .authz import idor_candidates, render_facts
 from .config import Config
+from .hardening import blanked, code_lines
 from .model import ModelError
-from .prompt import Renderer
+from .prompt import INVISIBLE, TAG_RUN, Renderer
 from .routes import chunk_file, route_inventory
 from .schemas import Coverage, FinalDecision, Finding, HypothesisSummary
 from .tools import SKIP_DIRS, ToolRegistry
@@ -165,8 +166,11 @@ def _authz_seeds(root: Path, registry: ToolRegistry, stats: SweepStats, notes: l
 
 
 def run_sweep(config: Config, model, registry: ToolRegistry, verify: bool = True,
-              run_dir: Path | None = None, authz: bool = False, sweep: bool = True) -> SweepResult:
-    """authz=True is v3 (deterministic IDOR seeds); sweep=False skips the model sweep (ablation)."""
+              run_dir: Path | None = None, authz: bool = False, sweep: bool = True,
+              harden: bool = False) -> SweepResult:
+    """authz=True is v3 (deterministic IDOR seeds); sweep=False skips the model sweep (ablation);
+    harden=True blanks comments/docstrings in what the model sees and requires a withdrawal's
+    control line to be code (secagent/hardening.py)."""
     t0 = time.monotonic()
     stats, notes = SweepStats(), []
     renderer = Renderer()
@@ -200,8 +204,12 @@ def run_sweep(config: Config, model, registry: ToolRegistry, verify: bool = True
             notes.append(f"{rel}:{a}-{b} not read: {ev.error}")
             continue
         stats.windows += 1
+        if any(TAG_RUN.search(x["text"]) or INVISIBLE.search(x["text"]) for x in ev.data["lines"]):
+            note = f"{rel}: hidden Unicode characters in the source (possible Trojan Source / hidden instructions)"
+            if note not in notes:
+                notes.append(note)
         inv = "\n".join(r.render() for r in routes if r.line_end >= a and r.line_start <= b) or "(no routes in this window)"
-        user = f"FILE ROUTES (from AST, trusted):\n{inv}\n\n{renderer.observation(ev)}"
+        user = f"FILE ROUTES (from AST, trusted):\n{inv}\n\n{renderer.observation(_shown(ev, root, harden))}"
         msgs = [{"role": "system", "content": system}, {"role": "user", "content": user}]
         stats.sweep_calls += 1
         try:
@@ -239,11 +247,12 @@ def run_sweep(config: Config, model, registry: ToolRegistry, verify: bool = True
         confidence = "medium"
         rationale = f"{'authz analysis' if seeded else 'sweep'} candidate: {c.reason[:300]}"
         if verify:
-            v, win_event = _verify(c, d["path"], registry, model, renderer, context.get(id(c), ""))
+            v, win_event = _verify(c, d["path"], registry, model, renderer, context.get(id(c), ""), root, harden)
             if v is None:
                 stats.verifier_failed += 1
                 confidence, rationale = "low", rationale + " | verifier failed"
-            elif not v.claim_holds and v.control_line is not None and _in_window(v.control_line, registry, win_event):
+            elif (not v.claim_holds and v.control_line is not None and _in_window(v.control_line, registry, win_event)
+                  and (not harden or _is_code(v.control_line, d["path"], root))):
                 stats.verifier_withdrawn += 1
                 hyps.append(HypothesisSummary(id=hid, question=c.title, analysis_status="rejected",
                                               verification_status="not_run",
@@ -290,7 +299,28 @@ def run_sweep(config: Config, model, registry: ToolRegistry, verify: bool = True
     return SweepResult(final=final, stats=stats, notes=notes)
 
 
-def _verify(c: Candidate, path: str, registry: ToolRegistry, model, renderer: Renderer, context: str = ""):
+def _shown(ev, root: Path, harden: bool):
+    """The read event as the model sees it: comments and docstrings blanked when hardening is on."""
+    if not harden or ev.status != "ok" or not ev.data["path"].endswith(".py"):
+        return ev
+    try:
+        repl = blanked((root / ev.data["path"]).read_text(encoding="utf-8", errors="replace"))
+    except OSError:
+        return ev
+    lines = [{**x, "text": repl.get(x["n"], x["text"])} for x in ev.data["lines"]]
+    return ev.model_copy(update={"data": {**ev.data, "lines": lines}})
+
+
+def _is_code(line: int, path: str, root: Path) -> bool:
+    try:
+        rows = code_lines((root / path).read_text(encoding="utf-8", errors="replace"))
+    except OSError:
+        return True
+    return rows is None or line in rows
+
+
+def _verify(c: Candidate, path: str, registry: ToolRegistry, model, renderer: Renderer, context: str = "",
+            root: Path | None = None, harden: bool = False):
     win = registry.execute("read_file", {"path": path, "start_line": max(1, c.line - VERIFY_PADDING),
                                          "end_line": c.line + VERIFY_PADDING})
     if win.status != "ok":
@@ -299,7 +329,7 @@ def _verify(c: Candidate, path: str, registry: ToolRegistry, model, renderer: Re
     if context:
         claim += "\n" + context
     msgs = [{"role": "system", "content": VERIFY_SYSTEM},
-            {"role": "user", "content": claim + "\n\n" + renderer.observation(win)}]
+            {"role": "user", "content": claim + "\n\n" + renderer.observation(_shown(win, root, harden))}]
     try:
         reply = model.decide(msgs, schema=VerdictV2.model_json_schema())
         return VerdictV2.model_validate_json(reply.content), win.event_id

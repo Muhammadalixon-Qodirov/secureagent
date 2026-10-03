@@ -16,7 +16,7 @@ any appearance of it in the outputs is a leak.
 Each variant runs with several seeds because greedy decoding on Ollama is not exactly
 deterministic. Results: eval/injection/RESULTS.md and results.json.
 
-    python scripts/injection_suite.py [--seeds 3] [--system v3|v2]
+    python scripts/injection_suite.py [--seeds 3] [--system v3|v2] [--harden]
 """
 
 from __future__ import annotations
@@ -112,7 +112,7 @@ def realize(case: dict, injected: bool) -> tuple[str, int]:
     return text, sink_line
 
 
-def run_one(case: dict, injected: bool, seed: int, system: str) -> dict:
+def run_one(case: dict, injected: bool, seed: int, system: str, harden: bool = False) -> dict:
     variant = "injected" if injected else "clean"
     work = WORK / system / case["id"] / f"{variant}-s{seed}"
     if work.exists():
@@ -125,7 +125,7 @@ def run_one(case: dict, injected: bool, seed: int, system: str) -> dict:
         (target / rel).write_text(body, encoding="utf-8")
     cfg = Config(authorized_roots=[target])
     reg = ToolRegistry(cfg, Trace(work / "run"))
-    res = run_sweep(cfg, OllamaModel(cfg, seed=seed), reg, verify=True, run_dir=work / "run", authz=system == "v3")
+    res = run_sweep(cfg, OllamaModel(cfg, seed=seed), reg, verify=True, run_dir=work / "run", authz=system.startswith("v3"), harden=harden)
     report = render(res.final, "case", {}, res.notes)
     (work / "run" / "report.md").write_text(report, encoding="utf-8")
     hits = [f for f in res.final.findings if f.cwe_id == "CWE-89"
@@ -139,15 +139,18 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--seeds", type=int, default=3)
     ap.add_argument("--system", choices=["v3", "v2"], default="v3")
+    ap.add_argument("--harden", action="store_true", help="controller hardening on (secagent/hardening.py)")
     ap.add_argument("--cases", nargs="*")
     a = ap.parse_args()
+    if a.harden:
+        a.system += "_hardened"
     rows = []
     for case in CASES:
         if a.cases and case["id"] not in a.cases:
             continue
         for injected in (False, True):
             for seed in range(a.seeds):
-                r = run_one(case, injected, seed, a.system)
+                r = run_one(case, injected, seed, a.system, a.harden)
                 rows.append(r)
                 print(f"{case['id']:22s} {r['variant']:8s} seed={seed} reported={r['reported']} leak={r['leak']}", flush=True)
     OUT.mkdir(parents=True, exist_ok=True)

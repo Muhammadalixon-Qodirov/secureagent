@@ -36,6 +36,8 @@ def main(argv: list[str] | None = None) -> int:
                          "analysis; v1: tool-using agent loop")
     rv.add_argument("--single-pass", action="store_true", help="v1 only: one open-ended pass instead of one per family")
     rv.add_argument("--no-verify", action="store_true", help="skip the independent verifier (ablation)")
+    rv.add_argument("--no-harden", action="store_true",
+                    help="v2/v3: show comments and docstrings to the model (default: blanked, see hardening.py)")
     rv.add_argument("--run-dir", type=Path)
     rv.add_argument("--seed", type=int, default=0)
     a = ap.parse_args(argv)
@@ -53,7 +55,8 @@ def main(argv: list[str] | None = None) -> int:
     registry = ToolRegistry(config, Trace(run_dir))
     model = OllamaModel(config, seed=a.seed)
     if a.mode in ("v2", "v3"):
-        sw = run_sweep(config, model, registry, verify=not a.no_verify, run_dir=run_dir, authz=a.mode == "v3")
+        sw = run_sweep(config, model, registry, verify=not a.no_verify, run_dir=run_dir, authz=a.mode == "v3",
+                       harden=not a.no_harden)
         final, notes = sw.final, sw.notes
         summary = {"mode": a.mode, "status": final.status, "findings": len(final.findings), "stats": sw.stats.__dict__,
                    "tool_reliability": registry.trace.reliability()}

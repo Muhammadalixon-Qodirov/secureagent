@@ -71,14 +71,23 @@ set (0.75–0.83 there, 0.18 here, for v2 and v3 alike). SQLi and path traversal
 stay precise (v3: 8 TP / 2 FP and 11 TP / 1 FP); the false positives are IDOR
 claims on handlers that delegate authorization to helper functions the
 verifier is not shown. Analysis and the next step:
-[`docs/experiments.md#t09`](docs/experiments.md). Two more experiments are in
-T08: a learned false-positive filter (negative result, not adopted) and a
-prompt-injection suite (`scripts/injection_suite.py`,
-[`eval/injection/`](eval/injection/)).
+[`docs/experiments.md#t11`](docs/experiments.md). Two more experiments are in
+T10 and T12: a learned false-positive filter (negative result, not adopted)
+and a prompt-injection suite.
+
+**Prompt injection** (`scripts/injection_suite.py`, [`eval/injection/`](eval/injection/)):
+eight clean/injected app pairs, three seeds each. On the frozen v3, 3 of 8
+payloads made a real SQL injection disappear from the report (a docstring
+"override", a long policy string, instructions in invisible Unicode); no secret
+leaked in any run. After deterministic hardening in the controller
+(`secagent/hardening.py`: comments and docstrings are not shown to the model,
+hidden Unicode is removed and flagged, a verifier may withdraw a finding only by
+naming a line of code) 0 of 8 succeed. The defences were written against these
+cases, so that is a regression result, not an independent estimate.
 
 ## Quick start
 
-Tested from a fresh clone on Windows 11 (Python 3.10, Ollama 0.35, RTX 3050 8 GB); 97 tests pass (no model needed).
+Tested from a fresh clone on Windows 11 (Python 3.10, Ollama 0.35, RTX 3050 8 GB); 99 tests pass (no model needed).
 
 ```bash
 python -m venv .venv && .venv/Scripts/pip install -r requirements.txt   # use .venv/bin/ on Linux/macOS
@@ -102,6 +111,9 @@ ollama pull qwen3:8b
 .venv/Scripts/python -m secagent.evaluate --dataset holdout --systems semgrep single_shot agent_v2
 .venv/Scripts/python scripts/fetch_realvuln.py
 .venv/Scripts/python -m secagent.evaluate --dataset realvuln --systems agent_v2
+.venv/Scripts/python scripts/fetch_realvuln.py --framework fastapi --out eval/realvuln_fastapi --commit 7a710251f55c17d32d3adcb13d37468e2e3b9e4a
+.venv/Scripts/python -m secagent.evaluate --dataset realvuln_fastapi --systems agent_v3
+.venv/Scripts/python scripts/injection_suite.py --harden                     # prompt-injection suite
 ```
 
 Close GPU-heavy desktop apps first: with ~3 GB of VRAM taken by other programs

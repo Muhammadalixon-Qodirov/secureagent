@@ -14,7 +14,10 @@ A task is done only when its acceptance criterion is shown with evidence.
 | T06 | Reporting: JSON + Markdown, semantic validator (excerpts match read lines, ids resolve) | done | `secagent/report.py` (links/images/HTML neutralised, safe code fences); `tests/test_report.py`; example `runs/t05_demo_6/report.md` |
 | T07 | Evaluation: synthetic holdout + RealVuln Flask subset, baselines + ablations | done | `eval/results/RESULTS.md`; `docs/experiments.md#t07`; protocol + 5 deviations |
 | T08 | Optional lab verifier (Docker, no network) | blocked: Docker Desktop not running | — |
-| T09 | Clean-setup reproduction, demo, submission notes | todo | — |
+| T09 | Clean-setup reproduction, demo, submission notes | done | fresh clone: tests pass, offline index build, demo run; `docs/SUBMISSION.md` |
+| T10 | v3: deterministic authorization analysis (ownership map, route auth facts, consistency) seeding IDOR candidates; learned FP filter | done | `secagent/authz.py`, `tests/test_authz.py`, `scripts/authz_dev_check.py`; filter: negative result (`eval/fp_filter/`); `docs/experiments.md#t10` |
+| T11 | Independent test of v3 on RealVuln FastAPI, frozen before v3 existed, each system once | done | `docs/fastapi_protocol.md`, `eval/results_fastapi/RESULTS.md`, `docs/experiments.md#t11` |
+| T12 | Prompt-injection suite (8 clean/injected pairs, 3 seeds) and controller hardening | done | `scripts/injection_suite.py`, `eval/injection/`, `secagent/hardening.py`, `docs/experiments.md#t12` |
 
 ## Open decisions (owner)
 

@@ -24,7 +24,7 @@ DATASETS = {
 
 ORDER = ["semgrep", "single_shot", "agent", "agent_no_verify", "agent_no_cards", "agent_single_pass",
          "agent_no_verify_no_cards", "agent_v1", "agent_v2", "agent_v2_no_verify",
-         "authz_only", "agent_v3", "agent_v3_no_verify"]
+         "authz_only", "agent_v3", "agent_v3_no_verify", "agent_v3_hardened"]
 LABEL = {
     "semgrep": "Semgrep only (project rules)",
     "single_shot": "Single-shot LLM (no tools)",
@@ -39,6 +39,7 @@ LABEL = {
     "authz_only": "Authorization analysis only (no model)",
     "agent_v3": "Agent v3 (v2 + authorization seeds)",
     "agent_v3_no_verify": "Agent v3 without verifier",
+    "agent_v3_hardened": "Agent v3 + injection hardening (v3.1)",
 }
 
 
