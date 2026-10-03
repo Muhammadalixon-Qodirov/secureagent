@@ -248,11 +248,10 @@ def run_sweep(config: Config, model, registry: ToolRegistry, verify: bool = True
             if note not in notes:
                 notes.append(note)
         inv = "\n".join(r.render() for r in routes if r.line_end >= a and r.line_start <= b) or "(no routes in this window)"
-        if resolve:
-            in_win = [r for r in facts if r.file == rel and r.line_end >= a and r.line_start <= b]
-            if in_win:
-                inv += ("\n" + "\n".join(_facts_text(r) for r in in_win) + "\nDo not list an authorization "
-                        "candidate for a handler whose facts show an owner check, unless the code contradicts them.")
+        # The authz facts are NOT added to this prompt. A first v4 draft did, with "do not list an
+        # authorization candidate for a handler whose facts show an owner check": the 8B model then
+        # returned empty lists for SQL injection too (Flask dev set: SQLi 17 -> 12). The facts go to
+        # the verifier, which judges one claim at a time.
         user = f"FILE ROUTES (from AST, trusted):\n{inv}\n\n{renderer.observation(_shown(ev, root, harden))}"
         msgs = [{"role": "system", "content": system}, {"role": "user", "content": user}]
         stats.sweep_calls += 1
