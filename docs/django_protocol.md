@@ -45,6 +45,26 @@ Identical to `docs/realvuln_protocol.md` (family-level CWE match, same file,
 lines ±10, one-to-one, traps count as FP, in-scope unmatched findings count
 as FP). Precision, recall, F1 with 95% Wilson intervals, per family and micro.
 
+### Amendment 1 (2026-10-03, before any run on this set): secondary metric
+
+While developing v4 on the FastAPI set it turned out that the family-level
+rule counts location matches on entries whose *primary* CWE is not access
+control (mass assignment, CORS, business-logic gaps) as IDOR true positives
+(`docs/experiments.md`, T11 erratum). The primary metric above stays as
+declared, for comparability with the earlier runs. Added, and computed by
+`scripts/core_split.py` for every system:
+
+- IDOR true positives split into **core** (primary CWE in 639, 862, 863, 284,
+  285, 306, 425, 566) and other;
+- **core recall** = core true positives / core entries, with a Wilson
+  interval; **core precision** = core TP / (core TP + IDOR false positives).
+
+Aggregate counts on this set (the only thing read from the ground truth):
+150 IDOR-family vulnerable entries, **59 core**.
+
+The claim v4 is built to support is about the secondary metric: *fewer IDOR
+false positives than v2/v3 without losing core recall*.
+
 ## Systems
 
 | Id | Status when this protocol was written |
