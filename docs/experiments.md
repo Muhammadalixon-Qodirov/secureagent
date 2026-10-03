@@ -551,3 +551,37 @@ blanking, not separable with one run each. That set already has comments
 blanked by its protocol. The CLI enables hardening by default
 (`--no-harden` to disable); the FastAPI test numbers in T11 are for the
 frozen, unhardened v3.
+
+### T11 erratum — what the IDOR "true positives" on FastAPI were (found during v4 work, 2026-10-03)
+
+The pre-declared matching rule is family-level: an entry belongs to the IDOR
+family if its primary **or any acceptable** CWE maps to it, and a finding
+matches by family + location. On the FastAPI set that rule is looser than it
+looks: of the 125 IDOR-family vulnerable entries only **53** have an
+access-control primary CWE (639, 862, 863, 284, 285, 306); the other 72 are
+mass assignment (CWE-915), CORS/security misconfiguration (CWE-942),
+business-logic gaps (CWE-840), reliance on untrusted input (CWE-807) —
+mostly in seeded `*_operations.py` files. A "missing authentication" claim
+placed on such an endpoint is scored as a true positive although its reason
+is wrong. (On the Flask set the issue is small: 44 of 53 entries are core.)
+
+IDOR-family true positives split by the entry's primary CWE:
+
+| System (FastAPI) | core access-control (of 53) | other (of 72) |
+|---|---|---|
+| Single-shot LLM | 6 | 9 |
+| Agent v2 | 17 | 6 |
+| Authorization analysis only | 16 | 30 |
+| Agent v3 | 23 | 19 |
+| Agent v3 without verifier | 31 | 32 |
+
+So the T11 statement "v3 finds 42% more than v2" holds under the declared
+rule, but on access-control entries proper the gain is 23 vs 17 — and much of
+the rest was location coincidence: v3's missing-authentication rule did not
+recognise an authentication gate whose dependency has an opaque name
+(`Depends(_wrk_gate)`, a token-header check), flagged those endpoints, and
+the flags landed on unrelated seeded bugs. The T11 table is left as declared;
+this note is the correction to its interpretation. The core access-control
+entries here are mostly role-present-but-object-scope-missing bugs ("any
+underwriter can update any application", "dispatcher sees workers of other
+regions"), which no rule in v3 targets.

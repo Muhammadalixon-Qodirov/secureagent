@@ -50,6 +50,23 @@ SENSITIVE_BODY = re.compile(r"\.delete\(|DELETE\s+FROM|UPDATE\s+\w+\s+SET|INSERT
 WRITE_HINT = re.compile(r"\.delete\(|session\.delete|DELETE\s+FROM|UPDATE\s+\w+\s+SET|\.commit\(\)|setattr\(", re.I)
 ROUTE_ATTRS = {"route", "get", "post", "put", "patch", "delete", "api_route"}
 
+# ---- v4: helper resolution. A helper / dependency is classified from its BODY, not its name.
+USER_TOKEN = re.compile(r"\b(user|actor|current_user|principal|me|viewer|requester|request)\b")
+OWNER_COMPARE = re.compile(r"\.\w+_id\b\s*(?:[=!]=|not\s+in\b|in\b)|[=!]=\s*[\w.]+\.\w+_id\b|"
+                           r"\.(?:owner|user|author|creator|created_by)\b\s*[=!]=|[=!]=\s*[\w.]+\.(?:owner|user|author)\b|"
+                           r"\b\w+_id\s*=\s*(?:self\.)?(?:request\.user|current_user|user|actor)\b")
+ROLE_CHECK = re.compile(r"\.role\b|\brole\s*(?:[=!]=|in\b|not\s+in\b)|is_admin|is_staff|is_superuser|has_role|"
+                        r"require_role|has_perm|is_manager|\bpermissions?\b|\bscopes?\b", re.I)
+LOGIN_CHECK = re.compile(r"HTTP_401|status_code\s*=\s*401|abort\(\s*401|jwt\.decode|decode_token|verify_token|"
+                         r"oauth2_scheme|get_current_user|credentials|Unauthorized|api_key|x-api-key|"
+                         r"is_authenticated|session\.get\(|session\[", re.I)
+DENY = re.compile(r"raise\s|abort\(|return\s+False|return\s+None|HTTP_40[134]|40[134]\b|Forbidden|PermissionDenied", re.I)
+GATE = re.compile(r"status_code\s*=\s*(?:status\.)?(?:HTTP_)?40[13]|HTTPException\(\s*40[13]|abort\(\s*40[13]|"
+                  r"PermissionDenied|Forbidden\(|Unauthorized\(")
+USER_PARAM = re.compile(r"user|actor|principal|staff|admin|member|account|viewer|current", re.I)
+RANK = {None: 0, "login": 1, "role": 2, "owner": 3}
+MAX_HELPERS = 3
+
 
 @dataclass
 class OwnedModel:
@@ -76,6 +93,8 @@ class RouteFacts:
     owner_constraint: bool
     owner_evidence: list[str]
     writes: bool
+    access_line: int = 0            # v4: first line that touches an owned model (0 = unknown)
+    helpers: list[tuple[str, str, int, int, str]] = field(default_factory=list)   # v4: name, file, start, end, summary
 
 
 @dataclass
@@ -310,7 +329,50 @@ def _owner_constraint(body: str, owned_cols: set[str]) -> list[str]:
     return ev
 
 
-def route_facts(files: dict[str, str], owned: dict[str, OwnedModel]) -> list[RouteFacts]:
+def _classify(body: str, owner_cols: set[str]) -> str | None:
+    """What a function's body enforces: owner (compares an owner column / *_id attribute in a function
+    that knows the user), role, login, or nothing."""
+    cols = "|".join(re.escape(c) for c in owner_cols)
+    owner_cmp = OWNER_COMPARE.search(body) or (cols and re.search(rf"\b(?:{cols})\b\s*(?:[=!]=|=\s*\w)", body))
+    if owner_cmp and USER_TOKEN.search(body):
+        return "owner"
+    if ROLE_CHECK.search(body) and DENY.search(body):
+        return "role"
+    if LOGIN_CHECK.search(body) and DENY.search(body):
+        return "login"
+    if GATE.search(body) and re.search(r"headers|cookies|token|secret|key", body, re.I):
+        return "login"                      # a gate on a request credential, whatever it is called
+    return None
+
+
+def helper_summaries(trees: dict, files: dict[str, str], owner_cols: set[str]) -> dict[str, tuple[str, str, int, int]]:
+    """name -> (summary, file, start, end) for project functions that enforce something, callees included
+    (two rounds: a loader that calls an owner check is itself an owner check)."""
+    info: dict[str, tuple[str | None, str, int, int, set[str]]] = {}
+    for rel, tree in trees.items():
+        lines = files[rel].splitlines()
+        for n in ast.walk(tree):
+            if isinstance(n, (ast.FunctionDef, ast.AsyncFunctionDef)) and n.name not in info:
+                is_route = _route_info(n)[0]
+                body = "\n".join(lines[n.lineno - 1:n.end_lineno])
+                called = {_call_name(c) for c in ast.walk(n) if isinstance(c, ast.Call)} - {n.name}
+                info[n.name] = (None if is_route else _classify(body, owner_cols), rel, n.lineno, n.end_lineno or n.lineno,
+                                set() if is_route else called)
+    summ = {k: v[0] for k, v in info.items()}
+    for _ in range(2):
+        for k, (_, _, _, _, called) in info.items():
+            best = max([summ[k]] + [summ.get(c) for c in called], key=lambda x: RANK[x])
+            summ[k] = best
+    out = {k: (summ[k], v[1], v[2], v[3]) for k, v in info.items() if summ[k]}
+    for tree in trees.values():             # module-level aliases: require_staff = require_roles(...)
+        for st in tree.body:
+            if (isinstance(st, ast.Assign) and len(st.targets) == 1 and isinstance(st.targets[0], ast.Name)
+                    and isinstance(st.value, ast.Call) and _call_name(st.value) in out):
+                out.setdefault(st.targets[0].id, out[_call_name(st.value)])
+    return out
+
+
+def route_facts(files: dict[str, str], owned: dict[str, OwnedModel], resolve: bool = False) -> list[RouteFacts]:
     defs: dict[str, str] = {}
     trees = {}
     for rel, src in files.items():
@@ -323,6 +385,7 @@ def route_facts(files: dict[str, str], owned: dict[str, OwnedModel]) -> list[Rou
             if isinstance(n, (ast.FunctionDef, ast.AsyncFunctionDef)):
                 defs.setdefault(n.name, "\n".join(lines[n.lineno - 1:n.end_lineno]))
     owner_cols = {c for o in owned.values() for c in o.owner_columns}
+    summaries = helper_summaries(trees, files, owner_cols) if resolve else {}
     out = []
     for rel, tree in trees.items():
         lines = files[rel].splitlines()
@@ -356,14 +419,48 @@ def route_facts(files: dict[str, str], owned: dict[str, OwnedModel]) -> list[Rou
                 helper_only = True
                 id_params = sorted(set(id_params) | {f"{m_req.group(m_req.lastindex)} (request data)"})
             writes =bool(set(methods) & {"POST", "PUT", "PATCH", "DELETE"}) or bool(WRITE_HINT.search(body))
+            helpers, access_line = [], 0
+            if resolve:
+                deps = {_call_name(d.args[0]) for d in fn.args.defaults + [k for k in fn.args.kw_defaults if k is not None]
+                        if isinstance(d, ast.Call) and _call_name(d) in ("Depends", "Security") and d.args}
+                # an injected parameter that is the acting user implies authentication even when the
+                # dependency cannot be resolved (imported factory, class instance)
+                pos = fn.args.args[len(fn.args.args) - len(fn.args.defaults):] if fn.args.defaults else []
+                injected = [a for a, d in list(zip(pos, fn.args.defaults)) + list(zip(fn.args.kwonlyargs, fn.args.kw_defaults))
+                            if isinstance(d, ast.Call) and _call_name(d) in ("Depends", "Security")]
+                if auth == "none" and any(USER_PARAM.search(a.arg) or (a.annotation is not None
+                                          and USER_PARAM.search(ast.unparse(a.annotation))) for a in injected):
+                    auth, auth_ev = "login", ["an injected dependency provides the acting user"]
+                for name in sorted((called | deps) & set(summaries)):
+                    kind, hf, ha, hb = summaries[name]
+                    helpers.append((name, hf, ha, hb, kind))
+                kinds = {h[4] for h in helpers}
+                if "owner" in kinds and not m_req:
+                    owner_ev = [f"calls {h[0]} ({h[1]}:{h[2]}), which compares the object's owner with the user"
+                                for h in helpers if h[4] == "owner"]
+                    helper_only = False
+                if auth != "owner" and ("role" in kinds or (ROLE_CHECK.search(body) and DENY.search(body))):
+                    auth, auth_ev = "role", auth_ev + ["role check in the handler body or in a called helper"]
+                elif auth == "none" and "login" in kinds:
+                    auth, auth_ev = "login", [f"calls {h[0]}, which rejects unauthenticated requests"
+                                              for h in helpers if h[4] == "login"]
+                helpers.sort(key=lambda h: -RANK[h[4]])
+                access = [m for m in models if m in owned]
+                for i, ln in enumerate(lines[fn.lineno - 1:fn.end_lineno], fn.lineno):
+                    if _models_accessed(ln, {m: owned[m] for m in access}):
+                        access_line = i
+                        break
             out.append(RouteFacts(rel, fn.name, start, fn.end_lineno, methods, path, id_params, auth, auth_ev,
-                                  models, (bool(owner_ev) and not helper_only) or auth == "owner", owner_ev, writes))
+                                  models, (bool(owner_ev) and not helper_only) or auth == "owner", owner_ev, writes,
+                                  access_line, helpers[:MAX_HELPERS]))
     return out
 
 
 # ---------------------------------------------------------------- candidates
 
-def idor_candidates(root: Path, py_files: list[Path]) -> tuple[list[IdorCandidate], dict[str, OwnedModel], list[RouteFacts]]:
+def idor_candidates(root: Path, py_files: list[Path], resolve: bool = False
+                    ) -> tuple[list[IdorCandidate], dict[str, OwnedModel], list[RouteFacts]]:
+    """resolve=True is v4: helpers and dependencies are classified from their bodies (helper_summaries)."""
     files = {}
     for p in py_files:
         try:
@@ -371,13 +468,18 @@ def idor_candidates(root: Path, py_files: list[Path]) -> tuple[list[IdorCandidat
         except OSError:
             continue
     owned, _ = ownership_map(files)
-    facts = route_facts(files, owned)
+    facts = route_facts(files, owned, resolve)
     cands = []
     for r in facts:
-        if not r.id_params or not r.models_accessed or r.owner_constraint or r.auth == "role":
+        if not r.id_params or not r.models_accessed or r.owner_constraint or (r.auth == "role" and not resolve):
             continue
         for mname in r.models_accessed:
             siblings = [s for s in facts if s is not r and mname in s.models_accessed and s.owner_constraint]
+            # v4: a role check alone does not scope the object. Role-gated handlers are candidates only
+            # when sibling handlers on the same model do scope it (consistency); otherwise the model is
+            # treated as role-managed by design.
+            if resolve and r.auth == "role" and not siblings:
+                continue
             reason = (f"{','.join(r.methods)} {r.path or r.function}: loads/changes owned model {mname} "
                       f"({owned[mname].via}: {', '.join(owned[mname].owner_columns)}) by request id "
                       f"{', '.join(r.id_params)}; auth: {r.auth} ({'; '.join(r.auth_evidence) or 'none'}); "
