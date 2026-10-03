@@ -1,0 +1,6597 @@
+{
+  "system": "authz_only",
+  "metrics": {
+    "sql_injection": {
+      "tp": 0,
+      "fn": 22,
+      "fp_lookalike": 0,
+      "fp_unmatched": 0,
+      "precision": null,
+      "precision_ci95": null,
+      "recall": 0.0,
+      "recall_ci95": [
+        0.0,
+        0.149
+      ],
+      "f1": null,
+      "lookalike_fp_rate": 0.0,
+      "safe_cases": 13
+    },
+    "path_traversal": {
+      "tp": 0,
+      "fn": 35,
+      "fp_lookalike": 0,
+      "fp_unmatched": 0,
+      "precision": null,
+      "precision_ci95": null,
+      "recall": 0.0,
+      "recall_ci95": [
+        0.0,
+        0.099
+      ],
+      "f1": null,
+      "lookalike_fp_rate": 0.0,
+      "safe_cases": 11
+    },
+    "authorization_idor": {
+      "tp": 46,
+      "fn": 79,
+      "fp_lookalike": 6,
+      "fp_unmatched": 217,
+      "precision": 0.171,
+      "precision_ci95": [
+        0.131,
+        0.221
+      ],
+      "recall": 0.368,
+      "recall_ci95": [
+        0.289,
+        0.455
+      ],
+      "f1": 0.234,
+      "lookalike_fp_rate": 0.158,
+      "safe_cases": 38
+    },
+    "micro": {
+      "tp": 46,
+      "fn": 136,
+      "fp_lookalike": 6,
+      "fp_unmatched": 217,
+      "precision": 0.171,
+      "precision_ci95": [
+        0.131,
+        0.221
+      ],
+      "recall": 0.253,
+      "recall_ci95": [
+        0.195,
+        0.321
+      ],
+      "f1": 0.204,
+      "lookalike_fp_rate": 0.097,
+      "safe_cases": 62
+    }
+  },
+  "per_app": {
+    "vc-claude-code-seeded-v2-fintech-lending-fastapi": {
+      "tp": [
+        "vc-claude-code-seeded-v2-fintech-lending-fastapi-enrich-005",
+        "vc-claude-code-seeded-v2-fintech-lending-fastapi-enrich-006",
+        "vc-claude-code-seeded-v2-fintech-lending-fastapi-enrich-007",
+        "seeded-v2-campaign-2-123",
+        "seeded-v2-campaign-2-192",
+        "seeded-v2-campaign-3-441",
+        "vc-claude-code-seeded-v2-fintech-lending-fastapi-enrich-010"
+      ],
+      "fn": [
+        "seeded-v2-campaign-3-371",
+        "seeded-v2-campaign-3-390",
+        "seeded-v2-campaign-3-411",
+        "vc-claude-code-seeded-v2-fintech-lending-fastapi-enrich-004"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/applications.py",
+          "ranges": [
+            [
+              392,
+              392
+            ]
+          ],
+          "title": "Broken object-level authorization in set_risk_tier",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/applications.py",
+          "ranges": [
+            [
+              586,
+              586
+            ]
+          ],
+          "title": "Broken object-level authorization in make_decision",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/borrowers.py",
+          "ranges": [
+            [
+              90,
+              90
+            ]
+          ],
+          "title": "Broken object-level authorization in update_borrower",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/borrowers.py",
+          "ranges": [
+            [
+              138,
+              138
+            ]
+          ],
+          "title": "Broken object-level authorization in add_payment_account",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/borrowers.py",
+          "ranges": [
+            [
+              174,
+              174
+            ]
+          ],
+          "title": "Broken object-level authorization in remove_payment_account",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/documents.py",
+          "ranges": [
+            [
+              193,
+              193
+            ]
+          ],
+          "title": "Broken object-level authorization in download_document",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/documents.py",
+          "ranges": [
+            [
+              227,
+              227
+            ]
+          ],
+          "title": "Broken object-level authorization in review_document",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/integrations.py",
+          "ranges": [
+            [
+              54,
+              54
+            ]
+          ],
+          "title": "Broken object-level authorization in revoke_key",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/notifications.py",
+          "ranges": [
+            [
+              32,
+              32
+            ]
+          ],
+          "title": "Broken object-level authorization in mark_read",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/loan_operations.py",
+          "ranges": [
+            [
+              30,
+              30
+            ]
+          ],
+          "title": "Missing authentication on loan_wire_tally_008",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/loan_operations.py",
+          "ranges": [
+            [
+              116,
+              116
+            ]
+          ],
+          "title": "Missing authentication on loan_dock_shelf_390",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/loan_operations.py",
+          "ranges": [
+            [
+              124,
+              124
+            ]
+          ],
+          "title": "Missing authentication on loan_shell_probe_401",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/loan_operations.py",
+          "ranges": [
+            [
+              130,
+              130
+            ]
+          ],
+          "title": "Missing authentication on loan_mongo_lane_411",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/borrowers.py",
+          "ranges": [
+            [
+              125,
+              125
+            ]
+          ],
+          "title": "Broken object-level authorization in list_payment_accounts",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/loan_operations.py",
+          "ranges": [
+            [
+              50,
+              50
+            ]
+          ],
+          "title": "Missing authentication on loan_bundle_thaw_168",
+          "case": "seeded-v2-campaign-2-123"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/loan_operations.py",
+          "ranges": [
+            [
+              71,
+              71
+            ]
+          ],
+          "title": "Missing authentication on loan_vault_stash_235",
+          "case": "seeded-v2-campaign-2-192"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/loan_operations.py",
+          "ranges": [
+            [
+              160,
+              160
+            ]
+          ],
+          "title": "Missing authentication on loan_xml_fold_449",
+          "case": "seeded-v2-campaign-3-441"
+        }
+      ],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/applications.py",
+          "ranges": [
+            [
+              356,
+              356
+            ]
+          ],
+          "title": "Broken object-level authorization in assign_reviewer"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/applications.py",
+          "ranges": [
+            [
+              392,
+              392
+            ]
+          ],
+          "title": "Broken object-level authorization in set_risk_tier"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/applications.py",
+          "ranges": [
+            [
+              450,
+              450
+            ]
+          ],
+          "title": "Broken object-level authorization in add_note"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/applications.py",
+          "ranges": [
+            [
+              586,
+              586
+            ]
+          ],
+          "title": "Broken object-level authorization in make_decision"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/applications.py",
+          "ranges": [
+            [
+              670,
+              670
+            ]
+          ],
+          "title": "Broken object-level authorization in request_document"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/borrowers.py",
+          "ranges": [
+            [
+              90,
+              90
+            ]
+          ],
+          "title": "Broken object-level authorization in update_borrower"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/borrowers.py",
+          "ranges": [
+            [
+              138,
+              138
+            ]
+          ],
+          "title": "Broken object-level authorization in add_payment_account"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/borrowers.py",
+          "ranges": [
+            [
+              174,
+              174
+            ]
+          ],
+          "title": "Broken object-level authorization in remove_payment_account"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/documents.py",
+          "ranges": [
+            [
+              193,
+              193
+            ]
+          ],
+          "title": "Broken object-level authorization in download_document"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/documents.py",
+          "ranges": [
+            [
+              227,
+              227
+            ]
+          ],
+          "title": "Broken object-level authorization in review_document"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/integrations.py",
+          "ranges": [
+            [
+              54,
+              54
+            ]
+          ],
+          "title": "Broken object-level authorization in revoke_key"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/notifications.py",
+          "ranges": [
+            [
+              32,
+              32
+            ]
+          ],
+          "title": "Broken object-level authorization in mark_read"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/loan_operations.py",
+          "ranges": [
+            [
+              30,
+              30
+            ]
+          ],
+          "title": "Missing authentication on loan_wire_tally_008"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/loan_operations.py",
+          "ranges": [
+            [
+              41,
+              41
+            ]
+          ],
+          "title": "Missing authentication on loan_delta_123"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/loan_operations.py",
+          "ranges": [
+            [
+              50,
+              50
+            ]
+          ],
+          "title": "Missing authentication on loan_bundle_thaw_168"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/loan_operations.py",
+          "ranges": [
+            [
+              64,
+              64
+            ]
+          ],
+          "title": "Missing authentication on loan_workset_rebind_192"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/loan_operations.py",
+          "ranges": [
+            [
+              71,
+              71
+            ]
+          ],
+          "title": "Missing authentication on loan_vault_stash_235"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/loan_operations.py",
+          "ranges": [
+            [
+              116,
+              116
+            ]
+          ],
+          "title": "Missing authentication on loan_dock_shelf_390"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/loan_operations.py",
+          "ranges": [
+            [
+              124,
+              124
+            ]
+          ],
+          "title": "Missing authentication on loan_shell_probe_401"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/loan_operations.py",
+          "ranges": [
+            [
+              130,
+              130
+            ]
+          ],
+          "title": "Missing authentication on loan_mongo_lane_411"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/loan_operations.py",
+          "ranges": [
+            [
+              145,
+              145
+            ]
+          ],
+          "title": "Missing authentication on loan_trust_drift_431"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/loan_operations.py",
+          "ranges": [
+            [
+              160,
+              160
+            ]
+          ],
+          "title": "Missing authentication on loan_xml_fold_449"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/borrowers.py",
+          "ranges": [
+            [
+              77,
+              77
+            ]
+          ],
+          "title": "Broken object-level authorization in get_borrower"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/borrowers.py",
+          "ranges": [
+            [
+              125,
+              125
+            ]
+          ],
+          "title": "Broken object-level authorization in list_payment_accounts"
+        }
+      ],
+      "seconds": 0.7
+    },
+    "vc-claude-code-seeded-v2-logistics-dispatch-fastapi": {
+      "tp": [
+        "seeded-v2-campaign-2-126",
+        "vc-claude-code-seeded-v2-logistics-dispatch-fastapi-enrich-002"
+      ],
+      "fn": [
+        "seeded-v2-campaign-3-375",
+        "seeded-v2-campaign-3-393",
+        "seeded-v2-campaign-3-415",
+        "seeded-v2-campaign-3-435",
+        "vc-claude-code-seeded-v2-logistics-dispatch-fastapi-enrich-001",
+        "vc-claude-code-seeded-v2-logistics-dispatch-fastapi-enrich-003",
+        "vc-claude-code-seeded-v2-logistics-dispatch-fastapi-enrich-004",
+        "vc-claude-code-seeded-v2-logistics-dispatch-fastapi-enrich-013",
+        "vc-claude-code-seeded-v2-logistics-dispatch-fastapi-enrich-014"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/jobs.py",
+          "ranges": [
+            [
+              178,
+              178
+            ]
+          ],
+          "title": "Broken object-level authorization in update_job",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/jobs.py",
+          "ranges": [
+            [
+              217,
+              217
+            ]
+          ],
+          "title": "Broken object-level authorization in assign_job",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/jobs.py",
+          "ranges": [
+            [
+              316,
+              316
+            ]
+          ],
+          "title": "Broken object-level authorization in cancel_job",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/proofs.py",
+          "ranges": [
+            [
+              154,
+              154
+            ]
+          ],
+          "title": "Broken object-level authorization in delete_proof",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              30,
+              30
+            ]
+          ],
+          "title": "Missing authentication on dispatch_manifest_tally_020",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              64,
+              64
+            ]
+          ],
+          "title": "Missing authentication on dispatch_vault_stash_231",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              74,
+              74
+            ]
+          ],
+          "title": "Missing authentication on dispatch_formula_cast_254",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              113,
+              113
+            ]
+          ],
+          "title": "Missing authentication on dispatch_dock_shelf_393",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              128,
+              128
+            ]
+          ],
+          "title": "Missing authentication on dispatch_mongo_lane_415",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              155,
+              155
+            ]
+          ],
+          "title": "Missing authentication on dispatch_xml_fold_450",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/customers.py",
+          "ranges": [
+            [
+              70,
+              70
+            ]
+          ],
+          "title": "Broken object-level authorization in get_customer",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/jobs.py",
+          "ranges": [
+            [
+              62,
+              62
+            ]
+          ],
+          "title": "Broken object-level authorization in list_jobs",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/workers.py",
+          "ranges": [
+            [
+              70,
+              70
+            ]
+          ],
+          "title": "Broken object-level authorization in get_worker",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              50,
+              50
+            ]
+          ],
+          "title": "Missing authentication on dispatch_bundle_thaw_172",
+          "case": "seeded-v2-campaign-2-126"
+        }
+      ],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/jobs.py",
+          "ranges": [
+            [
+              178,
+              178
+            ]
+          ],
+          "title": "Broken object-level authorization in update_job"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/jobs.py",
+          "ranges": [
+            [
+              217,
+              217
+            ]
+          ],
+          "title": "Broken object-level authorization in assign_job"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/jobs.py",
+          "ranges": [
+            [
+              316,
+              316
+            ]
+          ],
+          "title": "Broken object-level authorization in cancel_job"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/proofs.py",
+          "ranges": [
+            [
+              154,
+              154
+            ]
+          ],
+          "title": "Broken object-level authorization in delete_proof"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              30,
+              30
+            ]
+          ],
+          "title": "Missing authentication on dispatch_manifest_tally_020"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              41,
+              41
+            ]
+          ],
+          "title": "Missing authentication on dispatch_delta_126"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              50,
+              50
+            ]
+          ],
+          "title": "Missing authentication on dispatch_bundle_thaw_172"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              64,
+              64
+            ]
+          ],
+          "title": "Missing authentication on dispatch_vault_stash_231"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              74,
+              74
+            ]
+          ],
+          "title": "Missing authentication on dispatch_formula_cast_254"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              113,
+              113
+            ]
+          ],
+          "title": "Missing authentication on dispatch_dock_shelf_393"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              128,
+              128
+            ]
+          ],
+          "title": "Missing authentication on dispatch_mongo_lane_415"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              155,
+              155
+            ]
+          ],
+          "title": "Missing authentication on dispatch_xml_fold_450"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/customers.py",
+          "ranges": [
+            [
+              70,
+              70
+            ]
+          ],
+          "title": "Broken object-level authorization in get_customer"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/customers.py",
+          "ranges": [
+            [
+              132,
+              132
+            ]
+          ],
+          "title": "Broken object-level authorization in list_locations"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/jobs.py",
+          "ranges": [
+            [
+              62,
+              62
+            ]
+          ],
+          "title": "Broken object-level authorization in list_jobs"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/workers.py",
+          "ranges": [
+            [
+              70,
+              70
+            ]
+          ],
+          "title": "Broken object-level authorization in get_worker"
+        }
+      ],
+      "seconds": 0.8
+    },
+    "vc-claude-code-seeded-v2-marketplace-commerce-fastapi": {
+      "tp": [],
+      "fn": [
+        "seeded-v2-campaign-1-022",
+        "seeded-v2-campaign-1-023",
+        "seeded-v2-campaign-1-024",
+        "seeded-v2-campaign-2-189",
+        "seeded-v2-campaign-3-376",
+        "seeded-v2-campaign-3-394",
+        "seeded-v2-campaign-3-416",
+        "seeded-v2-campaign-3-436",
+        "vc-claude-code-seeded-v2-marketplace-commerce-fastapi-enrich-001",
+        "vc-claude-code-seeded-v2-marketplace-commerce-fastapi-enrich-002"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/reviews.py",
+          "ranges": [
+            [
+              127,
+              127
+            ]
+          ],
+          "title": "Broken object-level authorization in flag_review",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/disputes.py",
+          "ranges": [
+            [
+              105,
+              105
+            ]
+          ],
+          "title": "Broken object-level authorization in get_dispute",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/disputes.py",
+          "ranges": [
+            [
+              118,
+              118
+            ]
+          ],
+          "title": "Broken object-level authorization in list_messages",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/disputes.py",
+          "ranges": [
+            [
+              230,
+              230
+            ]
+          ],
+          "title": "Broken object-level authorization in list_evidence",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/products.py",
+          "ranges": [
+            [
+              51,
+              51
+            ]
+          ],
+          "title": "Broken object-level authorization in list_storefront_products",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/products.py",
+          "ranges": [
+            [
+              81,
+              81
+            ]
+          ],
+          "title": "Broken object-level authorization in public_product_detail",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/reviews.py",
+          "ranges": [
+            [
+              19,
+              19
+            ]
+          ],
+          "title": "Broken object-level authorization in reviews_for_product",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/vendors.py",
+          "ranges": [
+            [
+              106,
+              106
+            ]
+          ],
+          "title": "Broken object-level authorization in get_public_vendor",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/seller_operations.py",
+          "ranges": [
+            [
+              59,
+              59
+            ]
+          ],
+          "title": "Missing authentication on seller_formula_cast_255",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/seller_operations.py",
+          "ranges": [
+            [
+              100,
+              100
+            ]
+          ],
+          "title": "Missing authentication on seller_shell_probe_396",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/reviews.py",
+          "ranges": [
+            [
+              127,
+              127
+            ]
+          ],
+          "title": "Broken object-level authorization in flag_review"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/disputes.py",
+          "ranges": [
+            [
+              105,
+              105
+            ]
+          ],
+          "title": "Broken object-level authorization in get_dispute"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/disputes.py",
+          "ranges": [
+            [
+              118,
+              118
+            ]
+          ],
+          "title": "Broken object-level authorization in list_messages"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/disputes.py",
+          "ranges": [
+            [
+              230,
+              230
+            ]
+          ],
+          "title": "Broken object-level authorization in list_evidence"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/products.py",
+          "ranges": [
+            [
+              51,
+              51
+            ]
+          ],
+          "title": "Broken object-level authorization in list_storefront_products"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/products.py",
+          "ranges": [
+            [
+              81,
+              81
+            ]
+          ],
+          "title": "Broken object-level authorization in public_product_detail"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/reviews.py",
+          "ranges": [
+            [
+              19,
+              19
+            ]
+          ],
+          "title": "Broken object-level authorization in reviews_for_product"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/vendors.py",
+          "ranges": [
+            [
+              106,
+              106
+            ]
+          ],
+          "title": "Broken object-level authorization in get_public_vendor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/seller_operations.py",
+          "ranges": [
+            [
+              59,
+              59
+            ]
+          ],
+          "title": "Missing authentication on seller_formula_cast_255"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/seller_operations.py",
+          "ranges": [
+            [
+              100,
+              100
+            ]
+          ],
+          "title": "Missing authentication on seller_shell_probe_396"
+        }
+      ],
+      "seconds": 0.7
+    },
+    "vc-claude-code-seeded-v2-property-management-fastapi": {
+      "tp": [
+        "vc-claude-code-seeded-v2-property-management-fastapi-enrich-010",
+        "seeded-v2-campaign-2-190",
+        "seeded-v2-campaign-3-437"
+      ],
+      "fn": [
+        "seeded-v2-campaign-1-025",
+        "seeded-v2-campaign-1-026",
+        "seeded-v2-campaign-3-386",
+        "seeded-v2-campaign-3-417",
+        "vc-claude-code-seeded-v2-property-management-fastapi-enrich-009",
+        "vc-claude-code-seeded-v2-property-management-fastapi-enrich-011",
+        "vc-claude-code-seeded-v2-property-management-fastapi-enrich-012"
+      ],
+      "fp_safe": [
+        "vc-claude-code-seeded-v2-property-management-fastapi-fp-002"
+      ],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routes/properties.py",
+          "ranges": [
+            [
+              151,
+              151
+            ]
+          ],
+          "title": "Broken object-level authorization in update_unit",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routes/tenants.py",
+          "ranges": [
+            [
+              99,
+              99
+            ]
+          ],
+          "title": "Broken object-level authorization in update_tenant",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routes/users.py",
+          "ranges": [
+            [
+              114,
+              114
+            ]
+          ],
+          "title": "Broken object-level authorization in assign_manager_properties",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routes/audit.py",
+          "ranges": [
+            [
+              18,
+              18
+            ]
+          ],
+          "title": "Broken object-level authorization in list_audit",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routes/leases.py",
+          "ranges": [
+            [
+              37,
+              37
+            ]
+          ],
+          "title": "Broken object-level authorization in list_leases",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routes/payments.py",
+          "ranges": [
+            [
+              30,
+              30
+            ]
+          ],
+          "title": "Broken object-level authorization in list_payments",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routes/properties.py",
+          "ranges": [
+            [
+              70,
+              70
+            ]
+          ],
+          "title": "Broken object-level authorization in get_property",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              38,
+              38
+            ]
+          ],
+          "title": "Missing authentication on tenant_meter_echo_027",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              61,
+              61
+            ]
+          ],
+          "title": "Missing authentication on tenant_digest_fold_271",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              96,
+              96
+            ]
+          ],
+          "title": "Missing authentication on tenant_dock_shelf_386",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              104,
+              104
+            ]
+          ],
+          "title": "Missing authentication on tenant_shell_probe_397",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              117,
+              117
+            ]
+          ],
+          "title": "Missing authentication on tenant_mongo_lane_417",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              55,
+              55
+            ]
+          ],
+          "title": "Missing authentication on tenant_wire_tally_214",
+          "case": "seeded-v2-campaign-2-190"
+        }
+      ],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routes/leases.py",
+          "ranges": [
+            [
+              88,
+              88
+            ]
+          ],
+          "title": "Broken object-level authorization in get_lease"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routes/properties.py",
+          "ranges": [
+            [
+              151,
+              151
+            ]
+          ],
+          "title": "Broken object-level authorization in update_unit"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routes/tenants.py",
+          "ranges": [
+            [
+              99,
+              99
+            ]
+          ],
+          "title": "Broken object-level authorization in update_tenant"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routes/users.py",
+          "ranges": [
+            [
+              114,
+              114
+            ]
+          ],
+          "title": "Broken object-level authorization in assign_manager_properties"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routes/audit.py",
+          "ranges": [
+            [
+              18,
+              18
+            ]
+          ],
+          "title": "Broken object-level authorization in list_audit"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routes/leases.py",
+          "ranges": [
+            [
+              37,
+              37
+            ]
+          ],
+          "title": "Broken object-level authorization in list_leases"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routes/payments.py",
+          "ranges": [
+            [
+              30,
+              30
+            ]
+          ],
+          "title": "Broken object-level authorization in list_payments"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routes/payments.py",
+          "ranges": [
+            [
+              73,
+              73
+            ]
+          ],
+          "title": "Broken object-level authorization in get_payment"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routes/properties.py",
+          "ranges": [
+            [
+              70,
+              70
+            ]
+          ],
+          "title": "Broken object-level authorization in get_property"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              38,
+              38
+            ]
+          ],
+          "title": "Missing authentication on tenant_meter_echo_027"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              48,
+              48
+            ]
+          ],
+          "title": "Missing authentication on tenant_workset_rebind_190"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              55,
+              55
+            ]
+          ],
+          "title": "Missing authentication on tenant_wire_tally_214"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              61,
+              61
+            ]
+          ],
+          "title": "Missing authentication on tenant_digest_fold_271"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              96,
+              96
+            ]
+          ],
+          "title": "Missing authentication on tenant_dock_shelf_386"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              104,
+              104
+            ]
+          ],
+          "title": "Missing authentication on tenant_shell_probe_397"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              117,
+              117
+            ]
+          ],
+          "title": "Missing authentication on tenant_mongo_lane_417"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              125,
+              125
+            ]
+          ],
+          "title": "Missing authentication on tenant_trust_drift_427"
+        }
+      ],
+      "seconds": 0.7
+    },
+    "vc-claude-code-seeded-v2-support-desk-fastapi": {
+      "tp": [
+        "vc-claude-code-seeded-v2-support-desk-fastapi-enrich-012",
+        "seeded-v2-campaign-1-029",
+        "seeded-v2-campaign-3-368",
+        "seeded-v2-campaign-3-438"
+      ],
+      "fn": [
+        "seeded-v2-campaign-2-232",
+        "seeded-v2-campaign-3-387",
+        "seeded-v2-campaign-3-418",
+        "vc-claude-code-seeded-v2-support-desk-fastapi-enrich-011"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/attachments.py",
+          "ranges": [
+            [
+              67,
+              67
+            ]
+          ],
+          "title": "Broken object-level authorization in upload_attachment",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/kb.py",
+          "ranges": [
+            [
+              135,
+              135
+            ]
+          ],
+          "title": "Broken object-level authorization in update_article",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/kb.py",
+          "ranges": [
+            [
+              168,
+              168
+            ]
+          ],
+          "title": "Broken object-level authorization in update_article_status",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/kb.py",
+          "ranges": [
+            [
+              200,
+              200
+            ]
+          ],
+          "title": "Broken object-level authorization in delete_article",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/notifications.py",
+          "ranges": [
+            [
+              30,
+              30
+            ]
+          ],
+          "title": "Broken object-level authorization in mark_read",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/escalations.py",
+          "ranges": [
+            [
+              40,
+              40
+            ]
+          ],
+          "title": "Missing authentication on list_escalations",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/kb.py",
+          "ranges": [
+            [
+              53,
+              53
+            ]
+          ],
+          "title": "Broken object-level authorization in get_public_article",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/kb.py",
+          "ranges": [
+            [
+              92,
+              92
+            ]
+          ],
+          "title": "Broken object-level authorization in get_article",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/kb.py",
+          "ranges": [
+            [
+              104,
+              104
+            ]
+          ],
+          "title": "Missing authentication on create_article",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/public_api.py",
+          "ranges": [
+            [
+              63,
+              63
+            ]
+          ],
+          "title": "Missing authentication on api_create_ticket",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/reports.py",
+          "ranges": [
+            [
+              153,
+              153
+            ]
+          ],
+          "title": "Missing authentication on escalations_export_csv",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/tickets.py",
+          "ranges": [
+            [
+              220,
+              220
+            ]
+          ],
+          "title": "Missing authentication on export_tickets_csv",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/tickets.py",
+          "ranges": [
+            [
+              393,
+              393
+            ]
+          ],
+          "title": "Missing authentication on ticket_audit_history",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/tickets.py",
+          "ranges": [
+            [
+              487,
+              487
+            ]
+          ],
+          "title": "Missing authentication on claim_ticket",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/tickets.py",
+          "ranges": [
+            [
+              567,
+              567
+            ]
+          ],
+          "title": "Missing authentication on list_internal_notes",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/tickets.py",
+          "ranges": [
+            [
+              582,
+              582
+            ]
+          ],
+          "title": "Missing authentication on add_internal_note",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/support_operations.py",
+          "ranges": [
+            [
+              44,
+              44
+            ]
+          ],
+          "title": "Missing authentication on ticket_wire_tally_210",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/support_operations.py",
+          "ranges": [
+            [
+              50,
+              50
+            ]
+          ],
+          "title": "Missing authentication on ticket_vault_stash_232",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/support_operations.py",
+          "ranges": [
+            [
+              60,
+              60
+            ]
+          ],
+          "title": "Missing authentication on ticket_digest_fold_272",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/support_operations.py",
+          "ranges": [
+            [
+              93,
+              93
+            ]
+          ],
+          "title": "Missing authentication on ticket_dock_shelf_387",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/support_operations.py",
+          "ranges": [
+            [
+              101,
+              101
+            ]
+          ],
+          "title": "Missing authentication on ticket_shell_probe_398",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/support_operations.py",
+          "ranges": [
+            [
+              114,
+              114
+            ]
+          ],
+          "title": "Missing authentication on ticket_mongo_lane_418",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/attachments.py",
+          "ranges": [
+            [
+              67,
+              67
+            ]
+          ],
+          "title": "Broken object-level authorization in upload_attachment"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/kb.py",
+          "ranges": [
+            [
+              135,
+              135
+            ]
+          ],
+          "title": "Broken object-level authorization in update_article"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/kb.py",
+          "ranges": [
+            [
+              168,
+              168
+            ]
+          ],
+          "title": "Broken object-level authorization in update_article_status"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/kb.py",
+          "ranges": [
+            [
+              200,
+              200
+            ]
+          ],
+          "title": "Broken object-level authorization in delete_article"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/notifications.py",
+          "ranges": [
+            [
+              30,
+              30
+            ]
+          ],
+          "title": "Broken object-level authorization in mark_read"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/public_api.py",
+          "ranges": [
+            [
+              130,
+              130
+            ]
+          ],
+          "title": "Broken object-level authorization in api_update_status"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/escalations.py",
+          "ranges": [
+            [
+              40,
+              40
+            ]
+          ],
+          "title": "Missing authentication on list_escalations"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/kb.py",
+          "ranges": [
+            [
+              53,
+              53
+            ]
+          ],
+          "title": "Broken object-level authorization in get_public_article"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/kb.py",
+          "ranges": [
+            [
+              92,
+              92
+            ]
+          ],
+          "title": "Broken object-level authorization in get_article"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/kb.py",
+          "ranges": [
+            [
+              104,
+              104
+            ]
+          ],
+          "title": "Missing authentication on create_article"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/public_api.py",
+          "ranges": [
+            [
+              63,
+              63
+            ]
+          ],
+          "title": "Missing authentication on api_create_ticket"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/reports.py",
+          "ranges": [
+            [
+              153,
+              153
+            ]
+          ],
+          "title": "Missing authentication on escalations_export_csv"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/tickets.py",
+          "ranges": [
+            [
+              220,
+              220
+            ]
+          ],
+          "title": "Missing authentication on export_tickets_csv"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/tickets.py",
+          "ranges": [
+            [
+              393,
+              393
+            ]
+          ],
+          "title": "Missing authentication on ticket_audit_history"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/tickets.py",
+          "ranges": [
+            [
+              487,
+              487
+            ]
+          ],
+          "title": "Missing authentication on claim_ticket"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/tickets.py",
+          "ranges": [
+            [
+              567,
+              567
+            ]
+          ],
+          "title": "Missing authentication on list_internal_notes"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/tickets.py",
+          "ranges": [
+            [
+              582,
+              582
+            ]
+          ],
+          "title": "Missing authentication on add_internal_note"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/support_operations.py",
+          "ranges": [
+            [
+              28,
+              28
+            ]
+          ],
+          "title": "Missing authentication on ticket_workset_rebind_029"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/support_operations.py",
+          "ranges": [
+            [
+              44,
+              44
+            ]
+          ],
+          "title": "Missing authentication on ticket_wire_tally_210"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/support_operations.py",
+          "ranges": [
+            [
+              50,
+              50
+            ]
+          ],
+          "title": "Missing authentication on ticket_vault_stash_232"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/support_operations.py",
+          "ranges": [
+            [
+              60,
+              60
+            ]
+          ],
+          "title": "Missing authentication on ticket_digest_fold_272"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/support_operations.py",
+          "ranges": [
+            [
+              73,
+              73
+            ]
+          ],
+          "title": "Missing authentication on ticket_relay_probe_354"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/support_operations.py",
+          "ranges": [
+            [
+              93,
+              93
+            ]
+          ],
+          "title": "Missing authentication on ticket_dock_shelf_387"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/support_operations.py",
+          "ranges": [
+            [
+              101,
+              101
+            ]
+          ],
+          "title": "Missing authentication on ticket_shell_probe_398"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/support_operations.py",
+          "ranges": [
+            [
+              114,
+              114
+            ]
+          ],
+          "title": "Missing authentication on ticket_mongo_lane_418"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/support_operations.py",
+          "ranges": [
+            [
+              122,
+              122
+            ]
+          ],
+          "title": "Missing authentication on ticket_trust_drift_428"
+        }
+      ],
+      "seconds": 0.7
+    },
+    "vc-codex-high-seeded-v2-fintech-lending-fastapi": {
+      "tp": [
+        "vc-codex-high-seeded-v2-fintech-lending-fastapi-enrich-010"
+      ],
+      "fn": [
+        "seeded-v2-campaign-2-135",
+        "seeded-v2-campaign-2-203",
+        "seeded-v2-campaign-3-565",
+        "seeded-v2-campaign-3-594",
+        "seeded-v2-campaign-3-625"
+      ],
+      "fp_safe": [
+        "vc-codex-high-seeded-v2-fintech-lending-fastapi-fp-002"
+      ],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-639",
+          "file": "app/main.py",
+          "ranges": [
+            [
+              907,
+              907
+            ]
+          ],
+          "title": "Broken object-level authorization in update_application",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/main.py",
+          "ranges": [
+            [
+              932,
+              932
+            ]
+          ],
+          "title": "Broken object-level authorization in delete_application",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/main.py",
+          "ranges": [
+            [
+              946,
+              946
+            ]
+          ],
+          "title": "Broken object-level authorization in submit_application",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/main.py",
+          "ranges": [
+            [
+              964,
+              964
+            ]
+          ],
+          "title": "Broken object-level authorization in withdraw_application",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/main.py",
+          "ranges": [
+            [
+              993,
+              993
+            ]
+          ],
+          "title": "Broken object-level authorization in request_document",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/main.py",
+          "ranges": [
+            [
+              1062,
+              1062
+            ]
+          ],
+          "title": "Broken object-level authorization in download_document",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/main.py",
+          "ranges": [
+            [
+              1309,
+              1309
+            ]
+          ],
+          "title": "Broken object-level authorization in admin_update_user",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/main.py",
+          "ranges": [
+            [
+              1350,
+              1350
+            ]
+          ],
+          "title": "Broken object-level authorization in admin_update_product",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/main.py",
+          "ranges": [
+            [
+              1365,
+              1365
+            ]
+          ],
+          "title": "Broken object-level authorization in admin_delete_product",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/main.py",
+          "ranges": [
+            [
+              1395,
+              1395
+            ]
+          ],
+          "title": "Broken object-level authorization in admin_update_document_type",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/main.py",
+          "ranges": [
+            [
+              1144,
+              1144
+            ]
+          ],
+          "title": "Broken object-level authorization in list_messages",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/main.py",
+          "ranges": [
+            [
+              1408,
+              1408
+            ]
+          ],
+          "title": "Broken object-level authorization in admin_audit",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-639",
+          "file": "app/main.py",
+          "ranges": [
+            [
+              871,
+              871
+            ]
+          ],
+          "title": "Broken object-level authorization in get_application"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/main.py",
+          "ranges": [
+            [
+              907,
+              907
+            ]
+          ],
+          "title": "Broken object-level authorization in update_application"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/main.py",
+          "ranges": [
+            [
+              932,
+              932
+            ]
+          ],
+          "title": "Broken object-level authorization in delete_application"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/main.py",
+          "ranges": [
+            [
+              946,
+              946
+            ]
+          ],
+          "title": "Broken object-level authorization in submit_application"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/main.py",
+          "ranges": [
+            [
+              964,
+              964
+            ]
+          ],
+          "title": "Broken object-level authorization in withdraw_application"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/main.py",
+          "ranges": [
+            [
+              993,
+              993
+            ]
+          ],
+          "title": "Broken object-level authorization in request_document"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/main.py",
+          "ranges": [
+            [
+              1062,
+              1062
+            ]
+          ],
+          "title": "Broken object-level authorization in download_document"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/main.py",
+          "ranges": [
+            [
+              1309,
+              1309
+            ]
+          ],
+          "title": "Broken object-level authorization in admin_update_user"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/main.py",
+          "ranges": [
+            [
+              1350,
+              1350
+            ]
+          ],
+          "title": "Broken object-level authorization in admin_update_product"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/main.py",
+          "ranges": [
+            [
+              1365,
+              1365
+            ]
+          ],
+          "title": "Broken object-level authorization in admin_delete_product"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/main.py",
+          "ranges": [
+            [
+              1395,
+              1395
+            ]
+          ],
+          "title": "Broken object-level authorization in admin_update_document_type"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/main.py",
+          "ranges": [
+            [
+              1683,
+              1683
+            ]
+          ],
+          "title": "Broken object-level authorization in integration_application_status"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/main.py",
+          "ranges": [
+            [
+              1144,
+              1144
+            ]
+          ],
+          "title": "Broken object-level authorization in list_messages"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/main.py",
+          "ranges": [
+            [
+              1408,
+              1408
+            ]
+          ],
+          "title": "Broken object-level authorization in admin_audit"
+        }
+      ],
+      "seconds": 1.1
+    },
+    "vc-codex-high-seeded-v2-logistics-dispatch-fastapi": {
+      "tp": [
+        "seeded-v2-campaign-2-138"
+      ],
+      "fn": [
+        "seeded-v2-campaign-3-569",
+        "seeded-v2-campaign-3-596",
+        "seeded-v2-campaign-3-609",
+        "vc-codex-high-seeded-v2-logistics-dispatch-fastapi-enrich-009"
+      ],
+      "fp_safe": [
+        "vc-codex-high-seeded-v2-logistics-dispatch-fastapi-fp-002"
+      ],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              794,
+              794
+            ]
+          ],
+          "title": "Broken object-level authorization in delete_job",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              814,
+              814
+            ]
+          ],
+          "title": "Broken object-level authorization in assign_job",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              882,
+              882
+            ]
+          ],
+          "title": "Broken object-level authorization in reschedule_job",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              1004,
+              1004
+            ]
+          ],
+          "title": "Broken object-level authorization in download_proof",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              1088,
+              1088
+            ]
+          ],
+          "title": "Broken object-level authorization in update_incident",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              1174,
+              1174
+            ]
+          ],
+          "title": "Broken object-level authorization in reorder_route",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              1391,
+              1391
+            ]
+          ],
+          "title": "Broken object-level authorization in export_routes",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              1610,
+              1610
+            ]
+          ],
+          "title": "Broken object-level authorization in test_webhook",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              30,
+              30
+            ]
+          ],
+          "title": "Missing authentication on dispatch_lanefeed_tally_080",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              64,
+              64
+            ]
+          ],
+          "title": "Missing authentication on dispatch_vault_stash_241",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              74,
+              74
+            ]
+          ],
+          "title": "Missing authentication on dispatch_formula_cast_265",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              120,
+              120
+            ]
+          ],
+          "title": "Missing authentication on dispatch_dock_shelf_596",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              128,
+              128
+            ]
+          ],
+          "title": "Missing authentication on dispatch_mongo_lane_609",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              136,
+              136
+            ]
+          ],
+          "title": "Missing authentication on dispatch_xml_fold_615",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              143,
+              143
+            ]
+          ],
+          "title": "Missing authentication on dispatch_shell_probe_629",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              154,
+              154
+            ]
+          ],
+          "title": "Missing authentication on dispatch_trust_drift_649",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              634,
+              634
+            ]
+          ],
+          "title": "Broken object-level authorization in list_locations",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              667,
+              667
+            ]
+          ],
+          "title": "Broken object-level authorization in list_jobs",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              908,
+              908
+            ]
+          ],
+          "title": "Broken object-level authorization in list_messages",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              946,
+              946
+            ]
+          ],
+          "title": "Broken object-level authorization in list_proofs",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              1025,
+              1025
+            ]
+          ],
+          "title": "Broken object-level authorization in list_incidents",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              1123,
+              1123
+            ]
+          ],
+          "title": "Broken object-level authorization in list_routes",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              768,
+              768
+            ]
+          ],
+          "title": "Broken object-level authorization in update_job",
+          "case": "vc-codex-high-seeded-v2-logistics-dispatch-fastapi-fp-002"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              50,
+              50
+            ]
+          ],
+          "title": "Missing authentication on dispatch_bundle_thaw_182",
+          "case": "seeded-v2-campaign-2-138"
+        }
+      ],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              760,
+              760
+            ]
+          ],
+          "title": "Broken object-level authorization in get_job"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              768,
+              768
+            ]
+          ],
+          "title": "Broken object-level authorization in update_job"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              794,
+              794
+            ]
+          ],
+          "title": "Broken object-level authorization in delete_job"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              814,
+              814
+            ]
+          ],
+          "title": "Broken object-level authorization in assign_job"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              882,
+              882
+            ]
+          ],
+          "title": "Broken object-level authorization in reschedule_job"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              1004,
+              1004
+            ]
+          ],
+          "title": "Broken object-level authorization in download_proof"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              1088,
+              1088
+            ]
+          ],
+          "title": "Broken object-level authorization in update_incident"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              1174,
+              1174
+            ]
+          ],
+          "title": "Broken object-level authorization in reorder_route"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              1391,
+              1391
+            ]
+          ],
+          "title": "Broken object-level authorization in export_routes"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              1610,
+              1610
+            ]
+          ],
+          "title": "Broken object-level authorization in test_webhook"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              30,
+              30
+            ]
+          ],
+          "title": "Missing authentication on dispatch_lanefeed_tally_080"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              41,
+              41
+            ]
+          ],
+          "title": "Missing authentication on dispatch_delta_138"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              50,
+              50
+            ]
+          ],
+          "title": "Missing authentication on dispatch_bundle_thaw_182"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              64,
+              64
+            ]
+          ],
+          "title": "Missing authentication on dispatch_vault_stash_241"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              74,
+              74
+            ]
+          ],
+          "title": "Missing authentication on dispatch_formula_cast_265"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              120,
+              120
+            ]
+          ],
+          "title": "Missing authentication on dispatch_dock_shelf_596"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              128,
+              128
+            ]
+          ],
+          "title": "Missing authentication on dispatch_mongo_lane_609"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              136,
+              136
+            ]
+          ],
+          "title": "Missing authentication on dispatch_xml_fold_615"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              143,
+              143
+            ]
+          ],
+          "title": "Missing authentication on dispatch_shell_probe_629"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              154,
+              154
+            ]
+          ],
+          "title": "Missing authentication on dispatch_trust_drift_649"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              634,
+              634
+            ]
+          ],
+          "title": "Broken object-level authorization in list_locations"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              667,
+              667
+            ]
+          ],
+          "title": "Broken object-level authorization in list_jobs"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              908,
+              908
+            ]
+          ],
+          "title": "Broken object-level authorization in list_messages"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              946,
+              946
+            ]
+          ],
+          "title": "Broken object-level authorization in list_proofs"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              1025,
+              1025
+            ]
+          ],
+          "title": "Broken object-level authorization in list_incidents"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              1123,
+              1123
+            ]
+          ],
+          "title": "Broken object-level authorization in list_routes"
+        }
+      ],
+      "seconds": 1.0
+    },
+    "vc-codex-high-seeded-v2-marketplace-commerce-fastapi": {
+      "tp": [],
+      "fn": [
+        "seeded-v2-campaign-1-082",
+        "seeded-v2-campaign-1-083",
+        "seeded-v2-campaign-1-084",
+        "seeded-v2-campaign-2-200",
+        "seeded-v2-campaign-3-570",
+        "seeded-v2-campaign-3-597",
+        "seeded-v2-campaign-3-610"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              2176,
+              2176
+            ]
+          ],
+          "title": "Broken object-level authorization in test_webhook",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              995,
+              995
+            ]
+          ],
+          "title": "Broken object-level authorization in vendor_storefront",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              1009,
+              1009
+            ]
+          ],
+          "title": "Broken object-level authorization in list_products",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              1046,
+              1046
+            ]
+          ],
+          "title": "Broken object-level authorization in product_detail",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              1641,
+              1641
+            ]
+          ],
+          "title": "Broken object-level authorization in dispute_detail",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/seller_operations.py",
+          "ranges": [
+            [
+              124,
+              124
+            ]
+          ],
+          "title": "Missing authentication on seller_xml_fold_620",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/seller_operations.py",
+          "ranges": [
+            [
+              131,
+              131
+            ]
+          ],
+          "title": "Missing authentication on seller_shell_probe_630",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              2176,
+              2176
+            ]
+          ],
+          "title": "Broken object-level authorization in test_webhook"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              995,
+              995
+            ]
+          ],
+          "title": "Broken object-level authorization in vendor_storefront"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              1009,
+              1009
+            ]
+          ],
+          "title": "Broken object-level authorization in list_products"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              1046,
+              1046
+            ]
+          ],
+          "title": "Broken object-level authorization in product_detail"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              1641,
+              1641
+            ]
+          ],
+          "title": "Broken object-level authorization in dispute_detail"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/seller_operations.py",
+          "ranges": [
+            [
+              124,
+              124
+            ]
+          ],
+          "title": "Missing authentication on seller_xml_fold_620"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/seller_operations.py",
+          "ranges": [
+            [
+              131,
+              131
+            ]
+          ],
+          "title": "Missing authentication on seller_shell_probe_630"
+        }
+      ],
+      "seconds": 0.8
+    },
+    "vc-codex-high-seeded-v2-property-management-fastapi": {
+      "tp": [
+        "seeded-v2-campaign-2-201"
+      ],
+      "fn": [
+        "seeded-v2-campaign-1-085",
+        "seeded-v2-campaign-1-086",
+        "seeded-v2-campaign-3-590",
+        "seeded-v2-campaign-3-611",
+        "vc-codex-high-seeded-v2-property-management-fastapi-enrich-008"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routes/inspections.py",
+          "ranges": [
+            [
+              70,
+              70
+            ]
+          ],
+          "title": "Broken object-level authorization in get_inspection",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              38,
+              38
+            ]
+          ],
+          "title": "Missing authentication on lease_meter_card_087",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              65,
+              65
+            ]
+          ],
+          "title": "Missing authentication on tenant_digest_fold_280",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              78,
+              78
+            ]
+          ],
+          "title": "Missing authentication on tenant_relay_probe_357",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              106,
+              106
+            ]
+          ],
+          "title": "Missing authentication on tenant_dock_shelf_590",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              121,
+              121
+            ]
+          ],
+          "title": "Missing authentication on tenant_mongo_lane_611",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              129,
+              129
+            ]
+          ],
+          "title": "Missing authentication on tenant_xml_fold_621",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              136,
+              136
+            ]
+          ],
+          "title": "Missing authentication on tenant_shell_probe_631",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              55,
+              55
+            ]
+          ],
+          "title": "Missing authentication on tenant_vault_stash_242",
+          "case": "seeded-v2-campaign-2-201"
+        }
+      ],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routes/inspections.py",
+          "ranges": [
+            [
+              70,
+              70
+            ]
+          ],
+          "title": "Broken object-level authorization in get_inspection"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              38,
+              38
+            ]
+          ],
+          "title": "Missing authentication on lease_meter_card_087"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              48,
+              48
+            ]
+          ],
+          "title": "Missing authentication on tenant_workset_rebind_201"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              55,
+              55
+            ]
+          ],
+          "title": "Missing authentication on tenant_vault_stash_242"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              65,
+              65
+            ]
+          ],
+          "title": "Missing authentication on tenant_digest_fold_280"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              78,
+              78
+            ]
+          ],
+          "title": "Missing authentication on tenant_relay_probe_357"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              106,
+              106
+            ]
+          ],
+          "title": "Missing authentication on tenant_dock_shelf_590"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              121,
+              121
+            ]
+          ],
+          "title": "Missing authentication on tenant_mongo_lane_611"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              129,
+              129
+            ]
+          ],
+          "title": "Missing authentication on tenant_xml_fold_621"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              136,
+              136
+            ]
+          ],
+          "title": "Missing authentication on tenant_shell_probe_631"
+        }
+      ],
+      "seconds": 0.6
+    },
+    "vc-codex-high-seeded-v2-support-desk-fastapi": {
+      "tp": [
+        "vc-codex-high-seeded-v2-support-desk-fastapi-enrich-010",
+        "seeded-v2-campaign-1-089",
+        "seeded-v2-campaign-3-622"
+      ],
+      "fn": [
+        "seeded-v2-campaign-3-562",
+        "seeded-v2-campaign-3-591",
+        "seeded-v2-campaign-3-612",
+        "vc-codex-high-seeded-v2-support-desk-fastapi-enrich-009"
+      ],
+      "fp_safe": [
+        "vc-codex-high-seeded-v2-support-desk-fastapi-fp-002"
+      ],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-639",
+          "file": "app/routers/admin.py",
+          "ranges": [
+            [
+              79,
+              79
+            ]
+          ],
+          "title": "Broken object-level authorization in update_user",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/routers/admin.py",
+          "ranges": [
+            [
+              330,
+              330
+            ]
+          ],
+          "title": "Broken object-level authorization in revoke_api_key",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/routers/admin.py",
+          "ranges": [
+            [
+              358,
+              358
+            ]
+          ],
+          "title": "Broken object-level authorization in toggle_webhook",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/routers/escalations.py",
+          "ranges": [
+            [
+              27,
+              27
+            ]
+          ],
+          "title": "Broken object-level authorization in update_escalation",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/routers/kb.py",
+          "ranges": [
+            [
+              92,
+              92
+            ]
+          ],
+          "title": "Broken object-level authorization in delete_article",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/routers/tickets.py",
+          "ranges": [
+            [
+              265,
+              265
+            ]
+          ],
+          "title": "Broken object-level authorization in upload_attachment",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/routers/tickets.py",
+          "ranges": [
+            [
+              293,
+              293
+            ]
+          ],
+          "title": "Broken object-level authorization in download_attachment",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/routers/tickets.py",
+          "ranges": [
+            [
+              341,
+              341
+            ]
+          ],
+          "title": "Broken object-level authorization in delete_ticket",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/routers/tickets.py",
+          "ranges": [
+            [
+              52,
+              52
+            ]
+          ],
+          "title": "Broken object-level authorization in list_tickets",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/support_operations.py",
+          "ranges": [
+            [
+              44,
+              44
+            ]
+          ],
+          "title": "Missing authentication on ticket_wire_tally_221",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/support_operations.py",
+          "ranges": [
+            [
+              50,
+              50
+            ]
+          ],
+          "title": "Missing authentication on ticket_vault_stash_243",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/support_operations.py",
+          "ranges": [
+            [
+              60,
+              60
+            ]
+          ],
+          "title": "Missing authentication on ticket_digest_fold_281",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/support_operations.py",
+          "ranges": [
+            [
+              95,
+              95
+            ]
+          ],
+          "title": "Missing authentication on ticket_dock_shelf_591",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [
+        {
+          "cwe": "CWE-639",
+          "file": "app/routers/tickets.py",
+          "ranges": [
+            [
+              150,
+              150
+            ]
+          ],
+          "title": "Broken object-level authorization in update_ticket",
+          "case": "vc-codex-high-seeded-v2-support-desk-fastapi-fp-002"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/support_operations.py",
+          "ranges": [
+            [
+              125,
+              125
+            ]
+          ],
+          "title": "Missing authentication on ticket_shell_probe_632",
+          "case": "seeded-v2-campaign-3-622"
+        }
+      ],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-639",
+          "file": "app/routers/admin.py",
+          "ranges": [
+            [
+              79,
+              79
+            ]
+          ],
+          "title": "Broken object-level authorization in update_user"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/routers/admin.py",
+          "ranges": [
+            [
+              330,
+              330
+            ]
+          ],
+          "title": "Broken object-level authorization in revoke_api_key"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/routers/admin.py",
+          "ranges": [
+            [
+              358,
+              358
+            ]
+          ],
+          "title": "Broken object-level authorization in toggle_webhook"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/routers/escalations.py",
+          "ranges": [
+            [
+              27,
+              27
+            ]
+          ],
+          "title": "Broken object-level authorization in update_escalation"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/routers/integrations.py",
+          "ranges": [
+            [
+              64,
+              64
+            ]
+          ],
+          "title": "Broken object-level authorization in update_ticket_status_from_api"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/routers/kb.py",
+          "ranges": [
+            [
+              92,
+              92
+            ]
+          ],
+          "title": "Broken object-level authorization in delete_article"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/routers/tickets.py",
+          "ranges": [
+            [
+              139,
+              139
+            ]
+          ],
+          "title": "Broken object-level authorization in get_ticket"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/routers/tickets.py",
+          "ranges": [
+            [
+              150,
+              150
+            ]
+          ],
+          "title": "Broken object-level authorization in update_ticket"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/routers/tickets.py",
+          "ranges": [
+            [
+              265,
+              265
+            ]
+          ],
+          "title": "Broken object-level authorization in upload_attachment"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/routers/tickets.py",
+          "ranges": [
+            [
+              293,
+              293
+            ]
+          ],
+          "title": "Broken object-level authorization in download_attachment"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/routers/tickets.py",
+          "ranges": [
+            [
+              341,
+              341
+            ]
+          ],
+          "title": "Broken object-level authorization in delete_ticket"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/routers/tickets.py",
+          "ranges": [
+            [
+              52,
+              52
+            ]
+          ],
+          "title": "Broken object-level authorization in list_tickets"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/support_operations.py",
+          "ranges": [
+            [
+              28,
+              28
+            ]
+          ],
+          "title": "Missing authentication on ticket_panel_rebind_089"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/support_operations.py",
+          "ranges": [
+            [
+              44,
+              44
+            ]
+          ],
+          "title": "Missing authentication on ticket_wire_tally_221"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/support_operations.py",
+          "ranges": [
+            [
+              50,
+              50
+            ]
+          ],
+          "title": "Missing authentication on ticket_vault_stash_243"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/support_operations.py",
+          "ranges": [
+            [
+              60,
+              60
+            ]
+          ],
+          "title": "Missing authentication on ticket_digest_fold_281"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/support_operations.py",
+          "ranges": [
+            [
+              95,
+              95
+            ]
+          ],
+          "title": "Missing authentication on ticket_dock_shelf_591"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/support_operations.py",
+          "ranges": [
+            [
+              110,
+              110
+            ]
+          ],
+          "title": "Missing authentication on ticket_mongo_lane_612"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/support_operations.py",
+          "ranges": [
+            [
+              125,
+              125
+            ]
+          ],
+          "title": "Missing authentication on ticket_shell_probe_632"
+        }
+      ],
+      "seconds": 0.5
+    },
+    "vc-codex-seeded-v2-fintech-lending-fastapi": {
+      "tp": [
+        "vc-codex-seeded-v2-fintech-lending-fastapi-enrich-016",
+        "vc-codex-seeded-v2-fintech-lending-fastapi-enrich-009"
+      ],
+      "fn": [
+        "seeded-v2-campaign-1-037",
+        "seeded-v2-campaign-1-038",
+        "seeded-v2-campaign-2-128",
+        "seeded-v2-campaign-2-199",
+        "seeded-v2-campaign-3-468",
+        "seeded-v2-campaign-3-495",
+        "seeded-v2-campaign-3-528",
+        "vc-codex-seeded-v2-fintech-lending-fastapi-enrich-008",
+        "vc-codex-seeded-v2-fintech-lending-fastapi-enrich-017",
+        "vc-codex-seeded-v2-fintech-lending-fastapi-enrich-018"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              567,
+              567
+            ]
+          ],
+          "title": "Broken object-level authorization in get_application",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              574,
+              574
+            ]
+          ],
+          "title": "Broken object-level authorization in update_application",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              587,
+              587
+            ]
+          ],
+          "title": "Broken object-level authorization in submit_application",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              604,
+              604
+            ]
+          ],
+          "title": "Broken object-level authorization in withdraw_application",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              732,
+              732
+            ]
+          ],
+          "title": "Broken object-level authorization in update_user",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              567,
+              567
+            ]
+          ],
+          "title": "Broken object-level authorization in get_application"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              574,
+              574
+            ]
+          ],
+          "title": "Broken object-level authorization in update_application"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              587,
+              587
+            ]
+          ],
+          "title": "Broken object-level authorization in submit_application"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              604,
+              604
+            ]
+          ],
+          "title": "Broken object-level authorization in withdraw_application"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              693,
+              693
+            ]
+          ],
+          "title": "Broken object-level authorization in download_document"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              732,
+              732
+            ]
+          ],
+          "title": "Broken object-level authorization in update_user"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              808,
+              808
+            ]
+          ],
+          "title": "Broken object-level authorization in integration_status"
+        }
+      ],
+      "seconds": 0.3
+    },
+    "vc-codex-seeded-v2-logistics-dispatch-fastapi": {
+      "tp": [
+        "seeded-v2-campaign-2-131"
+      ],
+      "fn": [
+        "seeded-v2-campaign-1-049",
+        "seeded-v2-campaign-1-050",
+        "seeded-v2-campaign-3-472",
+        "seeded-v2-campaign-3-498",
+        "seeded-v2-campaign-3-542",
+        "vc-codex-seeded-v2-logistics-dispatch-fastapi-enrich-008",
+        "vc-codex-seeded-v2-logistics-dispatch-fastapi-enrich-009"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              583,
+              583
+            ]
+          ],
+          "title": "Broken object-level authorization in download_proof",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              57,
+              57
+            ]
+          ],
+          "title": "Missing authentication on dispatch_wire_tally_218",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              63,
+              63
+            ]
+          ],
+          "title": "Missing authentication on dispatch_formula_cast_259",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              109,
+              109
+            ]
+          ],
+          "title": "Missing authentication on dispatch_dock_shelf_498",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              124,
+              124
+            ]
+          ],
+          "title": "Missing authentication on dispatch_xml_fold_518",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              136,
+              136
+            ]
+          ],
+          "title": "Missing authentication on dispatch_mongo_lane_542",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              144,
+              144
+            ]
+          ],
+          "title": "Missing authentication on dispatch_trust_drift_552",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              448,
+              448
+            ]
+          ],
+          "title": "Broken object-level authorization in get_job",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              720,
+              720
+            ]
+          ],
+          "title": "Broken object-level authorization in list_locations",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              44,
+              44
+            ]
+          ],
+          "title": "Missing authentication on dispatch_delta_131",
+          "case": "seeded-v2-campaign-2-131"
+        }
+      ],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              583,
+              583
+            ]
+          ],
+          "title": "Broken object-level authorization in download_proof"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              38,
+              38
+            ]
+          ],
+          "title": "Missing authentication on dispatch_carrier_echo_051"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              44,
+              44
+            ]
+          ],
+          "title": "Missing authentication on dispatch_delta_131"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              57,
+              57
+            ]
+          ],
+          "title": "Missing authentication on dispatch_wire_tally_218"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              63,
+              63
+            ]
+          ],
+          "title": "Missing authentication on dispatch_formula_cast_259"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              109,
+              109
+            ]
+          ],
+          "title": "Missing authentication on dispatch_dock_shelf_498"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              124,
+              124
+            ]
+          ],
+          "title": "Missing authentication on dispatch_xml_fold_518"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              136,
+              136
+            ]
+          ],
+          "title": "Missing authentication on dispatch_mongo_lane_542"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              144,
+              144
+            ]
+          ],
+          "title": "Missing authentication on dispatch_trust_drift_552"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              448,
+              448
+            ]
+          ],
+          "title": "Broken object-level authorization in get_job"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              720,
+              720
+            ]
+          ],
+          "title": "Broken object-level authorization in list_locations"
+        }
+      ],
+      "seconds": 0.4
+    },
+    "vc-codex-seeded-v2-marketplace-commerce-fastapi": {
+      "tp": [
+        "vc-codex-seeded-v2-marketplace-commerce-fastapi-enrich-008",
+        "seeded-v2-campaign-1-053",
+        "seeded-v2-campaign-2-132"
+      ],
+      "fn": [
+        "seeded-v2-campaign-3-473",
+        "seeded-v2-campaign-3-492",
+        "seeded-v2-campaign-3-543",
+        "vc-codex-seeded-v2-marketplace-commerce-fastapi-enrich-007"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-639",
+          "file": "app/main.py",
+          "ranges": [
+            [
+              152,
+              152
+            ]
+          ],
+          "title": "Broken object-level authorization in update_product",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/main.py",
+          "ranges": [
+            [
+              169,
+              169
+            ]
+          ],
+          "title": "Broken object-level authorization in product_status",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/main.py",
+          "ranges": [
+            [
+              143,
+              143
+            ]
+          ],
+          "title": "Broken object-level authorization in product_detail",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/seller_operations.py",
+          "ranges": [
+            [
+              55,
+              55
+            ]
+          ],
+          "title": "Missing authentication on seller_vault_stash_237",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/seller_operations.py",
+          "ranges": [
+            [
+              65,
+              65
+            ]
+          ],
+          "title": "Missing authentication on seller_formula_cast_260",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/seller_operations.py",
+          "ranges": [
+            [
+              104,
+              104
+            ]
+          ],
+          "title": "Missing authentication on seller_dock_shelf_492",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/seller_operations.py",
+          "ranges": [
+            [
+              112,
+              112
+            ]
+          ],
+          "title": "Missing authentication on seller_shell_probe_503",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/seller_operations.py",
+          "ranges": [
+            [
+              125,
+              125
+            ]
+          ],
+          "title": "Missing authentication on seller_xml_fold_523",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/seller_operations.py",
+          "ranges": [
+            [
+              137,
+              137
+            ]
+          ],
+          "title": "Missing authentication on seller_mongo_lane_543",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [
+        {
+          "cwe": "CWE-639",
+          "file": "app/seller_operations.py",
+          "ranges": [
+            [
+              49,
+              49
+            ]
+          ],
+          "title": "Missing authentication on seller_wire_tally_215",
+          "case": "seeded-v2-campaign-2-132"
+        }
+      ],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-639",
+          "file": "app/main.py",
+          "ranges": [
+            [
+              152,
+              152
+            ]
+          ],
+          "title": "Broken object-level authorization in update_product"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/main.py",
+          "ranges": [
+            [
+              169,
+              169
+            ]
+          ],
+          "title": "Broken object-level authorization in product_status"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/main.py",
+          "ranges": [
+            [
+              555,
+              555
+            ]
+          ],
+          "title": "Broken object-level authorization in integration_order_status"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/main.py",
+          "ranges": [
+            [
+              143,
+              143
+            ]
+          ],
+          "title": "Broken object-level authorization in product_detail"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/seller_operations.py",
+          "ranges": [
+            [
+              28,
+              28
+            ]
+          ],
+          "title": "Missing authentication on seller_meter_roll_053"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/seller_operations.py",
+          "ranges": [
+            [
+              40,
+              40
+            ]
+          ],
+          "title": "Missing authentication on seller_delta_132"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/seller_operations.py",
+          "ranges": [
+            [
+              49,
+              49
+            ]
+          ],
+          "title": "Missing authentication on seller_wire_tally_215"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/seller_operations.py",
+          "ranges": [
+            [
+              55,
+              55
+            ]
+          ],
+          "title": "Missing authentication on seller_vault_stash_237"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/seller_operations.py",
+          "ranges": [
+            [
+              65,
+              65
+            ]
+          ],
+          "title": "Missing authentication on seller_formula_cast_260"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/seller_operations.py",
+          "ranges": [
+            [
+              104,
+              104
+            ]
+          ],
+          "title": "Missing authentication on seller_dock_shelf_492"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/seller_operations.py",
+          "ranges": [
+            [
+              112,
+              112
+            ]
+          ],
+          "title": "Missing authentication on seller_shell_probe_503"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/seller_operations.py",
+          "ranges": [
+            [
+              125,
+              125
+            ]
+          ],
+          "title": "Missing authentication on seller_xml_fold_523"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/seller_operations.py",
+          "ranges": [
+            [
+              137,
+              137
+            ]
+          ],
+          "title": "Missing authentication on seller_mongo_lane_543"
+        }
+      ],
+      "seconds": 0.4
+    },
+    "vc-codex-seeded-v2-property-management-fastapi": {
+      "tp": [
+        "vc-codex-seeded-v2-property-management-fastapi-enrich-008",
+        "seeded-v2-campaign-2-195"
+      ],
+      "fn": [
+        "seeded-v2-campaign-3-493",
+        "seeded-v2-campaign-3-544",
+        "vc-codex-seeded-v2-property-management-fastapi-enrich-009"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              387,
+              387
+            ]
+          ],
+          "title": "Broken object-level authorization in get_lease",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              431,
+              431
+            ]
+          ],
+          "title": "Broken object-level authorization in payment_receipt",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              369,
+              369
+            ]
+          ],
+          "title": "Broken object-level authorization in list_leases",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              414,
+              414
+            ]
+          ],
+          "title": "Broken object-level authorization in list_payments",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              847,
+              847
+            ]
+          ],
+          "title": "Broken object-level authorization in ticket_status_json",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              30,
+              30
+            ]
+          ],
+          "title": "Missing authentication on tenant_notefeed_tally_056",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              41,
+              41
+            ]
+          ],
+          "title": "Missing authentication on tenant_bundle_thaw_173",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              72,
+              72
+            ]
+          ],
+          "title": "Missing authentication on tenant_digest_fold_275",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              85,
+              85
+            ]
+          ],
+          "title": "Missing authentication on tenant_relay_probe_356",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              113,
+              113
+            ]
+          ],
+          "title": "Missing authentication on tenant_dock_shelf_493",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              121,
+              121
+            ]
+          ],
+          "title": "Missing authentication on tenant_shell_probe_504",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              134,
+              134
+            ]
+          ],
+          "title": "Missing authentication on tenant_xml_fold_524",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              146,
+              146
+            ]
+          ],
+          "title": "Missing authentication on tenant_mongo_lane_544",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              62,
+              62
+            ]
+          ],
+          "title": "Missing authentication on tenant_vault_stash_238",
+          "case": "seeded-v2-campaign-2-195"
+        }
+      ],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              387,
+              387
+            ]
+          ],
+          "title": "Broken object-level authorization in get_lease"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              431,
+              431
+            ]
+          ],
+          "title": "Broken object-level authorization in payment_receipt"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              518,
+              518
+            ]
+          ],
+          "title": "Broken object-level authorization in update_ticket_status"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              369,
+              369
+            ]
+          ],
+          "title": "Broken object-level authorization in list_leases"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              414,
+              414
+            ]
+          ],
+          "title": "Broken object-level authorization in list_payments"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              847,
+              847
+            ]
+          ],
+          "title": "Broken object-level authorization in ticket_status_json"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              30,
+              30
+            ]
+          ],
+          "title": "Missing authentication on tenant_notefeed_tally_056"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              41,
+              41
+            ]
+          ],
+          "title": "Missing authentication on tenant_bundle_thaw_173"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              55,
+              55
+            ]
+          ],
+          "title": "Missing authentication on tenant_workset_rebind_195"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              62,
+              62
+            ]
+          ],
+          "title": "Missing authentication on tenant_vault_stash_238"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              72,
+              72
+            ]
+          ],
+          "title": "Missing authentication on tenant_digest_fold_275"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              85,
+              85
+            ]
+          ],
+          "title": "Missing authentication on tenant_relay_probe_356"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              113,
+              113
+            ]
+          ],
+          "title": "Missing authentication on tenant_dock_shelf_493"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              121,
+              121
+            ]
+          ],
+          "title": "Missing authentication on tenant_shell_probe_504"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              134,
+              134
+            ]
+          ],
+          "title": "Missing authentication on tenant_xml_fold_524"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              146,
+              146
+            ]
+          ],
+          "title": "Missing authentication on tenant_mongo_lane_544"
+        }
+      ],
+      "seconds": 0.5
+    },
+    "vc-codex-seeded-v2-support-desk-fastapi": {
+      "tp": [
+        "vc-codex-seeded-v2-support-desk-fastapi-enrich-007"
+      ],
+      "fn": [
+        "seeded-v2-campaign-1-058",
+        "seeded-v2-campaign-1-059",
+        "seeded-v2-campaign-1-060",
+        "seeded-v2-campaign-2-196",
+        "seeded-v2-campaign-3-465",
+        "seeded-v2-campaign-3-500",
+        "seeded-v2-campaign-3-525",
+        "seeded-v2-campaign-3-545",
+        "vc-codex-seeded-v2-support-desk-fastapi-enrich-012"
+      ],
+      "fp_safe": [
+        "vc-codex-seeded-v2-support-desk-fastapi-fp-003"
+      ],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              305,
+              305
+            ]
+          ],
+          "title": "Broken object-level authorization in ticket_detail",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              478,
+              478
+            ]
+          ],
+          "title": "Broken object-level authorization in update_escalation",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              545,
+              545
+            ]
+          ],
+          "title": "Broken object-level authorization in admin_update_user",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              233,
+              233
+            ]
+          ],
+          "title": "Broken object-level authorization in list_tickets",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              369,
+              369
+            ]
+          ],
+          "title": "Broken object-level authorization in delete_ticket",
+          "case": "vc-codex-seeded-v2-support-desk-fastapi-enrich-007"
+        }
+      ],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              305,
+              305
+            ]
+          ],
+          "title": "Broken object-level authorization in ticket_detail"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              345,
+              345
+            ]
+          ],
+          "title": "Broken object-level authorization in update_ticket"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              369,
+              369
+            ]
+          ],
+          "title": "Broken object-level authorization in delete_ticket"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              442,
+              442
+            ]
+          ],
+          "title": "Broken object-level authorization in download_attachment"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              478,
+              478
+            ]
+          ],
+          "title": "Broken object-level authorization in update_escalation"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              545,
+              545
+            ]
+          ],
+          "title": "Broken object-level authorization in admin_update_user"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              233,
+              233
+            ]
+          ],
+          "title": "Broken object-level authorization in list_tickets"
+        }
+      ],
+      "seconds": 0.3
+    },
+    "vc-kimi-code-seeded-v2-fintech-lending-fastapi": {
+      "tp": [
+        "seeded-v2-campaign-2-140",
+        "seeded-v2-campaign-2-209",
+        "seeded-v2-campaign-3-692",
+        "vc-kimi-code-seeded-v2-fintech-lending-fastapi-enrich-011"
+      ],
+      "fn": [
+        "seeded-v2-campaign-1-097",
+        "seeded-v2-campaign-1-098",
+        "seeded-v2-campaign-3-662",
+        "seeded-v2-campaign-3-712",
+        "seeded-v2-campaign-3-720",
+        "vc-kimi-code-seeded-v2-fintech-lending-fastapi-enrich-007",
+        "vc-kimi-code-seeded-v2-fintech-lending-fastapi-enrich-012",
+        "vc-kimi-code-seeded-v2-fintech-lending-fastapi-enrich-013",
+        "vc-kimi-code-seeded-v2-fintech-lending-fastapi-enrich-014"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/loan_operations.py",
+          "ranges": [
+            [
+              124,
+              124
+            ]
+          ],
+          "title": "Missing authentication on loan_mongo_lane_712",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/loan_operations.py",
+          "ranges": [
+            [
+              132,
+              132
+            ]
+          ],
+          "title": "Missing authentication on loan_dock_shelf_720",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/loan_operations.py",
+          "ranges": [
+            [
+              140,
+              140
+            ]
+          ],
+          "title": "Missing authentication on loan_trust_drift_731",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/loan_operations.py",
+          "ranges": [
+            [
+              148,
+              148
+            ]
+          ],
+          "title": "Missing authentication on loan_xml_fold_740",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/documents.py",
+          "ranges": [
+            [
+              33,
+              33
+            ]
+          ],
+          "title": "Broken object-level authorization in list_documents",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/loan_operations.py",
+          "ranges": [
+            [
+              44,
+              44
+            ]
+          ],
+          "title": "Missing authentication on loan_delta_140",
+          "case": "seeded-v2-campaign-2-140"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/loan_operations.py",
+          "ranges": [
+            [
+              64,
+              64
+            ]
+          ],
+          "title": "Missing authentication on loan_formula_cast_266",
+          "case": "seeded-v2-campaign-2-209"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/api_keys.py",
+          "ranges": [
+            [
+              81,
+              81
+            ]
+          ],
+          "title": "Broken object-level authorization in get_application_status_api",
+          "case": "vc-kimi-code-seeded-v2-fintech-lending-fastapi-enrich-011"
+        }
+      ],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/loan_operations.py",
+          "ranges": [
+            [
+              38,
+              38
+            ]
+          ],
+          "title": "Missing authentication on lendapi_bridge_note_099"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/loan_operations.py",
+          "ranges": [
+            [
+              44,
+              44
+            ]
+          ],
+          "title": "Missing authentication on loan_delta_140"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/loan_operations.py",
+          "ranges": [
+            [
+              57,
+              57
+            ]
+          ],
+          "title": "Missing authentication on loan_workset_rebind_209"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/loan_operations.py",
+          "ranges": [
+            [
+              64,
+              64
+            ]
+          ],
+          "title": "Missing authentication on loan_formula_cast_266"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/loan_operations.py",
+          "ranges": [
+            [
+              118,
+              118
+            ]
+          ],
+          "title": "Missing authentication on loan_shell_probe_702"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/loan_operations.py",
+          "ranges": [
+            [
+              124,
+              124
+            ]
+          ],
+          "title": "Missing authentication on loan_mongo_lane_712"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/loan_operations.py",
+          "ranges": [
+            [
+              132,
+              132
+            ]
+          ],
+          "title": "Missing authentication on loan_dock_shelf_720"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/loan_operations.py",
+          "ranges": [
+            [
+              140,
+              140
+            ]
+          ],
+          "title": "Missing authentication on loan_trust_drift_731"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/loan_operations.py",
+          "ranges": [
+            [
+              148,
+              148
+            ]
+          ],
+          "title": "Missing authentication on loan_xml_fold_740"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/api_keys.py",
+          "ranges": [
+            [
+              75,
+              75
+            ]
+          ],
+          "title": "Missing authentication on receive_webhook"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/api_keys.py",
+          "ranges": [
+            [
+              81,
+              81
+            ]
+          ],
+          "title": "Broken object-level authorization in get_application_status_api"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/documents.py",
+          "ranges": [
+            [
+              33,
+              33
+            ]
+          ],
+          "title": "Broken object-level authorization in list_documents"
+        }
+      ],
+      "seconds": 0.4
+    },
+    "vc-kimi-code-seeded-v2-logistics-dispatch-fastapi": {
+      "tp": [
+        "seeded-v2-campaign-2-143"
+      ],
+      "fn": [
+        "seeded-v2-campaign-1-109",
+        "seeded-v2-campaign-1-110",
+        "seeded-v2-campaign-3-666",
+        "seeded-v2-campaign-3-716",
+        "seeded-v2-campaign-3-723",
+        "vc-kimi-code-seeded-v2-logistics-dispatch-fastapi-enrich-006",
+        "vc-kimi-code-seeded-v2-logistics-dispatch-fastapi-enrich-008",
+        "vc-kimi-code-seeded-v2-logistics-dispatch-fastapi-enrich-010",
+        "vc-kimi-code-seeded-v2-logistics-dispatch-fastapi-enrich-011",
+        "vc-kimi-code-seeded-v2-logistics-dispatch-fastapi-enrich-012"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              67,
+              67
+            ]
+          ],
+          "title": "Missing authentication on dispatch_wire_tally_229",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              73,
+              73
+            ]
+          ],
+          "title": "Missing authentication on dispatch_formula_cast_270",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              119,
+              119
+            ]
+          ],
+          "title": "Missing authentication on dispatch_shell_probe_696",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              132,
+              132
+            ]
+          ],
+          "title": "Missing authentication on dispatch_mongo_lane_716",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              140,
+              140
+            ]
+          ],
+          "title": "Missing authentication on dispatch_dock_shelf_723",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              148,
+              148
+            ]
+          ],
+          "title": "Missing authentication on dispatch_xml_fold_734",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              53,
+              53
+            ]
+          ],
+          "title": "Missing authentication on dispatch_bundle_thaw_188",
+          "case": "seeded-v2-campaign-2-143"
+        }
+      ],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              44,
+              44
+            ]
+          ],
+          "title": "Missing authentication on dispatch_delta_143"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              53,
+              53
+            ]
+          ],
+          "title": "Missing authentication on dispatch_bundle_thaw_188"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              67,
+              67
+            ]
+          ],
+          "title": "Missing authentication on dispatch_wire_tally_229"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              73,
+              73
+            ]
+          ],
+          "title": "Missing authentication on dispatch_formula_cast_270"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              119,
+              119
+            ]
+          ],
+          "title": "Missing authentication on dispatch_shell_probe_696"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              132,
+              132
+            ]
+          ],
+          "title": "Missing authentication on dispatch_mongo_lane_716"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              140,
+              140
+            ]
+          ],
+          "title": "Missing authentication on dispatch_dock_shelf_723"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              148,
+              148
+            ]
+          ],
+          "title": "Missing authentication on dispatch_xml_fold_734"
+        }
+      ],
+      "seconds": 0.4
+    },
+    "vc-kimi-code-seeded-v2-marketplace-commerce-fastapi": {
+      "tp": [
+        "seeded-v2-campaign-1-113",
+        "seeded-v2-campaign-2-144",
+        "seeded-v2-campaign-3-687"
+      ],
+      "fn": [
+        "seeded-v2-campaign-3-667",
+        "seeded-v2-campaign-3-717",
+        "seeded-v2-campaign-3-724",
+        "vc-kimi-code-seeded-v2-marketplace-commerce-fastapi-enrich-005",
+        "vc-kimi-code-seeded-v2-marketplace-commerce-fastapi-enrich-008",
+        "vc-kimi-code-seeded-v2-marketplace-commerce-fastapi-enrich-009"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/api/files.py",
+          "ranges": [
+            [
+              82,
+              82
+            ]
+          ],
+          "title": "Broken object-level authorization in get_file",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/api/products.py",
+          "ranges": [
+            [
+              70,
+              70
+            ]
+          ],
+          "title": "Broken object-level authorization in list_storefront",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/api/products.py",
+          "ranges": [
+            [
+              102,
+              102
+            ]
+          ],
+          "title": "Broken object-level authorization in get_product",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/api/reviews.py",
+          "ranges": [
+            [
+              71,
+              71
+            ]
+          ],
+          "title": "Broken object-level authorization in list_product_reviews",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/api/reviews.py",
+          "ranges": [
+            [
+              105,
+              105
+            ]
+          ],
+          "title": "Broken object-level authorization in get_review",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/api/vendors.py",
+          "ranges": [
+            [
+              99,
+              99
+            ]
+          ],
+          "title": "Broken object-level authorization in get_vendor",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/seller_operations.py",
+          "ranges": [
+            [
+              55,
+              55
+            ]
+          ],
+          "title": "Missing authentication on seller_vault_stash_247",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/seller_operations.py",
+          "ranges": [
+            [
+              65,
+              65
+            ]
+          ],
+          "title": "Missing authentication on seller_digest_fold_284",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/seller_operations.py",
+          "ranges": [
+            [
+              128,
+              128
+            ]
+          ],
+          "title": "Missing authentication on seller_mongo_lane_717",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/seller_operations.py",
+          "ranges": [
+            [
+              136,
+              136
+            ]
+          ],
+          "title": "Missing authentication on seller_dock_shelf_724",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/seller_operations.py",
+          "ranges": [
+            [
+              144,
+              144
+            ]
+          ],
+          "title": "Missing authentication on seller_xml_fold_737",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/seller_operations.py",
+          "ranges": [
+            [
+              49,
+              49
+            ]
+          ],
+          "title": "Missing authentication on seller_wire_tally_226",
+          "case": "seeded-v2-campaign-2-144"
+        }
+      ],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/api/files.py",
+          "ranges": [
+            [
+              82,
+              82
+            ]
+          ],
+          "title": "Broken object-level authorization in get_file"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/api/products.py",
+          "ranges": [
+            [
+              70,
+              70
+            ]
+          ],
+          "title": "Broken object-level authorization in list_storefront"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/api/products.py",
+          "ranges": [
+            [
+              102,
+              102
+            ]
+          ],
+          "title": "Broken object-level authorization in get_product"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/api/reviews.py",
+          "ranges": [
+            [
+              71,
+              71
+            ]
+          ],
+          "title": "Broken object-level authorization in list_product_reviews"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/api/reviews.py",
+          "ranges": [
+            [
+              105,
+              105
+            ]
+          ],
+          "title": "Broken object-level authorization in get_review"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/api/vendors.py",
+          "ranges": [
+            [
+              99,
+              99
+            ]
+          ],
+          "title": "Broken object-level authorization in get_vendor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/seller_operations.py",
+          "ranges": [
+            [
+              28,
+              28
+            ]
+          ],
+          "title": "Missing authentication on seller_flags_munge_113"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/seller_operations.py",
+          "ranges": [
+            [
+              40,
+              40
+            ]
+          ],
+          "title": "Missing authentication on seller_delta_144"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/seller_operations.py",
+          "ranges": [
+            [
+              49,
+              49
+            ]
+          ],
+          "title": "Missing authentication on seller_wire_tally_226"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/seller_operations.py",
+          "ranges": [
+            [
+              55,
+              55
+            ]
+          ],
+          "title": "Missing authentication on seller_vault_stash_247"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/seller_operations.py",
+          "ranges": [
+            [
+              65,
+              65
+            ]
+          ],
+          "title": "Missing authentication on seller_digest_fold_284"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/seller_operations.py",
+          "ranges": [
+            [
+              115,
+              115
+            ]
+          ],
+          "title": "Missing authentication on seller_shell_probe_697"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/seller_operations.py",
+          "ranges": [
+            [
+              128,
+              128
+            ]
+          ],
+          "title": "Missing authentication on seller_mongo_lane_717"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/seller_operations.py",
+          "ranges": [
+            [
+              136,
+              136
+            ]
+          ],
+          "title": "Missing authentication on seller_dock_shelf_724"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/seller_operations.py",
+          "ranges": [
+            [
+              144,
+              144
+            ]
+          ],
+          "title": "Missing authentication on seller_xml_fold_737"
+        }
+      ],
+      "seconds": 0.5
+    },
+    "vc-kimi-code-seeded-v2-property-management-fastapi": {
+      "tp": [
+        "vc-kimi-code-seeded-v2-property-management-fastapi-enrich-011",
+        "vc-kimi-code-seeded-v2-property-management-fastapi-enrich-012",
+        "seeded-v2-campaign-2-205",
+        "seeded-v2-campaign-3-688"
+      ],
+      "fn": [
+        "seeded-v2-campaign-3-668",
+        "seeded-v2-campaign-3-718",
+        "seeded-v2-campaign-3-725",
+        "vc-kimi-code-seeded-v2-property-management-fastapi-enrich-009",
+        "vc-kimi-code-seeded-v2-property-management-fastapi-enrich-010"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/documents.py",
+          "ranges": [
+            [
+              133,
+              133
+            ]
+          ],
+          "title": "Broken object-level authorization in delete_document",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/integrations.py",
+          "ranges": [
+            [
+              48,
+              48
+            ]
+          ],
+          "title": "Broken object-level authorization in delete_api_key",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/integrations.py",
+          "ranges": [
+            [
+              90,
+              90
+            ]
+          ],
+          "title": "Broken object-level authorization in delete_webhook",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/leases.py",
+          "ranges": [
+            [
+              111,
+              111
+            ]
+          ],
+          "title": "Broken object-level authorization in delete_lease",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/properties.py",
+          "ranges": [
+            [
+              63,
+              63
+            ]
+          ],
+          "title": "Broken object-level authorization in update_property",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/properties.py",
+          "ranges": [
+            [
+              81,
+              81
+            ]
+          ],
+          "title": "Broken object-level authorization in delete_property",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/users.py",
+          "ranges": [
+            [
+              86,
+              86
+            ]
+          ],
+          "title": "Broken object-level authorization in update_user",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/users.py",
+          "ranges": [
+            [
+              121,
+              121
+            ]
+          ],
+          "title": "Broken object-level authorization in enable_user",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              30,
+              30
+            ]
+          ],
+          "title": "Missing authentication on tenant_rentfeed_tally_116",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              41,
+              41
+            ]
+          ],
+          "title": "Missing authentication on tenant_bundle_thaw_183",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              72,
+              72
+            ]
+          ],
+          "title": "Missing authentication on tenant_digest_fold_285",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              85,
+              85
+            ]
+          ],
+          "title": "Missing authentication on tenant_relay_probe_358",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              134,
+              134
+            ]
+          ],
+          "title": "Missing authentication on tenant_mongo_lane_718",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              142,
+              142
+            ]
+          ],
+          "title": "Missing authentication on tenant_dock_shelf_725",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              150,
+              150
+            ]
+          ],
+          "title": "Missing authentication on tenant_xml_fold_738",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              62,
+              62
+            ]
+          ],
+          "title": "Missing authentication on tenant_vault_stash_248",
+          "case": "seeded-v2-campaign-2-205"
+        }
+      ],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/documents.py",
+          "ranges": [
+            [
+              133,
+              133
+            ]
+          ],
+          "title": "Broken object-level authorization in delete_document"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/integrations.py",
+          "ranges": [
+            [
+              48,
+              48
+            ]
+          ],
+          "title": "Broken object-level authorization in delete_api_key"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/integrations.py",
+          "ranges": [
+            [
+              90,
+              90
+            ]
+          ],
+          "title": "Broken object-level authorization in delete_webhook"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/leases.py",
+          "ranges": [
+            [
+              111,
+              111
+            ]
+          ],
+          "title": "Broken object-level authorization in delete_lease"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/properties.py",
+          "ranges": [
+            [
+              63,
+              63
+            ]
+          ],
+          "title": "Broken object-level authorization in update_property"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/properties.py",
+          "ranges": [
+            [
+              81,
+              81
+            ]
+          ],
+          "title": "Broken object-level authorization in delete_property"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/users.py",
+          "ranges": [
+            [
+              86,
+              86
+            ]
+          ],
+          "title": "Broken object-level authorization in update_user"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/users.py",
+          "ranges": [
+            [
+              121,
+              121
+            ]
+          ],
+          "title": "Broken object-level authorization in enable_user"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/messages.py",
+          "ranges": [
+            [
+              94,
+              94
+            ]
+          ],
+          "title": "Broken object-level authorization in list_replies"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/users.py",
+          "ranges": [
+            [
+              50,
+              50
+            ]
+          ],
+          "title": "Broken object-level authorization in get_user"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              30,
+              30
+            ]
+          ],
+          "title": "Missing authentication on tenant_rentfeed_tally_116"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              41,
+              41
+            ]
+          ],
+          "title": "Missing authentication on tenant_bundle_thaw_183"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              55,
+              55
+            ]
+          ],
+          "title": "Missing authentication on tenant_workset_rebind_205"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              62,
+              62
+            ]
+          ],
+          "title": "Missing authentication on tenant_vault_stash_248"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              72,
+              72
+            ]
+          ],
+          "title": "Missing authentication on tenant_digest_fold_285"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              85,
+              85
+            ]
+          ],
+          "title": "Missing authentication on tenant_relay_probe_358"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              121,
+              121
+            ]
+          ],
+          "title": "Missing authentication on tenant_shell_probe_698"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              134,
+              134
+            ]
+          ],
+          "title": "Missing authentication on tenant_mongo_lane_718"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              142,
+              142
+            ]
+          ],
+          "title": "Missing authentication on tenant_dock_shelf_725"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              150,
+              150
+            ]
+          ],
+          "title": "Missing authentication on tenant_xml_fold_738"
+        }
+      ],
+      "seconds": 0.5
+    },
+    "vc-kimi-code-seeded-v2-support-desk-fastapi": {
+      "tp": [
+        "vc-kimi-code-seeded-v2-support-desk-fastapi-enrich-009",
+        "vc-kimi-code-seeded-v2-support-desk-fastapi-enrich-011",
+        "seeded-v2-campaign-3-689"
+      ],
+      "fn": [
+        "seeded-v2-campaign-1-118",
+        "seeded-v2-campaign-1-119",
+        "seeded-v2-campaign-1-120",
+        "seeded-v2-campaign-2-206",
+        "seeded-v2-campaign-3-726",
+        "vc-kimi-code-seeded-v2-support-desk-fastapi-enrich-006",
+        "vc-kimi-code-seeded-v2-support-desk-fastapi-enrich-010"
+      ],
+      "fp_safe": [
+        "vc-kimi-code-seeded-v2-support-desk-fastapi-fp-004"
+      ],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              652,
+              652
+            ]
+          ],
+          "title": "Broken object-level authorization in create_escalation",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              744,
+              744
+            ]
+          ],
+          "title": "Broken object-level authorization in get_kb_article",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              100,
+              100
+            ]
+          ],
+          "title": "Broken object-level authorization in list_users",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              137,
+              137
+            ]
+          ],
+          "title": "Broken object-level authorization in get_user",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              361,
+              361
+            ]
+          ],
+          "title": "Broken object-level authorization in get_ticket",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              700,
+              700
+            ]
+          ],
+          "title": "Broken object-level authorization in list_kb_articles",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/support_operations.py",
+          "ranges": [
+            [
+              131,
+              131
+            ]
+          ],
+          "title": "Missing authentication on ticket_xml_fold_739",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              460,
+              460
+            ]
+          ],
+          "title": "Broken object-level authorization in update_ticket"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              652,
+              652
+            ]
+          ],
+          "title": "Broken object-level authorization in create_escalation"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              677,
+              677
+            ]
+          ],
+          "title": "Broken object-level authorization in update_escalation"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              744,
+              744
+            ]
+          ],
+          "title": "Broken object-level authorization in get_kb_article"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              100,
+              100
+            ]
+          ],
+          "title": "Broken object-level authorization in list_users"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              137,
+              137
+            ]
+          ],
+          "title": "Broken object-level authorization in get_user"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              361,
+              361
+            ]
+          ],
+          "title": "Broken object-level authorization in get_ticket"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              610,
+              610
+            ]
+          ],
+          "title": "Broken object-level authorization in download_attachment"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              700,
+              700
+            ]
+          ],
+          "title": "Broken object-level authorization in list_kb_articles"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/support_operations.py",
+          "ranges": [
+            [
+              102,
+              102
+            ]
+          ],
+          "title": "Missing authentication on ticket_shell_probe_699"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/support_operations.py",
+          "ranges": [
+            [
+              131,
+              131
+            ]
+          ],
+          "title": "Missing authentication on ticket_xml_fold_739"
+        }
+      ],
+      "seconds": 0.5
+    },
+    "vfapi": {
+      "tp": [],
+      "fn": [
+        "vfapi-001",
+        "vfapi-002",
+        "vfapi-003",
+        "vfapi-004",
+        "vfapi-005",
+        "vfapi-008",
+        "vfapi-009"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [],
+      "seconds": 0.0
+    }
+  }
+}

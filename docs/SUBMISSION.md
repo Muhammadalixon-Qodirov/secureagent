@@ -64,7 +64,7 @@ the system with an AI coding assistant; the research notes, experiment log and
 protocols in `docs/` record the decisions and why they were made.
 
 To try it: `README.md` → Quick start (about 10 minutes; tested from a fresh
-clone; 93 tests run without a model).
+clone; 97 tests run without a model).
 
 Best regards,
 Muhammadalixon Qodirov

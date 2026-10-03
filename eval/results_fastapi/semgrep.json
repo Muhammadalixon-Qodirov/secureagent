@@ -1,0 +1,1432 @@
+{
+  "system": "semgrep",
+  "metrics": {
+    "sql_injection": {
+      "tp": 0,
+      "fn": 22,
+      "fp_lookalike": 0,
+      "fp_unmatched": 11,
+      "precision": 0.0,
+      "precision_ci95": [
+        0.0,
+        0.259
+      ],
+      "recall": 0.0,
+      "recall_ci95": [
+        0.0,
+        0.149
+      ],
+      "f1": 0.0,
+      "lookalike_fp_rate": 0.0,
+      "safe_cases": 13
+    },
+    "path_traversal": {
+      "tp": 0,
+      "fn": 35,
+      "fp_lookalike": 1,
+      "fp_unmatched": 10,
+      "precision": 0.0,
+      "precision_ci95": [
+        0.0,
+        0.259
+      ],
+      "recall": 0.0,
+      "recall_ci95": [
+        0.0,
+        0.099
+      ],
+      "f1": 0.0,
+      "lookalike_fp_rate": 0.091,
+      "safe_cases": 11
+    },
+    "authorization_idor": {
+      "tp": 0,
+      "fn": 125,
+      "fp_lookalike": 0,
+      "fp_unmatched": 0,
+      "precision": null,
+      "precision_ci95": null,
+      "recall": 0.0,
+      "recall_ci95": [
+        0.0,
+        0.03
+      ],
+      "f1": null,
+      "lookalike_fp_rate": 0.0,
+      "safe_cases": 38
+    },
+    "micro": {
+      "tp": 0,
+      "fn": 182,
+      "fp_lookalike": 1,
+      "fp_unmatched": 21,
+      "precision": 0.0,
+      "precision_ci95": [
+        0.0,
+        0.149
+      ],
+      "recall": 0.0,
+      "recall_ci95": [
+        0.0,
+        0.021
+      ],
+      "f1": 0.0,
+      "lookalike_fp_rate": 0.016,
+      "safe_cases": 62
+    }
+  },
+  "per_app": {
+    "vc-claude-code-seeded-v2-fintech-lending-fastapi": {
+      "tp": [],
+      "fn": [
+        "seeded-v2-campaign-2-123",
+        "seeded-v2-campaign-2-192",
+        "seeded-v2-campaign-3-371",
+        "seeded-v2-campaign-3-390",
+        "seeded-v2-campaign-3-411",
+        "seeded-v2-campaign-3-441",
+        "vc-claude-code-seeded-v2-fintech-lending-fastapi-enrich-004",
+        "vc-claude-code-seeded-v2-fintech-lending-fastapi-enrich-005",
+        "vc-claude-code-seeded-v2-fintech-lending-fastapi-enrich-006",
+        "vc-claude-code-seeded-v2-fintech-lending-fastapi-enrich-007",
+        "vc-claude-code-seeded-v2-fintech-lending-fastapi-enrich-010"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [
+        {
+          "cwe": "CWE-78",
+          "file": "backend/app/loan_operations.py",
+          "ranges": [
+            [
+              127,
+              127
+            ]
+          ],
+          "title": "flask-command-injection-shell"
+        }
+      ],
+      "findings": [
+        {
+          "cwe": "CWE-78",
+          "file": "backend/app/loan_operations.py",
+          "ranges": [
+            [
+              127,
+              127
+            ]
+          ],
+          "title": "flask-command-injection-shell"
+        }
+      ],
+      "seconds": 11.7
+    },
+    "vc-claude-code-seeded-v2-logistics-dispatch-fastapi": {
+      "tp": [],
+      "fn": [
+        "seeded-v2-campaign-2-126",
+        "seeded-v2-campaign-3-375",
+        "seeded-v2-campaign-3-393",
+        "seeded-v2-campaign-3-415",
+        "seeded-v2-campaign-3-435",
+        "vc-claude-code-seeded-v2-logistics-dispatch-fastapi-enrich-001",
+        "vc-claude-code-seeded-v2-logistics-dispatch-fastapi-enrich-002",
+        "vc-claude-code-seeded-v2-logistics-dispatch-fastapi-enrich-003",
+        "vc-claude-code-seeded-v2-logistics-dispatch-fastapi-enrich-004",
+        "vc-claude-code-seeded-v2-logistics-dispatch-fastapi-enrich-013",
+        "vc-claude-code-seeded-v2-logistics-dispatch-fastapi-enrich-014"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-22",
+          "file": "backend/app/routers/proofs.py",
+          "ranges": [
+            [
+              83,
+              83
+            ]
+          ],
+          "title": "flask-path-traversal-file-access",
+          "family": "path_traversal"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-22",
+          "file": "backend/app/routers/proofs.py",
+          "ranges": [
+            [
+              83,
+              83
+            ]
+          ],
+          "title": "flask-path-traversal-file-access"
+        }
+      ],
+      "seconds": 8.9
+    },
+    "vc-claude-code-seeded-v2-marketplace-commerce-fastapi": {
+      "tp": [],
+      "fn": [
+        "seeded-v2-campaign-1-022",
+        "seeded-v2-campaign-1-023",
+        "seeded-v2-campaign-1-024",
+        "seeded-v2-campaign-2-189",
+        "seeded-v2-campaign-3-376",
+        "seeded-v2-campaign-3-394",
+        "seeded-v2-campaign-3-416",
+        "seeded-v2-campaign-3-436",
+        "vc-claude-code-seeded-v2-marketplace-commerce-fastapi-enrich-001",
+        "vc-claude-code-seeded-v2-marketplace-commerce-fastapi-enrich-002"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [
+        {
+          "cwe": "CWE-78",
+          "file": "backend/app/seller_operations.py",
+          "ranges": [
+            [
+              103,
+              103
+            ]
+          ],
+          "title": "flask-command-injection-shell"
+        }
+      ],
+      "findings": [
+        {
+          "cwe": "CWE-78",
+          "file": "backend/app/seller_operations.py",
+          "ranges": [
+            [
+              103,
+              103
+            ]
+          ],
+          "title": "flask-command-injection-shell"
+        }
+      ],
+      "seconds": 9.7
+    },
+    "vc-claude-code-seeded-v2-property-management-fastapi": {
+      "tp": [],
+      "fn": [
+        "seeded-v2-campaign-1-025",
+        "seeded-v2-campaign-1-026",
+        "seeded-v2-campaign-2-190",
+        "seeded-v2-campaign-3-386",
+        "seeded-v2-campaign-3-417",
+        "seeded-v2-campaign-3-437",
+        "vc-claude-code-seeded-v2-property-management-fastapi-enrich-009",
+        "vc-claude-code-seeded-v2-property-management-fastapi-enrich-010",
+        "vc-claude-code-seeded-v2-property-management-fastapi-enrich-011",
+        "vc-claude-code-seeded-v2-property-management-fastapi-enrich-012"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [
+        {
+          "cwe": "CWE-78",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              107,
+              107
+            ]
+          ],
+          "title": "flask-command-injection-shell"
+        }
+      ],
+      "findings": [
+        {
+          "cwe": "CWE-78",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              107,
+              107
+            ]
+          ],
+          "title": "flask-command-injection-shell"
+        }
+      ],
+      "seconds": 8.8
+    },
+    "vc-claude-code-seeded-v2-support-desk-fastapi": {
+      "tp": [],
+      "fn": [
+        "seeded-v2-campaign-1-029",
+        "seeded-v2-campaign-2-232",
+        "seeded-v2-campaign-3-368",
+        "seeded-v2-campaign-3-387",
+        "seeded-v2-campaign-3-418",
+        "seeded-v2-campaign-3-438",
+        "vc-claude-code-seeded-v2-support-desk-fastapi-enrich-011",
+        "vc-claude-code-seeded-v2-support-desk-fastapi-enrich-012"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-22",
+          "file": "backend/app/routers/attachments.py",
+          "ranges": [
+            [
+              92,
+              92
+            ]
+          ],
+          "title": "flask-path-traversal-file-access",
+          "family": "path_traversal"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "backend/app/routers/reports.py",
+          "ranges": [
+            [
+              42,
+              42
+            ]
+          ],
+          "title": "flask-sqli-string-built-query",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "backend/app/routers/reports.py",
+          "ranges": [
+            [
+              102,
+              102
+            ]
+          ],
+          "title": "flask-sqli-string-built-query",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "backend/app/routers/reports.py",
+          "ranges": [
+            [
+              165,
+              165
+            ]
+          ],
+          "title": "flask-sqli-string-built-query",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "backend/app/routers/reports.py",
+          "ranges": [
+            [
+              201,
+              201
+            ]
+          ],
+          "title": "flask-sqli-string-built-query",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "backend/app/routers/tickets.py",
+          "ranges": [
+            [
+              129,
+              129
+            ]
+          ],
+          "title": "flask-sqli-string-built-query",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "backend/app/routers/tickets.py",
+          "ranges": [
+            [
+              236,
+              236
+            ]
+          ],
+          "title": "flask-sqli-string-built-query",
+          "family": "sql_injection"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [
+        {
+          "cwe": "CWE-78",
+          "file": "backend/app/support_operations.py",
+          "ranges": [
+            [
+              104,
+              104
+            ]
+          ],
+          "title": "flask-command-injection-shell"
+        }
+      ],
+      "findings": [
+        {
+          "cwe": "CWE-22",
+          "file": "backend/app/routers/attachments.py",
+          "ranges": [
+            [
+              92,
+              92
+            ]
+          ],
+          "title": "flask-path-traversal-file-access"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "backend/app/routers/reports.py",
+          "ranges": [
+            [
+              42,
+              42
+            ]
+          ],
+          "title": "flask-sqli-string-built-query"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "backend/app/routers/reports.py",
+          "ranges": [
+            [
+              102,
+              102
+            ]
+          ],
+          "title": "flask-sqli-string-built-query"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "backend/app/routers/reports.py",
+          "ranges": [
+            [
+              165,
+              165
+            ]
+          ],
+          "title": "flask-sqli-string-built-query"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "backend/app/routers/reports.py",
+          "ranges": [
+            [
+              201,
+              201
+            ]
+          ],
+          "title": "flask-sqli-string-built-query"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "backend/app/routers/tickets.py",
+          "ranges": [
+            [
+              129,
+              129
+            ]
+          ],
+          "title": "flask-sqli-string-built-query"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "backend/app/routers/tickets.py",
+          "ranges": [
+            [
+              236,
+              236
+            ]
+          ],
+          "title": "flask-sqli-string-built-query"
+        },
+        {
+          "cwe": "CWE-78",
+          "file": "backend/app/support_operations.py",
+          "ranges": [
+            [
+              104,
+              104
+            ]
+          ],
+          "title": "flask-command-injection-shell"
+        }
+      ],
+      "seconds": 11.0
+    },
+    "vc-codex-high-seeded-v2-fintech-lending-fastapi": {
+      "tp": [],
+      "fn": [
+        "seeded-v2-campaign-2-135",
+        "seeded-v2-campaign-2-203",
+        "seeded-v2-campaign-3-565",
+        "seeded-v2-campaign-3-594",
+        "seeded-v2-campaign-3-625",
+        "vc-codex-high-seeded-v2-fintech-lending-fastapi-enrich-010"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [
+        {
+          "cwe": "CWE-78",
+          "file": "app/loan_operations.py",
+          "ranges": [
+            [
+              150,
+              150
+            ]
+          ],
+          "title": "flask-command-injection-shell"
+        }
+      ],
+      "findings": [
+        {
+          "cwe": "CWE-78",
+          "file": "app/loan_operations.py",
+          "ranges": [
+            [
+              150,
+              150
+            ]
+          ],
+          "title": "flask-command-injection-shell"
+        }
+      ],
+      "seconds": 9.1
+    },
+    "vc-codex-high-seeded-v2-logistics-dispatch-fastapi": {
+      "tp": [],
+      "fn": [
+        "seeded-v2-campaign-2-138",
+        "seeded-v2-campaign-3-569",
+        "seeded-v2-campaign-3-596",
+        "seeded-v2-campaign-3-609",
+        "vc-codex-high-seeded-v2-logistics-dispatch-fastapi-enrich-009"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [
+        {
+          "cwe": "CWE-78",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              146,
+              146
+            ]
+          ],
+          "title": "flask-command-injection-shell"
+        }
+      ],
+      "findings": [
+        {
+          "cwe": "CWE-78",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              146,
+              146
+            ]
+          ],
+          "title": "flask-command-injection-shell"
+        }
+      ],
+      "seconds": 9.4
+    },
+    "vc-codex-high-seeded-v2-marketplace-commerce-fastapi": {
+      "tp": [],
+      "fn": [
+        "seeded-v2-campaign-1-082",
+        "seeded-v2-campaign-1-083",
+        "seeded-v2-campaign-1-084",
+        "seeded-v2-campaign-2-200",
+        "seeded-v2-campaign-3-570",
+        "seeded-v2-campaign-3-597",
+        "seeded-v2-campaign-3-610"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [
+        {
+          "cwe": "CWE-78",
+          "file": "backend/app/seller_operations.py",
+          "ranges": [
+            [
+              134,
+              134
+            ]
+          ],
+          "title": "flask-command-injection-shell"
+        }
+      ],
+      "findings": [
+        {
+          "cwe": "CWE-78",
+          "file": "backend/app/seller_operations.py",
+          "ranges": [
+            [
+              134,
+              134
+            ]
+          ],
+          "title": "flask-command-injection-shell"
+        }
+      ],
+      "seconds": 8.9
+    },
+    "vc-codex-high-seeded-v2-property-management-fastapi": {
+      "tp": [],
+      "fn": [
+        "seeded-v2-campaign-1-085",
+        "seeded-v2-campaign-1-086",
+        "seeded-v2-campaign-2-201",
+        "seeded-v2-campaign-3-590",
+        "seeded-v2-campaign-3-611",
+        "vc-codex-high-seeded-v2-property-management-fastapi-enrich-008"
+      ],
+      "fp_safe": [
+        "vc-codex-high-seeded-v2-property-management-fastapi-fp-002"
+      ],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-89",
+          "file": "backend/app/routes/auth.py",
+          "ranges": [
+            [
+              51,
+              51
+            ]
+          ],
+          "title": "flask-sqli-string-built-query",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "backend/app/routes/auth.py",
+          "ranges": [
+            [
+              146,
+              146
+            ]
+          ],
+          "title": "flask-sqli-string-built-query",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "backend/app/routes/users.py",
+          "ranges": [
+            [
+              84,
+              84
+            ]
+          ],
+          "title": "flask-sqli-string-built-query",
+          "family": "sql_injection"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [
+        {
+          "cwe": "CWE-78",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              139,
+              139
+            ]
+          ],
+          "title": "flask-command-injection-shell"
+        }
+      ],
+      "findings": [
+        {
+          "cwe": "CWE-89",
+          "file": "backend/app/routes/auth.py",
+          "ranges": [
+            [
+              51,
+              51
+            ]
+          ],
+          "title": "flask-sqli-string-built-query"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "backend/app/routes/auth.py",
+          "ranges": [
+            [
+              146,
+              146
+            ]
+          ],
+          "title": "flask-sqli-string-built-query"
+        },
+        {
+          "cwe": "CWE-22",
+          "file": "backend/app/routes/documents.py",
+          "ranges": [
+            [
+              133,
+              133
+            ]
+          ],
+          "title": "flask-path-traversal-file-access"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "backend/app/routes/users.py",
+          "ranges": [
+            [
+              84,
+              84
+            ]
+          ],
+          "title": "flask-sqli-string-built-query"
+        },
+        {
+          "cwe": "CWE-78",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              139,
+              139
+            ]
+          ],
+          "title": "flask-command-injection-shell"
+        }
+      ],
+      "seconds": 8.4
+    },
+    "vc-codex-high-seeded-v2-support-desk-fastapi": {
+      "tp": [],
+      "fn": [
+        "seeded-v2-campaign-1-089",
+        "seeded-v2-campaign-3-562",
+        "seeded-v2-campaign-3-591",
+        "seeded-v2-campaign-3-612",
+        "seeded-v2-campaign-3-622",
+        "vc-codex-high-seeded-v2-support-desk-fastapi-enrich-009",
+        "vc-codex-high-seeded-v2-support-desk-fastapi-enrich-010"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-22",
+          "file": "app/routers/tickets.py",
+          "ranges": [
+            [
+              353,
+              353
+            ]
+          ],
+          "title": "flask-path-traversal-file-access",
+          "family": "path_traversal"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [
+        {
+          "cwe": "CWE-78",
+          "file": "app/support_operations.py",
+          "ranges": [
+            [
+              128,
+              128
+            ]
+          ],
+          "title": "flask-command-injection-shell"
+        }
+      ],
+      "findings": [
+        {
+          "cwe": "CWE-22",
+          "file": "app/routers/tickets.py",
+          "ranges": [
+            [
+              353,
+              353
+            ]
+          ],
+          "title": "flask-path-traversal-file-access"
+        },
+        {
+          "cwe": "CWE-78",
+          "file": "app/support_operations.py",
+          "ranges": [
+            [
+              128,
+              128
+            ]
+          ],
+          "title": "flask-command-injection-shell"
+        }
+      ],
+      "seconds": 9.7
+    },
+    "vc-codex-seeded-v2-fintech-lending-fastapi": {
+      "tp": [],
+      "fn": [
+        "seeded-v2-campaign-1-037",
+        "seeded-v2-campaign-1-038",
+        "seeded-v2-campaign-2-128",
+        "seeded-v2-campaign-2-199",
+        "seeded-v2-campaign-3-468",
+        "seeded-v2-campaign-3-495",
+        "seeded-v2-campaign-3-528",
+        "vc-codex-seeded-v2-fintech-lending-fastapi-enrich-008",
+        "vc-codex-seeded-v2-fintech-lending-fastapi-enrich-009",
+        "vc-codex-seeded-v2-fintech-lending-fastapi-enrich-016",
+        "vc-codex-seeded-v2-fintech-lending-fastapi-enrich-017",
+        "vc-codex-seeded-v2-fintech-lending-fastapi-enrich-018"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-22",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              677,
+              677
+            ]
+          ],
+          "title": "flask-path-traversal-file-access",
+          "family": "path_traversal"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [
+        {
+          "cwe": "CWE-78",
+          "file": "backend/app/loan_operations.py",
+          "ranges": [
+            [
+              127,
+              127
+            ]
+          ],
+          "title": "flask-command-injection-shell"
+        }
+      ],
+      "findings": [
+        {
+          "cwe": "CWE-78",
+          "file": "backend/app/loan_operations.py",
+          "ranges": [
+            [
+              127,
+              127
+            ]
+          ],
+          "title": "flask-command-injection-shell"
+        },
+        {
+          "cwe": "CWE-22",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              677,
+              677
+            ]
+          ],
+          "title": "flask-path-traversal-file-access"
+        }
+      ],
+      "seconds": 11.0
+    },
+    "vc-codex-seeded-v2-logistics-dispatch-fastapi": {
+      "tp": [],
+      "fn": [
+        "seeded-v2-campaign-1-049",
+        "seeded-v2-campaign-1-050",
+        "seeded-v2-campaign-2-131",
+        "seeded-v2-campaign-3-472",
+        "seeded-v2-campaign-3-498",
+        "seeded-v2-campaign-3-542",
+        "vc-codex-seeded-v2-logistics-dispatch-fastapi-enrich-008",
+        "vc-codex-seeded-v2-logistics-dispatch-fastapi-enrich-009"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [],
+      "seconds": 9.8
+    },
+    "vc-codex-seeded-v2-marketplace-commerce-fastapi": {
+      "tp": [],
+      "fn": [
+        "seeded-v2-campaign-1-053",
+        "seeded-v2-campaign-2-132",
+        "seeded-v2-campaign-3-473",
+        "seeded-v2-campaign-3-492",
+        "seeded-v2-campaign-3-543",
+        "vc-codex-seeded-v2-marketplace-commerce-fastapi-enrich-007",
+        "vc-codex-seeded-v2-marketplace-commerce-fastapi-enrich-008"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [
+        {
+          "cwe": "CWE-78",
+          "file": "app/seller_operations.py",
+          "ranges": [
+            [
+              115,
+              115
+            ]
+          ],
+          "title": "flask-command-injection-shell"
+        }
+      ],
+      "findings": [
+        {
+          "cwe": "CWE-78",
+          "file": "app/seller_operations.py",
+          "ranges": [
+            [
+              115,
+              115
+            ]
+          ],
+          "title": "flask-command-injection-shell"
+        }
+      ],
+      "seconds": 11.2
+    },
+    "vc-codex-seeded-v2-property-management-fastapi": {
+      "tp": [],
+      "fn": [
+        "seeded-v2-campaign-2-195",
+        "seeded-v2-campaign-3-493",
+        "seeded-v2-campaign-3-544",
+        "vc-codex-seeded-v2-property-management-fastapi-enrich-008",
+        "vc-codex-seeded-v2-property-management-fastapi-enrich-009"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-89",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              366,
+              366
+            ]
+          ],
+          "title": "flask-sqli-string-built-query",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-22",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              582,
+              582
+            ]
+          ],
+          "title": "flask-path-traversal-file-access",
+          "family": "path_traversal"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              805,
+              805
+            ]
+          ],
+          "title": "flask-sqli-string-built-query",
+          "family": "sql_injection"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [
+        {
+          "cwe": "CWE-78",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              124,
+              124
+            ]
+          ],
+          "title": "flask-command-injection-shell"
+        }
+      ],
+      "findings": [
+        {
+          "cwe": "CWE-89",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              366,
+              366
+            ]
+          ],
+          "title": "flask-sqli-string-built-query"
+        },
+        {
+          "cwe": "CWE-22",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              582,
+              582
+            ]
+          ],
+          "title": "flask-path-traversal-file-access"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              805,
+              805
+            ]
+          ],
+          "title": "flask-sqli-string-built-query"
+        },
+        {
+          "cwe": "CWE-78",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              124,
+              124
+            ]
+          ],
+          "title": "flask-command-injection-shell"
+        }
+      ],
+      "seconds": 9.1
+    },
+    "vc-codex-seeded-v2-support-desk-fastapi": {
+      "tp": [],
+      "fn": [
+        "seeded-v2-campaign-1-058",
+        "seeded-v2-campaign-1-059",
+        "seeded-v2-campaign-1-060",
+        "seeded-v2-campaign-2-196",
+        "seeded-v2-campaign-3-465",
+        "seeded-v2-campaign-3-500",
+        "seeded-v2-campaign-3-525",
+        "seeded-v2-campaign-3-545",
+        "vc-codex-seeded-v2-support-desk-fastapi-enrich-007",
+        "vc-codex-seeded-v2-support-desk-fastapi-enrich-012"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-22",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              429,
+              429
+            ]
+          ],
+          "title": "flask-path-traversal-file-access",
+          "family": "path_traversal"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [
+        {
+          "cwe": "CWE-78",
+          "file": "backend/app/support_operations.py",
+          "ranges": [
+            [
+              111,
+              111
+            ]
+          ],
+          "title": "flask-command-injection-shell"
+        }
+      ],
+      "findings": [
+        {
+          "cwe": "CWE-22",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              429,
+              429
+            ]
+          ],
+          "title": "flask-path-traversal-file-access"
+        },
+        {
+          "cwe": "CWE-78",
+          "file": "backend/app/support_operations.py",
+          "ranges": [
+            [
+              111,
+              111
+            ]
+          ],
+          "title": "flask-command-injection-shell"
+        }
+      ],
+      "seconds": 9.7
+    },
+    "vc-kimi-code-seeded-v2-fintech-lending-fastapi": {
+      "tp": [],
+      "fn": [
+        "seeded-v2-campaign-1-097",
+        "seeded-v2-campaign-1-098",
+        "seeded-v2-campaign-2-140",
+        "seeded-v2-campaign-2-209",
+        "seeded-v2-campaign-3-662",
+        "seeded-v2-campaign-3-692",
+        "seeded-v2-campaign-3-712",
+        "seeded-v2-campaign-3-720",
+        "vc-kimi-code-seeded-v2-fintech-lending-fastapi-enrich-007",
+        "vc-kimi-code-seeded-v2-fintech-lending-fastapi-enrich-011",
+        "vc-kimi-code-seeded-v2-fintech-lending-fastapi-enrich-012",
+        "vc-kimi-code-seeded-v2-fintech-lending-fastapi-enrich-013",
+        "vc-kimi-code-seeded-v2-fintech-lending-fastapi-enrich-014"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-22",
+          "file": "backend/app/routers/documents.py",
+          "ranges": [
+            [
+              131,
+              131
+            ]
+          ],
+          "title": "flask-path-traversal-file-access",
+          "family": "path_traversal"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [
+        {
+          "cwe": "CWE-78",
+          "file": "backend/app/loan_operations.py",
+          "ranges": [
+            [
+              121,
+              121
+            ]
+          ],
+          "title": "flask-command-injection-shell"
+        }
+      ],
+      "findings": [
+        {
+          "cwe": "CWE-78",
+          "file": "backend/app/loan_operations.py",
+          "ranges": [
+            [
+              121,
+              121
+            ]
+          ],
+          "title": "flask-command-injection-shell"
+        },
+        {
+          "cwe": "CWE-22",
+          "file": "backend/app/routers/documents.py",
+          "ranges": [
+            [
+              131,
+              131
+            ]
+          ],
+          "title": "flask-path-traversal-file-access"
+        }
+      ],
+      "seconds": 9.9
+    },
+    "vc-kimi-code-seeded-v2-logistics-dispatch-fastapi": {
+      "tp": [],
+      "fn": [
+        "seeded-v2-campaign-1-109",
+        "seeded-v2-campaign-1-110",
+        "seeded-v2-campaign-2-143",
+        "seeded-v2-campaign-3-666",
+        "seeded-v2-campaign-3-716",
+        "seeded-v2-campaign-3-723",
+        "vc-kimi-code-seeded-v2-logistics-dispatch-fastapi-enrich-006",
+        "vc-kimi-code-seeded-v2-logistics-dispatch-fastapi-enrich-008",
+        "vc-kimi-code-seeded-v2-logistics-dispatch-fastapi-enrich-010",
+        "vc-kimi-code-seeded-v2-logistics-dispatch-fastapi-enrich-011",
+        "vc-kimi-code-seeded-v2-logistics-dispatch-fastapi-enrich-012"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-22",
+          "file": "backend/app/routers/proofs.py",
+          "ranges": [
+            [
+              68,
+              68
+            ]
+          ],
+          "title": "flask-path-traversal-file-access",
+          "family": "path_traversal"
+        },
+        {
+          "cwe": "CWE-22",
+          "file": "backend/app/routers/proofs.py",
+          "ranges": [
+            [
+              128,
+              128
+            ]
+          ],
+          "title": "flask-path-traversal-file-access",
+          "family": "path_traversal"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [
+        {
+          "cwe": "CWE-78",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              122,
+              122
+            ]
+          ],
+          "title": "flask-command-injection-shell"
+        }
+      ],
+      "findings": [
+        {
+          "cwe": "CWE-78",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              122,
+              122
+            ]
+          ],
+          "title": "flask-command-injection-shell"
+        },
+        {
+          "cwe": "CWE-22",
+          "file": "backend/app/routers/proofs.py",
+          "ranges": [
+            [
+              68,
+              68
+            ]
+          ],
+          "title": "flask-path-traversal-file-access"
+        },
+        {
+          "cwe": "CWE-22",
+          "file": "backend/app/routers/proofs.py",
+          "ranges": [
+            [
+              128,
+              128
+            ]
+          ],
+          "title": "flask-path-traversal-file-access"
+        }
+      ],
+      "seconds": 8.8
+    },
+    "vc-kimi-code-seeded-v2-marketplace-commerce-fastapi": {
+      "tp": [],
+      "fn": [
+        "seeded-v2-campaign-1-113",
+        "seeded-v2-campaign-2-144",
+        "seeded-v2-campaign-3-667",
+        "seeded-v2-campaign-3-687",
+        "seeded-v2-campaign-3-717",
+        "seeded-v2-campaign-3-724",
+        "vc-kimi-code-seeded-v2-marketplace-commerce-fastapi-enrich-005",
+        "vc-kimi-code-seeded-v2-marketplace-commerce-fastapi-enrich-008",
+        "vc-kimi-code-seeded-v2-marketplace-commerce-fastapi-enrich-009"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [
+        {
+          "cwe": "CWE-78",
+          "file": "backend/app/seller_operations.py",
+          "ranges": [
+            [
+              118,
+              118
+            ]
+          ],
+          "title": "flask-command-injection-shell"
+        }
+      ],
+      "findings": [
+        {
+          "cwe": "CWE-78",
+          "file": "backend/app/seller_operations.py",
+          "ranges": [
+            [
+              118,
+              118
+            ]
+          ],
+          "title": "flask-command-injection-shell"
+        }
+      ],
+      "seconds": 8.9
+    },
+    "vc-kimi-code-seeded-v2-property-management-fastapi": {
+      "tp": [],
+      "fn": [
+        "seeded-v2-campaign-2-205",
+        "seeded-v2-campaign-3-668",
+        "seeded-v2-campaign-3-688",
+        "seeded-v2-campaign-3-718",
+        "seeded-v2-campaign-3-725",
+        "vc-kimi-code-seeded-v2-property-management-fastapi-enrich-009",
+        "vc-kimi-code-seeded-v2-property-management-fastapi-enrich-010",
+        "vc-kimi-code-seeded-v2-property-management-fastapi-enrich-011",
+        "vc-kimi-code-seeded-v2-property-management-fastapi-enrich-012"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [
+        {
+          "cwe": "CWE-78",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              124,
+              124
+            ]
+          ],
+          "title": "flask-command-injection-shell"
+        }
+      ],
+      "findings": [
+        {
+          "cwe": "CWE-78",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              124,
+              124
+            ]
+          ],
+          "title": "flask-command-injection-shell"
+        }
+      ],
+      "seconds": 12.2
+    },
+    "vc-kimi-code-seeded-v2-support-desk-fastapi": {
+      "tp": [],
+      "fn": [
+        "seeded-v2-campaign-1-118",
+        "seeded-v2-campaign-1-119",
+        "seeded-v2-campaign-1-120",
+        "seeded-v2-campaign-2-206",
+        "seeded-v2-campaign-3-689",
+        "seeded-v2-campaign-3-726",
+        "vc-kimi-code-seeded-v2-support-desk-fastapi-enrich-006",
+        "vc-kimi-code-seeded-v2-support-desk-fastapi-enrich-009",
+        "vc-kimi-code-seeded-v2-support-desk-fastapi-enrich-010",
+        "vc-kimi-code-seeded-v2-support-desk-fastapi-enrich-011"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-22",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              587,
+              587
+            ]
+          ],
+          "title": "flask-path-traversal-file-access",
+          "family": "path_traversal"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [
+        {
+          "cwe": "CWE-78",
+          "file": "backend/app/support_operations.py",
+          "ranges": [
+            [
+              105,
+              105
+            ]
+          ],
+          "title": "flask-command-injection-shell"
+        }
+      ],
+      "findings": [
+        {
+          "cwe": "CWE-22",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              587,
+              587
+            ]
+          ],
+          "title": "flask-path-traversal-file-access"
+        },
+        {
+          "cwe": "CWE-78",
+          "file": "backend/app/support_operations.py",
+          "ranges": [
+            [
+              105,
+              105
+            ]
+          ],
+          "title": "flask-command-injection-shell"
+        }
+      ],
+      "seconds": 8.3
+    },
+    "vfapi": {
+      "tp": [],
+      "fn": [
+        "vfapi-001",
+        "vfapi-002",
+        "vfapi-003",
+        "vfapi-004",
+        "vfapi-005",
+        "vfapi-008",
+        "vfapi-009"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [],
+      "seconds": 7.5
+    }
+  }
+}

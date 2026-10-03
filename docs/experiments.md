@@ -373,6 +373,29 @@ facts and up to two sibling handlers on the same model that *do* check
 ownership as trusted context. Model IDOR candidates inside a seeded handler
 are dropped as duplicates. `sweep=False` gives the `authz_only` ablation.
 
+### v3 on RealVuln Flask (dev set — the rules were written from it)
+
+| System | TP | FP | Precision (95% CI) | Recall (95% CI) | F1 | Time / app |
+|---|---|---|---|---|---|---|
+| Agent v2 (for reference) | 30 | 10 | 0.75 (0.60–0.86) | 0.33 (0.24–0.44) | 0.46 | 29 s |
+| `authz_only` (no model, IDOR only) | 7 | 1 | 0.88 (0.53–0.98) | 0.08 (0.04–0.15) | 0.14 | <1 s |
+| **Agent v3** | 33 | 7 | 0.83 (0.68–0.91) | 0.37 (0.27–0.47) | **0.51** | 74 s |
+| Agent v3 without verifier | 34 | 12 | 0.74 (0.60–0.84) | 0.38 (0.29–0.48) | 0.50 | — |
+
+Per family, v3 vs v2 (TP/FP): SQLi 17/3 vs 17/2, path 3/1 vs 2/1, IDOR 13/3
+vs 11/7. The gain is mostly fewer IDOR false positives (seeded candidates
+replace vaguer model guesses inside the same handlers) and new
+missing-authentication finds (`damn-vulnerable-flask-app` 0 → 3). The
+verifier withdrew 3 seeds, each naming a control line. Cost: 2.5× time,
+because seeded handlers are verified with extra context.
+
+`authz_only` here counts 7 TP vs. 9 in `authz_dev_check.py` because the dev
+check scores the whole handler range, while a v3 finding cites one line —
+the handler's first line — which falls outside the ±10 window when the
+ground truth points deeper into a long handler. Citing the object-access
+line instead is a known improvement, left out because v3 was already frozen
+for the FastAPI test.
+
 ### Learned false-positive filter (negative result)
 
 `secagent/fpfilter.py`: 15 deterministic features of a candidate (family,
@@ -388,6 +411,79 @@ RealVuln Flask candidates from `agent_v2_no_verify` (50 labelled: 34 TP, 16 FP):
 | learned filter (LOAO) | 29 | 14 | 0.67 | 0.32 | 0.44 |
 | LLM verifier v2 | 30 | 10 | 0.75 | 0.33 | 0.46 |
 
+Repeated once on `agent_v3_no_verify` candidates (46 labelled: 34 TP, 12 FP):
+no filter 34 TP / 12 FP (F1 0.50); learned filter 32 / 10 (F1 0.49); LLM
+verifier 33 / 7 (F1 0.51).
+
 With 16 negatives the filter learns little (largest weights: in a route
 +0.97, SQL string formatting on the line +0.94) and removes more true than
 false positives. Not adopted; the LLM verifier stays the default filter.
+
+## T09 — v3 on the independent FastAPI test set (2026-10-03)
+
+Protocol `docs/fastapi_protocol.md`: data frozen before v3 existed, v3 frozen
+(commit `a910323`, code hash `a4a4667ed531acd6`, pushed) before any run here,
+every system run once, hash re-checked after the last run. 21 of the 23
+targets contain entries in the three families (244 entries: 182 vulnerable,
+62 traps). Full tables: `eval/results_fastapi/RESULTS.md`.
+
+| System | TP | FP | Precision (95% CI) | Recall (95% CI) | F1 | Time / app |
+|---|---|---|---|---|---|---|
+| Semgrep only (project rules) | 0 | 22 | 0.00 (0.00–0.15) | 0.00 (0.00–0.02) | 0.00 | 10 s |
+| Single-shot LLM | 22 | 100 | 0.18 (0.12–0.26) | 0.12 (0.08–0.18) | 0.14 | 70 s |
+| Agent v2 | 43 | 191 | 0.18 (0.14–0.24) | 0.24 (0.18–0.30) | 0.21 | 244 s |
+| Authorization analysis only (no model) | 46 | 223 | 0.17 (0.13–0.22) | 0.25 (0.20–0.32) | 0.20 | 1 s |
+| **Agent v3** | 61 | 273 | 0.18 (0.14–0.23) | 0.34 (0.27–0.41) | **0.24** | 249 s |
+| Agent v3 without verifier | 84 | 464 | 0.15 (0.13–0.19) | 0.46 (0.39–0.53) | 0.23 | 89 s |
+
+Per family (TP / FP): SQLi — v2 6/3, v3 8/2 (of 22); path traversal — v2
+14/5, v3 11/1 (of 35); IDOR — v2 23/183, v3 42/270, no-verifier v3 63/455
+(of 125).
+
+What the test says:
+
+1. **The pre-stated expectation held: v3 ≥ v2 on IDOR recall** (42 vs 23 of
+   125; overall recall 0.34 vs 0.24, +18 true positives). F1 0.24 vs 0.21;
+   the intervals overlap, so "v3 finds more" is supported, "v3 is better
+   overall" only weakly.
+2. **Precision did not transfer.** 0.83 on the Flask dev set, 0.18 here — for
+   v2 as well (0.75 → 0.18). Flask-set precision was a property of small
+   teaching apps, not of the method. Injection-type families stay precise
+   (v3: SQLi 0.80, path 0.92); the collapse is entirely IDOR.
+3. **The deterministic analysis is the cheapest strong component**: alone, in
+   one second per app and with no model, it matches v2's recall and F1.
+4. **The verifier earns its place here**: it removes 191 false positives for
+   23 true positives (precision 0.15 → 0.18) but costs 2.8× the time.
+5. Semgrep with the project's Flask-oriented rules finds nothing on FastAPI;
+   single-shot finds half of v2's true positives. 150 windows were not read
+   (40-window cap) in the larger apps — a coverage limit, reported per run.
+
+### Post-hoc analysis (after all runs; not a test result)
+
+IDOR findings of v3 by origin:
+
+| Origin | TP | FP | Precision |
+|---|---|---|---|
+| model sweep candidates | 11 | 149 | 0.07 |
+| authz seed: object-level (owned model by id) | 16 | 69 | 0.19 |
+| authz seed: missing authentication | 15 | 52 | 0.22 |
+
+- The model's own IDOR guesses are the main false-positive source. The
+  typical one: the handler delegates to an access helper
+  (`can_view_application(...)`), the model writes "unclear whether it checks
+  ownership", and the verifier rule "if the deciding code is not shown, the
+  claim holds" keeps it. That rule protected recall on the dev sets and is
+  wrong for codebases that centralise authorization in helpers.
+- Object-level seeds fail the same way: `authz.py` deliberately does not
+  count helper-only evidence as an owner check (a holdout case needed that).
+- Many missing-auth seeds point at unauthenticated routes that do dangerous
+  things (`/shell/...`, `/mongo/...`, `/vault/...`). The ground truth probably
+  files those under the injected bug's own CWE, which is out of scope here,
+  so they count as false positives; unverified — the labels were not audited.
+- Arithmetic what-if, **not validated**: dropping model IDOR candidates and
+  keeping only seeds would give 50 TP / 124 FP (P 0.29, R 0.27, F1 0.28).
+
+Next step this points to (v4, would need new untouched test data): resolve
+access-check helpers — show the helper's body to the verifier, or summarise
+each helper once as "compares owner with current user: yes/no" — instead of
+assuming either way. The FastAPI set is now seen data.

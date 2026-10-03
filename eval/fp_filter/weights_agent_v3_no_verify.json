@@ -1,0 +1,40 @@
+{
+  "trained_on": "RealVuln Flask, agent_v3_no_verify, 46 labelled candidates",
+  "features": [
+    "bias",
+    "fam_sqli",
+    "fam_path",
+    "fam_idor",
+    "authz_seed",
+    "in_route",
+    "sql_sink",
+    "sql_format",
+    "sql_param",
+    "path_sink",
+    "path_safe_near",
+    "obj_lookup",
+    "owner_near",
+    "request_near",
+    "file_load"
+  ],
+  "weights": [
+    0.1331,
+    -0.1431,
+    0.1694,
+    -0.0013,
+    0.6587,
+    0.7044,
+    0.0252,
+    1.6022,
+    -0.8296,
+    0.0,
+    0.2609,
+    0.083,
+    0.0539,
+    -0.0235,
+    -0.1255
+  ],
+  "l2": 1.0,
+  "epochs": 400,
+  "threshold": 0.5
+}

@@ -1,0 +1,3238 @@
+{
+  "system": "single_shot",
+  "metrics": {
+    "sql_injection": {
+      "tp": 0,
+      "fn": 22,
+      "fp_lookalike": 0,
+      "fp_unmatched": 19,
+      "precision": 0.0,
+      "precision_ci95": [
+        0.0,
+        0.168
+      ],
+      "recall": 0.0,
+      "recall_ci95": [
+        0.0,
+        0.149
+      ],
+      "f1": 0.0,
+      "lookalike_fp_rate": 0.0,
+      "safe_cases": 13
+    },
+    "path_traversal": {
+      "tp": 7,
+      "fn": 28,
+      "fp_lookalike": 0,
+      "fp_unmatched": 4,
+      "precision": 0.636,
+      "precision_ci95": [
+        0.354,
+        0.848
+      ],
+      "recall": 0.2,
+      "recall_ci95": [
+        0.1,
+        0.359
+      ],
+      "f1": 0.304,
+      "lookalike_fp_rate": 0.0,
+      "safe_cases": 11
+    },
+    "authorization_idor": {
+      "tp": 15,
+      "fn": 110,
+      "fp_lookalike": 1,
+      "fp_unmatched": 76,
+      "precision": 0.163,
+      "precision_ci95": [
+        0.101,
+        0.252
+      ],
+      "recall": 0.12,
+      "recall_ci95": [
+        0.074,
+        0.189
+      ],
+      "f1": 0.138,
+      "lookalike_fp_rate": 0.026,
+      "safe_cases": 38
+    },
+    "micro": {
+      "tp": 22,
+      "fn": 160,
+      "fp_lookalike": 1,
+      "fp_unmatched": 99,
+      "precision": 0.18,
+      "precision_ci95": [
+        0.122,
+        0.258
+      ],
+      "recall": 0.121,
+      "recall_ci95": [
+        0.081,
+        0.176
+      ],
+      "f1": 0.145,
+      "lookalike_fp_rate": 0.016,
+      "safe_cases": 62
+    }
+  },
+  "per_app": {
+    "vc-claude-code-seeded-v2-fintech-lending-fastapi": {
+      "tp": [],
+      "fn": [
+        "seeded-v2-campaign-2-123",
+        "seeded-v2-campaign-2-192",
+        "seeded-v2-campaign-3-371",
+        "seeded-v2-campaign-3-390",
+        "seeded-v2-campaign-3-411",
+        "seeded-v2-campaign-3-441",
+        "vc-claude-code-seeded-v2-fintech-lending-fastapi-enrich-004",
+        "vc-claude-code-seeded-v2-fintech-lending-fastapi-enrich-005",
+        "vc-claude-code-seeded-v2-fintech-lending-fastapi-enrich-006",
+        "vc-claude-code-seeded-v2-fintech-lending-fastapi-enrich-007",
+        "vc-claude-code-seeded-v2-fintech-lending-fastapi-enrich-010"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-89",
+          "file": "backend/app/loan_operations.py",
+          "ranges": [
+            [
+              66,
+              66
+            ]
+          ],
+          "title": "SQL Injection via User Input in File Path",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-22",
+          "file": "backend/app/loan_operations.py",
+          "ranges": [
+            [
+              76,
+              76
+            ]
+          ],
+          "title": "Path Traversal via User Input in File Path",
+          "family": "path_traversal"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/loan_operations.py",
+          "ranges": [
+            [
+              135,
+              135
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-89",
+          "file": "backend/app/loan_operations.py",
+          "ranges": [
+            [
+              66,
+              66
+            ]
+          ],
+          "title": "SQL Injection via User Input in File Path"
+        },
+        {
+          "cwe": "CWE-22",
+          "file": "backend/app/loan_operations.py",
+          "ranges": [
+            [
+              76,
+              76
+            ]
+          ],
+          "title": "Path Traversal via User Input in File Path"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/loan_operations.py",
+          "ranges": [
+            [
+              135,
+              135
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        }
+      ],
+      "seconds": 139.7
+    },
+    "vc-claude-code-seeded-v2-logistics-dispatch-fastapi": {
+      "tp": [],
+      "fn": [
+        "seeded-v2-campaign-2-126",
+        "seeded-v2-campaign-3-375",
+        "seeded-v2-campaign-3-393",
+        "seeded-v2-campaign-3-415",
+        "seeded-v2-campaign-3-435",
+        "vc-claude-code-seeded-v2-logistics-dispatch-fastapi-enrich-001",
+        "vc-claude-code-seeded-v2-logistics-dispatch-fastapi-enrich-002",
+        "vc-claude-code-seeded-v2-logistics-dispatch-fastapi-enrich-003",
+        "vc-claude-code-seeded-v2-logistics-dispatch-fastapi-enrich-004",
+        "vc-claude-code-seeded-v2-logistics-dispatch-fastapi-enrich-013",
+        "vc-claude-code-seeded-v2-logistics-dispatch-fastapi-enrich-014"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/users.py",
+          "ranges": [
+            [
+              94,
+              94
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/users.py",
+          "ranges": [
+            [
+              199,
+              199
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/users.py",
+          "ranges": [
+            [
+              179,
+              179
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/users.py",
+          "ranges": [
+            [
+              180,
+              180
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/users.py",
+          "ranges": [
+            [
+              199,
+              199
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/users.py",
+          "ranges": [
+            [
+              179,
+              179
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/users.py",
+          "ranges": [
+            [
+              180,
+              180
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/users.py",
+          "ranges": [
+            [
+              199,
+              199
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/users.py",
+          "ranges": [
+            [
+              179,
+              179
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/users.py",
+          "ranges": [
+            [
+              180,
+              180
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/users.py",
+          "ranges": [
+            [
+              94,
+              94
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/users.py",
+          "ranges": [
+            [
+              199,
+              199
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/users.py",
+          "ranges": [
+            [
+              179,
+              179
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/users.py",
+          "ranges": [
+            [
+              180,
+              180
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/users.py",
+          "ranges": [
+            [
+              199,
+              199
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/users.py",
+          "ranges": [
+            [
+              179,
+              179
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/users.py",
+          "ranges": [
+            [
+              180,
+              180
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/users.py",
+          "ranges": [
+            [
+              199,
+              199
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/users.py",
+          "ranges": [
+            [
+              179,
+              179
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/users.py",
+          "ranges": [
+            [
+              180,
+              180
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        }
+      ],
+      "seconds": 82.2
+    },
+    "vc-claude-code-seeded-v2-marketplace-commerce-fastapi": {
+      "tp": [
+        "seeded-v2-campaign-1-022"
+      ],
+      "fn": [
+        "seeded-v2-campaign-1-023",
+        "seeded-v2-campaign-1-024",
+        "seeded-v2-campaign-2-189",
+        "seeded-v2-campaign-3-376",
+        "seeded-v2-campaign-3-394",
+        "seeded-v2-campaign-3-416",
+        "seeded-v2-campaign-3-436",
+        "vc-claude-code-seeded-v2-marketplace-commerce-fastapi-enrich-001",
+        "vc-claude-code-seeded-v2-marketplace-commerce-fastapi-enrich-002"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-89",
+          "file": "backend/app/seller_operations.py",
+          "ranges": [
+            [
+              96,
+              96
+            ]
+          ],
+          "title": "SQL Injection via MongoDB Query Construction",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/seller_operations.py",
+          "ranges": [
+            [
+              103,
+              103
+            ]
+          ],
+          "title": "Command Injection via OS System Call",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/tests/test_auth_and_isolation.py",
+          "ranges": [
+            [
+              64,
+              64
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-22",
+          "file": "backend/tests/test_auth_and_isolation.py",
+          "ranges": [
+            [
+              167,
+              167
+            ]
+          ],
+          "title": "Path Traversal",
+          "family": "path_traversal"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-89",
+          "file": "backend/app/seller_operations.py",
+          "ranges": [
+            [
+              96,
+              96
+            ]
+          ],
+          "title": "SQL Injection via MongoDB Query Construction"
+        },
+        {
+          "cwe": "CWE-22",
+          "file": "backend/app/seller_operations.py",
+          "ranges": [
+            [
+              26,
+              26
+            ]
+          ],
+          "title": "Path Traversal via File Writing"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/seller_operations.py",
+          "ranges": [
+            [
+              103,
+              103
+            ]
+          ],
+          "title": "Command Injection via OS System Call"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/tests/test_auth_and_isolation.py",
+          "ranges": [
+            [
+              64,
+              64
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        },
+        {
+          "cwe": "CWE-22",
+          "file": "backend/tests/test_auth_and_isolation.py",
+          "ranges": [
+            [
+              167,
+              167
+            ]
+          ],
+          "title": "Path Traversal"
+        }
+      ],
+      "seconds": 70.5
+    },
+    "vc-claude-code-seeded-v2-property-management-fastapi": {
+      "tp": [
+        "seeded-v2-campaign-1-026",
+        "seeded-v2-campaign-1-025",
+        "seeded-v2-campaign-2-190",
+        "seeded-v2-campaign-3-437"
+      ],
+      "fn": [
+        "seeded-v2-campaign-3-386",
+        "seeded-v2-campaign-3-417",
+        "vc-claude-code-seeded-v2-property-management-fastapi-enrich-009",
+        "vc-claude-code-seeded-v2-property-management-fastapi-enrich-010",
+        "vc-claude-code-seeded-v2-property-management-fastapi-enrich-011",
+        "vc-claude-code-seeded-v2-property-management-fastapi-enrich-012"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-89",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              30,
+              30
+            ]
+          ],
+          "title": "SQL Injection via Path Traversal",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              61,
+              61
+            ]
+          ],
+          "title": "Broken Object-Level Authorization (IDOR)",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              74,
+              74
+            ]
+          ],
+          "title": "Broken Object-Level Authorization (IDOR)",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              81,
+              81
+            ]
+          ],
+          "title": "Broken Object-Level Authorization (IDOR)",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              90,
+              90
+            ]
+          ],
+          "title": "Broken Object-Level Authorization (IDOR)",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              109,
+              109
+            ]
+          ],
+          "title": "Broken Object-Level Authorization (IDOR)",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              110,
+              110
+            ]
+          ],
+          "title": "Broken Object-Level Authorization (IDOR)",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              117,
+              117
+            ]
+          ],
+          "title": "Broken Object-Level Authorization (IDOR)",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              28,
+              28
+            ]
+          ],
+          "title": "Broken Object-Level Authorization (IDOR)",
+          "case": "seeded-v2-campaign-1-025"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              55,
+              55
+            ]
+          ],
+          "title": "Broken Object-Level Authorization (IDOR)",
+          "case": "seeded-v2-campaign-2-190"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              140,
+              140
+            ]
+          ],
+          "title": "Broken Object-Level Authorization (IDOR)",
+          "case": "seeded-v2-campaign-3-437"
+        }
+      ],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-89",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              30,
+              30
+            ]
+          ],
+          "title": "SQL Injection via Path Traversal"
+        },
+        {
+          "cwe": "CWE-22",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              30,
+              30
+            ]
+          ],
+          "title": "Path Traversal in File Access"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              22,
+              22
+            ]
+          ],
+          "title": "Broken Object-Level Authorization (IDOR)"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              28,
+              28
+            ]
+          ],
+          "title": "Broken Object-Level Authorization (IDOR)"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              48,
+              48
+            ]
+          ],
+          "title": "Broken Object-Level Authorization (IDOR)"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              55,
+              55
+            ]
+          ],
+          "title": "Broken Object-Level Authorization (IDOR)"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              61,
+              61
+            ]
+          ],
+          "title": "Broken Object-Level Authorization (IDOR)"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              74,
+              74
+            ]
+          ],
+          "title": "Broken Object-Level Authorization (IDOR)"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              81,
+              81
+            ]
+          ],
+          "title": "Broken Object-Level Authorization (IDOR)"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              90,
+              90
+            ]
+          ],
+          "title": "Broken Object-Level Authorization (IDOR)"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              109,
+              109
+            ]
+          ],
+          "title": "Broken Object-Level Authorization (IDOR)"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              110,
+              110
+            ]
+          ],
+          "title": "Broken Object-Level Authorization (IDOR)"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              117,
+              117
+            ]
+          ],
+          "title": "Broken Object-Level Authorization (IDOR)"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              133,
+              133
+            ]
+          ],
+          "title": "Broken Object-Level Authorization (IDOR)"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              140,
+              140
+            ]
+          ],
+          "title": "Broken Object-Level Authorization (IDOR)"
+        }
+      ],
+      "seconds": 143.4
+    },
+    "vc-claude-code-seeded-v2-support-desk-fastapi": {
+      "tp": [
+        "seeded-v2-campaign-2-232",
+        "seeded-v2-campaign-1-029"
+      ],
+      "fn": [
+        "seeded-v2-campaign-3-368",
+        "seeded-v2-campaign-3-387",
+        "seeded-v2-campaign-3-418",
+        "seeded-v2-campaign-3-438",
+        "vc-claude-code-seeded-v2-support-desk-fastapi-enrich-011",
+        "vc-claude-code-seeded-v2-support-desk-fastapi-enrich-012"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-89",
+          "file": "backend/app/support_operations.py",
+          "ranges": [
+            [
+              55,
+              55
+            ]
+          ],
+          "title": "SQL Injection via Query Parameter",
+          "family": "sql_injection"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-89",
+          "file": "backend/app/support_operations.py",
+          "ranges": [
+            [
+              55,
+              55
+            ]
+          ],
+          "title": "SQL Injection via Query Parameter"
+        },
+        {
+          "cwe": "CWE-22",
+          "file": "backend/app/support_operations.py",
+          "ranges": [
+            [
+              55,
+              55
+            ]
+          ],
+          "title": "Path Traversal via Query Parameter"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/support_operations.py",
+          "ranges": [
+            [
+              37,
+              37
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        }
+      ],
+      "seconds": 80.9
+    },
+    "vc-codex-high-seeded-v2-fintech-lending-fastapi": {
+      "tp": [
+        "seeded-v2-campaign-3-594",
+        "seeded-v2-campaign-3-565"
+      ],
+      "fn": [
+        "seeded-v2-campaign-2-135",
+        "seeded-v2-campaign-2-203",
+        "seeded-v2-campaign-3-625",
+        "vc-codex-high-seeded-v2-fintech-lending-fastapi-enrich-010"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-89",
+          "file": "app/loan_operations.py",
+          "ranges": [
+            [
+              25,
+              25
+            ]
+          ],
+          "title": "SQL Injection via String Interpolation",
+          "family": "sql_injection"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-89",
+          "file": "app/loan_operations.py",
+          "ranges": [
+            [
+              25,
+              25
+            ]
+          ],
+          "title": "SQL Injection via String Interpolation"
+        },
+        {
+          "cwe": "CWE-22",
+          "file": "app/loan_operations.py",
+          "ranges": [
+            [
+              121,
+              121
+            ]
+          ],
+          "title": "Path Traversal via File Write"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/loan_operations.py",
+          "ranges": [
+            [
+              91,
+              91
+            ]
+          ],
+          "title": "Broken Object-Level Authorization"
+        }
+      ],
+      "seconds": 50.0
+    },
+    "vc-codex-high-seeded-v2-logistics-dispatch-fastapi": {
+      "tp": [],
+      "fn": [
+        "seeded-v2-campaign-2-138",
+        "seeded-v2-campaign-3-569",
+        "seeded-v2-campaign-3-596",
+        "seeded-v2-campaign-3-609",
+        "vc-codex-high-seeded-v2-logistics-dispatch-fastapi-enrich-009"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [],
+      "seconds": 47.3
+    },
+    "vc-codex-high-seeded-v2-marketplace-commerce-fastapi": {
+      "tp": [],
+      "fn": [
+        "seeded-v2-campaign-1-082",
+        "seeded-v2-campaign-1-083",
+        "seeded-v2-campaign-1-084",
+        "seeded-v2-campaign-2-200",
+        "seeded-v2-campaign-3-570",
+        "seeded-v2-campaign-3-597",
+        "seeded-v2-campaign-3-610"
+      ],
+      "fp_safe": [
+        "vc-codex-high-seeded-v2-marketplace-commerce-fastapi-fp-004"
+      ],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              1233,
+              1233
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              1450,
+              1450
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              1472,
+              1472
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              1497,
+              1497
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              1568,
+              1568
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              1585,
+              1585
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              1233,
+              1233
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              1287,
+              1287
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              1450,
+              1450
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              1472,
+              1472
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              1497,
+              1497
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              1568,
+              1568
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              1585,
+              1585
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        }
+      ],
+      "seconds": 67.4
+    },
+    "vc-codex-high-seeded-v2-property-management-fastapi": {
+      "tp": [],
+      "fn": [
+        "seeded-v2-campaign-1-085",
+        "seeded-v2-campaign-1-086",
+        "seeded-v2-campaign-2-201",
+        "seeded-v2-campaign-3-590",
+        "seeded-v2-campaign-3-611",
+        "vc-codex-high-seeded-v2-property-management-fastapi-enrich-008"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [],
+      "seconds": 54.3
+    },
+    "vc-codex-high-seeded-v2-support-desk-fastapi": {
+      "tp": [],
+      "fn": [
+        "seeded-v2-campaign-1-089",
+        "seeded-v2-campaign-3-562",
+        "seeded-v2-campaign-3-591",
+        "seeded-v2-campaign-3-612",
+        "seeded-v2-campaign-3-622",
+        "vc-codex-high-seeded-v2-support-desk-fastapi-enrich-009",
+        "vc-codex-high-seeded-v2-support-desk-fastapi-enrich-010"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-639",
+          "file": "app/routers/integrations.py",
+          "ranges": [
+            [
+              39,
+              39
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/routers/kb.py",
+          "ranges": [
+            [
+              40,
+              40
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/routers/kb.py",
+          "ranges": [
+            [
+              71,
+              71
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/routers/kb.py",
+          "ranges": [
+            [
+              96,
+              96
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "app/support_operations.py",
+          "ranges": [
+            [
+              55,
+              55
+            ]
+          ],
+          "title": "Path Traversal via File System Traversal",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/support_operations.py",
+          "ranges": [
+            [
+              55,
+              55
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-639",
+          "file": "app/routers/integrations.py",
+          "ranges": [
+            [
+              39,
+              39
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/routers/kb.py",
+          "ranges": [
+            [
+              40,
+              40
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/routers/kb.py",
+          "ranges": [
+            [
+              71,
+              71
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/routers/kb.py",
+          "ranges": [
+            [
+              96,
+              96
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "app/support_operations.py",
+          "ranges": [
+            [
+              55,
+              55
+            ]
+          ],
+          "title": "Path Traversal via File System Traversal"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/support_operations.py",
+          "ranges": [
+            [
+              55,
+              55
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        }
+      ],
+      "seconds": 60.1
+    },
+    "vc-codex-seeded-v2-fintech-lending-fastapi": {
+      "tp": [
+        "seeded-v2-campaign-1-038",
+        "seeded-v2-campaign-1-037"
+      ],
+      "fn": [
+        "seeded-v2-campaign-2-128",
+        "seeded-v2-campaign-2-199",
+        "seeded-v2-campaign-3-468",
+        "seeded-v2-campaign-3-495",
+        "seeded-v2-campaign-3-528",
+        "vc-codex-seeded-v2-fintech-lending-fastapi-enrich-008",
+        "vc-codex-seeded-v2-fintech-lending-fastapi-enrich-009",
+        "vc-codex-seeded-v2-fintech-lending-fastapi-enrich-016",
+        "vc-codex-seeded-v2-fintech-lending-fastapi-enrich-017",
+        "vc-codex-seeded-v2-fintech-lending-fastapi-enrich-018"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-89",
+          "file": "backend/app/loan_operations.py",
+          "ranges": [
+            [
+              69,
+              69
+            ]
+          ],
+          "title": "SQL Injection via String Interpolation",
+          "family": "sql_injection"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-89",
+          "file": "backend/app/loan_operations.py",
+          "ranges": [
+            [
+              69,
+              69
+            ]
+          ],
+          "title": "SQL Injection via String Interpolation"
+        },
+        {
+          "cwe": "CWE-22",
+          "file": "backend/app/loan_operations.py",
+          "ranges": [
+            [
+              30,
+              30
+            ]
+          ],
+          "title": "Path Traversal via User-Controlled Input"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/loan_operations.py",
+          "ranges": [
+            [
+              23,
+              23
+            ]
+          ],
+          "title": "Broken Object-Level Authorization (IDOR)"
+        }
+      ],
+      "seconds": 25.7
+    },
+    "vc-codex-seeded-v2-logistics-dispatch-fastapi": {
+      "tp": [
+        "seeded-v2-campaign-1-049"
+      ],
+      "fn": [
+        "seeded-v2-campaign-1-050",
+        "seeded-v2-campaign-2-131",
+        "seeded-v2-campaign-3-472",
+        "seeded-v2-campaign-3-498",
+        "seeded-v2-campaign-3-542",
+        "vc-codex-seeded-v2-logistics-dispatch-fastapi-enrich-008",
+        "vc-codex-seeded-v2-logistics-dispatch-fastapi-enrich-009"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-89",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              30,
+              30
+            ]
+          ],
+          "title": "Path Traversal via User-Controlled Filename",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              816,
+              816
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              825,
+              825
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-89",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              30,
+              30
+            ]
+          ],
+          "title": "Path Traversal via User-Controlled Filename"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              24,
+              24
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              816,
+              816
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              825,
+              825
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        }
+      ],
+      "seconds": 44.2
+    },
+    "vc-codex-seeded-v2-marketplace-commerce-fastapi": {
+      "tp": [
+        "seeded-v2-campaign-1-053",
+        "seeded-v2-campaign-3-473"
+      ],
+      "fn": [
+        "seeded-v2-campaign-2-132",
+        "seeded-v2-campaign-3-492",
+        "seeded-v2-campaign-3-543",
+        "vc-codex-seeded-v2-marketplace-commerce-fastapi-enrich-007",
+        "vc-codex-seeded-v2-marketplace-commerce-fastapi-enrich-008"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-89",
+          "file": "app/seller_operations.py",
+          "ranges": [
+            [
+              60,
+              60
+            ]
+          ],
+          "title": "Path Traversal Vulnerability in File Write",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/seller_operations.py",
+          "ranges": [
+            [
+              115,
+              115
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/seller_operations.py",
+          "ranges": [
+            [
+              134,
+              134
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/seller_operations.py",
+          "ranges": [
+            [
+              141,
+              141
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [
+        {
+          "cwe": "CWE-639",
+          "file": "app/seller_operations.py",
+          "ranges": [
+            [
+              94,
+              94
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "case": "seeded-v2-campaign-3-473"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/seller_operations.py",
+          "ranges": [
+            [
+              101,
+              101
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "case": "seeded-v2-campaign-3-473"
+        }
+      ],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-89",
+          "file": "app/seller_operations.py",
+          "ranges": [
+            [
+              60,
+              60
+            ]
+          ],
+          "title": "Path Traversal Vulnerability in File Write"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/seller_operations.py",
+          "ranges": [
+            [
+              38,
+              38
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/seller_operations.py",
+          "ranges": [
+            [
+              86,
+              86
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/seller_operations.py",
+          "ranges": [
+            [
+              94,
+              94
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/seller_operations.py",
+          "ranges": [
+            [
+              101,
+              101
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/seller_operations.py",
+          "ranges": [
+            [
+              115,
+              115
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/seller_operations.py",
+          "ranges": [
+            [
+              134,
+              134
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/seller_operations.py",
+          "ranges": [
+            [
+              141,
+              141
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        }
+      ],
+      "seconds": 45.9
+    },
+    "vc-codex-seeded-v2-property-management-fastapi": {
+      "tp": [],
+      "fn": [
+        "seeded-v2-campaign-2-195",
+        "seeded-v2-campaign-3-493",
+        "seeded-v2-campaign-3-544",
+        "vc-codex-seeded-v2-property-management-fastapi-enrich-008",
+        "vc-codex-seeded-v2-property-management-fastapi-enrich-009"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-89",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              205,
+              205
+            ]
+          ],
+          "title": "SQL Injection in User Login",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              260,
+              260
+            ]
+          ],
+          "title": "SQL Injection in Password Reset Request",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              271,
+              271
+            ]
+          ],
+          "title": "SQL Injection in Password Reset Confirmation",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-22",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              176,
+              176
+            ]
+          ],
+          "title": "Path Traversal in File Upload",
+          "family": "path_traversal"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              381,
+              381
+            ]
+          ],
+          "title": "Broken Object-Level Authorization in Lease Access",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              67,
+              67
+            ]
+          ],
+          "title": "Path Traversal via File Write",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              150,
+              150
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-89",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              205,
+              205
+            ]
+          ],
+          "title": "SQL Injection in User Login"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              260,
+              260
+            ]
+          ],
+          "title": "SQL Injection in Password Reset Request"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              271,
+              271
+            ]
+          ],
+          "title": "SQL Injection in Password Reset Confirmation"
+        },
+        {
+          "cwe": "CWE-22",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              176,
+              176
+            ]
+          ],
+          "title": "Path Traversal in File Upload"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              381,
+              381
+            ]
+          ],
+          "title": "Broken Object-Level Authorization in Lease Access"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              67,
+              67
+            ]
+          ],
+          "title": "Path Traversal via File Write"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              150,
+              150
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        }
+      ],
+      "seconds": 43.4
+    },
+    "vc-codex-seeded-v2-support-desk-fastapi": {
+      "tp": [
+        "seeded-v2-campaign-1-058"
+      ],
+      "fn": [
+        "seeded-v2-campaign-1-059",
+        "seeded-v2-campaign-1-060",
+        "seeded-v2-campaign-2-196",
+        "seeded-v2-campaign-3-465",
+        "seeded-v2-campaign-3-500",
+        "seeded-v2-campaign-3-525",
+        "seeded-v2-campaign-3-545",
+        "vc-codex-seeded-v2-support-desk-fastapi-enrich-007",
+        "vc-codex-seeded-v2-support-desk-fastapi-enrich-012"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-89",
+          "file": "backend/app/support_operations.py",
+          "ranges": [
+            [
+              26,
+              26
+            ]
+          ],
+          "title": "SQL Injection via Path Traversal in File Write",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/support_operations.py",
+          "ranges": [
+            [
+              103,
+              103
+            ]
+          ],
+          "title": "Broken Object-Level Authorization (IDOR) in File Write",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-89",
+          "file": "backend/app/support_operations.py",
+          "ranges": [
+            [
+              26,
+              26
+            ]
+          ],
+          "title": "SQL Injection via Path Traversal in File Write"
+        },
+        {
+          "cwe": "CWE-22",
+          "file": "backend/app/support_operations.py",
+          "ranges": [
+            [
+              26,
+              26
+            ]
+          ],
+          "title": "Path Traversal in File Write"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/support_operations.py",
+          "ranges": [
+            [
+              103,
+              103
+            ]
+          ],
+          "title": "Broken Object-Level Authorization (IDOR) in File Write"
+        }
+      ],
+      "seconds": 34.0
+    },
+    "vc-kimi-code-seeded-v2-fintech-lending-fastapi": {
+      "tp": [
+        "seeded-v2-campaign-1-097",
+        "seeded-v2-campaign-2-209",
+        "seeded-v2-campaign-3-692",
+        "vc-kimi-code-seeded-v2-fintech-lending-fastapi-enrich-014"
+      ],
+      "fn": [
+        "seeded-v2-campaign-1-098",
+        "seeded-v2-campaign-2-140",
+        "seeded-v2-campaign-3-662",
+        "seeded-v2-campaign-3-712",
+        "seeded-v2-campaign-3-720",
+        "vc-kimi-code-seeded-v2-fintech-lending-fastapi-enrich-007",
+        "vc-kimi-code-seeded-v2-fintech-lending-fastapi-enrich-011",
+        "vc-kimi-code-seeded-v2-fintech-lending-fastapi-enrich-012",
+        "vc-kimi-code-seeded-v2-fintech-lending-fastapi-enrich-013"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-22",
+          "file": "backend/app/core/config.py",
+          "ranges": [
+            [
+              9,
+              9
+            ]
+          ],
+          "title": "Path Traversal in UPLOAD_DIR Configuration",
+          "family": "path_traversal"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/loan_operations.py",
+          "ranges": [
+            [
+              76,
+              76
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR in Blurb Tile Rendering",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/loan_operations.py",
+          "ranges": [
+            [
+              130,
+              130
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR in MongoDB Query",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/loan_operations.py",
+          "ranges": [
+            [
+              135,
+              135
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR in Dock Shelf Storage",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/loan_operations.py",
+          "ranges": [
+            [
+              152,
+              152
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR in XML Parsing",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/documents.py",
+          "ranges": [
+            [
+              45,
+              45
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/documents.py",
+          "ranges": [
+            [
+              113,
+              113
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/messages.py",
+          "ranges": [
+            [
+              21,
+              21
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/messages.py",
+          "ranges": [
+            [
+              50,
+              50
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/messages.py",
+          "ranges": [
+            [
+              76,
+              76
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/loan_operations.py",
+          "ranges": [
+            [
+              68,
+              68
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR in Jinja Template Evaluation",
+          "case": "seeded-v2-campaign-2-209"
+        }
+      ],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-22",
+          "file": "backend/app/core/config.py",
+          "ranges": [
+            [
+              9,
+              9
+            ]
+          ],
+          "title": "Path Traversal in UPLOAD_DIR Configuration"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/loan_operations.py",
+          "ranges": [
+            [
+              30,
+              30
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR in Parcel Path Access"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/loan_operations.py",
+          "ranges": [
+            [
+              61,
+              61
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR in Workset Update"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/loan_operations.py",
+          "ranges": [
+            [
+              68,
+              68
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR in Jinja Template Evaluation"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/loan_operations.py",
+          "ranges": [
+            [
+              76,
+              76
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR in Blurb Tile Rendering"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/loan_operations.py",
+          "ranges": [
+            [
+              106,
+              106
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR in Jinja Cast Fragment"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/loan_operations.py",
+          "ranges": [
+            [
+              130,
+              130
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR in MongoDB Query"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/loan_operations.py",
+          "ranges": [
+            [
+              135,
+              135
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR in Dock Shelf Storage"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/loan_operations.py",
+          "ranges": [
+            [
+              152,
+              152
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR in XML Parsing"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/documents.py",
+          "ranges": [
+            [
+              45,
+              45
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/documents.py",
+          "ranges": [
+            [
+              113,
+              113
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/documents.py",
+          "ranges": [
+            [
+              151,
+              151
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/messages.py",
+          "ranges": [
+            [
+              21,
+              21
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/messages.py",
+          "ranges": [
+            [
+              50,
+              50
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/messages.py",
+          "ranges": [
+            [
+              76,
+              76
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        }
+      ],
+      "seconds": 69.4
+    },
+    "vc-kimi-code-seeded-v2-logistics-dispatch-fastapi": {
+      "tp": [],
+      "fn": [
+        "seeded-v2-campaign-1-109",
+        "seeded-v2-campaign-1-110",
+        "seeded-v2-campaign-2-143",
+        "seeded-v2-campaign-3-666",
+        "seeded-v2-campaign-3-716",
+        "seeded-v2-campaign-3-723",
+        "vc-kimi-code-seeded-v2-logistics-dispatch-fastapi-enrich-006",
+        "vc-kimi-code-seeded-v2-logistics-dispatch-fastapi-enrich-008",
+        "vc-kimi-code-seeded-v2-logistics-dispatch-fastapi-enrich-010",
+        "vc-kimi-code-seeded-v2-logistics-dispatch-fastapi-enrich-011",
+        "vc-kimi-code-seeded-v2-logistics-dispatch-fastapi-enrich-012"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-89",
+          "file": "backend/app/routers/customers.py",
+          "ranges": [
+            [
+              21,
+              21
+            ]
+          ],
+          "title": "Potential SQL Injection in Customer List Query",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/customers.py",
+          "ranges": [
+            [
+              48,
+              48
+            ]
+          ],
+          "title": "Broken Object-Level Authorization in Customer Retrieval",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/customers.py",
+          "ranges": [
+            [
+              64,
+              64
+            ]
+          ],
+          "title": "Broken Object-Level Authorization in Customer Location Retrieval",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "backend/app/routers/imports.py",
+          "ranges": [
+            [
+              105,
+              105
+            ]
+          ],
+          "title": "Potential SQL Injection in Job Import",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/incidents.py",
+          "ranges": [
+            [
+              125,
+              125
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/incidents.py",
+          "ranges": [
+            [
+              144,
+              144
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/incidents.py",
+          "ranges": [
+            [
+              167,
+              167
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/incidents.py",
+          "ranges": [
+            [
+              170,
+              170
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/proofs.py",
+          "ranges": [
+            [
+              91,
+              91
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/proofs.py",
+          "ranges": [
+            [
+              106,
+              106
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/proofs.py",
+          "ranges": [
+            [
+              121,
+              121
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/routes.py",
+          "ranges": [
+            [
+              83,
+              83
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/routes.py",
+          "ranges": [
+            [
+              84,
+              84
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/routes.py",
+          "ranges": [
+            [
+              88,
+              88
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/routes.py",
+          "ranges": [
+            [
+              148,
+              148
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/routes.py",
+          "ranges": [
+            [
+              149,
+              149
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/routes.py",
+          "ranges": [
+            [
+              170,
+              170
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/routes.py",
+          "ranges": [
+            [
+              171,
+              171
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/users.py",
+          "ranges": [
+            [
+              42,
+              42
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/users.py",
+          "ranges": [
+            [
+              92,
+              92
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/users.py",
+          "ranges": [
+            [
+              100,
+              100
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/users.py",
+          "ranges": [
+            [
+              101,
+              101
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/users.py",
+          "ranges": [
+            [
+              102,
+              102
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/webhooks.py",
+          "ranges": [
+            [
+              18,
+              18
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-89",
+          "file": "backend/app/routers/customers.py",
+          "ranges": [
+            [
+              21,
+              21
+            ]
+          ],
+          "title": "Potential SQL Injection in Customer List Query"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/customers.py",
+          "ranges": [
+            [
+              48,
+              48
+            ]
+          ],
+          "title": "Broken Object-Level Authorization in Customer Retrieval"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/customers.py",
+          "ranges": [
+            [
+              64,
+              64
+            ]
+          ],
+          "title": "Broken Object-Level Authorization in Customer Location Retrieval"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "backend/app/routers/imports.py",
+          "ranges": [
+            [
+              105,
+              105
+            ]
+          ],
+          "title": "Potential SQL Injection in Job Import"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/incidents.py",
+          "ranges": [
+            [
+              125,
+              125
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/incidents.py",
+          "ranges": [
+            [
+              144,
+              144
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/incidents.py",
+          "ranges": [
+            [
+              167,
+              167
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/incidents.py",
+          "ranges": [
+            [
+              170,
+              170
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/proofs.py",
+          "ranges": [
+            [
+              91,
+              91
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/proofs.py",
+          "ranges": [
+            [
+              106,
+              106
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/proofs.py",
+          "ranges": [
+            [
+              121,
+              121
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/routes.py",
+          "ranges": [
+            [
+              83,
+              83
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/routes.py",
+          "ranges": [
+            [
+              84,
+              84
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/routes.py",
+          "ranges": [
+            [
+              88,
+              88
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/routes.py",
+          "ranges": [
+            [
+              148,
+              148
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/routes.py",
+          "ranges": [
+            [
+              149,
+              149
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/routes.py",
+          "ranges": [
+            [
+              170,
+              170
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/routes.py",
+          "ranges": [
+            [
+              171,
+              171
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/users.py",
+          "ranges": [
+            [
+              42,
+              42
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/users.py",
+          "ranges": [
+            [
+              92,
+              92
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/users.py",
+          "ranges": [
+            [
+              100,
+              100
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/users.py",
+          "ranges": [
+            [
+              101,
+              101
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/users.py",
+          "ranges": [
+            [
+              102,
+              102
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/webhooks.py",
+          "ranges": [
+            [
+              18,
+              18
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        }
+      ],
+      "seconds": 154.2
+    },
+    "vc-kimi-code-seeded-v2-marketplace-commerce-fastapi": {
+      "tp": [],
+      "fn": [
+        "seeded-v2-campaign-1-113",
+        "seeded-v2-campaign-2-144",
+        "seeded-v2-campaign-3-667",
+        "seeded-v2-campaign-3-687",
+        "seeded-v2-campaign-3-717",
+        "seeded-v2-campaign-3-724",
+        "vc-kimi-code-seeded-v2-marketplace-commerce-fastapi-enrich-005",
+        "vc-kimi-code-seeded-v2-marketplace-commerce-fastapi-enrich-008",
+        "vc-kimi-code-seeded-v2-marketplace-commerce-fastapi-enrich-009"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [],
+      "seconds": 74.5
+    },
+    "vc-kimi-code-seeded-v2-property-management-fastapi": {
+      "tp": [
+        "vc-kimi-code-seeded-v2-property-management-fastapi-enrich-011"
+      ],
+      "fn": [
+        "seeded-v2-campaign-2-205",
+        "seeded-v2-campaign-3-668",
+        "seeded-v2-campaign-3-688",
+        "seeded-v2-campaign-3-718",
+        "seeded-v2-campaign-3-725",
+        "vc-kimi-code-seeded-v2-property-management-fastapi-enrich-009",
+        "vc-kimi-code-seeded-v2-property-management-fastapi-enrich-010",
+        "vc-kimi-code-seeded-v2-property-management-fastapi-enrich-012"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-89",
+          "file": "backend/app/routers/audit.py",
+          "ranges": [
+            [
+              25,
+              25
+            ]
+          ],
+          "title": "SQL Injection in Audit Log Filtering",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/documents.py",
+          "ranges": [
+            [
+              83,
+              83
+            ]
+          ],
+          "title": "Broken Object-Level Authorization in Document Retrieval",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/documents.py",
+          "ranges": [
+            [
+              97,
+              97
+            ]
+          ],
+          "title": "Broken Object-Level Authorization in Document Download",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/documents.py",
+          "ranges": [
+            [
+              115,
+              115
+            ]
+          ],
+          "title": "Broken Object-Level Authorization in Document Update",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/documents.py",
+          "ranges": [
+            [
+              135,
+              135
+            ]
+          ],
+          "title": "Broken Object-Level Authorization in Document Deletion",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "backend/app/routers/messages.py",
+          "ranges": [
+            [
+              39,
+              39
+            ]
+          ],
+          "title": "Potential SQL Injection in Message Filtering",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/payments.py",
+          "ranges": [
+            [
+              75,
+              75
+            ]
+          ],
+          "title": "Broken Object-Level Authorization for Payment Access",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/payments.py",
+          "ranges": [
+            [
+              91,
+              91
+            ]
+          ],
+          "title": "Broken Object-Level Authorization for Payment Update",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/messages.py",
+          "ranges": [
+            [
+              86,
+              86
+            ]
+          ],
+          "title": "Broken Object-Level Authorization for Message Access",
+          "case": "vc-kimi-code-seeded-v2-property-management-fastapi-enrich-011"
+        }
+      ],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-89",
+          "file": "backend/app/routers/audit.py",
+          "ranges": [
+            [
+              25,
+              25
+            ]
+          ],
+          "title": "SQL Injection in Audit Log Filtering"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/documents.py",
+          "ranges": [
+            [
+              83,
+              83
+            ]
+          ],
+          "title": "Broken Object-Level Authorization in Document Retrieval"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/documents.py",
+          "ranges": [
+            [
+              97,
+              97
+            ]
+          ],
+          "title": "Broken Object-Level Authorization in Document Download"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/documents.py",
+          "ranges": [
+            [
+              115,
+              115
+            ]
+          ],
+          "title": "Broken Object-Level Authorization in Document Update"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/documents.py",
+          "ranges": [
+            [
+              135,
+              135
+            ]
+          ],
+          "title": "Broken Object-Level Authorization in Document Deletion"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "backend/app/routers/messages.py",
+          "ranges": [
+            [
+              39,
+              39
+            ]
+          ],
+          "title": "Potential SQL Injection in Message Filtering"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/messages.py",
+          "ranges": [
+            [
+              84,
+              84
+            ]
+          ],
+          "title": "Broken Object-Level Authorization for Internal Notes"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/messages.py",
+          "ranges": [
+            [
+              86,
+              86
+            ]
+          ],
+          "title": "Broken Object-Level Authorization for Message Access"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/payments.py",
+          "ranges": [
+            [
+              75,
+              75
+            ]
+          ],
+          "title": "Broken Object-Level Authorization for Payment Access"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/payments.py",
+          "ranges": [
+            [
+              91,
+              91
+            ]
+          ],
+          "title": "Broken Object-Level Authorization for Payment Update"
+        }
+      ],
+      "seconds": 69.0
+    },
+    "vc-kimi-code-seeded-v2-support-desk-fastapi": {
+      "tp": [
+        "seeded-v2-campaign-1-118",
+        "seeded-v2-campaign-1-119"
+      ],
+      "fn": [
+        "seeded-v2-campaign-1-120",
+        "seeded-v2-campaign-2-206",
+        "seeded-v2-campaign-3-689",
+        "seeded-v2-campaign-3-726",
+        "vc-kimi-code-seeded-v2-support-desk-fastapi-enrich-006",
+        "vc-kimi-code-seeded-v2-support-desk-fastapi-enrich-009",
+        "vc-kimi-code-seeded-v2-support-desk-fastapi-enrich-010",
+        "vc-kimi-code-seeded-v2-support-desk-fastapi-enrich-011"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-89",
+          "file": "backend/app/support_operations.py",
+          "ranges": [
+            [
+              26,
+              26
+            ]
+          ],
+          "title": "SQL Injection via Path Traversal in File Write",
+          "family": "sql_injection"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-89",
+          "file": "backend/app/support_operations.py",
+          "ranges": [
+            [
+              26,
+              26
+            ]
+          ],
+          "title": "SQL Injection via Path Traversal in File Write"
+        },
+        {
+          "cwe": "CWE-22",
+          "file": "backend/app/support_operations.py",
+          "ranges": [
+            [
+              26,
+              26
+            ]
+          ],
+          "title": "Path Traversal in File Write"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/support_operations.py",
+          "ranges": [
+            [
+              40,
+              40
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR in Ticket Fold Ref"
+        }
+      ],
+      "seconds": 50.4
+    },
+    "vfapi": {
+      "tp": [],
+      "fn": [
+        "vfapi-001",
+        "vfapi-002",
+        "vfapi-003",
+        "vfapi-004",
+        "vfapi-005",
+        "vfapi-008",
+        "vfapi-009"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [],
+      "seconds": 65.0
+    }
+  }
+}

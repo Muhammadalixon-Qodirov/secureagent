@@ -1,0 +1,7654 @@
+{
+  "system": "agent_v3",
+  "metrics": {
+    "sql_injection": {
+      "tp": 8,
+      "fn": 14,
+      "fp_lookalike": 0,
+      "fp_unmatched": 2,
+      "precision": 0.8,
+      "precision_ci95": [
+        0.49,
+        0.943
+      ],
+      "recall": 0.364,
+      "recall_ci95": [
+        0.197,
+        0.57
+      ],
+      "f1": 0.5,
+      "lookalike_fp_rate": 0.0,
+      "safe_cases": 13
+    },
+    "path_traversal": {
+      "tp": 11,
+      "fn": 24,
+      "fp_lookalike": 0,
+      "fp_unmatched": 1,
+      "precision": 0.917,
+      "precision_ci95": [
+        0.646,
+        0.985
+      ],
+      "recall": 0.314,
+      "recall_ci95": [
+        0.186,
+        0.48
+      ],
+      "f1": 0.468,
+      "lookalike_fp_rate": 0.0,
+      "safe_cases": 11
+    },
+    "authorization_idor": {
+      "tp": 42,
+      "fn": 83,
+      "fp_lookalike": 9,
+      "fp_unmatched": 261,
+      "precision": 0.135,
+      "precision_ci95": [
+        0.101,
+        0.177
+      ],
+      "recall": 0.336,
+      "recall_ci95": [
+        0.259,
+        0.423
+      ],
+      "f1": 0.192,
+      "lookalike_fp_rate": 0.237,
+      "safe_cases": 38
+    },
+    "micro": {
+      "tp": 61,
+      "fn": 121,
+      "fp_lookalike": 9,
+      "fp_unmatched": 264,
+      "precision": 0.183,
+      "precision_ci95": [
+        0.145,
+        0.228
+      ],
+      "recall": 0.335,
+      "recall_ci95": [
+        0.271,
+        0.407
+      ],
+      "f1": 0.236,
+      "lookalike_fp_rate": 0.145,
+      "safe_cases": 62
+    }
+  },
+  "per_app": {
+    "vc-claude-code-seeded-v2-fintech-lending-fastapi": {
+      "tp": [
+        "vc-claude-code-seeded-v2-fintech-lending-fastapi-enrich-006",
+        "seeded-v2-campaign-2-123",
+        "seeded-v2-campaign-3-390",
+        "seeded-v2-campaign-3-411"
+      ],
+      "fn": [
+        "seeded-v2-campaign-2-192",
+        "seeded-v2-campaign-3-371",
+        "seeded-v2-campaign-3-441",
+        "vc-claude-code-seeded-v2-fintech-lending-fastapi-enrich-004",
+        "vc-claude-code-seeded-v2-fintech-lending-fastapi-enrich-005",
+        "vc-claude-code-seeded-v2-fintech-lending-fastapi-enrich-007",
+        "vc-claude-code-seeded-v2-fintech-lending-fastapi-enrich-010"
+      ],
+      "fp_safe": [
+        "vc-claude-code-seeded-v2-fintech-lending-fastapi-fp-004"
+      ],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/applications.py",
+          "ranges": [
+            [
+              586,
+              586
+            ]
+          ],
+          "title": "Broken object-level authorization in make_decision",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/borrowers.py",
+          "ranges": [
+            [
+              138,
+              138
+            ]
+          ],
+          "title": "Broken object-level authorization in add_payment_account",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/documents.py",
+          "ranges": [
+            [
+              193,
+              193
+            ]
+          ],
+          "title": "Broken object-level authorization in download_document",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/loan_operations.py",
+          "ranges": [
+            [
+              116,
+              116
+            ]
+          ],
+          "title": "Missing authentication on loan_dock_shelf_390",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/borrowers.py",
+          "ranges": [
+            [
+              125,
+              125
+            ]
+          ],
+          "title": "Broken object-level authorization in list_payment_accounts",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/applications.py",
+          "ranges": [
+            [
+              245,
+              245
+            ]
+          ],
+          "title": "Potential IDOR in get_application",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/applications.py",
+          "ranges": [
+            [
+              427,
+              427
+            ]
+          ],
+          "title": "Potential IDOR in notes route",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/applications.py",
+          "ranges": [
+            [
+              485,
+              485
+            ]
+          ],
+          "title": "Potential IDOR in messages route",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/applications.py",
+          "ranges": [
+            [
+              515,
+              515
+            ]
+          ],
+          "title": "Broken Object-Level Authorization",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/applications.py",
+          "ranges": [
+            [
+              564,
+              564
+            ]
+          ],
+          "title": "Broken Object-Level Authorization",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/documents.py",
+          "ranges": [
+            [
+              83,
+              83
+            ]
+          ],
+          "title": "Missing Document Ownership Check",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/products.py",
+          "ranges": [
+            [
+              40,
+              40
+            ]
+          ],
+          "title": "Missing ownership check in update_product",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/applications.py",
+          "ranges": [
+            [
+              450,
+              450
+            ]
+          ],
+          "title": "Broken object-level authorization in add_note"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/applications.py",
+          "ranges": [
+            [
+              586,
+              586
+            ]
+          ],
+          "title": "Broken object-level authorization in make_decision"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/borrowers.py",
+          "ranges": [
+            [
+              138,
+              138
+            ]
+          ],
+          "title": "Broken object-level authorization in add_payment_account"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/documents.py",
+          "ranges": [
+            [
+              193,
+              193
+            ]
+          ],
+          "title": "Broken object-level authorization in download_document"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/loan_operations.py",
+          "ranges": [
+            [
+              41,
+              41
+            ]
+          ],
+          "title": "Missing authentication on loan_delta_123"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/loan_operations.py",
+          "ranges": [
+            [
+              116,
+              116
+            ]
+          ],
+          "title": "Missing authentication on loan_dock_shelf_390"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/borrowers.py",
+          "ranges": [
+            [
+              125,
+              125
+            ]
+          ],
+          "title": "Broken object-level authorization in list_payment_accounts"
+        },
+        {
+          "cwe": "CWE-22",
+          "file": "backend/app/loan_operations.py",
+          "ranges": [
+            [
+              119,
+              119
+            ]
+          ],
+          "title": "Unsafe File Path Construction"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "backend/app/loan_operations.py",
+          "ranges": [
+            [
+              134,
+              134
+            ]
+          ],
+          "title": "Unsanitized MongoDB Filter Input"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/applications.py",
+          "ranges": [
+            [
+              245,
+              245
+            ]
+          ],
+          "title": "Potential IDOR in get_application"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/applications.py",
+          "ranges": [
+            [
+              427,
+              427
+            ]
+          ],
+          "title": "Potential IDOR in notes route"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/applications.py",
+          "ranges": [
+            [
+              485,
+              485
+            ]
+          ],
+          "title": "Potential IDOR in messages route"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/applications.py",
+          "ranges": [
+            [
+              515,
+              515
+            ]
+          ],
+          "title": "Broken Object-Level Authorization"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/applications.py",
+          "ranges": [
+            [
+              564,
+              564
+            ]
+          ],
+          "title": "Broken Object-Level Authorization"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/documents.py",
+          "ranges": [
+            [
+              83,
+              83
+            ]
+          ],
+          "title": "Missing Document Ownership Check"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/integrations.py",
+          "ranges": [
+            [
+              158,
+              158
+            ]
+          ],
+          "title": "Potential IDOR via 404 leakage"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/products.py",
+          "ranges": [
+            [
+              40,
+              40
+            ]
+          ],
+          "title": "Missing ownership check in update_product"
+        }
+      ],
+      "seconds": 330.6
+    },
+    "vc-claude-code-seeded-v2-logistics-dispatch-fastapi": {
+      "tp": [
+        "seeded-v2-campaign-2-126",
+        "vc-claude-code-seeded-v2-logistics-dispatch-fastapi-enrich-002",
+        "vc-claude-code-seeded-v2-logistics-dispatch-fastapi-enrich-001"
+      ],
+      "fn": [
+        "seeded-v2-campaign-3-375",
+        "seeded-v2-campaign-3-393",
+        "seeded-v2-campaign-3-415",
+        "seeded-v2-campaign-3-435",
+        "vc-claude-code-seeded-v2-logistics-dispatch-fastapi-enrich-003",
+        "vc-claude-code-seeded-v2-logistics-dispatch-fastapi-enrich-004",
+        "vc-claude-code-seeded-v2-logistics-dispatch-fastapi-enrich-013",
+        "vc-claude-code-seeded-v2-logistics-dispatch-fastapi-enrich-014"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/jobs.py",
+          "ranges": [
+            [
+              178,
+              178
+            ]
+          ],
+          "title": "Broken object-level authorization in update_job",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/jobs.py",
+          "ranges": [
+            [
+              217,
+              217
+            ]
+          ],
+          "title": "Broken object-level authorization in assign_job",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/jobs.py",
+          "ranges": [
+            [
+              316,
+              316
+            ]
+          ],
+          "title": "Broken object-level authorization in cancel_job",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/proofs.py",
+          "ranges": [
+            [
+              154,
+              154
+            ]
+          ],
+          "title": "Broken object-level authorization in delete_proof",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              64,
+              64
+            ]
+          ],
+          "title": "Missing authentication on dispatch_vault_stash_231",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              74,
+              74
+            ]
+          ],
+          "title": "Missing authentication on dispatch_formula_cast_254",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              128,
+              128
+            ]
+          ],
+          "title": "Missing authentication on dispatch_mongo_lane_415",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/jobs.py",
+          "ranges": [
+            [
+              62,
+              62
+            ]
+          ],
+          "title": "Broken object-level authorization in list_jobs",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/admin_misc.py",
+          "ranges": [
+            [
+              99,
+              99
+            ]
+          ],
+          "title": "Broken Object-Level Authorization: Webhook Deliveries Access",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/customers.py",
+          "ranges": [
+            [
+              120,
+              120
+            ]
+          ],
+          "title": "Missing Ownership Check in Delete Customer",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/incidents.py",
+          "ranges": [
+            [
+              72,
+              72
+            ]
+          ],
+          "title": "Broken Object-Level Authorization in list_incidents",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/incidents.py",
+          "ranges": [
+            [
+              130,
+              130
+            ]
+          ],
+          "title": "Incomplete Object-Level Authorization Check",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/jobs.py",
+          "ranges": [
+            [
+              173,
+              173
+            ]
+          ],
+          "title": "IDOR via 404 response for non-existent job",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/jobs.py",
+          "ranges": [
+            [
+              348,
+              348
+            ]
+          ],
+          "title": "Broken Object-Level Authorization in list_messages",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/jobs.py",
+          "ranges": [
+            [
+              406,
+              406
+            ]
+          ],
+          "title": "Broken Object-Level Authorization in job_audit",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/notifications.py",
+          "ranges": [
+            [
+              31,
+              31
+            ]
+          ],
+          "title": "Potential IDOR in mark_read() due to unchecked notification_id",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-22",
+          "file": "backend/app/routers/proofs.py",
+          "ranges": [
+            [
+              132,
+              132
+            ]
+          ],
+          "title": "Potential Path Traversal in File Download",
+          "family": "path_traversal"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/routes.py",
+          "ranges": [
+            [
+              101,
+              101
+            ]
+          ],
+          "title": "Broken Object-Level Authorization in get_route",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/routes.py",
+          "ranges": [
+            [
+              144,
+              144
+            ]
+          ],
+          "title": "Missing ownership check for route_id in add_stop",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/routes.py",
+          "ranges": [
+            [
+              172,
+              172
+            ]
+          ],
+          "title": "Missing ownership check for route_id in reorder_stops",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/routes.py",
+          "ranges": [
+            [
+              217,
+              217
+            ]
+          ],
+          "title": "Missing ownership check for RouteStop",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/customers.py",
+          "ranges": [
+            [
+              149,
+              149
+            ]
+          ],
+          "title": "Missing Ownership Check in Create Location",
+          "case": "vc-claude-code-seeded-v2-logistics-dispatch-fastapi-enrich-002"
+        }
+      ],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/jobs.py",
+          "ranges": [
+            [
+              178,
+              178
+            ]
+          ],
+          "title": "Broken object-level authorization in update_job"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/jobs.py",
+          "ranges": [
+            [
+              217,
+              217
+            ]
+          ],
+          "title": "Broken object-level authorization in assign_job"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/jobs.py",
+          "ranges": [
+            [
+              316,
+              316
+            ]
+          ],
+          "title": "Broken object-level authorization in cancel_job"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/proofs.py",
+          "ranges": [
+            [
+              154,
+              154
+            ]
+          ],
+          "title": "Broken object-level authorization in delete_proof"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              50,
+              50
+            ]
+          ],
+          "title": "Missing authentication on dispatch_bundle_thaw_172"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              64,
+              64
+            ]
+          ],
+          "title": "Missing authentication on dispatch_vault_stash_231"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              74,
+              74
+            ]
+          ],
+          "title": "Missing authentication on dispatch_formula_cast_254"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              128,
+              128
+            ]
+          ],
+          "title": "Missing authentication on dispatch_mongo_lane_415"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/customers.py",
+          "ranges": [
+            [
+              132,
+              132
+            ]
+          ],
+          "title": "Broken object-level authorization in list_locations"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/jobs.py",
+          "ranges": [
+            [
+              62,
+              62
+            ]
+          ],
+          "title": "Broken object-level authorization in list_jobs"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/admin_misc.py",
+          "ranges": [
+            [
+              99,
+              99
+            ]
+          ],
+          "title": "Broken Object-Level Authorization: Webhook Deliveries Access"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/customers.py",
+          "ranges": [
+            [
+              120,
+              120
+            ]
+          ],
+          "title": "Missing Ownership Check in Delete Customer"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/customers.py",
+          "ranges": [
+            [
+              149,
+              149
+            ]
+          ],
+          "title": "Missing Ownership Check in Create Location"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/incidents.py",
+          "ranges": [
+            [
+              72,
+              72
+            ]
+          ],
+          "title": "Broken Object-Level Authorization in list_incidents"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/incidents.py",
+          "ranges": [
+            [
+              130,
+              130
+            ]
+          ],
+          "title": "Incomplete Object-Level Authorization Check"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/jobs.py",
+          "ranges": [
+            [
+              173,
+              173
+            ]
+          ],
+          "title": "IDOR via 404 response for non-existent job"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/jobs.py",
+          "ranges": [
+            [
+              348,
+              348
+            ]
+          ],
+          "title": "Broken Object-Level Authorization in list_messages"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/jobs.py",
+          "ranges": [
+            [
+              406,
+              406
+            ]
+          ],
+          "title": "Broken Object-Level Authorization in job_audit"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/notifications.py",
+          "ranges": [
+            [
+              31,
+              31
+            ]
+          ],
+          "title": "Potential IDOR in mark_read() due to unchecked notification_id"
+        },
+        {
+          "cwe": "CWE-22",
+          "file": "backend/app/routers/proofs.py",
+          "ranges": [
+            [
+              132,
+              132
+            ]
+          ],
+          "title": "Potential Path Traversal in File Download"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/public_api.py",
+          "ranges": [
+            [
+              63,
+              63
+            ]
+          ],
+          "title": "Missing ownership check in job status update"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/routes.py",
+          "ranges": [
+            [
+              101,
+              101
+            ]
+          ],
+          "title": "Broken Object-Level Authorization in get_route"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/routes.py",
+          "ranges": [
+            [
+              144,
+              144
+            ]
+          ],
+          "title": "Missing ownership check for route_id in add_stop"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/routes.py",
+          "ranges": [
+            [
+              172,
+              172
+            ]
+          ],
+          "title": "Missing ownership check for route_id in reorder_stops"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/routes.py",
+          "ranges": [
+            [
+              217,
+              217
+            ]
+          ],
+          "title": "Missing ownership check for RouteStop"
+        }
+      ],
+      "seconds": 348.7
+    },
+    "vc-claude-code-seeded-v2-marketplace-commerce-fastapi": {
+      "tp": [],
+      "fn": [
+        "seeded-v2-campaign-1-022",
+        "seeded-v2-campaign-1-023",
+        "seeded-v2-campaign-1-024",
+        "seeded-v2-campaign-2-189",
+        "seeded-v2-campaign-3-376",
+        "seeded-v2-campaign-3-394",
+        "seeded-v2-campaign-3-416",
+        "seeded-v2-campaign-3-436",
+        "vc-claude-code-seeded-v2-marketplace-commerce-fastapi-enrich-001",
+        "vc-claude-code-seeded-v2-marketplace-commerce-fastapi-enrich-002"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/reviews.py",
+          "ranges": [
+            [
+              127,
+              127
+            ]
+          ],
+          "title": "Broken object-level authorization in flag_review",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/products.py",
+          "ranges": [
+            [
+              81,
+              81
+            ]
+          ],
+          "title": "Broken object-level authorization in public_product_detail",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/reviews.py",
+          "ranges": [
+            [
+              19,
+              19
+            ]
+          ],
+          "title": "Broken object-level authorization in reviews_for_product",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/vendors.py",
+          "ranges": [
+            [
+              106,
+              106
+            ]
+          ],
+          "title": "Broken object-level authorization in get_public_vendor",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/seller_operations.py",
+          "ranges": [
+            [
+              100,
+              100
+            ]
+          ],
+          "title": "Missing authentication on seller_shell_probe_396",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/disputes.py",
+          "ranges": [
+            [
+              149,
+              149
+            ]
+          ],
+          "title": "Missing owner/role check for message creation",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/disputes.py",
+          "ranges": [
+            [
+              194,
+              194
+            ]
+          ],
+          "title": "Missing owner/role check for evidence upload",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/imports_exports.py",
+          "ranges": [
+            [
+              94,
+              94
+            ]
+          ],
+          "title": "Broken Object-Level Authorization (IDOR)",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/orders.py",
+          "ranges": [
+            [
+              208,
+              208
+            ]
+          ],
+          "title": "Incomplete vendor authorization in update_order_status()",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/products.py",
+          "ranges": [
+            [
+              201,
+              201
+            ]
+          ],
+          "title": "Missing ownership check in product submission",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/vendors.py",
+          "ranges": [
+            [
+              133,
+              133
+            ]
+          ],
+          "title": "Broken Object-Level Authorization (IDOR) in admin_update_vendor",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/reviews.py",
+          "ranges": [
+            [
+              127,
+              127
+            ]
+          ],
+          "title": "Broken object-level authorization in flag_review"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/products.py",
+          "ranges": [
+            [
+              81,
+              81
+            ]
+          ],
+          "title": "Broken object-level authorization in public_product_detail"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/reviews.py",
+          "ranges": [
+            [
+              19,
+              19
+            ]
+          ],
+          "title": "Broken object-level authorization in reviews_for_product"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/vendors.py",
+          "ranges": [
+            [
+              106,
+              106
+            ]
+          ],
+          "title": "Broken object-level authorization in get_public_vendor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/seller_operations.py",
+          "ranges": [
+            [
+              100,
+              100
+            ]
+          ],
+          "title": "Missing authentication on seller_shell_probe_396"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/disputes.py",
+          "ranges": [
+            [
+              149,
+              149
+            ]
+          ],
+          "title": "Missing owner/role check for message creation"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/disputes.py",
+          "ranges": [
+            [
+              194,
+              194
+            ]
+          ],
+          "title": "Missing owner/role check for evidence upload"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/imports_exports.py",
+          "ranges": [
+            [
+              94,
+              94
+            ]
+          ],
+          "title": "Broken Object-Level Authorization (IDOR)"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/orders.py",
+          "ranges": [
+            [
+              208,
+              208
+            ]
+          ],
+          "title": "Incomplete vendor authorization in update_order_status()"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/products.py",
+          "ranges": [
+            [
+              201,
+              201
+            ]
+          ],
+          "title": "Missing ownership check in product submission"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/vendors.py",
+          "ranges": [
+            [
+              133,
+              133
+            ]
+          ],
+          "title": "Broken Object-Level Authorization (IDOR) in admin_update_vendor"
+        }
+      ],
+      "seconds": 252.0
+    },
+    "vc-claude-code-seeded-v2-property-management-fastapi": {
+      "tp": [
+        "vc-claude-code-seeded-v2-property-management-fastapi-enrich-010",
+        "seeded-v2-campaign-2-190",
+        "seeded-v2-campaign-3-437"
+      ],
+      "fn": [
+        "seeded-v2-campaign-1-025",
+        "seeded-v2-campaign-1-026",
+        "seeded-v2-campaign-3-386",
+        "seeded-v2-campaign-3-417",
+        "vc-claude-code-seeded-v2-property-management-fastapi-enrich-009",
+        "vc-claude-code-seeded-v2-property-management-fastapi-enrich-011",
+        "vc-claude-code-seeded-v2-property-management-fastapi-enrich-012"
+      ],
+      "fp_safe": [
+        "vc-claude-code-seeded-v2-property-management-fastapi-fp-002"
+      ],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routes/tenants.py",
+          "ranges": [
+            [
+              99,
+              99
+            ]
+          ],
+          "title": "Broken object-level authorization in update_tenant",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routes/users.py",
+          "ranges": [
+            [
+              114,
+              114
+            ]
+          ],
+          "title": "Broken object-level authorization in assign_manager_properties",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routes/audit.py",
+          "ranges": [
+            [
+              18,
+              18
+            ]
+          ],
+          "title": "Broken object-level authorization in list_audit",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routes/leases.py",
+          "ranges": [
+            [
+              37,
+              37
+            ]
+          ],
+          "title": "Broken object-level authorization in list_leases",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routes/payments.py",
+          "ranges": [
+            [
+              30,
+              30
+            ]
+          ],
+          "title": "Broken object-level authorization in list_payments",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              96,
+              96
+            ]
+          ],
+          "title": "Missing authentication on tenant_dock_shelf_386",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              104,
+              104
+            ]
+          ],
+          "title": "Missing authentication on tenant_shell_probe_397",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routes/documents.py",
+          "ranges": [
+            [
+              184,
+              184
+            ]
+          ],
+          "title": "Missing Owner/Visibility Check in Document Retrieval",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routes/documents.py",
+          "ranges": [
+            [
+              148,
+              148
+            ]
+          ],
+          "title": "Missing Owner/Visibility Check in Document Upload",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routes/documents.py",
+          "ranges": [
+            [
+              212,
+              212
+            ]
+          ],
+          "title": "Broken Object-Level Authorization (IDOR)",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routes/imports_exports.py",
+          "ranges": [
+            [
+              152,
+              152
+            ]
+          ],
+          "title": "Broken Object-Level Authorization in Import Payments",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routes/imports_exports.py",
+          "ranges": [
+            [
+              114,
+              114
+            ]
+          ],
+          "title": "Broken Object-Level Authorization in Import Units",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routes/inspections.py",
+          "ranges": [
+            [
+              84,
+              84
+            ]
+          ],
+          "title": "IDOR: Inspection access without ownership check",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routes/inspections.py",
+          "ranges": [
+            [
+              97,
+              97
+            ]
+          ],
+          "title": "IDOR: Inspection update without ownership check",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routes/messages.py",
+          "ranges": [
+            [
+              102,
+              102
+            ]
+          ],
+          "title": "Broken Object-Level Authorization in get_thread()",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routes/notifications.py",
+          "ranges": [
+            [
+              24,
+              24
+            ]
+          ],
+          "title": "Broken Object-Level Authorization (IDOR) in mark_read",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routes/properties.py",
+          "ranges": [
+            [
+              82,
+              82
+            ]
+          ],
+          "title": "IDOR: Missing Ownership Check in Update/Delete",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routes/tickets.py",
+          "ranges": [
+            [
+              168,
+              168
+            ]
+          ],
+          "title": "IDOR in update_ticket()",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routes/users.py",
+          "ranges": [
+            [
+              74,
+              74
+            ]
+          ],
+          "title": "IDOR: Missing role check for user access",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routes/users.py",
+          "ranges": [
+            [
+              94,
+              94
+            ]
+          ],
+          "title": "IDOR: Incomplete role check for update",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routes/users.py",
+          "ranges": [
+            [
+              127,
+              127
+            ]
+          ],
+          "title": "Missing Tenant Check in User Deactivation",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              55,
+              55
+            ]
+          ],
+          "title": "Missing authentication on tenant_wire_tally_214",
+          "case": "seeded-v2-campaign-2-190"
+        }
+      ],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routes/leases.py",
+          "ranges": [
+            [
+              88,
+              88
+            ]
+          ],
+          "title": "Broken object-level authorization in get_lease"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routes/tenants.py",
+          "ranges": [
+            [
+              99,
+              99
+            ]
+          ],
+          "title": "Broken object-level authorization in update_tenant"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routes/users.py",
+          "ranges": [
+            [
+              114,
+              114
+            ]
+          ],
+          "title": "Broken object-level authorization in assign_manager_properties"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routes/audit.py",
+          "ranges": [
+            [
+              18,
+              18
+            ]
+          ],
+          "title": "Broken object-level authorization in list_audit"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routes/leases.py",
+          "ranges": [
+            [
+              37,
+              37
+            ]
+          ],
+          "title": "Broken object-level authorization in list_leases"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routes/payments.py",
+          "ranges": [
+            [
+              30,
+              30
+            ]
+          ],
+          "title": "Broken object-level authorization in list_payments"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routes/payments.py",
+          "ranges": [
+            [
+              73,
+              73
+            ]
+          ],
+          "title": "Broken object-level authorization in get_payment"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              48,
+              48
+            ]
+          ],
+          "title": "Missing authentication on tenant_workset_rebind_190"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              55,
+              55
+            ]
+          ],
+          "title": "Missing authentication on tenant_wire_tally_214"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              96,
+              96
+            ]
+          ],
+          "title": "Missing authentication on tenant_dock_shelf_386"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              104,
+              104
+            ]
+          ],
+          "title": "Missing authentication on tenant_shell_probe_397"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              125,
+              125
+            ]
+          ],
+          "title": "Missing authentication on tenant_trust_drift_427"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routes/documents.py",
+          "ranges": [
+            [
+              184,
+              184
+            ]
+          ],
+          "title": "Missing Owner/Visibility Check in Document Retrieval"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routes/documents.py",
+          "ranges": [
+            [
+              148,
+              148
+            ]
+          ],
+          "title": "Missing Owner/Visibility Check in Document Upload"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routes/documents.py",
+          "ranges": [
+            [
+              212,
+              212
+            ]
+          ],
+          "title": "Broken Object-Level Authorization (IDOR)"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routes/imports_exports.py",
+          "ranges": [
+            [
+              152,
+              152
+            ]
+          ],
+          "title": "Broken Object-Level Authorization in Import Payments"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routes/imports_exports.py",
+          "ranges": [
+            [
+              114,
+              114
+            ]
+          ],
+          "title": "Broken Object-Level Authorization in Import Units"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routes/inspections.py",
+          "ranges": [
+            [
+              84,
+              84
+            ]
+          ],
+          "title": "IDOR: Inspection access without ownership check"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routes/inspections.py",
+          "ranges": [
+            [
+              97,
+              97
+            ]
+          ],
+          "title": "IDOR: Inspection update without ownership check"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routes/messages.py",
+          "ranges": [
+            [
+              102,
+              102
+            ]
+          ],
+          "title": "Broken Object-Level Authorization in get_thread()"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routes/notifications.py",
+          "ranges": [
+            [
+              24,
+              24
+            ]
+          ],
+          "title": "Broken Object-Level Authorization (IDOR) in mark_read"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routes/properties.py",
+          "ranges": [
+            [
+              82,
+              82
+            ]
+          ],
+          "title": "IDOR: Missing Ownership Check in Update/Delete"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routes/tickets.py",
+          "ranges": [
+            [
+              168,
+              168
+            ]
+          ],
+          "title": "IDOR in update_ticket()"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routes/users.py",
+          "ranges": [
+            [
+              74,
+              74
+            ]
+          ],
+          "title": "IDOR: Missing role check for user access"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routes/users.py",
+          "ranges": [
+            [
+              94,
+              94
+            ]
+          ],
+          "title": "IDOR: Incomplete role check for update"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routes/users.py",
+          "ranges": [
+            [
+              127,
+              127
+            ]
+          ],
+          "title": "Missing Tenant Check in User Deactivation"
+        }
+      ],
+      "seconds": 322.6
+    },
+    "vc-claude-code-seeded-v2-support-desk-fastapi": {
+      "tp": [
+        "vc-claude-code-seeded-v2-support-desk-fastapi-enrich-012",
+        "seeded-v2-campaign-3-368",
+        "seeded-v2-campaign-3-438"
+      ],
+      "fn": [
+        "seeded-v2-campaign-1-029",
+        "seeded-v2-campaign-2-232",
+        "seeded-v2-campaign-3-387",
+        "seeded-v2-campaign-3-418",
+        "vc-claude-code-seeded-v2-support-desk-fastapi-enrich-011"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/kb.py",
+          "ranges": [
+            [
+              135,
+              135
+            ]
+          ],
+          "title": "Broken object-level authorization in update_article",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/kb.py",
+          "ranges": [
+            [
+              168,
+              168
+            ]
+          ],
+          "title": "Broken object-level authorization in update_article_status",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/kb.py",
+          "ranges": [
+            [
+              53,
+              53
+            ]
+          ],
+          "title": "Broken object-level authorization in get_public_article",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/kb.py",
+          "ranges": [
+            [
+              92,
+              92
+            ]
+          ],
+          "title": "Broken object-level authorization in get_article",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/support_operations.py",
+          "ranges": [
+            [
+              50,
+              50
+            ]
+          ],
+          "title": "Missing authentication on ticket_vault_stash_232",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/support_operations.py",
+          "ranges": [
+            [
+              93,
+              93
+            ]
+          ],
+          "title": "Missing authentication on ticket_dock_shelf_387",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/support_operations.py",
+          "ranges": [
+            [
+              101,
+              101
+            ]
+          ],
+          "title": "Missing authentication on ticket_shell_probe_398",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/support_operations.py",
+          "ranges": [
+            [
+              114,
+              114
+            ]
+          ],
+          "title": "Missing authentication on ticket_mongo_lane_418",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/attachments.py",
+          "ranges": [
+            [
+              184,
+              184
+            ]
+          ],
+          "title": "Incomplete Object-Level Authorization Check",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/escalations.py",
+          "ranges": [
+            [
+              129,
+              129
+            ]
+          ],
+          "title": "Broken Object-Level Authorization in Update Escalation",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/tickets.py",
+          "ranges": [
+            [
+              358,
+              358
+            ]
+          ],
+          "title": "Missing Owner/Team Check in SLA Exception",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/tickets.py",
+          "ranges": [
+            [
+              437,
+              437
+            ]
+          ],
+          "title": "Missing ownership check for ticket status change",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/users.py",
+          "ranges": [
+            [
+              109,
+              109
+            ]
+          ],
+          "title": "IDOR: Admin Can Access Any User by ID",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/kb.py",
+          "ranges": [
+            [
+              135,
+              135
+            ]
+          ],
+          "title": "Broken object-level authorization in update_article"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/kb.py",
+          "ranges": [
+            [
+              168,
+              168
+            ]
+          ],
+          "title": "Broken object-level authorization in update_article_status"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/public_api.py",
+          "ranges": [
+            [
+              130,
+              130
+            ]
+          ],
+          "title": "Broken object-level authorization in api_update_status"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/kb.py",
+          "ranges": [
+            [
+              53,
+              53
+            ]
+          ],
+          "title": "Broken object-level authorization in get_public_article"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/kb.py",
+          "ranges": [
+            [
+              92,
+              92
+            ]
+          ],
+          "title": "Broken object-level authorization in get_article"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/support_operations.py",
+          "ranges": [
+            [
+              50,
+              50
+            ]
+          ],
+          "title": "Missing authentication on ticket_vault_stash_232"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/support_operations.py",
+          "ranges": [
+            [
+              73,
+              73
+            ]
+          ],
+          "title": "Missing authentication on ticket_relay_probe_354"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/support_operations.py",
+          "ranges": [
+            [
+              93,
+              93
+            ]
+          ],
+          "title": "Missing authentication on ticket_dock_shelf_387"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/support_operations.py",
+          "ranges": [
+            [
+              101,
+              101
+            ]
+          ],
+          "title": "Missing authentication on ticket_shell_probe_398"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/support_operations.py",
+          "ranges": [
+            [
+              114,
+              114
+            ]
+          ],
+          "title": "Missing authentication on ticket_mongo_lane_418"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/support_operations.py",
+          "ranges": [
+            [
+              122,
+              122
+            ]
+          ],
+          "title": "Missing authentication on ticket_trust_drift_428"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/attachments.py",
+          "ranges": [
+            [
+              184,
+              184
+            ]
+          ],
+          "title": "Incomplete Object-Level Authorization Check"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/escalations.py",
+          "ranges": [
+            [
+              129,
+              129
+            ]
+          ],
+          "title": "Broken Object-Level Authorization in Update Escalation"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/tickets.py",
+          "ranges": [
+            [
+              358,
+              358
+            ]
+          ],
+          "title": "Missing Owner/Team Check in SLA Exception"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/tickets.py",
+          "ranges": [
+            [
+              437,
+              437
+            ]
+          ],
+          "title": "Missing ownership check for ticket status change"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/users.py",
+          "ranges": [
+            [
+              109,
+              109
+            ]
+          ],
+          "title": "IDOR: Admin Can Access Any User by ID"
+        }
+      ],
+      "seconds": 283.9
+    },
+    "vc-codex-high-seeded-v2-fintech-lending-fastapi": {
+      "tp": [
+        "vc-codex-high-seeded-v2-fintech-lending-fastapi-enrich-010",
+        "seeded-v2-campaign-3-594"
+      ],
+      "fn": [
+        "seeded-v2-campaign-2-135",
+        "seeded-v2-campaign-2-203",
+        "seeded-v2-campaign-3-565",
+        "seeded-v2-campaign-3-625"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-639",
+          "file": "app/main.py",
+          "ranges": [
+            [
+              907,
+              907
+            ]
+          ],
+          "title": "Broken object-level authorization in update_application",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/main.py",
+          "ranges": [
+            [
+              1309,
+              1309
+            ]
+          ],
+          "title": "Broken object-level authorization in admin_update_user",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/main.py",
+          "ranges": [
+            [
+              1408,
+              1408
+            ]
+          ],
+          "title": "Broken object-level authorization in admin_audit",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/main.py",
+          "ranges": [
+            [
+              1154,
+              1154
+            ]
+          ],
+          "title": "Broken Object-Level Authorization in Message Creation",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-639",
+          "file": "app/main.py",
+          "ranges": [
+            [
+              907,
+              907
+            ]
+          ],
+          "title": "Broken object-level authorization in update_application"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/main.py",
+          "ranges": [
+            [
+              1309,
+              1309
+            ]
+          ],
+          "title": "Broken object-level authorization in admin_update_user"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/main.py",
+          "ranges": [
+            [
+              1683,
+              1683
+            ]
+          ],
+          "title": "Broken object-level authorization in integration_application_status"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/main.py",
+          "ranges": [
+            [
+              1408,
+              1408
+            ]
+          ],
+          "title": "Broken object-level authorization in admin_audit"
+        },
+        {
+          "cwe": "CWE-22",
+          "file": "app/loan_operations.py",
+          "ranges": [
+            [
+              121,
+              121
+            ]
+          ],
+          "title": "Unsafe File Path Construction"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/main.py",
+          "ranges": [
+            [
+              1154,
+              1154
+            ]
+          ],
+          "title": "Broken Object-Level Authorization in Message Creation"
+        }
+      ],
+      "seconds": 203.2
+    },
+    "vc-codex-high-seeded-v2-logistics-dispatch-fastapi": {
+      "tp": [
+        "seeded-v2-campaign-3-596",
+        "seeded-v2-campaign-3-609"
+      ],
+      "fn": [
+        "seeded-v2-campaign-2-138",
+        "seeded-v2-campaign-3-569",
+        "vc-codex-high-seeded-v2-logistics-dispatch-fastapi-enrich-009"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              882,
+              882
+            ]
+          ],
+          "title": "Broken object-level authorization in reschedule_job",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              1174,
+              1174
+            ]
+          ],
+          "title": "Broken object-level authorization in reorder_route",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              1391,
+              1391
+            ]
+          ],
+          "title": "Broken object-level authorization in export_routes",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              64,
+              64
+            ]
+          ],
+          "title": "Missing authentication on dispatch_vault_stash_241",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              74,
+              74
+            ]
+          ],
+          "title": "Missing authentication on dispatch_formula_cast_265",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              120,
+              120
+            ]
+          ],
+          "title": "Missing authentication on dispatch_dock_shelf_596",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              136,
+              136
+            ]
+          ],
+          "title": "Missing authentication on dispatch_xml_fold_615",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              143,
+              143
+            ]
+          ],
+          "title": "Missing authentication on dispatch_shell_probe_629",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              154,
+              154
+            ]
+          ],
+          "title": "Missing authentication on dispatch_trust_drift_649",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              667,
+              667
+            ]
+          ],
+          "title": "Broken object-level authorization in list_jobs",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              1025,
+              1025
+            ]
+          ],
+          "title": "Broken object-level authorization in list_incidents",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              1123,
+              1123
+            ]
+          ],
+          "title": "Broken object-level authorization in list_routes",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              1063,
+              1063
+            ]
+          ],
+          "title": "IDOR: Incident creation without job ownership check",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              1369,
+              1369
+            ]
+          ],
+          "title": "Correct object-level authorization for notification read",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              1559,
+              1559
+            ]
+          ],
+          "title": "Missing Job Creation Authorization Check",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              882,
+              882
+            ]
+          ],
+          "title": "Broken object-level authorization in reschedule_job"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              1174,
+              1174
+            ]
+          ],
+          "title": "Broken object-level authorization in reorder_route"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              1391,
+              1391
+            ]
+          ],
+          "title": "Broken object-level authorization in export_routes"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              64,
+              64
+            ]
+          ],
+          "title": "Missing authentication on dispatch_vault_stash_241"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              74,
+              74
+            ]
+          ],
+          "title": "Missing authentication on dispatch_formula_cast_265"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              120,
+              120
+            ]
+          ],
+          "title": "Missing authentication on dispatch_dock_shelf_596"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              136,
+              136
+            ]
+          ],
+          "title": "Missing authentication on dispatch_xml_fold_615"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              143,
+              143
+            ]
+          ],
+          "title": "Missing authentication on dispatch_shell_probe_629"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              154,
+              154
+            ]
+          ],
+          "title": "Missing authentication on dispatch_trust_drift_649"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              667,
+              667
+            ]
+          ],
+          "title": "Broken object-level authorization in list_jobs"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              1025,
+              1025
+            ]
+          ],
+          "title": "Broken object-level authorization in list_incidents"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              1123,
+              1123
+            ]
+          ],
+          "title": "Broken object-level authorization in list_routes"
+        },
+        {
+          "cwe": "CWE-22",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              123,
+              123
+            ]
+          ],
+          "title": "Unsafe File Path Construction"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              132,
+              132
+            ]
+          ],
+          "title": "Unsanitized SQL Query Construction"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              1063,
+              1063
+            ]
+          ],
+          "title": "IDOR: Incident creation without job ownership check"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              1369,
+              1369
+            ]
+          ],
+          "title": "Correct object-level authorization for notification read"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              1559,
+              1559
+            ]
+          ],
+          "title": "Missing Job Creation Authorization Check"
+        }
+      ],
+      "seconds": 317.6
+    },
+    "vc-codex-high-seeded-v2-marketplace-commerce-fastapi": {
+      "tp": [
+        "seeded-v2-campaign-3-597",
+        "seeded-v2-campaign-3-610"
+      ],
+      "fn": [
+        "seeded-v2-campaign-1-082",
+        "seeded-v2-campaign-1-083",
+        "seeded-v2-campaign-1-084",
+        "seeded-v2-campaign-2-200",
+        "seeded-v2-campaign-3-570"
+      ],
+      "fp_safe": [
+        "vc-codex-high-seeded-v2-marketplace-commerce-fastapi-fp-004"
+      ],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              995,
+              995
+            ]
+          ],
+          "title": "Broken object-level authorization in vendor_storefront",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              1641,
+              1641
+            ]
+          ],
+          "title": "Broken object-level authorization in dispute_detail",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/seller_operations.py",
+          "ranges": [
+            [
+              124,
+              124
+            ]
+          ],
+          "title": "Missing authentication on seller_xml_fold_620",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/seller_operations.py",
+          "ranges": [
+            [
+              131,
+              131
+            ]
+          ],
+          "title": "Missing authentication on seller_shell_probe_630",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              845,
+              845
+            ]
+          ],
+          "title": "Missing owner/permission check for user update",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              876,
+              876
+            ]
+          ],
+          "title": "Missing owner/permission check for support note",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              974,
+              974
+            ]
+          ],
+          "title": "Broken Object-Level Authorization - Admin Can Modify Any Vendor Verification",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              1441,
+              1441
+            ]
+          ],
+          "title": "Insecure Buyer ID Filter",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              1475,
+              1475
+            ]
+          ],
+          "title": "Missing Ownership Check for Order Update",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              1499,
+              1499
+            ]
+          ],
+          "title": "Missing Buyer Verification for Review Creation",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              1655,
+              1655
+            ]
+          ],
+          "title": "Potential IDOR in dispute message endpoint",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              1877,
+              1877
+            ]
+          ],
+          "title": "IDOR: Unchecked vendor_id in admin export",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              2023,
+              2023
+            ]
+          ],
+          "title": "Missing ownership check for notification_id in PATCH route",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              2072,
+              2072
+            ]
+          ],
+          "title": "Missing ownership check for api_key_id in DELETE route",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              2148,
+              2148
+            ]
+          ],
+          "title": "Missing Ownership Check in create_webhook",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/seller_operations.py",
+          "ranges": [
+            [
+              104,
+              104
+            ]
+          ],
+          "title": "Broken Object-Level Authorization",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              995,
+              995
+            ]
+          ],
+          "title": "Broken object-level authorization in vendor_storefront"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              1641,
+              1641
+            ]
+          ],
+          "title": "Broken object-level authorization in dispute_detail"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/seller_operations.py",
+          "ranges": [
+            [
+              124,
+              124
+            ]
+          ],
+          "title": "Missing authentication on seller_xml_fold_620"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/seller_operations.py",
+          "ranges": [
+            [
+              131,
+              131
+            ]
+          ],
+          "title": "Missing authentication on seller_shell_probe_630"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              845,
+              845
+            ]
+          ],
+          "title": "Missing owner/permission check for user update"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              876,
+              876
+            ]
+          ],
+          "title": "Missing owner/permission check for support note"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              974,
+              974
+            ]
+          ],
+          "title": "Broken Object-Level Authorization - Admin Can Modify Any Vendor Verification"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              1282,
+              1282
+            ]
+          ],
+          "title": "Incomplete Document Access Control"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              1441,
+              1441
+            ]
+          ],
+          "title": "Insecure Buyer ID Filter"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              1475,
+              1475
+            ]
+          ],
+          "title": "Missing Ownership Check for Order Update"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              1499,
+              1499
+            ]
+          ],
+          "title": "Missing Buyer Verification for Review Creation"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              1655,
+              1655
+            ]
+          ],
+          "title": "Potential IDOR in dispute message endpoint"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              1877,
+              1877
+            ]
+          ],
+          "title": "IDOR: Unchecked vendor_id in admin export"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              2023,
+              2023
+            ]
+          ],
+          "title": "Missing ownership check for notification_id in PATCH route"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              2072,
+              2072
+            ]
+          ],
+          "title": "Missing ownership check for api_key_id in DELETE route"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              2148,
+              2148
+            ]
+          ],
+          "title": "Missing Ownership Check in create_webhook"
+        },
+        {
+          "cwe": "CWE-22",
+          "file": "backend/app/seller_operations.py",
+          "ranges": [
+            [
+              104,
+              104
+            ]
+          ],
+          "title": "Unsanitized File Path Construction"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/seller_operations.py",
+          "ranges": [
+            [
+              104,
+              104
+            ]
+          ],
+          "title": "Broken Object-Level Authorization"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "backend/app/seller_operations.py",
+          "ranges": [
+            [
+              121,
+              121
+            ]
+          ],
+          "title": "Unsanitized MongoDB Query"
+        }
+      ],
+      "seconds": 289.9
+    },
+    "vc-codex-high-seeded-v2-property-management-fastapi": {
+      "tp": [
+        "seeded-v2-campaign-2-201"
+      ],
+      "fn": [
+        "seeded-v2-campaign-1-085",
+        "seeded-v2-campaign-1-086",
+        "seeded-v2-campaign-3-590",
+        "seeded-v2-campaign-3-611",
+        "vc-codex-high-seeded-v2-property-management-fastapi-enrich-008"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              121,
+              121
+            ]
+          ],
+          "title": "Missing authentication on tenant_mongo_lane_611",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              129,
+              129
+            ]
+          ],
+          "title": "Missing authentication on tenant_xml_fold_621",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              136,
+              136
+            ]
+          ],
+          "title": "Missing authentication on tenant_shell_probe_631",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routes/documents.py",
+          "ranges": [
+            [
+              58,
+              58
+            ]
+          ],
+          "title": "IDOR in list_documents via entity_id",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routes/documents.py",
+          "ranges": [
+            [
+              114,
+              114
+            ]
+          ],
+          "title": "Potential IDOR in update_document_metadata",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routes/documents.py",
+          "ranges": [
+            [
+              132,
+              132
+            ]
+          ],
+          "title": "Potential IDOR in download_document",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routes/inspections.py",
+          "ranges": [
+            [
+              113,
+              113
+            ]
+          ],
+          "title": "Missing Inspection Access Check",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routes/integrations.py",
+          "ranges": [
+            [
+              107,
+              107
+            ]
+          ],
+          "title": "Broken Object-Level Authorization in Maintenance Status Endpoint",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routes/properties.py",
+          "ranges": [
+            [
+              88,
+              88
+            ]
+          ],
+          "title": "Missing Owner Check in Property Update",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routes/properties.py",
+          "ranges": [
+            [
+              298,
+              298
+            ]
+          ],
+          "title": "IDOR in list_payments()",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routes/reports.py",
+          "ranges": [
+            [
+              164,
+              164
+            ]
+          ],
+          "title": "Broken Object-Level Authorization for Payment Receipt",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routes/reports.py",
+          "ranges": [
+            [
+              254,
+              254
+            ]
+          ],
+          "title": "IDOR in Payment Import",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routes/tickets.py",
+          "ranges": [
+            [
+              132,
+              132
+            ]
+          ],
+          "title": "Broken Object-Level Authorization in get_ticket",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routes/users.py",
+          "ranges": [
+            [
+              70,
+              70
+            ]
+          ],
+          "title": "Missing Owner Check in Update",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              55,
+              55
+            ]
+          ],
+          "title": "Missing authentication on tenant_vault_stash_242",
+          "case": "seeded-v2-campaign-2-201"
+        }
+      ],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              48,
+              48
+            ]
+          ],
+          "title": "Missing authentication on tenant_workset_rebind_201"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              55,
+              55
+            ]
+          ],
+          "title": "Missing authentication on tenant_vault_stash_242"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              121,
+              121
+            ]
+          ],
+          "title": "Missing authentication on tenant_mongo_lane_611"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              129,
+              129
+            ]
+          ],
+          "title": "Missing authentication on tenant_xml_fold_621"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              136,
+              136
+            ]
+          ],
+          "title": "Missing authentication on tenant_shell_probe_631"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routes/documents.py",
+          "ranges": [
+            [
+              58,
+              58
+            ]
+          ],
+          "title": "IDOR in list_documents via entity_id"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routes/documents.py",
+          "ranges": [
+            [
+              114,
+              114
+            ]
+          ],
+          "title": "Potential IDOR in update_document_metadata"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routes/documents.py",
+          "ranges": [
+            [
+              132,
+              132
+            ]
+          ],
+          "title": "Potential IDOR in download_document"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routes/inspections.py",
+          "ranges": [
+            [
+              113,
+              113
+            ]
+          ],
+          "title": "Missing Inspection Access Check"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routes/integrations.py",
+          "ranges": [
+            [
+              107,
+              107
+            ]
+          ],
+          "title": "Broken Object-Level Authorization in Maintenance Status Endpoint"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routes/properties.py",
+          "ranges": [
+            [
+              88,
+              88
+            ]
+          ],
+          "title": "Missing Owner Check in Property Update"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routes/properties.py",
+          "ranges": [
+            [
+              298,
+              298
+            ]
+          ],
+          "title": "IDOR in list_payments()"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routes/reports.py",
+          "ranges": [
+            [
+              164,
+              164
+            ]
+          ],
+          "title": "Broken Object-Level Authorization for Payment Receipt"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routes/reports.py",
+          "ranges": [
+            [
+              254,
+              254
+            ]
+          ],
+          "title": "IDOR in Payment Import"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routes/tickets.py",
+          "ranges": [
+            [
+              132,
+              132
+            ]
+          ],
+          "title": "Broken Object-Level Authorization in get_ticket"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routes/users.py",
+          "ranges": [
+            [
+              70,
+              70
+            ]
+          ],
+          "title": "Missing Owner Check in Update"
+        }
+      ],
+      "seconds": 263.7
+    },
+    "vc-codex-high-seeded-v2-support-desk-fastapi": {
+      "tp": [
+        "vc-codex-high-seeded-v2-support-desk-fastapi-enrich-010",
+        "seeded-v2-campaign-3-622",
+        "seeded-v2-campaign-3-612"
+      ],
+      "fn": [
+        "seeded-v2-campaign-1-089",
+        "seeded-v2-campaign-3-562",
+        "seeded-v2-campaign-3-591",
+        "vc-codex-high-seeded-v2-support-desk-fastapi-enrich-009"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-639",
+          "file": "app/routers/admin.py",
+          "ranges": [
+            [
+              79,
+              79
+            ]
+          ],
+          "title": "Broken object-level authorization in update_user",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/routers/admin.py",
+          "ranges": [
+            [
+              330,
+              330
+            ]
+          ],
+          "title": "Broken object-level authorization in revoke_api_key",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/routers/escalations.py",
+          "ranges": [
+            [
+              27,
+              27
+            ]
+          ],
+          "title": "Broken object-level authorization in update_escalation",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/routers/kb.py",
+          "ranges": [
+            [
+              92,
+              92
+            ]
+          ],
+          "title": "Broken object-level authorization in delete_article",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/routers/tickets.py",
+          "ranges": [
+            [
+              341,
+              341
+            ]
+          ],
+          "title": "Broken object-level authorization in delete_ticket",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/routers/tickets.py",
+          "ranges": [
+            [
+              52,
+              52
+            ]
+          ],
+          "title": "Broken object-level authorization in list_tickets",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/support_operations.py",
+          "ranges": [
+            [
+              44,
+              44
+            ]
+          ],
+          "title": "Missing authentication on ticket_wire_tally_221",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/support_operations.py",
+          "ranges": [
+            [
+              50,
+              50
+            ]
+          ],
+          "title": "Missing authentication on ticket_vault_stash_243",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/support_operations.py",
+          "ranges": [
+            [
+              60,
+              60
+            ]
+          ],
+          "title": "Missing authentication on ticket_digest_fold_281",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/support_operations.py",
+          "ranges": [
+            [
+              95,
+              95
+            ]
+          ],
+          "title": "Missing authentication on ticket_dock_shelf_591",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/routers/admin.py",
+          "ranges": [
+            [
+              140,
+              140
+            ]
+          ],
+          "title": "Missing ownership check for team_id in create_queue",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/routers/admin.py",
+          "ranges": [
+            [
+              158,
+              158
+            ]
+          ],
+          "title": "Missing ownership check in create_category",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/routers/admin.py",
+          "ranges": [
+            [
+              175,
+              175
+            ]
+          ],
+          "title": "Missing ownership check in create_sla",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/routers/admin.py",
+          "ranges": [
+            [
+              244,
+              244
+            ]
+          ],
+          "title": "IDOR in export_report",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/routers/kb.py",
+          "ranges": [
+            [
+              35,
+              35
+            ]
+          ],
+          "title": "Missing Owner/Permission Check in get_article()",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/routers/reports.py",
+          "ranges": [
+            [
+              80,
+              80
+            ]
+          ],
+          "title": "Broken Object-Level Authorization in Escalation Export",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/routers/tickets.py",
+          "ranges": [
+            [
+              213,
+              213
+            ]
+          ],
+          "title": "Potential IDOR in claim_ticket()",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/routers/tickets.py",
+          "ranges": [
+            [
+              231,
+              231
+            ]
+          ],
+          "title": "Potential IDOR in add_reply",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/routers/tickets.py",
+          "ranges": [
+            [
+              323,
+              323
+            ]
+          ],
+          "title": "Potential IDOR in request_escalation",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [
+        {
+          "cwe": "CWE-639",
+          "file": "app/support_operations.py",
+          "ranges": [
+            [
+              125,
+              125
+            ]
+          ],
+          "title": "Missing authentication on ticket_shell_probe_632",
+          "case": "seeded-v2-campaign-3-622"
+        }
+      ],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-639",
+          "file": "app/routers/admin.py",
+          "ranges": [
+            [
+              79,
+              79
+            ]
+          ],
+          "title": "Broken object-level authorization in update_user"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/routers/admin.py",
+          "ranges": [
+            [
+              330,
+              330
+            ]
+          ],
+          "title": "Broken object-level authorization in revoke_api_key"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/routers/escalations.py",
+          "ranges": [
+            [
+              27,
+              27
+            ]
+          ],
+          "title": "Broken object-level authorization in update_escalation"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/routers/integrations.py",
+          "ranges": [
+            [
+              64,
+              64
+            ]
+          ],
+          "title": "Broken object-level authorization in update_ticket_status_from_api"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/routers/kb.py",
+          "ranges": [
+            [
+              92,
+              92
+            ]
+          ],
+          "title": "Broken object-level authorization in delete_article"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/routers/tickets.py",
+          "ranges": [
+            [
+              341,
+              341
+            ]
+          ],
+          "title": "Broken object-level authorization in delete_ticket"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/routers/tickets.py",
+          "ranges": [
+            [
+              52,
+              52
+            ]
+          ],
+          "title": "Broken object-level authorization in list_tickets"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/support_operations.py",
+          "ranges": [
+            [
+              44,
+              44
+            ]
+          ],
+          "title": "Missing authentication on ticket_wire_tally_221"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/support_operations.py",
+          "ranges": [
+            [
+              50,
+              50
+            ]
+          ],
+          "title": "Missing authentication on ticket_vault_stash_243"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/support_operations.py",
+          "ranges": [
+            [
+              60,
+              60
+            ]
+          ],
+          "title": "Missing authentication on ticket_digest_fold_281"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/support_operations.py",
+          "ranges": [
+            [
+              95,
+              95
+            ]
+          ],
+          "title": "Missing authentication on ticket_dock_shelf_591"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/support_operations.py",
+          "ranges": [
+            [
+              110,
+              110
+            ]
+          ],
+          "title": "Missing authentication on ticket_mongo_lane_612"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/support_operations.py",
+          "ranges": [
+            [
+              125,
+              125
+            ]
+          ],
+          "title": "Missing authentication on ticket_shell_probe_632"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/routers/admin.py",
+          "ranges": [
+            [
+              140,
+              140
+            ]
+          ],
+          "title": "Missing ownership check for team_id in create_queue"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/routers/admin.py",
+          "ranges": [
+            [
+              158,
+              158
+            ]
+          ],
+          "title": "Missing ownership check in create_category"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/routers/admin.py",
+          "ranges": [
+            [
+              175,
+              175
+            ]
+          ],
+          "title": "Missing ownership check in create_sla"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/routers/admin.py",
+          "ranges": [
+            [
+              244,
+              244
+            ]
+          ],
+          "title": "IDOR in export_report"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/routers/kb.py",
+          "ranges": [
+            [
+              35,
+              35
+            ]
+          ],
+          "title": "Missing Owner/Permission Check in get_article()"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/routers/reports.py",
+          "ranges": [
+            [
+              80,
+              80
+            ]
+          ],
+          "title": "Broken Object-Level Authorization in Escalation Export"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/routers/tickets.py",
+          "ranges": [
+            [
+              213,
+              213
+            ]
+          ],
+          "title": "Potential IDOR in claim_ticket()"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/routers/tickets.py",
+          "ranges": [
+            [
+              231,
+              231
+            ]
+          ],
+          "title": "Potential IDOR in add_reply"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/routers/tickets.py",
+          "ranges": [
+            [
+              323,
+              323
+            ]
+          ],
+          "title": "Potential IDOR in request_escalation"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "app/support_operations.py",
+          "ranges": [
+            [
+              115,
+              115
+            ]
+          ],
+          "title": "Unsanitized MongoDB Query Parameter"
+        }
+      ],
+      "seconds": 278.9
+    },
+    "vc-codex-seeded-v2-fintech-lending-fastapi": {
+      "tp": [
+        "vc-codex-seeded-v2-fintech-lending-fastapi-enrich-016",
+        "vc-codex-seeded-v2-fintech-lending-fastapi-enrich-009",
+        "seeded-v2-campaign-1-037",
+        "seeded-v2-campaign-2-199",
+        "seeded-v2-campaign-3-495"
+      ],
+      "fn": [
+        "seeded-v2-campaign-1-038",
+        "seeded-v2-campaign-2-128",
+        "seeded-v2-campaign-3-468",
+        "seeded-v2-campaign-3-528",
+        "vc-codex-seeded-v2-fintech-lending-fastapi-enrich-008",
+        "vc-codex-seeded-v2-fintech-lending-fastapi-enrich-017",
+        "vc-codex-seeded-v2-fintech-lending-fastapi-enrich-018"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              567,
+              567
+            ]
+          ],
+          "title": "Broken object-level authorization in get_application",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              604,
+              604
+            ]
+          ],
+          "title": "Broken object-level authorization in withdraw_application",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "backend/app/loan_operations.py",
+          "ranges": [
+            [
+              119,
+              119
+            ]
+          ],
+          "title": "Unsanitized Path in SQL Context",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/loan_operations.py",
+          "ranges": [
+            [
+              119,
+              119
+            ]
+          ],
+          "title": "Missing Ownership Check for File Write",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              706,
+              706
+            ]
+          ],
+          "title": "Broken Object-Level Authorization in Document Review",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              567,
+              567
+            ]
+          ],
+          "title": "Broken object-level authorization in get_application"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              604,
+              604
+            ]
+          ],
+          "title": "Broken object-level authorization in withdraw_application"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              693,
+              693
+            ]
+          ],
+          "title": "Broken object-level authorization in download_document"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              808,
+              808
+            ]
+          ],
+          "title": "Broken object-level authorization in integration_status"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/loan_operations.py",
+          "ranges": [
+            [
+              25,
+              25
+            ]
+          ],
+          "title": "Broken Object-Level Authorization (IDOR) in loan_queue_marker_037"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/loan_operations.py",
+          "ranges": [
+            [
+              61,
+              61
+            ]
+          ],
+          "title": "Broken Object-Level Authorization (IDOR) in loan_workset_rebind_199"
+        },
+        {
+          "cwe": "CWE-22",
+          "file": "backend/app/loan_operations.py",
+          "ranges": [
+            [
+              119,
+              119
+            ]
+          ],
+          "title": "Unsafe File Path Construction"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "backend/app/loan_operations.py",
+          "ranges": [
+            [
+              119,
+              119
+            ]
+          ],
+          "title": "Unsanitized Path in SQL Context"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/loan_operations.py",
+          "ranges": [
+            [
+              119,
+              119
+            ]
+          ],
+          "title": "Missing Ownership Check for File Write"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              706,
+              706
+            ]
+          ],
+          "title": "Broken Object-Level Authorization in Document Review"
+        }
+      ],
+      "seconds": 127.0
+    },
+    "vc-codex-seeded-v2-logistics-dispatch-fastapi": {
+      "tp": [
+        "seeded-v2-campaign-2-131",
+        "seeded-v2-campaign-1-049"
+      ],
+      "fn": [
+        "seeded-v2-campaign-1-050",
+        "seeded-v2-campaign-3-472",
+        "seeded-v2-campaign-3-498",
+        "seeded-v2-campaign-3-542",
+        "vc-codex-seeded-v2-logistics-dispatch-fastapi-enrich-008",
+        "vc-codex-seeded-v2-logistics-dispatch-fastapi-enrich-009"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              63,
+              63
+            ]
+          ],
+          "title": "Missing authentication on dispatch_formula_cast_259",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              109,
+              109
+            ]
+          ],
+          "title": "Missing authentication on dispatch_dock_shelf_498",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              448,
+              448
+            ]
+          ],
+          "title": "Broken object-level authorization in get_job",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              474,
+              474
+            ]
+          ],
+          "title": "Potential IDOR in update_job()",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              531,
+              531
+            ]
+          ],
+          "title": "Potential IDOR in add_message()",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              639,
+              639
+            ]
+          ],
+          "title": "Missing incident ownership check in update",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              679,
+              679
+            ]
+          ],
+          "title": "Missing route ownership check in list_routes",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              761,
+              761
+            ]
+          ],
+          "title": "Missing user ownership check in admin_update_user",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              825,
+              825
+            ]
+          ],
+          "title": "Dispatcher Import Region Check Only",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              867,
+              867
+            ]
+          ],
+          "title": "Export Region Filter Only",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              44,
+              44
+            ]
+          ],
+          "title": "Missing authentication on dispatch_delta_131"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              63,
+              63
+            ]
+          ],
+          "title": "Missing authentication on dispatch_formula_cast_259"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              109,
+              109
+            ]
+          ],
+          "title": "Missing authentication on dispatch_dock_shelf_498"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              448,
+              448
+            ]
+          ],
+          "title": "Broken object-level authorization in get_job"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              24,
+              24
+            ]
+          ],
+          "title": "Broken Object-Level Authorization (IDOR)"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              474,
+              474
+            ]
+          ],
+          "title": "Potential IDOR in update_job()"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              531,
+              531
+            ]
+          ],
+          "title": "Potential IDOR in add_message()"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              639,
+              639
+            ]
+          ],
+          "title": "Missing incident ownership check in update"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              679,
+              679
+            ]
+          ],
+          "title": "Missing route ownership check in list_routes"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              761,
+              761
+            ]
+          ],
+          "title": "Missing user ownership check in admin_update_user"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              825,
+              825
+            ]
+          ],
+          "title": "Dispatcher Import Region Check Only"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              867,
+              867
+            ]
+          ],
+          "title": "Export Region Filter Only"
+        }
+      ],
+      "seconds": 216.7
+    },
+    "vc-codex-seeded-v2-marketplace-commerce-fastapi": {
+      "tp": [
+        "vc-codex-seeded-v2-marketplace-commerce-fastapi-enrich-008",
+        "seeded-v2-campaign-1-053",
+        "seeded-v2-campaign-3-492"
+      ],
+      "fn": [
+        "seeded-v2-campaign-2-132",
+        "seeded-v2-campaign-3-473",
+        "seeded-v2-campaign-3-543",
+        "vc-codex-seeded-v2-marketplace-commerce-fastapi-enrich-007"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-639",
+          "file": "app/main.py",
+          "ranges": [
+            [
+              152,
+              152
+            ]
+          ],
+          "title": "Broken object-level authorization in update_product",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/main.py",
+          "ranges": [
+            [
+              143,
+              143
+            ]
+          ],
+          "title": "Broken object-level authorization in product_detail",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/seller_operations.py",
+          "ranges": [
+            [
+              55,
+              55
+            ]
+          ],
+          "title": "Missing authentication on seller_vault_stash_237",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/seller_operations.py",
+          "ranges": [
+            [
+              65,
+              65
+            ]
+          ],
+          "title": "Missing authentication on seller_formula_cast_260",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/seller_operations.py",
+          "ranges": [
+            [
+              104,
+              104
+            ]
+          ],
+          "title": "Missing authentication on seller_dock_shelf_492",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/seller_operations.py",
+          "ranges": [
+            [
+              112,
+              112
+            ]
+          ],
+          "title": "Missing authentication on seller_shell_probe_503",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/seller_operations.py",
+          "ranges": [
+            [
+              125,
+              125
+            ]
+          ],
+          "title": "Missing authentication on seller_xml_fold_523",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/main.py",
+          "ranges": [
+            [
+              247,
+              247
+            ]
+          ],
+          "title": "Potential IDOR in order_detail",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/main.py",
+          "ranges": [
+            [
+              304,
+              304
+            ]
+          ],
+          "title": "Potential IDOR in moderate_review",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/main.py",
+          "ranges": [
+            [
+              355,
+              355
+            ]
+          ],
+          "title": "IDOR in dispute_message",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/main.py",
+          "ranges": [
+            [
+              428,
+              428
+            ]
+          ],
+          "title": "IDOR in admin_update_user",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/main.py",
+          "ranges": [
+            [
+              447,
+              447
+            ]
+          ],
+          "title": "Broken Object-Level Authorization - Vendor Status Update",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-639",
+          "file": "app/main.py",
+          "ranges": [
+            [
+              152,
+              152
+            ]
+          ],
+          "title": "Broken object-level authorization in update_product"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/main.py",
+          "ranges": [
+            [
+              555,
+              555
+            ]
+          ],
+          "title": "Broken object-level authorization in integration_order_status"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/main.py",
+          "ranges": [
+            [
+              143,
+              143
+            ]
+          ],
+          "title": "Broken object-level authorization in product_detail"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/seller_operations.py",
+          "ranges": [
+            [
+              55,
+              55
+            ]
+          ],
+          "title": "Missing authentication on seller_vault_stash_237"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/seller_operations.py",
+          "ranges": [
+            [
+              65,
+              65
+            ]
+          ],
+          "title": "Missing authentication on seller_formula_cast_260"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/seller_operations.py",
+          "ranges": [
+            [
+              104,
+              104
+            ]
+          ],
+          "title": "Missing authentication on seller_dock_shelf_492"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/seller_operations.py",
+          "ranges": [
+            [
+              112,
+              112
+            ]
+          ],
+          "title": "Missing authentication on seller_shell_probe_503"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/seller_operations.py",
+          "ranges": [
+            [
+              125,
+              125
+            ]
+          ],
+          "title": "Missing authentication on seller_xml_fold_523"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/main.py",
+          "ranges": [
+            [
+              247,
+              247
+            ]
+          ],
+          "title": "Potential IDOR in order_detail"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/main.py",
+          "ranges": [
+            [
+              304,
+              304
+            ]
+          ],
+          "title": "Potential IDOR in moderate_review"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/main.py",
+          "ranges": [
+            [
+              355,
+              355
+            ]
+          ],
+          "title": "IDOR in dispute_message"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/main.py",
+          "ranges": [
+            [
+              428,
+              428
+            ]
+          ],
+          "title": "IDOR in admin_update_user"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/main.py",
+          "ranges": [
+            [
+              447,
+              447
+            ]
+          ],
+          "title": "Broken Object-Level Authorization - Vendor Status Update"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/seller_operations.py",
+          "ranges": [
+            [
+              36,
+              36
+            ]
+          ],
+          "title": "Broken Object-Level Authorization (IDOR) - Seller Payout Card"
+        },
+        {
+          "cwe": "CWE-22",
+          "file": "app/seller_operations.py",
+          "ranges": [
+            [
+              107,
+              107
+            ]
+          ],
+          "title": "Path Traversal - Dock Shelf"
+        }
+      ],
+      "seconds": 235.3
+    },
+    "vc-codex-seeded-v2-property-management-fastapi": {
+      "tp": [
+        "vc-codex-seeded-v2-property-management-fastapi-enrich-008"
+      ],
+      "fn": [
+        "seeded-v2-campaign-2-195",
+        "seeded-v2-campaign-3-493",
+        "seeded-v2-campaign-3-544",
+        "vc-codex-seeded-v2-property-management-fastapi-enrich-009"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              414,
+              414
+            ]
+          ],
+          "title": "Broken object-level authorization in list_payments",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              847,
+              847
+            ]
+          ],
+          "title": "Broken object-level authorization in ticket_status_json",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              41,
+              41
+            ]
+          ],
+          "title": "Missing authentication on tenant_bundle_thaw_173",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              72,
+              72
+            ]
+          ],
+          "title": "Missing authentication on tenant_digest_fold_275",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              113,
+              113
+            ]
+          ],
+          "title": "Missing authentication on tenant_dock_shelf_493",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              121,
+              121
+            ]
+          ],
+          "title": "Missing authentication on tenant_shell_probe_504",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              474,
+              474
+            ]
+          ],
+          "title": "Broken Object-Level Authorization in get_ticket",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              518,
+              518
+            ]
+          ],
+          "title": "Broken object-level authorization in update_ticket_status"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              414,
+              414
+            ]
+          ],
+          "title": "Broken object-level authorization in list_payments"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              847,
+              847
+            ]
+          ],
+          "title": "Broken object-level authorization in ticket_status_json"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              41,
+              41
+            ]
+          ],
+          "title": "Missing authentication on tenant_bundle_thaw_173"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              72,
+              72
+            ]
+          ],
+          "title": "Missing authentication on tenant_digest_fold_275"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              113,
+              113
+            ]
+          ],
+          "title": "Missing authentication on tenant_dock_shelf_493"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              121,
+              121
+            ]
+          ],
+          "title": "Missing authentication on tenant_shell_probe_504"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              474,
+              474
+            ]
+          ],
+          "title": "Broken Object-Level Authorization in get_ticket"
+        }
+      ],
+      "seconds": 211.6
+    },
+    "vc-codex-seeded-v2-support-desk-fastapi": {
+      "tp": [
+        "vc-codex-seeded-v2-support-desk-fastapi-enrich-007",
+        "vc-codex-seeded-v2-support-desk-fastapi-enrich-012",
+        "seeded-v2-campaign-3-500",
+        "seeded-v2-campaign-1-058"
+      ],
+      "fn": [
+        "seeded-v2-campaign-1-059",
+        "seeded-v2-campaign-1-060",
+        "seeded-v2-campaign-2-196",
+        "seeded-v2-campaign-3-465",
+        "seeded-v2-campaign-3-525",
+        "seeded-v2-campaign-3-545"
+      ],
+      "fp_safe": [
+        "vc-codex-seeded-v2-support-desk-fastapi-fp-003"
+      ],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              478,
+              478
+            ]
+          ],
+          "title": "Broken object-level authorization in update_escalation",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              545,
+              545
+            ]
+          ],
+          "title": "Broken object-level authorization in admin_update_user",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              233,
+              233
+            ]
+          ],
+          "title": "Broken object-level authorization in list_tickets",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              214,
+              214
+            ]
+          ],
+          "title": "Broken Object-Level Authorization in Dashboard",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              524,
+              524
+            ]
+          ],
+          "title": "Missing ownership check in update_kb",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              369,
+              369
+            ]
+          ],
+          "title": "Broken object-level authorization in delete_ticket"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              442,
+              442
+            ]
+          ],
+          "title": "Broken object-level authorization in download_attachment"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              478,
+              478
+            ]
+          ],
+          "title": "Broken object-level authorization in update_escalation"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              545,
+              545
+            ]
+          ],
+          "title": "Broken object-level authorization in admin_update_user"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              233,
+              233
+            ]
+          ],
+          "title": "Broken object-level authorization in list_tickets"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              214,
+              214
+            ]
+          ],
+          "title": "Broken Object-Level Authorization in Dashboard"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              524,
+              524
+            ]
+          ],
+          "title": "Missing ownership check in update_kb"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              663,
+              663
+            ]
+          ],
+          "title": "Broken Object-Level Authorization - Unchecked Customer Access"
+        },
+        {
+          "cwe": "CWE-22",
+          "file": "backend/app/support_operations.py",
+          "ranges": [
+            [
+              103,
+              103
+            ]
+          ],
+          "title": "Unsanitized File Name in Write Operation"
+        },
+        {
+          "cwe": "CWE-22",
+          "file": "backend/app/support_operations.py",
+          "ranges": [
+            [
+              26,
+              26
+            ]
+          ],
+          "title": "Unsanitized File Name in Write Operation"
+        }
+      ],
+      "seconds": 146.0
+    },
+    "vc-kimi-code-seeded-v2-fintech-lending-fastapi": {
+      "tp": [
+        "seeded-v2-campaign-2-140",
+        "vc-kimi-code-seeded-v2-fintech-lending-fastapi-enrich-011",
+        "seeded-v2-campaign-1-097",
+        "seeded-v2-campaign-3-712",
+        "vc-kimi-code-seeded-v2-fintech-lending-fastapi-enrich-012"
+      ],
+      "fn": [
+        "seeded-v2-campaign-1-098",
+        "seeded-v2-campaign-2-209",
+        "seeded-v2-campaign-3-662",
+        "seeded-v2-campaign-3-692",
+        "seeded-v2-campaign-3-720",
+        "vc-kimi-code-seeded-v2-fintech-lending-fastapi-enrich-007",
+        "vc-kimi-code-seeded-v2-fintech-lending-fastapi-enrich-013",
+        "vc-kimi-code-seeded-v2-fintech-lending-fastapi-enrich-014"
+      ],
+      "fp_safe": [
+        "vc-kimi-code-seeded-v2-fintech-lending-fastapi-fp-003"
+      ],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/loan_operations.py",
+          "ranges": [
+            [
+              124,
+              124
+            ]
+          ],
+          "title": "Missing authentication on loan_mongo_lane_712",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/loan_operations.py",
+          "ranges": [
+            [
+              132,
+              132
+            ]
+          ],
+          "title": "Missing authentication on loan_dock_shelf_720",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/loan_operations.py",
+          "ranges": [
+            [
+              140,
+              140
+            ]
+          ],
+          "title": "Missing authentication on loan_trust_drift_731",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/loan_operations.py",
+          "ranges": [
+            [
+              148,
+              148
+            ]
+          ],
+          "title": "Missing authentication on loan_xml_fold_740",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/documents.py",
+          "ranges": [
+            [
+              33,
+              33
+            ]
+          ],
+          "title": "Broken object-level authorization in list_documents",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/applications.py",
+          "ranges": [
+            [
+              92,
+              92
+            ]
+          ],
+          "title": "Broken Object-Level Authorization (IDOR)",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/messages.py",
+          "ranges": [
+            [
+              21,
+              21
+            ]
+          ],
+          "title": "Incomplete Borrower Authorization Check",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/loan_operations.py",
+          "ranges": [
+            [
+              44,
+              44
+            ]
+          ],
+          "title": "Missing authentication on loan_delta_140"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/loan_operations.py",
+          "ranges": [
+            [
+              124,
+              124
+            ]
+          ],
+          "title": "Missing authentication on loan_mongo_lane_712"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/loan_operations.py",
+          "ranges": [
+            [
+              132,
+              132
+            ]
+          ],
+          "title": "Missing authentication on loan_dock_shelf_720"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/loan_operations.py",
+          "ranges": [
+            [
+              140,
+              140
+            ]
+          ],
+          "title": "Missing authentication on loan_trust_drift_731"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/loan_operations.py",
+          "ranges": [
+            [
+              148,
+              148
+            ]
+          ],
+          "title": "Missing authentication on loan_xml_fold_740"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/api_keys.py",
+          "ranges": [
+            [
+              81,
+              81
+            ]
+          ],
+          "title": "Broken object-level authorization in get_application_status_api"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/documents.py",
+          "ranges": [
+            [
+              33,
+              33
+            ]
+          ],
+          "title": "Broken object-level authorization in list_documents"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/loan_operations.py",
+          "ranges": [
+            [
+              24,
+              24
+            ]
+          ],
+          "title": "Broken Object-Level Authorization"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "backend/app/loan_operations.py",
+          "ranges": [
+            [
+              128,
+              128
+            ]
+          ],
+          "title": "Unsanitized MongoDB Query Input"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/applications.py",
+          "ranges": [
+            [
+              92,
+              92
+            ]
+          ],
+          "title": "Broken Object-Level Authorization (IDOR)"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/applications.py",
+          "ranges": [
+            [
+              194,
+              194
+            ]
+          ],
+          "title": "IDOR: Borrower can update other users' applications via app_id"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/borrowers.py",
+          "ranges": [
+            [
+              65,
+              65
+            ]
+          ],
+          "title": "Broken Object-Level Authorization for Support Specialist"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/messages.py",
+          "ranges": [
+            [
+              21,
+              21
+            ]
+          ],
+          "title": "Incomplete Borrower Authorization Check"
+        }
+      ],
+      "seconds": 229.9
+    },
+    "vc-kimi-code-seeded-v2-logistics-dispatch-fastapi": {
+      "tp": [
+        "seeded-v2-campaign-2-143",
+        "seeded-v2-campaign-1-109",
+        "seeded-v2-campaign-3-716",
+        "seeded-v2-campaign-3-723"
+      ],
+      "fn": [
+        "seeded-v2-campaign-1-110",
+        "seeded-v2-campaign-3-666",
+        "vc-kimi-code-seeded-v2-logistics-dispatch-fastapi-enrich-006",
+        "vc-kimi-code-seeded-v2-logistics-dispatch-fastapi-enrich-008",
+        "vc-kimi-code-seeded-v2-logistics-dispatch-fastapi-enrich-010",
+        "vc-kimi-code-seeded-v2-logistics-dispatch-fastapi-enrich-011",
+        "vc-kimi-code-seeded-v2-logistics-dispatch-fastapi-enrich-012"
+      ],
+      "fp_safe": [
+        "vc-kimi-code-seeded-v2-logistics-dispatch-fastapi-fp-003"
+      ],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              67,
+              67
+            ]
+          ],
+          "title": "Missing authentication on dispatch_wire_tally_229",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              119,
+              119
+            ]
+          ],
+          "title": "Missing authentication on dispatch_shell_probe_696",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              132,
+              132
+            ]
+          ],
+          "title": "Missing authentication on dispatch_mongo_lane_716",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              140,
+              140
+            ]
+          ],
+          "title": "Missing authentication on dispatch_dock_shelf_723",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              148,
+              148
+            ]
+          ],
+          "title": "Missing authentication on dispatch_xml_fold_734",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/admin.py",
+          "ranges": [
+            [
+              136,
+              136
+            ]
+          ],
+          "title": "Broken Object-Level Authorization in delete_webhook",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/admin.py",
+          "ranges": [
+            [
+              162,
+              162
+            ]
+          ],
+          "title": "Potential IDOR in mark_notification_read",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/customers.py",
+          "ranges": [
+            [
+              61,
+              61
+            ]
+          ],
+          "title": "Broken Object-Level Authorization (IDOR)",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/incidents.py",
+          "ranges": [
+            [
+              71,
+              71
+            ]
+          ],
+          "title": "Missing ownership check for job_id in list_incidents",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/incidents.py",
+          "ranges": [
+            [
+              130,
+              130
+            ]
+          ],
+          "title": "Complex Authorization Logic",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/jobs.py",
+          "ranges": [
+            [
+              155,
+              155
+            ]
+          ],
+          "title": "Potential IDOR in update_job()",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/jobs.py",
+          "ranges": [
+            [
+              235,
+              235
+            ]
+          ],
+          "title": "Broken Object-Level Authorization in Delete Job",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/proofs.py",
+          "ranges": [
+            [
+              97,
+              97
+            ]
+          ],
+          "title": "Missing Ownership Check in Download Proof",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/proofs.py",
+          "ranges": [
+            [
+              26,
+              26
+            ]
+          ],
+          "title": "Missing Ownership Check in List Proofs",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/proofs.py",
+          "ranges": [
+            [
+              116,
+              116
+            ]
+          ],
+          "title": "Broken Object-Level Authorization (IDOR)",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/routes.py",
+          "ranges": [
+            [
+              79,
+              79
+            ]
+          ],
+          "title": "Missing Ownership Check in get_route",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/routes.py",
+          "ranges": [
+            [
+              101,
+              101
+            ]
+          ],
+          "title": "Missing Route Ownership Check",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/routes.py",
+          "ranges": [
+            [
+              135,
+              135
+            ]
+          ],
+          "title": "Missing Route Ownership Check",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/routes.py",
+          "ranges": [
+            [
+              166,
+              166
+            ]
+          ],
+          "title": "Missing Route Ownership Check",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/users.py",
+          "ranges": [
+            [
+              116,
+              116
+            ]
+          ],
+          "title": "Broken Object-Level Authorization (IDOR) - User Disable",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/users.py",
+          "ranges": [
+            [
+              132,
+              132
+            ]
+          ],
+          "title": "Broken Object-Level Authorization (IDOR) - User Enable",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              53,
+              53
+            ]
+          ],
+          "title": "Missing authentication on dispatch_bundle_thaw_188"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              67,
+              67
+            ]
+          ],
+          "title": "Missing authentication on dispatch_wire_tally_229"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              119,
+              119
+            ]
+          ],
+          "title": "Missing authentication on dispatch_shell_probe_696"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              132,
+              132
+            ]
+          ],
+          "title": "Missing authentication on dispatch_mongo_lane_716"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              140,
+              140
+            ]
+          ],
+          "title": "Missing authentication on dispatch_dock_shelf_723"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              148,
+              148
+            ]
+          ],
+          "title": "Missing authentication on dispatch_xml_fold_734"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              25,
+              25
+            ]
+          ],
+          "title": "Broken Object-Level Authorization (IDOR)"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              136,
+              136
+            ]
+          ],
+          "title": "Unsanitized MongoDB Query Input"
+        },
+        {
+          "cwe": "CWE-22",
+          "file": "backend/app/dispatch_operations.py",
+          "ranges": [
+            [
+              141,
+              141
+            ]
+          ],
+          "title": "Unsanitized File Name Parameter"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/admin.py",
+          "ranges": [
+            [
+              136,
+              136
+            ]
+          ],
+          "title": "Broken Object-Level Authorization in delete_webhook"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/admin.py",
+          "ranges": [
+            [
+              162,
+              162
+            ]
+          ],
+          "title": "Potential IDOR in mark_notification_read"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/customers.py",
+          "ranges": [
+            [
+              61,
+              61
+            ]
+          ],
+          "title": "Broken Object-Level Authorization (IDOR)"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/incidents.py",
+          "ranges": [
+            [
+              71,
+              71
+            ]
+          ],
+          "title": "Missing ownership check for job_id in list_incidents"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/incidents.py",
+          "ranges": [
+            [
+              130,
+              130
+            ]
+          ],
+          "title": "Complex Authorization Logic"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/jobs.py",
+          "ranges": [
+            [
+              139,
+              139
+            ]
+          ],
+          "title": "Potential IDOR in get_job()"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/jobs.py",
+          "ranges": [
+            [
+              155,
+              155
+            ]
+          ],
+          "title": "Potential IDOR in update_job()"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/jobs.py",
+          "ranges": [
+            [
+              235,
+              235
+            ]
+          ],
+          "title": "Broken Object-Level Authorization in Delete Job"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/proofs.py",
+          "ranges": [
+            [
+              97,
+              97
+            ]
+          ],
+          "title": "Missing Ownership Check in Download Proof"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/proofs.py",
+          "ranges": [
+            [
+              26,
+              26
+            ]
+          ],
+          "title": "Missing Ownership Check in List Proofs"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/proofs.py",
+          "ranges": [
+            [
+              116,
+              116
+            ]
+          ],
+          "title": "Broken Object-Level Authorization (IDOR)"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/routes.py",
+          "ranges": [
+            [
+              79,
+              79
+            ]
+          ],
+          "title": "Missing Ownership Check in get_route"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/routes.py",
+          "ranges": [
+            [
+              101,
+              101
+            ]
+          ],
+          "title": "Missing Route Ownership Check"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/routes.py",
+          "ranges": [
+            [
+              135,
+              135
+            ]
+          ],
+          "title": "Missing Route Ownership Check"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/routes.py",
+          "ranges": [
+            [
+              166,
+              166
+            ]
+          ],
+          "title": "Missing Route Ownership Check"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/users.py",
+          "ranges": [
+            [
+              116,
+              116
+            ]
+          ],
+          "title": "Broken Object-Level Authorization (IDOR) - User Disable"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/users.py",
+          "ranges": [
+            [
+              132,
+              132
+            ]
+          ],
+          "title": "Broken Object-Level Authorization (IDOR) - User Enable"
+        }
+      ],
+      "seconds": 268.9
+    },
+    "vc-kimi-code-seeded-v2-marketplace-commerce-fastapi": {
+      "tp": [
+        "seeded-v2-campaign-2-144",
+        "seeded-v2-campaign-3-687",
+        "vc-kimi-code-seeded-v2-marketplace-commerce-fastapi-enrich-009"
+      ],
+      "fn": [
+        "seeded-v2-campaign-1-113",
+        "seeded-v2-campaign-3-667",
+        "seeded-v2-campaign-3-717",
+        "seeded-v2-campaign-3-724",
+        "vc-kimi-code-seeded-v2-marketplace-commerce-fastapi-enrich-005",
+        "vc-kimi-code-seeded-v2-marketplace-commerce-fastapi-enrich-008"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/api/files.py",
+          "ranges": [
+            [
+              82,
+              82
+            ]
+          ],
+          "title": "Broken object-level authorization in get_file",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/api/products.py",
+          "ranges": [
+            [
+              70,
+              70
+            ]
+          ],
+          "title": "Broken object-level authorization in list_storefront",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/api/reviews.py",
+          "ranges": [
+            [
+              71,
+              71
+            ]
+          ],
+          "title": "Broken object-level authorization in list_product_reviews",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/api/reviews.py",
+          "ranges": [
+            [
+              105,
+              105
+            ]
+          ],
+          "title": "Broken object-level authorization in get_review",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/api/vendors.py",
+          "ranges": [
+            [
+              99,
+              99
+            ]
+          ],
+          "title": "Broken object-level authorization in get_vendor",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/seller_operations.py",
+          "ranges": [
+            [
+              55,
+              55
+            ]
+          ],
+          "title": "Missing authentication on seller_vault_stash_247",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/seller_operations.py",
+          "ranges": [
+            [
+              136,
+              136
+            ]
+          ],
+          "title": "Missing authentication on seller_dock_shelf_724",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/api/disputes.py",
+          "ranges": [
+            [
+              181,
+              181
+            ]
+          ],
+          "title": "Missing Dispute Ownership Check in Resolve Route",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/api/orders.py",
+          "ranges": [
+            [
+              153,
+              153
+            ]
+          ],
+          "title": "Inconsistent Owner/tenant Filter for VENDOR_MANAGER",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/api/orders.py",
+          "ranges": [
+            [
+              165,
+              165
+            ]
+          ],
+          "title": "Missing Owner/tenant Filter for MARKETPLACE_ADMIN",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/api/reviews.py",
+          "ranges": [
+            [
+              114,
+              114
+            ]
+          ],
+          "title": "IDOR - Moderate Review Without Ownership Check",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/api/vendors.py",
+          "ranges": [
+            [
+              114,
+              114
+            ]
+          ],
+          "title": "Broken Object-Level Authorization (IDOR)",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/seller_operations.py",
+          "ranges": [
+            [
+              49,
+              49
+            ]
+          ],
+          "title": "Missing authentication on seller_wire_tally_226",
+          "case": "seeded-v2-campaign-2-144"
+        }
+      ],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/api/files.py",
+          "ranges": [
+            [
+              82,
+              82
+            ]
+          ],
+          "title": "Broken object-level authorization in get_file"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/api/products.py",
+          "ranges": [
+            [
+              70,
+              70
+            ]
+          ],
+          "title": "Broken object-level authorization in list_storefront"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/api/reviews.py",
+          "ranges": [
+            [
+              71,
+              71
+            ]
+          ],
+          "title": "Broken object-level authorization in list_product_reviews"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/api/reviews.py",
+          "ranges": [
+            [
+              105,
+              105
+            ]
+          ],
+          "title": "Broken object-level authorization in get_review"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/api/vendors.py",
+          "ranges": [
+            [
+              99,
+              99
+            ]
+          ],
+          "title": "Broken object-level authorization in get_vendor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/seller_operations.py",
+          "ranges": [
+            [
+              40,
+              40
+            ]
+          ],
+          "title": "Missing authentication on seller_delta_144"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/seller_operations.py",
+          "ranges": [
+            [
+              49,
+              49
+            ]
+          ],
+          "title": "Missing authentication on seller_wire_tally_226"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/seller_operations.py",
+          "ranges": [
+            [
+              55,
+              55
+            ]
+          ],
+          "title": "Missing authentication on seller_vault_stash_247"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/seller_operations.py",
+          "ranges": [
+            [
+              115,
+              115
+            ]
+          ],
+          "title": "Missing authentication on seller_shell_probe_697"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/seller_operations.py",
+          "ranges": [
+            [
+              136,
+              136
+            ]
+          ],
+          "title": "Missing authentication on seller_dock_shelf_724"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/api/disputes.py",
+          "ranges": [
+            [
+              181,
+              181
+            ]
+          ],
+          "title": "Missing Dispute Ownership Check in Resolve Route"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/api/orders.py",
+          "ranges": [
+            [
+              153,
+              153
+            ]
+          ],
+          "title": "Inconsistent Owner/tenant Filter for VENDOR_MANAGER"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/api/orders.py",
+          "ranges": [
+            [
+              165,
+              165
+            ]
+          ],
+          "title": "Missing Owner/tenant Filter for MARKETPLACE_ADMIN"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/api/payouts.py",
+          "ranges": [
+            [
+              88,
+              88
+            ]
+          ],
+          "title": "Incomplete Vendor Ownership Check in get_payout"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/api/reviews.py",
+          "ranges": [
+            [
+              114,
+              114
+            ]
+          ],
+          "title": "IDOR - Moderate Review Without Ownership Check"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/api/vendors.py",
+          "ranges": [
+            [
+              114,
+              114
+            ]
+          ],
+          "title": "Broken Object-Level Authorization (IDOR)"
+        }
+      ],
+      "seconds": 237.5
+    },
+    "vc-kimi-code-seeded-v2-property-management-fastapi": {
+      "tp": [
+        "vc-kimi-code-seeded-v2-property-management-fastapi-enrich-011",
+        "vc-kimi-code-seeded-v2-property-management-fastapi-enrich-012",
+        "seeded-v2-campaign-2-205",
+        "seeded-v2-campaign-3-688",
+        "vc-kimi-code-seeded-v2-property-management-fastapi-enrich-010",
+        "seeded-v2-campaign-3-725"
+      ],
+      "fn": [
+        "seeded-v2-campaign-3-668",
+        "seeded-v2-campaign-3-718",
+        "vc-kimi-code-seeded-v2-property-management-fastapi-enrich-009"
+      ],
+      "fp_safe": [
+        "vc-kimi-code-seeded-v2-property-management-fastapi-fp-003"
+      ],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/documents.py",
+          "ranges": [
+            [
+              133,
+              133
+            ]
+          ],
+          "title": "Broken object-level authorization in delete_document",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/integrations.py",
+          "ranges": [
+            [
+              48,
+              48
+            ]
+          ],
+          "title": "Broken object-level authorization in delete_api_key",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/integrations.py",
+          "ranges": [
+            [
+              90,
+              90
+            ]
+          ],
+          "title": "Broken object-level authorization in delete_webhook",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/leases.py",
+          "ranges": [
+            [
+              111,
+              111
+            ]
+          ],
+          "title": "Broken object-level authorization in delete_lease",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/properties.py",
+          "ranges": [
+            [
+              63,
+              63
+            ]
+          ],
+          "title": "Broken object-level authorization in update_property",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/properties.py",
+          "ranges": [
+            [
+              81,
+              81
+            ]
+          ],
+          "title": "Broken object-level authorization in delete_property",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/users.py",
+          "ranges": [
+            [
+              86,
+              86
+            ]
+          ],
+          "title": "Broken object-level authorization in update_user",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/users.py",
+          "ranges": [
+            [
+              121,
+              121
+            ]
+          ],
+          "title": "Broken object-level authorization in enable_user",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              72,
+              72
+            ]
+          ],
+          "title": "Missing authentication on tenant_digest_fold_285",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              85,
+              85
+            ]
+          ],
+          "title": "Missing authentication on tenant_relay_probe_358",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              134,
+              134
+            ]
+          ],
+          "title": "Missing authentication on tenant_mongo_lane_718",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              142,
+              142
+            ]
+          ],
+          "title": "Missing authentication on tenant_dock_shelf_725",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/documents.py",
+          "ranges": [
+            [
+              83,
+              83
+            ]
+          ],
+          "title": "Missing Owner/Access Check in get_document()",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/documents.py",
+          "ranges": [
+            [
+              97,
+              97
+            ]
+          ],
+          "title": "Missing Owner/Access Check in download_document()",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/imports.py",
+          "ranges": [
+            [
+              50,
+              50
+            ]
+          ],
+          "title": "Broken Object-Level Authorization in Tenant Import",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/inspections.py",
+          "ranges": [
+            [
+              83,
+              83
+            ]
+          ],
+          "title": "Inconsistent View Authorization Check",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/integrations.py",
+          "ranges": [
+            [
+              116,
+              116
+            ]
+          ],
+          "title": "Missing Owner/Permission Check for Ticket Access",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/leases.py",
+          "ranges": [
+            [
+              92,
+              92
+            ]
+          ],
+          "title": "IDOR: Lease update without ownership check",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/maintenance.py",
+          "ranges": [
+            [
+              172,
+              172
+            ]
+          ],
+          "title": "Broken Object-Level Authorization (IDOR) in list_comments",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/maintenance.py",
+          "ranges": [
+            [
+              190,
+              190
+            ]
+          ],
+          "title": "Broken Object-Level Authorization (IDOR) in upload_photo",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/payments.py",
+          "ranges": [
+            [
+              71,
+              71
+            ]
+          ],
+          "title": "Missing Owner/tenant Check in get_payment()",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/payments.py",
+          "ranges": [
+            [
+              85,
+              85
+            ]
+          ],
+          "title": "Missing Owner/tenant Check in update_payment()",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/properties.py",
+          "ranges": [
+            [
+              57,
+              57
+            ]
+          ],
+          "title": "Incomplete Ownership Check for Property Access",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/properties.py",
+          "ranges": [
+            [
+              109,
+              109
+            ]
+          ],
+          "title": "Incomplete Access Check for Buildings",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/properties.py",
+          "ranges": [
+            [
+              204,
+              204
+            ]
+          ],
+          "title": "Missing Unit Access Check in Update",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/users.py",
+          "ranges": [
+            [
+              111,
+              111
+            ]
+          ],
+          "title": "IDOR in disable_user()",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              124,
+              124
+            ]
+          ],
+          "title": "Command Injection via Host Parameter",
+          "family": "sql_injection"
+        }
+      ],
+      "duplicates": [
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/maintenance.py",
+          "ranges": [
+            [
+              116,
+              116
+            ]
+          ],
+          "title": "Broken Object-Level Authorization (IDOR) in update_ticket",
+          "case": "vc-kimi-code-seeded-v2-property-management-fastapi-enrich-010"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/messages.py",
+          "ranges": [
+            [
+              86,
+              86
+            ]
+          ],
+          "title": "Incomplete Access Control for Message Retrieval",
+          "case": "vc-kimi-code-seeded-v2-property-management-fastapi-enrich-011"
+        }
+      ],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/documents.py",
+          "ranges": [
+            [
+              133,
+              133
+            ]
+          ],
+          "title": "Broken object-level authorization in delete_document"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/integrations.py",
+          "ranges": [
+            [
+              48,
+              48
+            ]
+          ],
+          "title": "Broken object-level authorization in delete_api_key"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/integrations.py",
+          "ranges": [
+            [
+              90,
+              90
+            ]
+          ],
+          "title": "Broken object-level authorization in delete_webhook"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/leases.py",
+          "ranges": [
+            [
+              111,
+              111
+            ]
+          ],
+          "title": "Broken object-level authorization in delete_lease"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/properties.py",
+          "ranges": [
+            [
+              63,
+              63
+            ]
+          ],
+          "title": "Broken object-level authorization in update_property"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/properties.py",
+          "ranges": [
+            [
+              81,
+              81
+            ]
+          ],
+          "title": "Broken object-level authorization in delete_property"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/users.py",
+          "ranges": [
+            [
+              86,
+              86
+            ]
+          ],
+          "title": "Broken object-level authorization in update_user"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/users.py",
+          "ranges": [
+            [
+              121,
+              121
+            ]
+          ],
+          "title": "Broken object-level authorization in enable_user"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/messages.py",
+          "ranges": [
+            [
+              94,
+              94
+            ]
+          ],
+          "title": "Broken object-level authorization in list_replies"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/users.py",
+          "ranges": [
+            [
+              50,
+              50
+            ]
+          ],
+          "title": "Broken object-level authorization in get_user"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              62,
+              62
+            ]
+          ],
+          "title": "Missing authentication on tenant_vault_stash_248"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              72,
+              72
+            ]
+          ],
+          "title": "Missing authentication on tenant_digest_fold_285"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              85,
+              85
+            ]
+          ],
+          "title": "Missing authentication on tenant_relay_probe_358"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              121,
+              121
+            ]
+          ],
+          "title": "Missing authentication on tenant_shell_probe_698"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              134,
+              134
+            ]
+          ],
+          "title": "Missing authentication on tenant_mongo_lane_718"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              142,
+              142
+            ]
+          ],
+          "title": "Missing authentication on tenant_dock_shelf_725"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/documents.py",
+          "ranges": [
+            [
+              83,
+              83
+            ]
+          ],
+          "title": "Missing Owner/Access Check in get_document()"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/documents.py",
+          "ranges": [
+            [
+              97,
+              97
+            ]
+          ],
+          "title": "Missing Owner/Access Check in download_document()"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/imports.py",
+          "ranges": [
+            [
+              50,
+              50
+            ]
+          ],
+          "title": "Broken Object-Level Authorization in Tenant Import"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/inspections.py",
+          "ranges": [
+            [
+              83,
+              83
+            ]
+          ],
+          "title": "Inconsistent View Authorization Check"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/integrations.py",
+          "ranges": [
+            [
+              116,
+              116
+            ]
+          ],
+          "title": "Missing Owner/Permission Check for Ticket Access"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/leases.py",
+          "ranges": [
+            [
+              75,
+              75
+            ]
+          ],
+          "title": "IDOR: Lease access without ownership check"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/leases.py",
+          "ranges": [
+            [
+              92,
+              92
+            ]
+          ],
+          "title": "IDOR: Lease update without ownership check"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/maintenance.py",
+          "ranges": [
+            [
+              104,
+              104
+            ]
+          ],
+          "title": "Missing Ownership Check in get_ticket()"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/maintenance.py",
+          "ranges": [
+            [
+              116,
+              116
+            ]
+          ],
+          "title": "Broken Object-Level Authorization (IDOR) in update_ticket"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/maintenance.py",
+          "ranges": [
+            [
+              172,
+              172
+            ]
+          ],
+          "title": "Broken Object-Level Authorization (IDOR) in list_comments"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/maintenance.py",
+          "ranges": [
+            [
+              190,
+              190
+            ]
+          ],
+          "title": "Broken Object-Level Authorization (IDOR) in upload_photo"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/messages.py",
+          "ranges": [
+            [
+              86,
+              86
+            ]
+          ],
+          "title": "Incomplete Access Control for Message Retrieval"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/payments.py",
+          "ranges": [
+            [
+              71,
+              71
+            ]
+          ],
+          "title": "Missing Owner/tenant Check in get_payment()"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/payments.py",
+          "ranges": [
+            [
+              85,
+              85
+            ]
+          ],
+          "title": "Missing Owner/tenant Check in update_payment()"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/properties.py",
+          "ranges": [
+            [
+              57,
+              57
+            ]
+          ],
+          "title": "Incomplete Ownership Check for Property Access"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/properties.py",
+          "ranges": [
+            [
+              109,
+              109
+            ]
+          ],
+          "title": "Incomplete Access Check for Buildings"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/properties.py",
+          "ranges": [
+            [
+              204,
+              204
+            ]
+          ],
+          "title": "Missing Unit Access Check in Update"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/routers/users.py",
+          "ranges": [
+            [
+              111,
+              111
+            ]
+          ],
+          "title": "IDOR in disable_user()"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              124,
+              124
+            ]
+          ],
+          "title": "Command Injection via Host Parameter"
+        },
+        {
+          "cwe": "CWE-22",
+          "file": "backend/app/tenant_operations.py",
+          "ranges": [
+            [
+              145,
+              145
+            ]
+          ],
+          "title": "Path Traversal via Name Parameter"
+        }
+      ],
+      "seconds": 392.7
+    },
+    "vc-kimi-code-seeded-v2-support-desk-fastapi": {
+      "tp": [
+        "vc-kimi-code-seeded-v2-support-desk-fastapi-enrich-009",
+        "vc-kimi-code-seeded-v2-support-desk-fastapi-enrich-011",
+        "seeded-v2-campaign-3-726"
+      ],
+      "fn": [
+        "seeded-v2-campaign-1-118",
+        "seeded-v2-campaign-1-119",
+        "seeded-v2-campaign-1-120",
+        "seeded-v2-campaign-2-206",
+        "seeded-v2-campaign-3-689",
+        "vc-kimi-code-seeded-v2-support-desk-fastapi-enrich-006",
+        "vc-kimi-code-seeded-v2-support-desk-fastapi-enrich-010"
+      ],
+      "fp_safe": [
+        "vc-kimi-code-seeded-v2-support-desk-fastapi-fp-004",
+        "vc-kimi-code-seeded-v2-support-desk-fastapi-fp-002"
+      ],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              744,
+              744
+            ]
+          ],
+          "title": "Broken object-level authorization in get_kb_article",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              100,
+              100
+            ]
+          ],
+          "title": "Broken object-level authorization in list_users",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              137,
+              137
+            ]
+          ],
+          "title": "Broken object-level authorization in get_user",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              147,
+              147
+            ]
+          ],
+          "title": "IDOR in update_user()",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              163,
+              163
+            ]
+          ],
+          "title": "IDOR in disable_user()",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              189,
+              189
+            ]
+          ],
+          "title": "IDOR in get_organization()",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              212,
+              212
+            ]
+          ],
+          "title": "IDOR in update_team()",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              310,
+              310
+            ]
+          ],
+          "title": "Missing ownership check for organization_id",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              488,
+              488
+            ]
+          ],
+          "title": "Potential IDOR in create_reply() due to missing ownership check",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              904,
+              904
+            ]
+          ],
+          "title": "Broken Object-Level Authorization: Webhook Deletion Without Ownership Check",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              949,
+              949
+            ]
+          ],
+          "title": "Correct: API Key Deletion with Ownership Check",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              926,
+              926
+            ]
+          ],
+          "title": "Correct: API Key Listing with Ownership Check",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              875,
+              875
+            ]
+          ],
+          "title": "Correct: Notification Listing with Ownership Check",
+          "case": "vc-kimi-code-seeded-v2-support-desk-fastapi-fp-002"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              894,
+              894
+            ]
+          ],
+          "title": "Correct: Webhook Creation with Admin Check",
+          "case": "vc-kimi-code-seeded-v2-support-desk-fastapi-fp-002"
+        }
+      ],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              460,
+              460
+            ]
+          ],
+          "title": "Broken object-level authorization in update_ticket"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              677,
+              677
+            ]
+          ],
+          "title": "Broken object-level authorization in update_escalation"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              744,
+              744
+            ]
+          ],
+          "title": "Broken object-level authorization in get_kb_article"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              100,
+              100
+            ]
+          ],
+          "title": "Broken object-level authorization in list_users"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              137,
+              137
+            ]
+          ],
+          "title": "Broken object-level authorization in get_user"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              610,
+              610
+            ]
+          ],
+          "title": "Broken object-level authorization in download_attachment"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              147,
+              147
+            ]
+          ],
+          "title": "IDOR in update_user()"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              163,
+              163
+            ]
+          ],
+          "title": "IDOR in disable_user()"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              189,
+              189
+            ]
+          ],
+          "title": "IDOR in get_organization()"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              212,
+              212
+            ]
+          ],
+          "title": "IDOR in update_team()"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              310,
+              310
+            ]
+          ],
+          "title": "Missing ownership check for organization_id"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              488,
+              488
+            ]
+          ],
+          "title": "Potential IDOR in create_reply() due to missing ownership check"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              904,
+              904
+            ]
+          ],
+          "title": "Broken Object-Level Authorization: Webhook Deletion Without Ownership Check"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              949,
+              949
+            ]
+          ],
+          "title": "Correct: API Key Deletion with Ownership Check"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              926,
+              926
+            ]
+          ],
+          "title": "Correct: API Key Listing with Ownership Check"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              880,
+              880
+            ]
+          ],
+          "title": "Correct: Notification Read with Ownership Check"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              875,
+              875
+            ]
+          ],
+          "title": "Correct: Notification Listing with Ownership Check"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/app/main.py",
+          "ranges": [
+            [
+              894,
+              894
+            ]
+          ],
+          "title": "Correct: Webhook Creation with Admin Check"
+        },
+        {
+          "cwe": "CWE-22",
+          "file": "backend/app/support_operations.py",
+          "ranges": [
+            [
+              118,
+              118
+            ]
+          ],
+          "title": "Unsanitized File Name in Path Construction"
+        }
+      ],
+      "seconds": 253.8
+    },
+    "vfapi": {
+      "tp": [
+        "vfapi-001",
+        "vfapi-003"
+      ],
+      "fn": [
+        "vfapi-002",
+        "vfapi-004",
+        "vfapi-005",
+        "vfapi-008",
+        "vfapi-009"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [
+        {
+          "cwe": "CWE-89",
+          "file": "main.py",
+          "ranges": [
+            [
+              188,
+              188
+            ]
+          ],
+          "title": "Unsanitized SQL Query Construction",
+          "case": "vfapi-001"
+        }
+      ],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-89",
+          "file": "main.py",
+          "ranges": [
+            [
+              182,
+              182
+            ]
+          ],
+          "title": "SQL Injection in /select Route"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "main.py",
+          "ranges": [
+            [
+              188,
+              188
+            ]
+          ],
+          "title": "Unsanitized SQL Query Construction"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "main.py",
+          "ranges": [
+            [
+              235,
+              235
+            ]
+          ],
+          "title": "Unsanitized DELETE Query Construction"
+        }
+      ],
+      "seconds": 28.0
+    }
+  }
+}

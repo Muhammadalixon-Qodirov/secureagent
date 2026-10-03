@@ -32,7 +32,7 @@ what changes in v2: [`docs/experiments.md#t07`](docs/experiments.md),
 Protocol, matching rule and data: [`docs/evaluation_protocol.md`](docs/evaluation_protocol.md).
 Small n — read the confidence intervals.
 
-## Results on independent data (RealVuln, 15 public Flask apps, 130 labelled entries)
+## Results on independent data (RealVuln, 15 public Flask apps, 130 labelled entries; independent for v1/v2)
 
 | System | TP | FP | Precision (95% CI) | Recall (95% CI) | F1 | Time / app |
 |---|---|---|---|---|---|---|
@@ -46,9 +46,39 @@ data, under a protocol frozen beforehand ([`docs/realvuln_protocol.md`](docs/rea
 It matches the single-shot model's recall with ~3.5× fewer false positives and
 no matched traps. IDOR (11/53) and path traversal (2/9) remain weak.
 
+## v3: authorization analysis, tested on a second independent set (RealVuln FastAPI, 21 apps, 244 entries)
+
+v3 adds a deterministic authorization analysis (`secagent/authz.py`: ownership
+map, per-route auth facts, consistency between sibling handlers) that seeds
+IDOR / missing-authentication candidates into the v2 sweep. It was developed
+on the two sets above — so its Flask number (33 TP / 7 FP, F1 0.51 vs. 0.46)
+is a development number — and tested once on FastAPI apps frozen before v3
+existed ([`docs/fastapi_protocol.md`](docs/fastapi_protocol.md); v3 code hash
+recorded and pushed before the run).
+
+| System | TP | FP | Precision (95% CI) | Recall (95% CI) | F1 | Time / app |
+|---|---|---|---|---|---|---|
+| Semgrep only | 0 | 22 | 0.00 (0.00–0.15) | 0.00 (0.00–0.02) | 0.00 | 10 s |
+| Single-shot LLM | 22 | 100 | 0.18 (0.12–0.26) | 0.12 (0.08–0.18) | 0.14 | 70 s |
+| Agent v2 | 43 | 191 | 0.18 (0.14–0.24) | 0.24 (0.18–0.30) | 0.21 | 244 s |
+| Authorization analysis only (no model) | 46 | 223 | 0.17 (0.13–0.22) | 0.25 (0.20–0.32) | 0.20 | 1 s |
+| **Agent v3** | **61** | 273 | 0.18 (0.14–0.23) | **0.34 (0.27–0.41)** | **0.24** | 249 s |
+| Agent v3 without verifier | 84 | 464 | 0.15 (0.13–0.19) | 0.46 (0.39–0.53) | 0.23 | 89 s |
+
+Honest reading: v3 finds 42% more than v2 (IDOR 42 vs. 23 of 125), as
+predicted before the run — but **precision did not transfer** from the Flask
+set (0.75–0.83 there, 0.18 here, for v2 and v3 alike). SQLi and path traversal
+stay precise (v3: 8 TP / 2 FP and 11 TP / 1 FP); the false positives are IDOR
+claims on handlers that delegate authorization to helper functions the
+verifier is not shown. Analysis and the next step:
+[`docs/experiments.md#t09`](docs/experiments.md). Two more experiments are in
+T08: a learned false-positive filter (negative result, not adopted) and a
+prompt-injection suite (`scripts/injection_suite.py`,
+[`eval/injection/`](eval/injection/)).
+
 ## Quick start
 
-Tested from a fresh clone on Windows 11 (Python 3.10, Ollama 0.35, RTX 3050 8 GB): 93 tests pass.
+Tested from a fresh clone on Windows 11 (Python 3.10, Ollama 0.35, RTX 3050 8 GB); 97 tests pass (no model needed).
 
 ```bash
 python -m venv .venv && .venv/Scripts/pip install -r requirements.txt   # use .venv/bin/ on Linux/macOS
@@ -61,6 +91,7 @@ ollama pull qwen3:8b
 
 # review a codebase you are authorized to review
 .venv/Scripts/python -m secagent review --target targets/demo_app            # v2 (default)
+.venv/Scripts/python -m secagent review --target targets/demo_app --mode v3  # + authorization analysis
 .venv/Scripts/python -m secagent review --target targets/demo_app --mode v1
 #   -> runs/<timestamp>/report.md, final.json, trace.jsonl
 
@@ -99,6 +130,16 @@ finding = candidate + evidence {file, line, excerpt taken from the read, event i
    ▼
 report.md / final.json / trace.jsonl
 ```
+
+**v3 (`--mode v3`): v2 + deterministic authorization seeds** — before the
+sweep, `authz.py` builds an ownership map (models with an owner column or a FK
+to a user table) and per-route facts (id parameters, auth level from
+decorators / `Depends` / `before_request` / in-body checks, owner comparison
+with the current user). Handlers that load an owned object by a request id
+without an owner comparison, take the owner id from the request, or do
+something sensitive without authentication while sibling routes authenticate,
+become candidates. Each goes through the same verifier, with the route facts
+and guarded sibling handlers as context. No model is needed for this step.
 
 **v1 (`--mode v1`): tool-using agent loop** — one pass per family, the model
 chooses `search_code` / `read_file` / `scan_static` / `retrieve_knowledge`

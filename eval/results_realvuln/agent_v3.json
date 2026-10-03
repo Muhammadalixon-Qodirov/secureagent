@@ -1,0 +1,878 @@
+{
+  "system": "agent_v3",
+  "metrics": {
+    "sql_injection": {
+      "tp": 17,
+      "fn": 11,
+      "fp_lookalike": 1,
+      "fp_unmatched": 2,
+      "precision": 0.85,
+      "precision_ci95": [
+        0.64,
+        0.948
+      ],
+      "recall": 0.607,
+      "recall_ci95": [
+        0.424,
+        0.764
+      ],
+      "f1": 0.708,
+      "lookalike_fp_rate": 0.029,
+      "safe_cases": 35
+    },
+    "path_traversal": {
+      "tp": 3,
+      "fn": 6,
+      "fp_lookalike": 0,
+      "fp_unmatched": 1,
+      "precision": 0.75,
+      "precision_ci95": [
+        0.301,
+        0.954
+      ],
+      "recall": 0.333,
+      "recall_ci95": [
+        0.121,
+        0.646
+      ],
+      "f1": 0.462,
+      "lookalike_fp_rate": 0.0,
+      "safe_cases": 3
+    },
+    "authorization_idor": {
+      "tp": 13,
+      "fn": 40,
+      "fp_lookalike": 0,
+      "fp_unmatched": 3,
+      "precision": 0.812,
+      "precision_ci95": [
+        0.57,
+        0.934
+      ],
+      "recall": 0.245,
+      "recall_ci95": [
+        0.149,
+        0.376
+      ],
+      "f1": 0.377,
+      "lookalike_fp_rate": 0.0,
+      "safe_cases": 2
+    },
+    "micro": {
+      "tp": 33,
+      "fn": 57,
+      "fp_lookalike": 1,
+      "fp_unmatched": 6,
+      "precision": 0.825,
+      "precision_ci95": [
+        0.68,
+        0.913
+      ],
+      "recall": 0.367,
+      "recall_ci95": [
+        0.274,
+        0.47
+      ],
+      "f1": 0.508,
+      "lookalike_fp_rate": 0.025,
+      "safe_cases": 40
+    }
+  },
+  "per_app": {
+    "damn-vulnerable-flask-app": {
+      "tp": [
+        "damn-vulnerable-flask-app-012",
+        "damn-vulnerable-flask-app-013",
+        "damn-vulnerable-flask-app-014"
+      ],
+      "fn": [
+        "damn-vulnerable-flask-app-015"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-639",
+          "file": "app.py",
+          "ranges": [
+            [
+              111,
+              111
+            ]
+          ],
+          "title": "Missing authentication on evaluate"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app.py",
+          "ranges": [
+            [
+              152,
+              152
+            ]
+          ],
+          "title": "Missing authentication on xml"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app.py",
+          "ranges": [
+            [
+              185,
+              185
+            ]
+          ],
+          "title": "Missing authentication on sayhi"
+        }
+      ],
+      "seconds": 131.4
+    },
+    "dvblab": {
+      "tp": [
+        "dvblab-010",
+        "dvblab-011",
+        "dvblab-002",
+        "dvblab-001",
+        "dvblab-004",
+        "dvblab-003"
+      ],
+      "fn": [
+        "dvblab-021"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-639",
+          "file": "backend/routes/auth_routes.py",
+          "ranges": [
+            [
+              137,
+              137
+            ]
+          ],
+          "title": "Broken object-level authorization in update_password"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "backend/routes/transaction_routes.py",
+          "ranges": [
+            [
+              44,
+              44
+            ]
+          ],
+          "title": "Broken object-level authorization in get_transactions"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "backend/routes/auth_routes.py",
+          "ranges": [
+            [
+              22,
+              22
+            ]
+          ],
+          "title": "SQL Injection in Register Route"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "backend/routes/auth_routes.py",
+          "ranges": [
+            [
+              36,
+              36
+            ]
+          ],
+          "title": "SQL Injection in Login Route"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "backend/routes/transaction_routes.py",
+          "ranges": [
+            [
+              49,
+              49
+            ]
+          ],
+          "title": "SQL Injection in Transaction Query"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "backend/routes/transaction_routes.py",
+          "ranges": [
+            [
+              93,
+              93
+            ]
+          ],
+          "title": "SQL Injection in Search Query"
+        }
+      ],
+      "seconds": 247.1
+    },
+    "dvga": {
+      "tp": [],
+      "fn": [
+        "dvga-001",
+        "dvga-010",
+        "dvga-012",
+        "dvga-013",
+        "dvga-014",
+        "dvga-021",
+        "dvga-022",
+        "dvga-023",
+        "dvga-024",
+        "dvga-027",
+        "dvga-029",
+        "dvga-030",
+        "dvga-035",
+        "dvga-036"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [],
+      "seconds": 140.0
+    },
+    "extremely-vulnerable-flask-app": {
+      "tp": [
+        "extremely-vulnerable-flask-app-010",
+        "extremely-vulnerable-flask-app-009"
+      ],
+      "fn": [
+        "extremely-vulnerable-flask-app-001",
+        "extremely-vulnerable-flask-app-002",
+        "extremely-vulnerable-flask-app-011",
+        "extremely-vulnerable-flask-app-013"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-639",
+          "file": "routes/notes.py",
+          "ranges": [
+            [
+              39,
+              39
+            ]
+          ],
+          "title": "Broken object-level authorization in delete_note"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "routes/account.py",
+          "ranges": [
+            [
+              41,
+              41
+            ]
+          ],
+          "title": "Broken object-level authorization in get_personal_notes"
+        }
+      ],
+      "seconds": 27.5
+    },
+    "flask-xss": {
+      "tp": [],
+      "fn": [
+        "flask-xss-017",
+        "flask-xss-024",
+        "flask-xss-025",
+        "flask-xss-028"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [],
+      "seconds": 18.9
+    },
+    "insecure-web": {
+      "tp": [
+        "insecure-web-001"
+      ],
+      "fn": [
+        "insecure-web-006"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-89",
+          "file": "app/app.py",
+          "ranges": [
+            [
+              33,
+              33
+            ]
+          ],
+          "title": "SQL Injection in Login Route"
+        }
+      ],
+      "seconds": 6.2
+    },
+    "intentionally-vulnerable-python-app": {
+      "tp": [
+        "intentionally-vulnerable-python-app-004"
+      ],
+      "fn": [],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-89",
+          "file": "VulnerablePythonScript.py",
+          "ranges": [
+            [
+              46,
+              46
+            ]
+          ],
+          "title": "SQL Injection via String Concatenation"
+        }
+      ],
+      "seconds": 7.6
+    },
+    "owasp-web-playground": {
+      "tp": [
+        "owasp-web-playground-001",
+        "owasp-web-playground-002",
+        "owasp-web-playground-007",
+        "owasp-web-playground-003",
+        "owasp-web-playground-008"
+      ],
+      "fn": [
+        "owasp-web-playground-019",
+        "owasp-web-playground-024",
+        "owasp-web-playground-028"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-89",
+          "file": "python/app.py",
+          "ranges": [
+            [
+              165,
+              165
+            ]
+          ],
+          "title": "SQL Injection in Login Route"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "python/app.py",
+          "ranges": [
+            [
+              247,
+              247
+            ]
+          ],
+          "title": "SQL Injection in Comment Search"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "python/app.py",
+          "ranges": [
+            [
+              357,
+              357
+            ]
+          ],
+          "title": "IDOR Vulnerability in Profile Route"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "python/app.py",
+          "ranges": [
+            [
+              492,
+              492
+            ]
+          ],
+          "title": "SQL Injection via String Interpolation"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "python/app.py",
+          "ranges": [
+            [
+              617,
+              617
+            ]
+          ],
+          "title": "Broken Object-Level Authorization (IDOR) in /api/user/<int:user_id>"
+        }
+      ],
+      "seconds": 269.4
+    },
+    "realvuln-python-app": {
+      "tp": [
+        "realvuln-python-app-007",
+        "realvuln-python-app-001"
+      ],
+      "fn": [
+        "realvuln-python-app-008",
+        "realvuln-python-app-013"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-89",
+          "file": "target/project/controllers/Information.py",
+          "ranges": [
+            [
+              1,
+              1
+            ]
+          ],
+          "title": "No SQL Injection",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-22",
+          "file": "target/project/controllers/Information.py",
+          "ranges": [
+            [
+              1,
+              1
+            ]
+          ],
+          "title": "No Path Traversal",
+          "family": "path_traversal"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "target/project/controllers/Information.py",
+          "ranges": [
+            [
+              1,
+              1
+            ]
+          ],
+          "title": "No IDOR",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "target/project/controllers/Validator.py",
+          "ranges": [
+            [
+              30,
+              30
+            ]
+          ],
+          "title": "Unsafe File Path Construction",
+          "family": "sql_injection"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-89",
+          "file": "target/project/controllers/Information.py",
+          "ranges": [
+            [
+              1,
+              1
+            ]
+          ],
+          "title": "No SQL Injection"
+        },
+        {
+          "cwe": "CWE-22",
+          "file": "target/project/controllers/Information.py",
+          "ranges": [
+            [
+              1,
+              1
+            ]
+          ],
+          "title": "No Path Traversal"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "target/project/controllers/Information.py",
+          "ranges": [
+            [
+              1,
+              1
+            ]
+          ],
+          "title": "No IDOR"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "target/project/controllers/Validator.py",
+          "ranges": [
+            [
+              30,
+              30
+            ]
+          ],
+          "title": "Unsafe File Path Construction"
+        },
+        {
+          "cwe": "CWE-22",
+          "file": "target/project/controllers/Validator.py",
+          "ranges": [
+            [
+              30,
+              30
+            ]
+          ],
+          "title": "Unsafe File Path Construction"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "target/project/models/Dashboard.py",
+          "ranges": [
+            [
+              7,
+              7
+            ]
+          ],
+          "title": "SQL Injection via String Concatenation"
+        }
+      ],
+      "seconds": 39.1
+    },
+    "threatbyte": {
+      "tp": [
+        "threatbyte-012",
+        "threatbyte-018"
+      ],
+      "fn": [
+        "threatbyte-001",
+        "threatbyte-010",
+        "threatbyte-011",
+        "threatbyte-014"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-639",
+          "file": "server/routes.py",
+          "ranges": [
+            [
+              180,
+              180
+            ]
+          ],
+          "title": "Broken Object-Level Authorization in Update Profile"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "server/routes.py",
+          "ranges": [
+            [
+              298,
+              298
+            ]
+          ],
+          "title": "IDOR in /uploads/<filename>"
+        }
+      ],
+      "seconds": 64.4
+    },
+    "vampi": {
+      "tp": [
+        "vampi-001"
+      ],
+      "fn": [
+        "vampi-002",
+        "vampi-003",
+        "vampi-004",
+        "vampi-005",
+        "vampi-011",
+        "vampi-013"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-89",
+          "file": "models/user_model.py",
+          "ranges": [
+            [
+              72,
+              72
+            ]
+          ],
+          "title": "SQL Injection in get_user"
+        }
+      ],
+      "seconds": 12.7
+    },
+    "vulnerable-api": {
+      "tp": [
+        "vulnerable-api-005",
+        "vulnerable-api-001"
+      ],
+      "fn": [
+        "vulnerable-api-004",
+        "vulnerable-api-014"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-22",
+          "file": "lfi.py",
+          "ranges": [
+            [
+              15,
+              15
+            ]
+          ],
+          "title": "Unsafe File Path Construction"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "sqli.py",
+          "ranges": [
+            [
+              16,
+              16
+            ]
+          ],
+          "title": "SQL Injection via Username Parameter"
+        }
+      ],
+      "seconds": 14.9
+    },
+    "vulnerable-flask-app": {
+      "tp": [
+        "vulnerable-flask-app-010",
+        "vulnerable-flask-app-009",
+        "vulnerable-flask-app-002"
+      ],
+      "fn": [],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-639",
+          "file": "app/app.py",
+          "ranges": [
+            [
+              221,
+              221
+            ]
+          ],
+          "title": "Broken object-level authorization in get_customer"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/app.py",
+          "ranges": [
+            [
+              207,
+              207
+            ]
+          ],
+          "title": "IDOR - Unauthorized Customer Access"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "app/app.py",
+          "ranges": [
+            [
+              261,
+              261
+            ]
+          ],
+          "title": "SQL Injection via String Interpolation"
+        }
+      ],
+      "seconds": 24.7
+    },
+    "vulnerable-python-apps": {
+      "tp": [
+        "vulnerable-python-apps-001",
+        "vulnerable-python-apps-002"
+      ],
+      "fn": [
+        "vulnerable-python-apps-005",
+        "vulnerable-python-apps-006",
+        "vulnerable-python-apps-007",
+        "vulnerable-python-apps-008",
+        "vulnerable-python-apps-018"
+      ],
+      "fp_safe": [
+        "vulnerable-python-apps-fp-002"
+      ],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-639",
+          "file": "SQLI/main_safe.py",
+          "ranges": [
+            [
+              17,
+              17
+            ]
+          ],
+          "title": "Missing ownership check for post access",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "SQLI/main_safe.py",
+          "ranges": [
+            [
+              64,
+              64
+            ]
+          ],
+          "title": "Missing ownership check for edit/delete operations",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-22",
+          "file": "Directory_Traversal/Dir_Traversal.py",
+          "ranges": [
+            [
+              14,
+              14
+            ]
+          ],
+          "title": "Path Traversal via Unsanitized Path Input"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "SQLI/main.py",
+          "ranges": [
+            [
+              70,
+              70
+            ]
+          ],
+          "title": "SQL Injection via String Concatenation"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "SQLI/main_safe.py",
+          "ranges": [
+            [
+              17,
+              17
+            ]
+          ],
+          "title": "Safe parameterization of post_id"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "SQLI/main_safe.py",
+          "ranges": [
+            [
+              17,
+              17
+            ]
+          ],
+          "title": "Missing ownership check for post access"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "SQLI/main_safe.py",
+          "ranges": [
+            [
+              64,
+              64
+            ]
+          ],
+          "title": "Missing ownership check for edit/delete operations"
+        }
+      ],
+      "seconds": 57.0
+    },
+    "vulpy": {
+      "tp": [
+        "vulpy-001",
+        "vulpy-002",
+        "vulpy-003"
+      ],
+      "fn": [
+        "vulpy-006",
+        "vulpy-012",
+        "vulpy-013",
+        "vulpy-015",
+        "vulpy-019",
+        "vulpy-020",
+        "vulpy-026",
+        "vulpy-030",
+        "vulpy-031",
+        "vulpy-037"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-89",
+          "file": "bad/libuser.py",
+          "ranges": [
+            [
+              12,
+              12
+            ]
+          ],
+          "title": "SQL Injection in Login Query"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "bad/libuser.py",
+          "ranges": [
+            [
+              25,
+              25
+            ]
+          ],
+          "title": "SQL Injection in Create User Query"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "bad/libuser.py",
+          "ranges": [
+            [
+              53,
+              53
+            ]
+          ],
+          "title": "SQL Injection in Password Change Query"
+        }
+      ],
+      "seconds": 44.8
+    }
+  }
+}
