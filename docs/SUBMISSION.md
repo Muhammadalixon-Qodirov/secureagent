@@ -27,10 +27,10 @@ has actually read, with an audit trail of every tool call.
   untrusted data. A finding is accepted only with evidence the controller can
   check against what was read. A prior project of mine executed LLM-written
   code on the host — I designed this one so that cannot happen.
-- **Measure before claiming.** I froze each evaluation before running it — first two
-  (a 48-case synthetic holdout and 15 public Flask apps from the RealVuln
-  benchmark, 130 labelled entries), compared against Semgrep and a
-  single-prompt LLM baseline, and logged every deviation.
+- **Measure before claiming.** I froze each evaluation before running it
+  (a 48-case synthetic holdout; 15 public Flask apps from the RealVuln
+  benchmark, 130 labelled entries; later 21 FastAPI apps), compared against
+  Semgrep and a single-prompt LLM baseline, and logged every deviation.
 - **Knowledge used where it helps.** I built a 49-source knowledge base
   (CWE, OWASP, framework docs) with provenance. Recent studies show raw CWE
   retrieval does not improve Python detection, so I measured it: the model
