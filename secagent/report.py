@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import re
 
+from .prompt import reveal_hidden
 from .schemas import FinalDecision, Finding
 
 SEVERITY_ORDER = ["critical", "high", "medium", "low", "informational", "undetermined"]
@@ -18,7 +19,7 @@ SEVERITY_ORDER = ["critical", "high", "medium", "low", "informational", "undeter
 def safe_text(s: str | None) -> str:
     if not s:
         return ""
-    s = s.replace("\r", " ")
+    s = reveal_hidden(s).replace("\r", " ")
     s = re.sub(r"!\[", r"!\\[", s)                               # images
     s = re.sub(r"\]\(", r"\\](", s)                              # inline links
     s = re.sub(r"<(https?://[^>]+)>", r"\1", s)                  # autolinks
@@ -29,6 +30,7 @@ def safe_text(s: str | None) -> str:
 
 
 def code_block(code: str, lang: str = "python") -> str:
+    code = reveal_hidden(code)
     longest = max((len(m) for m in re.findall(r"`+", code)), default=0)
     fence = "`" * max(3, longest + 1)
     return f"{fence}{lang}\n{code}\n{fence}"

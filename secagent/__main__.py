@@ -31,8 +31,9 @@ def main(argv: list[str] | None = None) -> int:
     rv = sub.add_parser("review", help="review a codebase you are authorized to review")
     rv.add_argument("--target", type=Path, help="authorized root (overrides config authorized_roots)")
     rv.add_argument("--config", type=Path)
-    rv.add_argument("--mode", choices=["v2", "v1"], default="v2",
-                    help="v2: coverage sweep + verifier (default); v1: tool-using agent loop")
+    rv.add_argument("--mode", choices=["v3", "v2", "v1"], default="v2",
+                    help="v2: coverage sweep + verifier (default); v3: v2 + deterministic authorization "
+                         "analysis; v1: tool-using agent loop")
     rv.add_argument("--single-pass", action="store_true", help="v1 only: one open-ended pass instead of one per family")
     rv.add_argument("--no-verify", action="store_true", help="skip the independent verifier (ablation)")
     rv.add_argument("--run-dir", type=Path)
@@ -51,10 +52,10 @@ def main(argv: list[str] | None = None) -> int:
     run_dir = a.run_dir or ROOT / "runs" / datetime.now().strftime("%Y%m%d-%H%M%S")
     registry = ToolRegistry(config, Trace(run_dir))
     model = OllamaModel(config, seed=a.seed)
-    if a.mode == "v2":
-        sw = run_sweep(config, model, registry, verify=not a.no_verify, run_dir=run_dir)
+    if a.mode in ("v2", "v3"):
+        sw = run_sweep(config, model, registry, verify=not a.no_verify, run_dir=run_dir, authz=a.mode == "v3")
         final, notes = sw.final, sw.notes
-        summary = {"mode": "v2", "status": final.status, "findings": len(final.findings), "stats": sw.stats.__dict__,
+        summary = {"mode": a.mode, "status": final.status, "findings": len(final.findings), "stats": sw.stats.__dict__,
                    "tool_reliability": registry.trace.reliability()}
     else:
         res = run_review(config, model, registry, run_dir, single_pass=a.single_pass, verify=not a.no_verify)
@@ -67,7 +68,7 @@ def main(argv: list[str] | None = None) -> int:
                    "tool_reliability": registry.trace.reliability()}
     (run_dir / "result.json").write_text(json.dumps(summary, indent=2, ensure_ascii=False), encoding="utf-8")
     meta = {"model": config.model, "context": config.max_context_tokens,
-            "mode": "v2 coverage sweep" if a.mode == "v2" else ("v1 single pass" if a.single_pass else "v1 per family"),
+            "mode": {"v2": "v2 coverage sweep", "v3": "v3 coverage sweep + authorization analysis"}.get(a.mode) or ("v1 single pass" if a.single_pass else "v1 per family"),
             "verifier": "off" if a.no_verify else "on", "families": ", ".join(config.enabled_families)}
     (run_dir / "report.md").write_text(render(final, Path(config.authorized_roots[0]).name, meta, notes),
                                        encoding="utf-8")

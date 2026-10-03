@@ -31,6 +31,7 @@ from typing import Literal
 import yaml
 from pydantic import BaseModel, ConfigDict, Field, ValidationError
 
+from .authz import idor_candidates, render_facts
 from .config import Config
 from .model import ModelError
 from .prompt import Renderer
@@ -110,6 +111,7 @@ class SweepStats:
     verifier_withdrawn: int = 0
     verifier_failed: int = 0
     duplicates: int = 0
+    authz_seeds: int = 0
     seconds: float = 0.0
 
 
@@ -130,8 +132,41 @@ def _python_files(root: Path) -> list[Path]:
     return out
 
 
+def _authz_seeds(root: Path, registry: ToolRegistry, stats: SweepStats, notes: list[str]):
+    """v3: deterministic IDOR / missing-auth candidates from the ownership map and route facts
+    (secagent/authz.py). Each handler is read through the registry so the finding has a real
+    read event; the reason and the guarded siblings become verifier context."""
+    seeds, context, handlers = [], {}, []
+    cands, owned, _ = idor_candidates(root, _python_files(root))
+    if owned:
+        notes.append("ownership map: " + ", ".join(f"{k} ({v.via})" for k, v in sorted(owned.items()))[:600])
+    seen = set()
+    for ic in cands:
+        r = ic.route
+        if (r.file, r.line_start) in seen:          # one candidate per handler (first = highest priority)
+            continue
+        seen.add((r.file, r.line_start))
+        ev = registry.execute("read_file", {"path": r.file, "start_line": r.line_start, "end_line": r.line_end})
+        if ev.status != "ok":
+            notes.append(f"authz seed {r.file}:{r.line_start} not read: {ev.error}")
+            continue
+        c = Candidate(family="authorization_idor", reason=ic.reason, line=r.line_start,
+                      title=("Missing authentication on " if ic.model.name == "(endpoint)" else
+                             "Broken object-level authorization in ") + r.function)
+        ctx = f"route facts (from AST, trusted): {render_facts(r)}"
+        if ic.guarded_siblings:
+            ctx += "\nsibling routes on the same model that DO check ownership/auth:\n" + "\n".join(
+                f"  - {s.file}:{s.line_start} {s.function}: {render_facts(s)}" for s in ic.guarded_siblings)
+        context[id(c)] = ctx
+        seeds.append((c, ev.event_id, ev.data))
+        handlers.append((r.file, r.line_start, r.line_end))
+    stats.authz_seeds = len(seeds)
+    return seeds, context, handlers
+
+
 def run_sweep(config: Config, model, registry: ToolRegistry, verify: bool = True,
-              run_dir: Path | None = None) -> SweepResult:
+              run_dir: Path | None = None, authz: bool = False, sweep: bool = True) -> SweepResult:
+    """authz=True is v3 (deterministic IDOR seeds); sweep=False skips the model sweep (ablation)."""
     t0 = time.monotonic()
     stats, notes = SweepStats(), []
     renderer = Renderer()
@@ -140,9 +175,13 @@ def run_sweep(config: Config, model, registry: ToolRegistry, verify: bool = True
     system = SWEEP_SYSTEM.format(families=", ".join(families), questions=_questions(families))
     candidates: list[tuple[Candidate, str, dict]] = []      # (candidate, event_id, window data)
     replies_log = []
+    context: dict[int, str] = {}
+    handlers: list[tuple[str, int, int]] = []
+    if authz and "authorization_idor" in families:
+        candidates, context, handlers = _authz_seeds(root, registry, stats, notes)
 
     windows = []
-    for py in _python_files(root):
+    for py in (_python_files(root) if sweep else []):
         rel = py.relative_to(root).as_posix()
         src = py.read_text(encoding="utf-8", errors="replace")
         routes = route_inventory(src, rel)
@@ -182,10 +221,12 @@ def run_sweep(config: Config, model, registry: ToolRegistry, verify: bool = True
             stats.candidates += 1
             candidates.append((c, ev.event_id, ev.data))
 
-    # dedupe: same family, file, line within 3
+    # dedupe: same family, file, line within 3; an IDOR candidate inside a seeded handler is a duplicate
     unique: list[tuple[Candidate, str, dict]] = []
     for c, eid, d in candidates:
-        if any(u[0].family == c.family and u[2]["path"] == d["path"] and abs(u[0].line - c.line) <= 3 for u in unique):
+        if any(u[0].family == c.family and u[2]["path"] == d["path"] and abs(u[0].line - c.line) <= 3 for u in unique) \
+                or (id(c) not in context and c.family == "authorization_idor"
+                    and any(f == d["path"] and a <= c.line <= b for f, a, b in handlers)):
             stats.duplicates += 1
             continue
         unique.append((c, eid, d))
@@ -194,9 +235,11 @@ def run_sweep(config: Config, model, registry: ToolRegistry, verify: bool = True
     findings, hyps = [], []
     for i, (c, eid, d) in enumerate(unique, 1):
         fid, hid = f"F{i:03d}", f"H{i:03d}"
-        confidence, rationale = "medium", f"sweep candidate: {c.reason[:300]}"
+        seeded = id(c) in context
+        confidence = "medium"
+        rationale = f"{'authz analysis' if seeded else 'sweep'} candidate: {c.reason[:300]}"
         if verify:
-            v, win_event = _verify(c, d["path"], registry, model, renderer)
+            v, win_event = _verify(c, d["path"], registry, model, renderer, context.get(id(c), ""))
             if v is None:
                 stats.verifier_failed += 1
                 confidence, rationale = "low", rationale + " | verifier failed"
@@ -247,12 +290,14 @@ def run_sweep(config: Config, model, registry: ToolRegistry, verify: bool = True
     return SweepResult(final=final, stats=stats, notes=notes)
 
 
-def _verify(c: Candidate, path: str, registry: ToolRegistry, model, renderer: Renderer):
+def _verify(c: Candidate, path: str, registry: ToolRegistry, model, renderer: Renderer, context: str = ""):
     win = registry.execute("read_file", {"path": path, "start_line": max(1, c.line - VERIFY_PADDING),
                                          "end_line": c.line + VERIFY_PADDING})
     if win.status != "ok":
         return None, win.event_id
     claim = f"CLAIM: {c.title} ({FAMILY_CWE[c.family]}) at {path}:{c.line}\nreason given: {c.reason}"
+    if context:
+        claim += "\n" + context
     msgs = [{"role": "system", "content": VERIFY_SYSTEM},
             {"role": "user", "content": claim + "\n\n" + renderer.observation(win)}]
     try:

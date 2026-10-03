@@ -44,12 +44,25 @@ def tool_signatures(arg_models: dict[str, type[BaseModel]]) -> str:
     return "\n".join(lines)
 
 
+TAG_RUN = re.compile("[\U000E0000-\U000E007F]+")
+INVISIBLE = re.compile("[​-‏‪-‮⁠-⁤⁦-⁩﻿]")
+
+
+def reveal_hidden(text: str) -> str:
+    """Make invisible Unicode visible: tag characters (which can smuggle ASCII text past a
+    human reader), bidi controls (Trojan Source, CVE-2021-42574) and zero-width characters."""
+    text = TAG_RUN.sub(lambda m: "[hidden unicode tag text: "
+                       + "".join(chr(ord(c) - 0xE0000) for c in m.group() if 0x20 <= ord(c) - 0xE0000 < 0x7F)
+                       + "]", text)
+    return INVISIBLE.sub(lambda m: f"[U+{ord(m.group()):04X}]", text)
+
+
 class Renderer:
     def __init__(self) -> None:
         self.nonce = secrets.token_hex(6)
 
     def _wrap(self, kind: str, body: str) -> str:
-        body = body.replace(self.nonce, "[nonce removed]")
+        body = reveal_hidden(body).replace(self.nonce, "[nonce removed]")
         return (f"<<<{kind} nonce={self.nonce}>>>\n{body}\n<<<END {kind} nonce={self.nonce}>>>")
 
     def run_context(self, config: Config, task: str, signatures: str) -> str:
