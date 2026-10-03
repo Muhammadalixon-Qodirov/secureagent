@@ -45,7 +45,26 @@ cross-validation for anything learned) and the dev target — never this set.
 
 ## Frozen code
 
-(to be filled in when v3 is frozen)
+Recorded 2026-10-03, after v3 development on the dev sets
+(`docs/experiments.md#t08`) and **before any system was run on this set**.
+
+- v3 = commit `a910323`; `secagent/*.py` code hash **`a4a4667ed531acd6`**
+  (`secagent.evaluate._code_hash()`, LF line endings as checked out).
+- Primary system: **`agent_v3`** (v2 sweep + deterministic authorization
+  seeds + verifier v2). Chosen on dev data: RealVuln Flask F1 0.51 vs. 0.46
+  for v2 (dev numbers — the v3 rules were written after reading that set).
+- Ablations, declared now: `agent_v3_no_verify` (verifier off) and
+  `authz_only` (deterministic seeds only, no model).
+- Not run here: the learned FP filter (negative LOAO result on dev data, not
+  adopted).
+- Expectations stated before the run: v3 ≥ v2 on IDOR recall; FastAPI's
+  `Depends(...)` auth is recognised by `authz.py`, but its behaviour on
+  LLM-written apps is unknown. If v3 is worse than v2 on this set, that is
+  the result.
+
+Run order: `semgrep`, `single_shot`, `agent_v2`, `agent_v3`,
+`agent_v3_no_verify`, `authz_only` — each once, results reported whatever
+they are.
 
 ## Deviations
 

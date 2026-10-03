@@ -316,3 +316,78 @@ What this independent run says:
 5. Caveat on comparability: v2 was designed after seeing holdout failures,
    so its holdout numbers (if run) would be post-hoc; RealVuln is the fair
    comparison and was used only once per system.
+
+## T08 — v3: deterministic authorization analysis (2026-10-03)
+
+Goal: IDOR was the weakest family (v2: 11/53 on RealVuln Flask). Research
+round 2 (`docs/research_2.md`) pointed at program analysis rather than more
+prompting: an ownership map (MOCGuard-style) plus a consistency check between
+handlers (RoleCast / MACE). Important: **from here on, the RealVuln Flask set
+is a development set** — the rules below were written after reading its
+missed IDOR entries. v3 numbers on it are not independent; the independent
+test is the RealVuln FastAPI set (`docs/fastapi_protocol.md`), frozen before
+any v3 code existed and not opened during development.
+
+### What `secagent/authz.py` does (no model)
+
+1. **Ownership map**: SQLAlchemy / SQLModel / `CREATE TABLE` / raw-query models
+   with an owner column or a FK to a user table (transitively: Comment → Post →
+   User); records about a person (user tables, ≥2 PII columns) are owned too.
+2. **Route facts** per handler (Flask and FastAPI): path id parameters, the
+   auth level (decorator / `Depends` / `before_request` / in-body check,
+   classified owner / role / login / none), owned models touched (one level of
+   same-project helpers), and whether the owner is compared with the current
+   user. An owner id read from the request (`data.get("user_id")`) is not a
+   constraint — it is the attack input.
+3. **Candidates**: (a) owned model loaded/changed by a request id with no owner
+   comparison, writes first; (b) *consistency*: a handler with no
+   authentication in an app where other handlers authenticate, when it does
+   something sensitive (dangerous sink such as `eval`/`subprocess`/XML parse —
+   then one authenticated sibling is enough; otherwise writes or owned-model
+   access by id, and at least half of the routes authenticated).
+
+Categorisation of the 49 missed RealVuln Flask IDOR-family entries that drove
+(b) and the request-owner rule: CWE-306 missing authentication 19, CWE-639 16
+(owner from request, GraphQL resolvers, nested `/accounts/<id>/...`),
+CWE-862 6, CWE-200 3, CWE-915 mass assignment 3, CWE-284 3, other.
+
+Deterministic candidates alone (`scripts/authz_dev_check.py`, IDOR family):
+
+| Dev set | Before rules (a) only | Final rules |
+|---|---|---|
+| Synthetic holdout (9 IDOR cases) | 7 TP / 0 FP | 8 TP / 0 FP |
+| RealVuln Flask (53 IDOR entries) | 3 TP / 0 FP | 9 TP / 1 FP |
+
+One intermediate rule (any unauthenticated route touching an owned model)
+produced 2 holdout false positives on a public book catalogue and was
+narrowed to "accessed by an id parameter". Not covered by design: GraphQL
+resolvers, connexion/OpenAPI routing (`vampi`: 0 routes found), mass
+assignment, session-forgery bugs.
+
+### Integration (v3 = v2 + seeds)
+
+`run_sweep(authz=True)`: each deterministic candidate's handler is read
+through the registry (so the finding has a real read event), and the
+candidate goes to the same verifier as model candidates, with the route
+facts and up to two sibling handlers on the same model that *do* check
+ownership as trusted context. Model IDOR candidates inside a seeded handler
+are dropped as duplicates. `sweep=False` gives the `authz_only` ablation.
+
+### Learned false-positive filter (negative result)
+
+`secagent/fpfilter.py`: 15 deterministic features of a candidate (family,
+seed/sweep, in a route, SQL formatting vs. placeholders on the line, path
+sinks and safe helpers nearby, object lookup, owner/request references
+nearby), logistic regression with L2 = 1, 400 epochs, threshold 0.5 — design
+fixed before the first fit, no search. Evaluated leave-one-app-out on
+RealVuln Flask candidates from `agent_v2_no_verify` (50 labelled: 34 TP, 16 FP):
+
+| On v2 candidates | TP | FP | P | R | F1 |
+|---|---|---|---|---|---|
+| no filter | 34 | 16 | 0.68 | 0.38 | 0.49 |
+| learned filter (LOAO) | 29 | 14 | 0.67 | 0.32 | 0.44 |
+| LLM verifier v2 | 30 | 10 | 0.75 | 0.33 | 0.46 |
+
+With 16 negatives the filter learns little (largest weights: in a route
++0.97, SQL string formatting on the line +0.94) and removes more true than
+false positives. Not adopted; the LLM verifier stays the default filter.
