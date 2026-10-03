@@ -103,6 +103,9 @@ DATASETS = {
     # test set for v3, frozen before v3 was written (docs/fastapi_protocol.md)
     "realvuln_fastapi": (lambda: load_realvuln(ROOT / "eval" / "realvuln_fastapi"),
                          ROOT / "eval" / "realvuln_fastapi" / "targets", ROOT / "runs" / "eval_fastapi"),
+    # test set for v4, frozen before v4 was written (docs/django_protocol.md)
+    "realvuln_django": (lambda: load_realvuln(ROOT / "eval" / "realvuln_django"),
+                        ROOT / "eval" / "realvuln_django" / "targets", ROOT / "runs" / "eval_django"),
 }
 
 
