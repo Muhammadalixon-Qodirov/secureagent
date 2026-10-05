@@ -1,0 +1,242 @@
+{
+  "system": "agent_v3",
+  "metrics": {
+    "sql_injection": {
+      "tp": 3,
+      "fn": 7,
+      "fp_lookalike": 0,
+      "fp_unmatched": 0,
+      "precision": 1.0,
+      "precision_ci95": [
+        0.438,
+        1.0
+      ],
+      "recall": 0.3,
+      "recall_ci95": [
+        0.108,
+        0.603
+      ],
+      "f1": 0.462,
+      "lookalike_fp_rate": 0.0,
+      "safe_cases": 15
+    },
+    "path_traversal": {
+      "tp": 0,
+      "fn": 13,
+      "fp_lookalike": 1,
+      "fp_unmatched": 0,
+      "precision": 0.0,
+      "precision_ci95": [
+        0.0,
+        0.793
+      ],
+      "recall": 0.0,
+      "recall_ci95": [
+        0.0,
+        0.228
+      ],
+      "f1": 0.0,
+      "lookalike_fp_rate": 0.5,
+      "safe_cases": 2
+    },
+    "authorization_idor": {
+      "tp": 0,
+      "fn": 4,
+      "fp_lookalike": 0,
+      "fp_unmatched": 1,
+      "precision": 0.0,
+      "precision_ci95": [
+        0.0,
+        0.793
+      ],
+      "recall": 0.0,
+      "recall_ci95": [
+        0.0,
+        0.49
+      ],
+      "f1": 0.0,
+      "lookalike_fp_rate": null,
+      "safe_cases": 0
+    },
+    "micro": {
+      "tp": 3,
+      "fn": 24,
+      "fp_lookalike": 1,
+      "fp_unmatched": 1,
+      "precision": 0.6,
+      "precision_ci95": [
+        0.231,
+        0.882
+      ],
+      "recall": 0.111,
+      "recall_ci95": [
+        0.039,
+        0.281
+      ],
+      "f1": 0.188,
+      "lookalike_fp_rate": 0.059,
+      "safe_cases": 17
+    }
+  },
+  "per_app": {
+    "dsvpwa": {
+      "tp": [
+        "dsvpwa-001"
+      ],
+      "fn": [
+        "dsvpwa-002",
+        "dsvpwa-008",
+        "dsvpwa-011",
+        "dsvpwa-028"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-89",
+          "file": "dsvpwa/attacks.py",
+          "ranges": [
+            [
+              39,
+              39
+            ]
+          ],
+          "title": "SQL Injection via Direct String Concatenation"
+        }
+      ],
+      "seconds": 17.1
+    },
+    "dsvw": {
+      "tp": [
+        "dsvw-001"
+      ],
+      "fn": [
+        "dsvw-004",
+        "dsvw-010",
+        "dsvw-015",
+        "dsvw-027"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-639",
+          "file": "dsvw.py",
+          "ranges": [
+            [
+              30,
+              30
+            ]
+          ],
+          "title": "Broken Object-Level Authorization in User Search",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-89",
+          "file": "dsvw.py",
+          "ranges": [
+            [
+              30,
+              30
+            ]
+          ],
+          "title": "SQL Injection in User ID Query"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "dsvw.py",
+          "ranges": [
+            [
+              30,
+              30
+            ]
+          ],
+          "title": "Broken Object-Level Authorization in User Search"
+        }
+      ],
+      "seconds": 25.7
+    },
+    "dvpwa": {
+      "tp": [],
+      "fn": [
+        "dvpwa-001",
+        "dvpwa-012",
+        "dvpwa-013"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [],
+      "seconds": 12.1
+    },
+    "vulnerable-tornado-app": {
+      "tp": [
+        "vulnerable-tornado-app-001"
+      ],
+      "fn": [
+        "vulnerable-tornado-app-003",
+        "vulnerable-tornado-app-004"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-89",
+          "file": "server.py",
+          "ranges": [
+            [
+              106,
+              106
+            ]
+          ],
+          "title": "SQL Injection in Login Handler"
+        }
+      ],
+      "seconds": 9.6
+    },
+    "vulnpy": {
+      "tp": [],
+      "fn": [
+        "vulnpy-007",
+        "vulnpy-008",
+        "vulnpy-009",
+        "vulnpy-010",
+        "vulnpy-011",
+        "vulnpy-012",
+        "vulnpy-013",
+        "vulnpy-014",
+        "vulnpy-015",
+        "vulnpy-016",
+        "vulnpy-017"
+      ],
+      "fp_safe": [
+        "vulnpy-fp-007"
+      ],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-22",
+          "file": "src/vulnpy/common/templating.py",
+          "ranges": [
+            [
+              26,
+              26
+            ]
+          ],
+          "title": "Unsafe Template Path Construction"
+        }
+      ],
+      "seconds": 31.9
+    }
+  }
+}

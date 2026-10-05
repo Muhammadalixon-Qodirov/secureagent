@@ -1,0 +1,1668 @@
+{
+  "system": "single_shot",
+  "metrics": {
+    "sql_injection": {
+      "tp": 5,
+      "fn": 5,
+      "fp_lookalike": 0,
+      "fp_unmatched": 53,
+      "precision": 0.086,
+      "precision_ci95": [
+        0.037,
+        0.186
+      ],
+      "recall": 0.5,
+      "recall_ci95": [
+        0.237,
+        0.763
+      ],
+      "f1": 0.147,
+      "lookalike_fp_rate": 0.0,
+      "safe_cases": 15
+    },
+    "path_traversal": {
+      "tp": 5,
+      "fn": 8,
+      "fp_lookalike": 0,
+      "fp_unmatched": 0,
+      "precision": 1.0,
+      "precision_ci95": [
+        0.566,
+        1.0
+      ],
+      "recall": 0.385,
+      "recall_ci95": [
+        0.177,
+        0.645
+      ],
+      "f1": 0.556,
+      "lookalike_fp_rate": 0.0,
+      "safe_cases": 2
+    },
+    "authorization_idor": {
+      "tp": 0,
+      "fn": 4,
+      "fp_lookalike": 0,
+      "fp_unmatched": 6,
+      "precision": 0.0,
+      "precision_ci95": [
+        0.0,
+        0.39
+      ],
+      "recall": 0.0,
+      "recall_ci95": [
+        0.0,
+        0.49
+      ],
+      "f1": 0.0,
+      "lookalike_fp_rate": null,
+      "safe_cases": 0
+    },
+    "micro": {
+      "tp": 10,
+      "fn": 17,
+      "fp_lookalike": 0,
+      "fp_unmatched": 59,
+      "precision": 0.145,
+      "precision_ci95": [
+        0.081,
+        0.247
+      ],
+      "recall": 0.37,
+      "recall_ci95": [
+        0.215,
+        0.558
+      ],
+      "f1": 0.208,
+      "lookalike_fp_rate": 0.0,
+      "safe_cases": 17
+    }
+  },
+  "per_app": {
+    "dsvpwa": {
+      "tp": [
+        "dsvpwa-001",
+        "dsvpwa-008",
+        "dsvpwa-028"
+      ],
+      "fn": [
+        "dsvpwa-002",
+        "dsvpwa-011"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-639",
+          "file": "dsvpwa/attacks.py",
+          "ranges": [
+            [
+              290,
+              290
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "dsvpwa/handlers.py",
+          "ranges": [
+            [
+              184,
+              184
+            ]
+          ],
+          "title": "SQL Injection via Shell Command Execution",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "dsvpwa/handlers.py",
+          "ranges": [
+            [
+              77,
+              77
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [
+        {
+          "cwe": "CWE-22",
+          "file": "dsvpwa/handlers.py",
+          "ranges": [
+            [
+              118,
+              118
+            ]
+          ],
+          "title": "Path Traversal via File Access",
+          "case": "dsvpwa-028"
+        }
+      ],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-89",
+          "file": "dsvpwa/attacks.py",
+          "ranges": [
+            [
+              39,
+              39
+            ]
+          ],
+          "title": "SQL Injection via String Concatenation"
+        },
+        {
+          "cwe": "CWE-22",
+          "file": "dsvpwa/attacks.py",
+          "ranges": [
+            [
+              209,
+              209
+            ]
+          ],
+          "title": "Path Traversal via os.path.abspath"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "dsvpwa/attacks.py",
+          "ranges": [
+            [
+              290,
+              290
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "dsvpwa/handlers.py",
+          "ranges": [
+            [
+              184,
+              184
+            ]
+          ],
+          "title": "SQL Injection via Shell Command Execution"
+        },
+        {
+          "cwe": "CWE-22",
+          "file": "dsvpwa/handlers.py",
+          "ranges": [
+            [
+              116,
+              116
+            ]
+          ],
+          "title": "Path Traversal via File Access"
+        },
+        {
+          "cwe": "CWE-22",
+          "file": "dsvpwa/handlers.py",
+          "ranges": [
+            [
+              118,
+              118
+            ]
+          ],
+          "title": "Path Traversal via File Access"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "dsvpwa/handlers.py",
+          "ranges": [
+            [
+              77,
+              77
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        }
+      ],
+      "seconds": 19.6
+    },
+    "dsvw": {
+      "tp": [
+        "dsvw-001",
+        "dsvw-015",
+        "dsvw-004"
+      ],
+      "fn": [
+        "dsvw-010",
+        "dsvw-027"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-639",
+          "file": "dsvw.py",
+          "ranges": [
+            [
+              30,
+              30
+            ]
+          ],
+          "title": "Broken Object-Level Authorization (IDOR) in User ID Query",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "dsvw.py",
+          "ranges": [
+            [
+              43,
+              43
+            ]
+          ],
+          "title": "Broken Object-Level Authorization (IDOR) in User Name Query",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-89",
+          "file": "dsvw.py",
+          "ranges": [
+            [
+              30,
+              30
+            ]
+          ],
+          "title": "SQL Injection in User ID Query"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "dsvw.py",
+          "ranges": [
+            [
+              67,
+              67
+            ]
+          ],
+          "title": "SQL Injection in Login Endpoint"
+        },
+        {
+          "cwe": "CWE-22",
+          "file": "dsvw.py",
+          "ranges": [
+            [
+              37,
+              37
+            ]
+          ],
+          "title": "Path Traversal via 'path' Parameter"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "dsvw.py",
+          "ranges": [
+            [
+              30,
+              30
+            ]
+          ],
+          "title": "Broken Object-Level Authorization (IDOR) in User ID Query"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "dsvw.py",
+          "ranges": [
+            [
+              43,
+              43
+            ]
+          ],
+          "title": "Broken Object-Level Authorization (IDOR) in User Name Query"
+        }
+      ],
+      "seconds": 14.2
+    },
+    "dvpwa": {
+      "tp": [],
+      "fn": [
+        "dvpwa-001",
+        "dvpwa-012",
+        "dvpwa-013"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [],
+      "seconds": 8.5
+    },
+    "vulnerable-tornado-app": {
+      "tp": [
+        "vulnerable-tornado-app-001",
+        "vulnerable-tornado-app-003"
+      ],
+      "fn": [
+        "vulnerable-tornado-app-004"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-639",
+          "file": "server.py",
+          "ranges": [
+            [
+              76,
+              76
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-89",
+          "file": "server.py",
+          "ranges": [
+            [
+              106,
+              106
+            ]
+          ],
+          "title": "SQL Injection in User Login"
+        },
+        {
+          "cwe": "CWE-22",
+          "file": "server.py",
+          "ranges": [
+            [
+              76,
+              76
+            ]
+          ],
+          "title": "Path Traversal in Content Reading"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "server.py",
+          "ranges": [
+            [
+              76,
+              76
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        }
+      ],
+      "seconds": 5.9
+    },
+    "vulnpy": {
+      "tp": [
+        "vulnpy-007",
+        "vulnpy-010"
+      ],
+      "fn": [
+        "vulnpy-008",
+        "vulnpy-009",
+        "vulnpy-011",
+        "vulnpy-012",
+        "vulnpy-013",
+        "vulnpy-014",
+        "vulnpy-015",
+        "vulnpy-016",
+        "vulnpy-017"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-89",
+          "file": "apps/flask_app.py",
+          "ranges": [
+            [
+              20,
+              20
+            ]
+          ],
+          "title": "SQL Injection via Template Rendering",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "apps/flask_app.py",
+          "ranges": [
+            [
+              20,
+              20
+            ]
+          ],
+          "title": "SQL Injection via Template Rendering",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "apps/fastapi_app.py",
+          "ranges": [
+            [
+              33,
+              33
+            ]
+          ],
+          "title": "Command Injection via OS System Call",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "apps/fastapi_app.py",
+          "ranges": [
+            [
+              39,
+              39
+            ]
+          ],
+          "title": "Command Injection via OS System Call",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "apps/quart_app.py",
+          "ranges": [
+            [
+              22,
+              22
+            ]
+          ],
+          "title": "Command Injection via OS System Call",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "apps/falcon_app.py",
+          "ranges": [
+            [
+              28,
+              28
+            ]
+          ],
+          "title": "Command Injection via OS System Call",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "apps/falcon_app.py",
+          "ranges": [
+            [
+              63,
+              63
+            ]
+          ],
+          "title": "Command Injection via OS System Call",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "apps/fastapi_app.py",
+          "ranges": [
+            [
+              33,
+              33
+            ]
+          ],
+          "title": "Command Injection via OS System Call",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "apps/fastapi_app.py",
+          "ranges": [
+            [
+              39,
+              39
+            ]
+          ],
+          "title": "Command Injection via OS System Call",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "apps/quart_app.py",
+          "ranges": [
+            [
+              22,
+              22
+            ]
+          ],
+          "title": "Command Injection via OS System Call",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "apps/falcon_app.py",
+          "ranges": [
+            [
+              28,
+              28
+            ]
+          ],
+          "title": "Command Injection via OS System Call",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "apps/falcon_app.py",
+          "ranges": [
+            [
+              63,
+              63
+            ]
+          ],
+          "title": "Command Injection via OS System Call",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "src/vulnpy/common/templating.py",
+          "ranges": [
+            [
+              26,
+              26
+            ]
+          ],
+          "title": "Path Traversal via Template Path Construction",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "src/vulnpy/flask/blueprint.py",
+          "ranges": [
+            [
+              55,
+              55
+            ]
+          ],
+          "title": "SQL Injection via User Input in Template Rendering",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "src/vulnpy/fastapi/vulnerable.py",
+          "ranges": [
+            [
+              39,
+              39
+            ]
+          ],
+          "title": "SQL Injection via User Input in Template Rendering",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "src/vulnpy/falcon/vulnerable.py",
+          "ranges": [
+            [
+              34,
+              34
+            ]
+          ],
+          "title": "SQL Injection via User Input in Template Rendering",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "src/vulnpy/falcon/vulnerable_asgi.py",
+          "ranges": [
+            [
+              34,
+              34
+            ]
+          ],
+          "title": "SQL Injection via User Input in Template Rendering",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "src/vulnpy/pyramid/vulnerable_routes.py",
+          "ranges": [
+            [
+              50,
+              50
+            ]
+          ],
+          "title": "SQL Injection via User Input in Template Rendering",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "src/vulnpy/trigger/pt.py",
+          "ranges": [
+            [
+              47,
+              47
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "src/vulnpy/trigger/ssrf.py",
+          "ranges": [
+            [
+              51,
+              51
+            ]
+          ],
+          "title": "SQL Injection via User Input in urllib.urlopen",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "src/vulnpy/trigger/ssrf.py",
+          "ranges": [
+            [
+              76,
+              76
+            ]
+          ],
+          "title": "SQL Injection via User Input in urllib.request.urlopen",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "src/vulnpy/trigger/ssrf.py",
+          "ranges": [
+            [
+              90,
+              90
+            ]
+          ],
+          "title": "SQL Injection via User Input in HTTPConnection.request",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "src/vulnpy/trigger/ssrf.py",
+          "ranges": [
+            [
+              102,
+              102
+            ]
+          ],
+          "title": "SQL Injection via User Input in HTTPConnection.request",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "src/vulnpy/trigger/ssrf.py",
+          "ranges": [
+            [
+              106,
+              106
+            ]
+          ],
+          "title": "SQL Injection via User Input in HTTPConnection.request",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "src/vulnpy/trigger/ssrf.py",
+          "ranges": [
+            [
+              110,
+              110
+            ]
+          ],
+          "title": "SQL Injection via User Input in HTTPConnection.putrequest",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "src/vulnpy/trigger/ssrf.py",
+          "ranges": [
+            [
+              114,
+              114
+            ]
+          ],
+          "title": "SQL Injection via User Input in HTTPConnection.putrequest",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "src/vulnpy/trigger/ssrf.py",
+          "ranges": [
+            [
+              118,
+              118
+            ]
+          ],
+          "title": "SQL Injection via User Input in HTTPSConnection.request",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "src/vulnpy/trigger/ssrf.py",
+          "ranges": [
+            [
+              122,
+              122
+            ]
+          ],
+          "title": "SQL Injection via User Input in HTTPSConnection.request",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "src/vulnpy/trigger/ssrf.py",
+          "ranges": [
+            [
+              126,
+              126
+            ]
+          ],
+          "title": "SQL Injection via User Input in HTTPSConnection.putrequest",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "src/vulnpy/trigger/ssrf.py",
+          "ranges": [
+            [
+              130,
+              130
+            ]
+          ],
+          "title": "SQL Injection via User Input in HTTPSConnection.putrequest",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "src/vulnpy/trigger/ssrf.py",
+          "ranges": [
+            [
+              136,
+              136
+            ]
+          ],
+          "title": "SQL Injection via User Input in HTTPConnection.init",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "src/vulnpy/trigger/ssrf.py",
+          "ranges": [
+            [
+              144,
+              144
+            ]
+          ],
+          "title": "SQL Injection via User Input in HTTPConnection.init",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "src/vulnpy/trigger/ssrf.py",
+          "ranges": [
+            [
+              148,
+              148
+            ]
+          ],
+          "title": "SQL Injection via User Input in HTTPSConnection.init",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "src/vulnpy/trigger/unsafe_code_exec.py",
+          "ranges": [
+            [
+              2,
+              2
+            ]
+          ],
+          "title": "Code Execution via User Input in exec()",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "src/vulnpy/trigger/unsafe_code_exec.py",
+          "ranges": [
+            [
+              5,
+              5
+            ]
+          ],
+          "title": "Code Execution via User Input in eval()",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "src/vulnpy/trigger/unsafe_code_exec.py",
+          "ranges": [
+            [
+              9,
+              9
+            ]
+          ],
+          "title": "Code Execution via User Input in compile()",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "src/vulnpy/trigger/xpath.py",
+          "ranges": [
+            [
+              24,
+              24
+            ]
+          ],
+          "title": "XPath Injection via User Input in findall()",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "src/vulnpy/trigger/xpath.py",
+          "ranges": [
+            [
+              28,
+              28
+            ]
+          ],
+          "title": "XPath Injection via User Input in findtext()",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "src/vulnpy/trigger/xpath.py",
+          "ranges": [
+            [
+              32,
+              32
+            ]
+          ],
+          "title": "XPath Injection via User Input in findall()",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "src/vulnpy/trigger/xxe.py",
+          "ranges": [
+            [
+              7,
+              7
+            ]
+          ],
+          "title": "XXE Injection via User Input in fromstring()",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "src/vulnpy/trigger/xxe.py",
+          "ranges": [
+            [
+              11,
+              11
+            ]
+          ],
+          "title": "XXE Injection via User Input in parsestring()",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "src/vulnpy/trigger/xxe.py",
+          "ranges": [
+            [
+              15,
+              15
+            ]
+          ],
+          "title": "XXE Injection via User Input in parsestring()",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "src/vulnpy/wsgi/app.py",
+          "ranges": [
+            [
+              24,
+              24
+            ]
+          ],
+          "title": "SQL Injection via User Input in trigger_func",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "src/vulnpy/wsgi/app.py",
+          "ranges": [
+            [
+              32,
+              32
+            ]
+          ],
+          "title": "SQL Injection via User Input in trigger_func",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "tests/flask/test_blueprint.py",
+          "ranges": [
+            [
+              36,
+              36
+            ]
+          ],
+          "title": "SQL Injection via User Input in URL Parameters",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "tests/flask/test_blueprint.py",
+          "ranges": [
+            [
+              37,
+              37
+            ]
+          ],
+          "title": "SQL Injection via User Input in Request Body",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "tests/fastapi/test_vulnerable.py",
+          "ranges": [
+            [
+              37,
+              37
+            ]
+          ],
+          "title": "SQL Injection via User Input in URL Parameters",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "tests/bottle/test_vulnerable.py",
+          "ranges": [
+            [
+              34,
+              34
+            ]
+          ],
+          "title": "SQL Injection via User Input in URL Parameters",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "tests/django/test_vulnerable.py",
+          "ranges": [
+            [
+              28,
+              28
+            ]
+          ],
+          "title": "SQL Injection via User Input in URL Parameters",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "tests/django/test_vulnerable_asgi.py",
+          "ranges": [
+            [
+              33,
+              33
+            ]
+          ],
+          "title": "SQL Injection via User Input in URL Parameters",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "tests/falcon/test_vulnerable.py",
+          "ranges": [
+            [
+              35,
+              35
+            ]
+          ],
+          "title": "SQL Injection via User Input in URL Parameters",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "tests/falcon/test_vulnerable_asgi.py",
+          "ranges": [
+            [
+              35,
+              35
+            ]
+          ],
+          "title": "SQL Injection via User Input in URL Parameters",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "tests/aiohttp/test_vulnerable_async.py",
+          "ranges": [
+            [
+              49,
+              49
+            ]
+          ],
+          "title": "SQL Injection via User Input in URL Parameters",
+          "family": "sql_injection"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-89",
+          "file": "apps/flask_app.py",
+          "ranges": [
+            [
+              20,
+              20
+            ]
+          ],
+          "title": "SQL Injection via Template Rendering"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "apps/flask_app.py",
+          "ranges": [
+            [
+              20,
+              20
+            ]
+          ],
+          "title": "SQL Injection via Template Rendering"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "apps/fastapi_app.py",
+          "ranges": [
+            [
+              33,
+              33
+            ]
+          ],
+          "title": "Command Injection via OS System Call"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "apps/fastapi_app.py",
+          "ranges": [
+            [
+              39,
+              39
+            ]
+          ],
+          "title": "Command Injection via OS System Call"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "apps/quart_app.py",
+          "ranges": [
+            [
+              22,
+              22
+            ]
+          ],
+          "title": "Command Injection via OS System Call"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "apps/falcon_app.py",
+          "ranges": [
+            [
+              28,
+              28
+            ]
+          ],
+          "title": "Command Injection via OS System Call"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "apps/falcon_app.py",
+          "ranges": [
+            [
+              63,
+              63
+            ]
+          ],
+          "title": "Command Injection via OS System Call"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "apps/fastapi_app.py",
+          "ranges": [
+            [
+              33,
+              33
+            ]
+          ],
+          "title": "Command Injection via OS System Call"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "apps/fastapi_app.py",
+          "ranges": [
+            [
+              39,
+              39
+            ]
+          ],
+          "title": "Command Injection via OS System Call"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "apps/quart_app.py",
+          "ranges": [
+            [
+              22,
+              22
+            ]
+          ],
+          "title": "Command Injection via OS System Call"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "apps/falcon_app.py",
+          "ranges": [
+            [
+              28,
+              28
+            ]
+          ],
+          "title": "Command Injection via OS System Call"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "apps/falcon_app.py",
+          "ranges": [
+            [
+              63,
+              63
+            ]
+          ],
+          "title": "Command Injection via OS System Call"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "src/vulnpy/common/templating.py",
+          "ranges": [
+            [
+              26,
+              26
+            ]
+          ],
+          "title": "Path Traversal via Template Path Construction"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "src/vulnpy/flask/blueprint.py",
+          "ranges": [
+            [
+              55,
+              55
+            ]
+          ],
+          "title": "SQL Injection via User Input in Template Rendering"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "src/vulnpy/fastapi/vulnerable.py",
+          "ranges": [
+            [
+              39,
+              39
+            ]
+          ],
+          "title": "SQL Injection via User Input in Template Rendering"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "src/vulnpy/falcon/vulnerable.py",
+          "ranges": [
+            [
+              34,
+              34
+            ]
+          ],
+          "title": "SQL Injection via User Input in Template Rendering"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "src/vulnpy/falcon/vulnerable_asgi.py",
+          "ranges": [
+            [
+              34,
+              34
+            ]
+          ],
+          "title": "SQL Injection via User Input in Template Rendering"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "src/vulnpy/pyramid/vulnerable_routes.py",
+          "ranges": [
+            [
+              50,
+              50
+            ]
+          ],
+          "title": "SQL Injection via User Input in Template Rendering"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "src/vulnpy/trigger/sqli.py",
+          "ranges": [
+            [
+              36,
+              36
+            ]
+          ],
+          "title": "SQL Injection via String Formatting"
+        },
+        {
+          "cwe": "CWE-22",
+          "file": "src/vulnpy/trigger/pt.py",
+          "ranges": [
+            [
+              8,
+              8
+            ]
+          ],
+          "title": "Path Traversal via Tarfile Open"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "src/vulnpy/trigger/pt.py",
+          "ranges": [
+            [
+              47,
+              47
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "src/vulnpy/trigger/ssrf.py",
+          "ranges": [
+            [
+              51,
+              51
+            ]
+          ],
+          "title": "SQL Injection via User Input in urllib.urlopen"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "src/vulnpy/trigger/ssrf.py",
+          "ranges": [
+            [
+              76,
+              76
+            ]
+          ],
+          "title": "SQL Injection via User Input in urllib.request.urlopen"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "src/vulnpy/trigger/ssrf.py",
+          "ranges": [
+            [
+              90,
+              90
+            ]
+          ],
+          "title": "SQL Injection via User Input in HTTPConnection.request"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "src/vulnpy/trigger/ssrf.py",
+          "ranges": [
+            [
+              102,
+              102
+            ]
+          ],
+          "title": "SQL Injection via User Input in HTTPConnection.request"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "src/vulnpy/trigger/ssrf.py",
+          "ranges": [
+            [
+              106,
+              106
+            ]
+          ],
+          "title": "SQL Injection via User Input in HTTPConnection.request"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "src/vulnpy/trigger/ssrf.py",
+          "ranges": [
+            [
+              110,
+              110
+            ]
+          ],
+          "title": "SQL Injection via User Input in HTTPConnection.putrequest"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "src/vulnpy/trigger/ssrf.py",
+          "ranges": [
+            [
+              114,
+              114
+            ]
+          ],
+          "title": "SQL Injection via User Input in HTTPConnection.putrequest"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "src/vulnpy/trigger/ssrf.py",
+          "ranges": [
+            [
+              118,
+              118
+            ]
+          ],
+          "title": "SQL Injection via User Input in HTTPSConnection.request"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "src/vulnpy/trigger/ssrf.py",
+          "ranges": [
+            [
+              122,
+              122
+            ]
+          ],
+          "title": "SQL Injection via User Input in HTTPSConnection.request"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "src/vulnpy/trigger/ssrf.py",
+          "ranges": [
+            [
+              126,
+              126
+            ]
+          ],
+          "title": "SQL Injection via User Input in HTTPSConnection.putrequest"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "src/vulnpy/trigger/ssrf.py",
+          "ranges": [
+            [
+              130,
+              130
+            ]
+          ],
+          "title": "SQL Injection via User Input in HTTPSConnection.putrequest"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "src/vulnpy/trigger/ssrf.py",
+          "ranges": [
+            [
+              136,
+              136
+            ]
+          ],
+          "title": "SQL Injection via User Input in HTTPConnection.init"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "src/vulnpy/trigger/ssrf.py",
+          "ranges": [
+            [
+              144,
+              144
+            ]
+          ],
+          "title": "SQL Injection via User Input in HTTPConnection.init"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "src/vulnpy/trigger/ssrf.py",
+          "ranges": [
+            [
+              148,
+              148
+            ]
+          ],
+          "title": "SQL Injection via User Input in HTTPSConnection.init"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "src/vulnpy/trigger/unsafe_code_exec.py",
+          "ranges": [
+            [
+              2,
+              2
+            ]
+          ],
+          "title": "Code Execution via User Input in exec()"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "src/vulnpy/trigger/unsafe_code_exec.py",
+          "ranges": [
+            [
+              5,
+              5
+            ]
+          ],
+          "title": "Code Execution via User Input in eval()"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "src/vulnpy/trigger/unsafe_code_exec.py",
+          "ranges": [
+            [
+              9,
+              9
+            ]
+          ],
+          "title": "Code Execution via User Input in compile()"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "src/vulnpy/trigger/xpath.py",
+          "ranges": [
+            [
+              24,
+              24
+            ]
+          ],
+          "title": "XPath Injection via User Input in findall()"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "src/vulnpy/trigger/xpath.py",
+          "ranges": [
+            [
+              28,
+              28
+            ]
+          ],
+          "title": "XPath Injection via User Input in findtext()"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "src/vulnpy/trigger/xpath.py",
+          "ranges": [
+            [
+              32,
+              32
+            ]
+          ],
+          "title": "XPath Injection via User Input in findall()"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "src/vulnpy/trigger/xxe.py",
+          "ranges": [
+            [
+              7,
+              7
+            ]
+          ],
+          "title": "XXE Injection via User Input in fromstring()"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "src/vulnpy/trigger/xxe.py",
+          "ranges": [
+            [
+              11,
+              11
+            ]
+          ],
+          "title": "XXE Injection via User Input in parsestring()"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "src/vulnpy/trigger/xxe.py",
+          "ranges": [
+            [
+              15,
+              15
+            ]
+          ],
+          "title": "XXE Injection via User Input in parsestring()"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "src/vulnpy/wsgi/app.py",
+          "ranges": [
+            [
+              24,
+              24
+            ]
+          ],
+          "title": "SQL Injection via User Input in trigger_func"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "src/vulnpy/wsgi/app.py",
+          "ranges": [
+            [
+              32,
+              32
+            ]
+          ],
+          "title": "SQL Injection via User Input in trigger_func"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "tests/flask/test_blueprint.py",
+          "ranges": [
+            [
+              36,
+              36
+            ]
+          ],
+          "title": "SQL Injection via User Input in URL Parameters"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "tests/flask/test_blueprint.py",
+          "ranges": [
+            [
+              37,
+              37
+            ]
+          ],
+          "title": "SQL Injection via User Input in Request Body"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "tests/fastapi/test_vulnerable.py",
+          "ranges": [
+            [
+              37,
+              37
+            ]
+          ],
+          "title": "SQL Injection via User Input in URL Parameters"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "tests/bottle/test_vulnerable.py",
+          "ranges": [
+            [
+              34,
+              34
+            ]
+          ],
+          "title": "SQL Injection via User Input in URL Parameters"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "tests/django/test_vulnerable.py",
+          "ranges": [
+            [
+              28,
+              28
+            ]
+          ],
+          "title": "SQL Injection via User Input in URL Parameters"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "tests/django/test_vulnerable_asgi.py",
+          "ranges": [
+            [
+              33,
+              33
+            ]
+          ],
+          "title": "SQL Injection via User Input in URL Parameters"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "tests/falcon/test_vulnerable.py",
+          "ranges": [
+            [
+              35,
+              35
+            ]
+          ],
+          "title": "SQL Injection via User Input in URL Parameters"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "tests/falcon/test_vulnerable_asgi.py",
+          "ranges": [
+            [
+              35,
+              35
+            ]
+          ],
+          "title": "SQL Injection via User Input in URL Parameters"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "tests/aiohttp/test_vulnerable_async.py",
+          "ranges": [
+            [
+              49,
+              49
+            ]
+          ],
+          "title": "SQL Injection via User Input in URL Parameters"
+        }
+      ],
+      "seconds": 130.0
+    }
+  }
+}

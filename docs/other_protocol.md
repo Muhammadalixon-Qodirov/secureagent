@@ -112,7 +112,7 @@ Recorded 2026-10-05, **before any system was run on this set**.
 ## Deviations
 
 1. The v5 work commits and this protocol were written on 2026-10-05 from
-   14:30 local time, but pushes failed (credential prompt) until 21:20;
+   16:05 (+05:00, the protocol commit), but pushes failed (credential prompt) until 21:20;
    GitHub therefore shows them arriving together, shortly before the freeze.
    The local commit timestamps record the order (protocol `38d4c28` first).
    Everything was pushed before any system ran on this set.

@@ -3,7 +3,7 @@
 Exports per-system scores and per-app findings, and writes a Markdown results
 table (eval/results/RESULTS.md). Raw model replies and traces stay in runs/.
 
-    python scripts/export_results.py [holdout|realvuln|realvuln_fastapi|realvuln_django]
+    python scripts/export_results.py [holdout|realvuln|realvuln_fastapi|realvuln_django|realvuln_other]
 """
 
 from __future__ import annotations
@@ -22,12 +22,15 @@ DATASETS = {
                          "244 entries (182 vulnerable, 62 traps), RealVuln FastAPI apps", "docs/fastapi_protocol.md"),
     "realvuln_django": (ROOT / "runs" / "eval_django", ROOT / "eval" / "results_django",
                         "277 entries (204 vulnerable, 73 traps), 23 RealVuln Django apps", "docs/django_protocol.md"),
+    "realvuln_other": (ROOT / "runs" / "eval_other", ROOT / "eval" / "results_other",
+                       "44 entries (27 vulnerable, 17 traps), 5 RealVuln Python apps (aiohttp, tornado, no framework)",
+                       "docs/other_protocol.md"),
 }
 
 ORDER = ["semgrep", "single_shot", "agent", "agent_no_verify", "agent_no_cards", "agent_single_pass",
          "agent_no_verify_no_cards", "agent_v1", "agent_v2", "agent_v2_no_verify",
          "authz_only", "agent_v3", "agent_v3_no_verify", "agent_v3_hardened",
-         "authz_v4_only", "agent_v4"]
+         "authz_v4_only", "agent_v4", "sinks_v5_only", "seeds_v5_only", "agent_v5"]
 LABEL = {
     "semgrep": "Semgrep only (project rules)",
     "single_shot": "Single-shot LLM (no tools)",
@@ -45,6 +48,9 @@ LABEL = {
     "agent_v3_hardened": "Agent v3 + injection hardening (v3.1)",
     "authz_v4_only": "v4 authorization analysis only (no model)",
     "agent_v4": "Agent v4 (helper resolution + Django)",
+    "sinks_v5_only": "v5 sink scan only (no model)",
+    "seeds_v5_only": "v5 sink scan + authorization analysis (no model)",
+    "agent_v5": "Agent v5 (v4 + injection-sink seeds)",
 }
 
 

@@ -117,9 +117,38 @@ sets, development-set numbers did not transfer (F1 0.51 → 0.24 → 0.10) and
 each new framework exposed a coverage assumption. Details:
 [`docs/experiments.md#t13`](docs/experiments.md).
 
+## v5: injection-sink seeds, tested on a fourth independent set (5 apps on other frameworks, 44 entries)
+
+The Django diagnosis: the model sweep read the right files and still listed
+nothing for a request value joined to a base directory and read. v5 finds
+such operations with the AST (`secagent/sinks.py`: SQL text built from
+values, request-supplied document-database filters, file operations on
+computed paths), follows the value back inside the function, and seeds one
+claim per sink — accepted directly when the static evidence is unambiguous,
+sent to the verifier otherwise. No framework code. Frozen and pushed before
+anything ran on the last unseen Python targets of the benchmark (aiohttp,
+tornado, no framework; [`docs/other_protocol.md`](docs/other_protocol.md)).
+
+| System | TP | FP | Precision (95% CI) | Recall (95% CI) | F1 |
+|---|---|---|---|---|---|
+| Semgrep only | 0 | 0 | n/a | 0.00 (0.00–0.13) | n/a |
+| Single-shot LLM | 10 | 59 | 0.15 (0.08–0.25) | 0.37 (0.22–0.56) | 0.21 |
+| Agent v2 / v3 / v4 | 4 / 3 / 4 | 2 / 2 / 1 | 0.67 / 0.60 / 0.80 | 0.15 / 0.11 / 0.15 | 0.24 / 0.19 / 0.25 |
+| v5 deterministic passes only (no model) | 6 | 2 | 0.75 (0.41–0.93) | 0.22 (0.11–0.41) | 0.34 |
+| **Agent v5** | 9 | 3 | 0.75 (0.47–0.91) | 0.33 (0.19–0.52) | **0.46** |
+
+Honest reading: the claims stated before the run hold on point estimates
+(F1 above single-shot and above v4), on a set of only 27 vulnerable entries.
+What the intervals support is narrower: v5 finds about as much as one prompt
+per file (9 against 10) with a twentieth of the false positives (3 against
+59). It does not find more, and path traversal stays weak (2 of 13): the scan
+found 31 of 36 on Django, where it was developed, and here ran into Python 2
+source it cannot parse, one very long handler, and sinks outside its list.
+Details: [`docs/experiments.md#t14`](docs/experiments.md).
+
 ## Quick start
 
-Tested from a fresh clone on Windows 11 (Python 3.10, Ollama 0.35, RTX 3050 8 GB); 105 tests pass (no model needed).
+Tested from a fresh clone on Windows 11 (Python 3.10, Ollama 0.35, RTX 3050 8 GB); 110 tests pass (no model needed).
 
 ```bash
 python -m venv .venv && .venv/Scripts/pip install -r requirements.txt   # use .venv/bin/ on Linux/macOS
@@ -147,6 +176,8 @@ ollama pull qwen3:8b
 .venv/Scripts/python -m secagent.evaluate --dataset realvuln_fastapi --systems agent_v3
 .venv/Scripts/python scripts/fetch_realvuln.py --framework django --out eval/realvuln_django --commit 7a710251f55c17d32d3adcb13d37468e2e3b9e4a
 .venv/Scripts/python -m secagent.evaluate --dataset realvuln_django --systems agent_v4
+.venv/Scripts/python scripts/fetch_realvuln.py --framework other --out eval/realvuln_other --commit 7a710251f55c17d32d3adcb13d37468e2e3b9e4a
+.venv/Scripts/python -m secagent.evaluate --dataset realvuln_other --systems agent_v5
 .venv/Scripts/python scripts/injection_suite.py --harden                     # prompt-injection suite
 ```
 

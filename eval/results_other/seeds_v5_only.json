@@ -1,0 +1,272 @@
+{
+  "system": "seeds_v5_only",
+  "metrics": {
+    "sql_injection": {
+      "tp": 4,
+      "fn": 6,
+      "fp_lookalike": 0,
+      "fp_unmatched": 0,
+      "precision": 1.0,
+      "precision_ci95": [
+        0.51,
+        1.0
+      ],
+      "recall": 0.4,
+      "recall_ci95": [
+        0.168,
+        0.687
+      ],
+      "f1": 0.571,
+      "lookalike_fp_rate": 0.0,
+      "safe_cases": 15
+    },
+    "path_traversal": {
+      "tp": 2,
+      "fn": 11,
+      "fp_lookalike": 1,
+      "fp_unmatched": 1,
+      "precision": 0.5,
+      "precision_ci95": [
+        0.15,
+        0.85
+      ],
+      "recall": 0.154,
+      "recall_ci95": [
+        0.043,
+        0.422
+      ],
+      "f1": 0.235,
+      "lookalike_fp_rate": 0.5,
+      "safe_cases": 2
+    },
+    "authorization_idor": {
+      "tp": 0,
+      "fn": 4,
+      "fp_lookalike": 0,
+      "fp_unmatched": 0,
+      "precision": null,
+      "precision_ci95": null,
+      "recall": 0.0,
+      "recall_ci95": [
+        0.0,
+        0.49
+      ],
+      "f1": null,
+      "lookalike_fp_rate": null,
+      "safe_cases": 0
+    },
+    "micro": {
+      "tp": 6,
+      "fn": 21,
+      "fp_lookalike": 1,
+      "fp_unmatched": 1,
+      "precision": 0.75,
+      "precision_ci95": [
+        0.409,
+        0.929
+      ],
+      "recall": 0.222,
+      "recall_ci95": [
+        0.106,
+        0.408
+      ],
+      "f1": 0.343,
+      "lookalike_fp_rate": 0.059,
+      "safe_cases": 17
+    }
+  },
+  "per_app": {
+    "dsvpwa": {
+      "tp": [
+        "dsvpwa-001",
+        "dsvpwa-008",
+        "dsvpwa-002",
+        "dsvpwa-028"
+      ],
+      "fn": [
+        "dsvpwa-011"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-22",
+          "file": "dsvpwa/handlers.py",
+          "ranges": [
+            [
+              94,
+              94
+            ]
+          ],
+          "title": "Path traversal in find",
+          "family": "path_traversal"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-89",
+          "file": "dsvpwa/attacks.py",
+          "ranges": [
+            [
+              39,
+              39
+            ]
+          ],
+          "title": "SQL injection in run"
+        },
+        {
+          "cwe": "CWE-22",
+          "file": "dsvpwa/attacks.py",
+          "ranges": [
+            [
+              211,
+              211
+            ]
+          ],
+          "title": "Path traversal in run"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "dsvpwa/attacks.py",
+          "ranges": [
+            [
+              289,
+              289
+            ]
+          ],
+          "title": "SQL injection in run"
+        },
+        {
+          "cwe": "CWE-22",
+          "file": "dsvpwa/handlers.py",
+          "ranges": [
+            [
+              94,
+              94
+            ]
+          ],
+          "title": "Path traversal in find"
+        },
+        {
+          "cwe": "CWE-22",
+          "file": "dsvpwa/handlers.py",
+          "ranges": [
+            [
+              116,
+              116
+            ]
+          ],
+          "title": "Path traversal in find"
+        }
+      ],
+      "seconds": 0.2
+    },
+    "dsvw": {
+      "tp": [
+        "dsvw-015"
+      ],
+      "fn": [
+        "dsvw-001",
+        "dsvw-004",
+        "dsvw-010",
+        "dsvw-027"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-89",
+          "file": "dsvw.py",
+          "ranges": [
+            [
+              67,
+              67
+            ]
+          ],
+          "title": "SQL injection in do_GET"
+        }
+      ],
+      "seconds": 0.1
+    },
+    "dvpwa": {
+      "tp": [
+        "dvpwa-001"
+      ],
+      "fn": [
+        "dvpwa-012",
+        "dvpwa-013"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-89",
+          "file": "sqli/dao/student.py",
+          "ranges": [
+            [
+              45,
+              45
+            ]
+          ],
+          "title": "SQL injection in create"
+        }
+      ],
+      "seconds": 0.1
+    },
+    "vulnerable-tornado-app": {
+      "tp": [],
+      "fn": [
+        "vulnerable-tornado-app-001",
+        "vulnerable-tornado-app-003",
+        "vulnerable-tornado-app-004"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [],
+      "seconds": 0.0
+    },
+    "vulnpy": {
+      "tp": [],
+      "fn": [
+        "vulnpy-007",
+        "vulnpy-008",
+        "vulnpy-009",
+        "vulnpy-010",
+        "vulnpy-011",
+        "vulnpy-012",
+        "vulnpy-013",
+        "vulnpy-014",
+        "vulnpy-015",
+        "vulnpy-016",
+        "vulnpy-017"
+      ],
+      "fp_safe": [
+        "vulnpy-fp-007"
+      ],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-22",
+          "file": "src/vulnpy/common/templating.py",
+          "ranges": [
+            [
+              27,
+              27
+            ]
+          ],
+          "title": "Path traversal in get_template"
+        }
+      ],
+      "seconds": 0.2
+    }
+  }
+}

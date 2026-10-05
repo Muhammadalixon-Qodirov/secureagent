@@ -29,7 +29,7 @@ has actually read, with an audit trail of every tool call.
   code on the host — I designed this one so that cannot happen.
 - **Measure before claiming.** I froze each evaluation before running it
   (a 48-case synthetic holdout; 15 public Flask apps from the RealVuln
-  benchmark, 130 labelled entries; later 21 FastAPI and 23 Django apps), compared against
+  benchmark, 130 labelled entries; later 21 FastAPI, 23 Django and 5 other-framework apps), compared against
   Semgrep and a single-prompt LLM baseline, and logged every deviation.
 - **Knowledge used where it helps.** I built a 49-source knowledge base
   (CWE, OWASP, framework docs) with provenance. Recent studies show raw CWE
@@ -98,9 +98,31 @@ best agent" went 0.51 → 0.24 → 0.10: each number from a set I had developed 
 was too optimistic, and each new framework exposed an assumption about
 coverage rather than a limit of the model.
 
+**Fourth round: a fix that held, within what a small set can show.** On
+Django the model had read the right files and still listed nothing for a
+request value joined to a directory and opened. So v5 finds such operations in
+code rather than by prompt (an AST scan for SQL built from values and file
+operations on computed paths, with the value traced back to the request) and
+gives the verifier one claim at a time. I froze it and ran everything once on
+the last five unseen Python apps of the benchmark (aiohttp, tornado, no
+framework; 27 labelled vulnerabilities):
+
+| | True positives | False positives | Precision | Recall | F1 |
+|---|---|---|---|---|---|
+| Single-prompt LLM | 10 | 59 | 0.15 | 0.37 | 0.21 |
+| Agent v4 | 4 | 1 | 0.80 | 0.15 | 0.25 |
+| **Agent v5** | 9 | 3 | 0.75 | 0.33 | **0.46** |
+
+Both things I predicted before the run happened (F1 above the single prompt
+and above v4). What the data supports is narrower than the headline: v5 finds
+about as much as the single prompt with a twentieth of the false alarms; it
+does not find more, the set is small, and the scan's own development numbers
+did not transfer (31 of 36 path traversals on Django, 2 of 13 here).
+
 **Honest limits.** IDOR precision on unfamiliar code is low (about 0.1–0.2 on
 the FastAPI and Django sets) and resolving helper functions did not fix it; on
-Django the agent is worse than the single-prompt baseline. The public apps may be in the model's training data; samples
+Django v4 was worse than the single-prompt baseline, and v5's better result
+rests on 27 cases. The public apps may be in the model's training data; samples
 are small and intervals overlap; greedy decoding was not fully deterministic;
 the injection defences were written against my own eight cases; lab-based
 exploit verification is designed but not enabled.
@@ -111,7 +133,7 @@ the system with an AI coding assistant; the research notes, experiment log and
 protocols in `docs/` record the decisions and why they were made.
 
 To try it: `README.md` → Quick start (about 10 minutes; tested from a fresh
-clone; 105 tests run without a model).
+clone; 110 tests run without a model).
 
 Best regards,
 Muhammadalixon Qodirov

@@ -700,3 +700,82 @@ all of it: on its own dev data v4 trades 7 core true positives for 128 fewer
 IDOR false positives against v3 (core precision 0.08 -> 0.10) - a different
 operating point, not an improvement. That agrees with the Django result.
 
+## T14 — v5 on a fourth independent set: other frameworks (2026-10-05)
+
+Protocol `docs/other_protocol.md`: the five Python targets of the benchmark
+that are not Flask, FastAPI or Django (`dsvpwa`, `dsvw`, `vulnpy`: no
+framework; `dvpwa`: aiohttp; `vulnerable-tornado-app`), frozen before v5 was
+written; v5 frozen (commit `3fada2b`, code hash `a95b3f6387e20904`, pushed)
+**before any system ran here**; every system run once; all model systems
+report the frozen hash. 44 entries (27 vulnerable, 17 traps) — a small set.
+Full tables: `eval/results_other/RESULTS.md`.
+
+What v5 adds to v4 (from the T13 diagnosis: the sweep read the right Django
+files and returned empty lists for `BASE / request.GET["ref"]` followed by
+`read_text()`): a deterministic injection-sink scan (`secagent/sinks.py`)
+that finds the operation with the AST, follows the value back inside the
+function and seeds one claim per sink, the way the authorization analysis
+does for IDOR. Seeds with unambiguous static evidence are accepted without
+the verifier; the rest go to the verifier with the whole function.
+
+| System | TP | FP | Precision (95% CI) | Recall (95% CI) | F1 | Time / app |
+|---|---|---|---|---|---|---|
+| Semgrep only (project rules) | 0 | 0 | n/a | 0.00 (0.00–0.13) | n/a | 9 s |
+| Single-shot LLM | 10 | 59 | 0.15 (0.08–0.25) | 0.37 (0.22–0.56) | 0.21 | 36 s |
+| Agent v2 | 4 | 2 | 0.67 (0.30–0.90) | 0.15 (0.06–0.33) | 0.24 | 20 s |
+| Agent v3 | 3 | 2 | 0.60 (0.23–0.88) | 0.11 (0.04–0.28) | 0.19 | 19 s |
+| Agent v4 | 4 | 1 | 0.80 (0.38–0.96) | 0.15 (0.06–0.33) | 0.25 | 22 s |
+| v5 deterministic passes only (no model) | 6 | 2 | 0.75 (0.41–0.93) | 0.22 (0.11–0.41) | 0.34 | <1 s |
+| **Agent v5** | 9 | 3 | 0.75 (0.47–0.91) | 0.33 (0.19–0.52) | **0.46** | 24 s |
+
+Per family (TP of vulnerable / FP): SQLi — single-shot 5 of 10 / 53, v4
+4 / 0, v5 7 / 0; path traversal — single-shot 5 of 13 / 0, v2–v4 0 / 0–1,
+v5 2 / 2; IDOR (4 entries) — nobody found any. Of the 17 traps, v5 flagged
+one, single-shot none (its 59 false positives are all unlabelled locations).
+
+What the test says:
+
+1. **Both pre-stated claims hold as stated, on point estimates.** v5's F1 is
+   above the single-shot baseline's (0.46 against 0.21) and above v4's
+   (0.25). This is the first of the four independent sets on which the
+   current agent has the best F1 of all systems.
+2. **What is and is not shown.** With 27 vulnerable entries the intervals are
+   wide. v5 does **not** find more than single-shot (9 against 10 true
+   positives; recall 0.33 against 0.37, intervals almost identical). Its
+   advantage is precision: 3 false positives against 59 (0.75 against 0.15,
+   intervals do not overlap). Against v4 the gain is recall (9 against 4 true
+   positives; intervals overlap). So: "as much found as one prompt per file,
+   with a twentieth of the noise" is supported; "finds more" is not.
+3. **The scan's development numbers did not transfer either.** On the seen
+   sets it found 31 of 36 Django and 35 of 35 FastAPI path traversals; here
+   2 of 13. Post-hoc (after the run, analysis only): it produced nine seeds
+   in five apps. `vulnerable-tornado-app` is Python 2 source and does not
+   parse, so an AST scan sees nothing in it; `dsvw` is one long handler
+   function, where sinks closer than 15 lines are merged into one seed;
+   `vulnpy` passes the value through closures and a variable named
+   `user_input`, which the source-word list does not match, into
+   `tarfile.open` / `execfile`, which are not in the sink list. Each is again
+   a coverage assumption, this time of the scan.
+4. **The parts are complementary.** The deterministic passes alone give 6
+   true positives, v4's sweep 4; together 9 with no loss of precision. The
+   verifier was asked about 5 of the 9 sink seeds and withdrew one.
+5. Agents v2–v4 behave alike here (3–4 true positives, all SQL injection, no
+   path traversal at all); Semgrep with the project's Flask rules reports
+   nothing.
+
+Across the four independent sets, F1 of the agent that was current at the
+time: 0.46 (v2, Flask), 0.24 (v3, FastAPI), 0.10 (v4, Django), 0.46 (v5,
+other). The last number is on the smallest set and should be read with its
+interval, not as a recovery to the first.
+
+### How v5 got here (dev data — not results)
+
+The scan was written from the Django misses and tuned on all four seen sets
+(value-flow rules, sanitisers, stored data, entry-point parameters). Draft 1
+(with the model) lost 10 of 18 Django SQL seeds in the verifier — Mongo
+filters claimed as "SQL injection"; they are now named NoSQL injection.
+Draft 2 lost 12 of 31 true Django path seeds in the verifier for one false
+one, which led to accepting unambiguous seeds on static evidence. Drafts on
+the seen sets: Flask F1 0.57–0.59 (v3: 0.51), Django 0.31–0.32 (v4: 0.10,
+single-shot 0.18), holdout 0.83–0.85.
+
