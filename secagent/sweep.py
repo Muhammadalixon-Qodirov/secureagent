@@ -133,11 +133,14 @@ VERIFY_V4_MISSING_AUTH = (
 
 
 VERIFY_V5_SINK = (
-    "\nThis claim comes from a static scan that found the operation and where its value comes from (SINK "
-    "FACTS, trusted); nobody has judged it yet. The claim fails if the shown code makes the value safe before "
-    "the operation (give that line in control_line) or if the value is not controlled by a caller at all - a "
-    "constant, configuration, a server-generated id (give the line where it is assigned in control_line). "
-    "A value that reaches the function as a parameter counts as caller-controlled."
+    "\nThis claim comes from a static scan that found the operation and traced where its value comes from "
+    "(SINK FACTS, trusted); nobody has judged it yet. Do not dispute where the value comes from. The claim "
+    "fails only if the shown code makes the value safe BEFORE the operation - bound parameters, an allow-list "
+    "or a numeric cast, a single path component (basename, secure_filename), a containment check after "
+    "resolving the path - and then give that line in control_line. Reading the value from the request, "
+    "joining it to a base directory, a default value or a try/except are not controls. A query filter object "
+    "taken from the request and passed to a document database is injection (operators such as $ne, $gt) "
+    "even though no SQL text is involved."
 )
 
 

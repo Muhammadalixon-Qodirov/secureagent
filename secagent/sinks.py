@@ -318,7 +318,9 @@ def scan(files: dict[str, str]) -> list[SinkSeed]:
                                   .finditer(f.text)))[:4]
             src = ("a request-like value" if prio == 0 else "a parameter of this function") + f" ({', '.join(names)[:80]})"
             seeds.append(SinkSeed(rel, call.lineno, family,
-                                  ("SQL injection in " if family == "sql_injection" else "Path traversal in ") + f.fn.name,
+                                  ("NoSQL injection (query filter taken from the request) in " if "NoSQL" in what
+                                   else "SQL injection in " if family == "sql_injection"
+                                   else "Path traversal in ") + f.fn.name,
                                   f"{what}; the value comes from {src}; no parameter binding / containment "
                                   f"recognised by the scan", f.fn.name, f.fn.lineno, f.fn.end_lineno or f.fn.lineno,
                                   prio, controls))
