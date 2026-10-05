@@ -683,3 +683,20 @@ frozen commit with one regular expression and a unit test; only the
 deterministic pass was re-run on dev before the freeze (FastAPI 13 core TP /
 66 IDOR FP against 16 / 223 for v3's pass).
 
+The frozen code was re-run in full on both dev sets after the Django run
+(same hash `0b17455e08bfb8a9`; seen data, cannot change the code):
+
+| Dev set | System | TP | FP | F1 | IDOR TP core | IDOR FP |
+|---|---|---|---|---|---|---|
+| FastAPI | Agent v3 | 61 | 273 | 0.24 | 23 of 53 | 270 |
+| FastAPI | v4 draft 3 | 34 | 108 | 0.21 | 10 | 101 |
+| FastAPI | **Agent v4 (frozen)** | 43 | 151 | 0.23 | 16 | 142 |
+| Flask | Agent v3 | 33 | 7 | 0.51 | 12 of 44 | 3 |
+| Flask | v4 draft 3 | 31 | 13 | 0.46 | 12 | 8 |
+| Flask | **Agent v4 (frozen)** | 30 | 8 | 0.47 | 12 | 5 |
+
+The audit-helper fix recovered part of the lost recall (core 10 -> 16) but not
+all of it: on its own dev data v4 trades 7 core true positives for 128 fewer
+IDOR false positives against v3 (core precision 0.08 -> 0.10) - a different
+operating point, not an improvement. That agrees with the Django result.
+
