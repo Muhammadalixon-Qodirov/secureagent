@@ -158,6 +158,7 @@ class SweepStats:
     duplicates: int = 0
     authz_seeds: int = 0
     sink_seeds: int = 0
+    sink_seeds_unverified: int = 0      # accepted on static evidence alone (v5)
     seconds: float = 0.0
 
 
@@ -224,7 +225,7 @@ def _sink_seeds(root: Path, registry: ToolRegistry, stats: SweepStats, notes: li
             files[rel] = p.read_text(encoding="utf-8", errors="replace")
         except OSError:
             continue
-    seeds, context, spans = [], {}, {}
+    seeds, context, spans, strong = [], {}, {}, set()
     for s in sink_scan(files):
         if s.family not in families:
             continue
@@ -235,9 +236,11 @@ def _sink_seeds(root: Path, registry: ToolRegistry, stats: SweepStats, notes: li
         c = Candidate(family=s.family, reason=s.reason, line=s.line, title=s.title)
         context[id(c)] = sink_render(s)
         spans[id(c)] = (s.func_start, s.func_end)
+        if s.priority == 0 and not s.controls:
+            strong.add(id(c))
         seeds.append((c, ev.event_id, ev.data))
     stats.sink_seeds = len(seeds)
-    return seeds, context, spans
+    return seeds, context, spans, strong
 
 
 def _fact_for(facts, path: str, line: int):
@@ -274,8 +277,9 @@ def run_sweep(config: Config, model, registry: ToolRegistry, verify: bool = True
     if authz and "authorization_idor" in families:
         candidates, context, handlers, facts = _authz_seeds(root, registry, stats, notes, resolve, sinks)
     spans: dict[int, tuple[int, int]] = {}
+    strong: set[int] = set()
     if sinks:
-        s_seeds, s_ctx, spans = _sink_seeds(root, registry, stats, notes, families)
+        s_seeds, s_ctx, spans, strong = _sink_seeds(root, registry, stats, notes, families)
         candidates = candidates + s_seeds
         context.update(s_ctx)
 
@@ -354,7 +358,14 @@ def run_sweep(config: Config, model, registry: ToolRegistry, verify: bool = True
         confidence = "medium"
         origin = "sink scan" if id(c) in spans else "authz analysis" if seeded else "sweep"
         rationale = f"{origin} candidate: {c.reason[:300]}"
-        if verify:
+        if id(c) in strong:
+            # v5: a request value reaches the operation and the scan saw nothing in the function that could
+            # be a control. On the seen sets the verifier withdrew such seeds by citing lines that are not
+            # controls (Django: 12 of 31 true path findings for 1 false one), so the model is asked only
+            # when the static evidence is ambiguous (possible controls, or the value arrives as a parameter).
+            stats.sink_seeds_unverified += 1
+            rationale += " | accepted on static evidence: request value reaches the operation, no control in the function"
+        elif verify:
             fact = _fact_for(facts, d["path"], c.line) if resolve and c.family == "authorization_idor" else None
             ctx = context.get(id(c), "")
             if fact is not None:
