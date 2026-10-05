@@ -69,8 +69,50 @@ the v5 freeze** (unlike the Django run, deviation 1 there).
 
 ## Frozen code
 
-(to be filled in when v5 is frozen)
+Recorded 2026-10-05, **before any system was run on this set**.
+
+- v5 = commit `3fada2b`; `secagent/*.py` code hash **`a95b3f6387e20904`**
+  (`secagent.evaluate._code_hash()`, LF line endings as checked out).
+- Primary system: **`agent_v5`** = v4 plus
+  1. a deterministic injection-sink scan (`secagent/sinks.py`): SQL text built
+     from values, query filters passed to a document database, file
+     operations on computed paths; the value is followed back inside the
+     function (request-like expression, entry-point parameter, parameter,
+     or neither); sinks and sources are Python-level words, no framework
+     code;
+  2. seeds with unambiguous static evidence (request value reaches the
+     operation, nothing in the function that could be a control) are
+     accepted without the verifier; the others go to the verifier with the
+     whole function and the scan's facts;
+  3. authorization: a helper that returns whether a request credential equals
+     a secret is authentication; file-local consistency rule for missing
+     authentication. Both behind a flag, so `agent_v4` is unchanged (checked:
+     its deterministic pass reproduces the Django run exactly).
+- Ablations, declared now: `seeds_v5_only` (both deterministic passes, no
+  model) and `sinks_v5_only` (the sink scan alone).
+- Dev numbers at the time of the freeze (seen data, the scan was written from
+  them - not a result):
+
+  | Dev set | best earlier agent | single-shot | v5 draft 2 (`dd75e5e1`) |
+  |---|---|---|---|
+  | Holdout (48) | - | F1 0.52 | F1 0.85 (17 TP / 1 FP) |
+  | Flask (130) | F1 0.51 (v3) | F1 0.41 | F1 0.57 (41 TP / 12 FP) |
+  | Django (277) | F1 0.10 (v4) | F1 0.18 | F1 0.31 (47 TP / 49 FP) |
+
+  Draft 1 lost 10 of 18 Django SQL seeds in the verifier (Mongo filters
+  claimed as "SQL injection"; renamed). Draft 2 lost 12 of 31 true Django
+  path seeds in the verifier for one false one, which led to point 2 above.
+  The frozen code (point 2 added) has **not** been run with the model on any
+  set; its dev re-run is done after the run on this set. FastAPI was not
+  re-run with any v5 draft. On the seen sets the group of seeds that now skips
+  the verifier scored SQL 50 TP / 1 FP and path traversal 74 TP / 22 FP under
+  the declared matching rule - numbers the rules were tuned on.
+- No further tuning: the code above is what is judged here.
 
 ## Deviations
 
-(none yet)
+1. The v5 work commits and this protocol were written on 2026-10-05 from
+   14:30 local time, but pushes failed (credential prompt) until 21:20;
+   GitHub therefore shows them arriving together, shortly before the freeze.
+   The local commit timestamps record the order (protocol `38d4c28` first).
+   Everything was pushed before any system ran on this set.
