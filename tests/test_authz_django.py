@@ -116,6 +116,78 @@ def test_dependencies_are_classified_from_their_bodies(tmp_path):
     assert by["rebuild"].auth == "login" and by["create_article"].auth == "role"   # alias of a role factory
 
 
+AUDITED = '''
+from fastapi import Depends, FastAPI, HTTPException
+from sqlalchemy import Column, ForeignKey, Integer, String
+
+app = FastAPI()
+
+
+class User(Base):
+    __tablename__ = "users"
+    id = Column(Integer, primary_key=True)
+
+
+class Ticket(Base):
+    __tablename__ = "tickets"
+    id = Column(Integer, primary_key=True)
+    owner_id = Column(Integer, ForeignKey("users.id"))
+    body = Column(String)
+
+
+class AuditLog(Base):
+    __tablename__ = "audit"
+    id = Column(Integer, primary_key=True)
+    owner_id = Column(Integer, ForeignKey("users.id"))
+
+
+def get_current_user(token: str = Depends(oauth2_scheme)):
+    user = decode_token(token)
+    if user is None:
+        raise HTTPException(status_code=401)
+    return user
+
+
+def audit(db, actor, action):
+    db.add(AuditLog(owner_id=actor.id if actor else None, action=action))
+
+
+def ticket_for(db, user, ticket_id):
+    ticket = db.get(Ticket, ticket_id)
+    if ticket is None or ticket.owner_id != user.id:
+        raise HTTPException(status_code=404)
+    return ticket
+
+
+@app.put("/tickets/{ticket_id}")
+def update_ticket(ticket_id: int, body: str, db=Depends(get_db), user=Depends(get_current_user)):
+    ticket = db.get(Ticket, ticket_id)
+    ticket.body = body
+    audit(db, user, "ticket.update")
+    db.commit()
+    return ticket
+
+
+@app.delete("/tickets/{ticket_id}")
+def delete_ticket(ticket_id: int, db=Depends(get_db), user=Depends(get_current_user)):
+    ticket = ticket_for(db, user, ticket_id)
+    db.delete(ticket)
+    audit(db, user, "ticket.delete")
+    db.commit()
+'''
+
+
+def test_audit_helper_is_not_an_owner_check(tmp_path):
+    root = tmp_path / "t"
+    root.mkdir()
+    (root / "app.py").write_text(AUDITED, encoding="utf-8")
+    v4, _, facts = idor_candidates(root, _python_files(root), resolve=True)
+    by = {r.function: r for r in facts}
+    assert not by["update_ticket"].owner_constraint         # AuditLog(owner_id=actor.id) records the actor only
+    assert by["delete_ticket"].owner_constraint and "ticket_for" in by["delete_ticket"].owner_evidence[0]
+    assert {x.route.function for x in v4} == {"update_ticket"}
+
+
 class HelperAware:
     """Verifier stand-in: withdraws when a shown helper contains the owner comparison."""
     def __init__(self):

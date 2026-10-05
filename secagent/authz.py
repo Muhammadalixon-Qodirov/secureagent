@@ -355,7 +355,10 @@ def _classify(body: str, owner_cols: set[str]) -> str | None:
     """What a function's body enforces: owner (compares an owner column / *_id attribute in a function
     that knows the user), role, login, or nothing."""
     cols = "|".join(re.escape(c) for c in owner_cols)
-    owner_cmp = OWNER_COMPARE.search(body) or (cols and re.search(rf"\b(?:{cols})\b\s*(?:[=!]=|=\s*\w)", body))
+    # a keyword `owner_col=...` counts only inside a query call: AuditLog(actor_id=actor.id) records who
+    # acted, it does not check anything
+    owner_cmp = OWNER_COMPARE.search(body) or (cols and re.search(
+        rf"\b(?:{cols})\b\s*[=!]=|(?:filter|filter_by|where|get|get_object_or_404|exclude)\([^\n]*\b(?:{cols})\s*=\s*\w", body))
     if owner_cmp and USER_TOKEN.search(body):
         return "owner"
     if ROLE_CHECK.search(body) and DENY.search(body):
