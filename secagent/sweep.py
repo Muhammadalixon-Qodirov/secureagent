@@ -33,6 +33,7 @@ import yaml
 from pydantic import BaseModel, ConfigDict, Field, ValidationError
 
 from .authz import idor_candidates, render_facts
+from .sinks import render as sink_render, scan as sink_scan
 from .config import Config
 from .hardening import blanked, code_lines
 from .model import ModelError
@@ -131,6 +132,15 @@ VERIFY_V4_MISSING_AUTH = (
 )
 
 
+VERIFY_V5_SINK = (
+    "\nThis claim comes from a static scan that found the operation and where its value comes from (SINK "
+    "FACTS, trusted); nobody has judged it yet. The claim fails if the shown code makes the value safe before "
+    "the operation (give that line in control_line) or if the value is not controlled by a caller at all - a "
+    "constant, configuration, a server-generated id (give the line where it is assigned in control_line). "
+    "A value that reaches the function as a parameter counts as caller-controlled."
+)
+
+
 @dataclass
 class SweepStats:
     windows: int = 0
@@ -144,6 +154,7 @@ class SweepStats:
     verifier_failed: int = 0
     duplicates: int = 0
     authz_seeds: int = 0
+    sink_seeds: int = 0
     seconds: float = 0.0
 
 
@@ -197,6 +208,34 @@ def _authz_seeds(root: Path, registry: ToolRegistry, stats: SweepStats, notes: l
     return seeds, context, handlers, facts
 
 
+def _sink_seeds(root: Path, registry: ToolRegistry, stats: SweepStats, notes: list[str], families: list[str]):
+    """v5: deterministic injection-sink candidates (secagent/sinks.py). The enclosing function is read
+    through the registry so the finding has a real read event; the scan's facts become verifier context."""
+    files = {}
+    for p in _python_files(root):
+        rel = p.relative_to(root).as_posix()
+        if "/migrations/" in "/" + rel:
+            continue
+        try:
+            files[rel] = p.read_text(encoding="utf-8", errors="replace")
+        except OSError:
+            continue
+    seeds, context, spans = [], {}, {}
+    for s in sink_scan(files):
+        if s.family not in families:
+            continue
+        ev = registry.execute("read_file", {"path": s.file, "start_line": s.func_start, "end_line": s.func_end})
+        if ev.status != "ok" or not (ev.data["start_line"] <= s.line <= ev.data["end_line"]):
+            notes.append(f"sink seed {s.file}:{s.line} not read")
+            continue
+        c = Candidate(family=s.family, reason=s.reason, line=s.line, title=s.title)
+        context[id(c)] = sink_render(s)
+        spans[id(c)] = (s.func_start, s.func_end)
+        seeds.append((c, ev.event_id, ev.data))
+    stats.sink_seeds = len(seeds)
+    return seeds, context, spans
+
+
 def _fact_for(facts, path: str, line: int):
     return next((r for r in facts if r.file == path and r.line_start <= line <= r.line_end), None)
 
@@ -210,10 +249,11 @@ def _facts_text(r) -> str:
 
 def run_sweep(config: Config, model, registry: ToolRegistry, verify: bool = True,
               run_dir: Path | None = None, authz: bool = False, sweep: bool = True,
-              harden: bool = False, resolve: bool = False) -> SweepResult:
+              harden: bool = False, resolve: bool = False, sinks: bool = False) -> SweepResult:
     """authz=True is v3 (deterministic IDOR seeds); sweep=False skips the model sweep (ablation);
     resolve=True is v4: helpers/dependencies classified from their bodies, facts shown to the sweep,
     helper bodies shown to the verifier;
+    sinks=True is v5: deterministic injection-sink seeds (secagent/sinks.py), judged by the verifier;
     harden=True blanks comments/docstrings in what the model sees and requires a withdrawal's
     control line to be code (secagent/hardening.py)."""
     t0 = time.monotonic()
@@ -229,6 +269,11 @@ def run_sweep(config: Config, model, registry: ToolRegistry, verify: bool = True
     facts: list = []
     if authz and "authorization_idor" in families:
         candidates, context, handlers, facts = _authz_seeds(root, registry, stats, notes, resolve)
+    spans: dict[int, tuple[int, int]] = {}
+    if sinks:
+        s_seeds, s_ctx, spans = _sink_seeds(root, registry, stats, notes, families)
+        candidates = candidates + s_seeds
+        context.update(s_ctx)
 
     windows, sink_files = [], set()
     for py in (_python_files(root) if sweep else []):
@@ -303,13 +348,15 @@ def run_sweep(config: Config, model, registry: ToolRegistry, verify: bool = True
         fid, hid = f"F{i:03d}", f"H{i:03d}"
         seeded = id(c) in context
         confidence = "medium"
-        rationale = f"{'authz analysis' if seeded else 'sweep'} candidate: {c.reason[:300]}"
+        origin = "sink scan" if id(c) in spans else "authz analysis" if seeded else "sweep"
+        rationale = f"{origin} candidate: {c.reason[:300]}"
         if verify:
             fact = _fact_for(facts, d["path"], c.line) if resolve and c.family == "authorization_idor" else None
             ctx = context.get(id(c), "")
             if fact is not None:
                 ctx = (ctx + "\n" if ctx else "") + _facts_text(fact)
-            v, win_event, shown = _verify(c, d["path"], registry, model, renderer, ctx, root, harden, fact)
+            v, win_event, shown = _verify(c, d["path"], registry, model, renderer, ctx, root, harden, fact,
+                                          spans.get(id(c)))
             if v is None:
                 stats.verifier_failed += 1
                 confidence, rationale = "low", rationale + " | verifier failed"
@@ -393,8 +440,10 @@ def _control_ok(v, path: str, registry: ToolRegistry, shown: list[str], root: Pa
 
 
 def _verify(c: Candidate, path: str, registry: ToolRegistry, model, renderer: Renderer, context: str = "",
-            root: Path | None = None, harden: bool = False, fact=None):
+            root: Path | None = None, harden: bool = False, fact=None, span: tuple[int, int] | None = None):
     a, b = max(1, c.line - VERIFY_PADDING), c.line + VERIFY_PADDING
+    if span is not None:                                   # v5: the whole function around a seeded sink
+        a, b = min(a, max(span[0], c.line - 90)), max(b, min(span[1], c.line + 40))
     if fact is not None:                                   # v4: show the whole handler when it fits
         a, b = min(a, fact.line_start), max(b, min(fact.line_end, fact.line_start + 110))
     win = registry.execute("read_file", {"path": path, "start_line": a, "end_line": b})
@@ -412,6 +461,8 @@ def _verify(c: Candidate, path: str, registry: ToolRegistry, model, renderer: Re
     schema = VerdictV4 if fact is not None else VerdictV2
     addendum = "" if fact is None else (VERIFY_V4_MISSING_AUTH if c.title.startswith("Missing authentication")
                                         else VERIFY_V4_ADDENDUM)
+    if span is not None:
+        addendum = VERIFY_V5_SINK
     msgs = [{"role": "system", "content": VERIFY_SYSTEM + addendum},
             {"role": "user", "content": claim + "\n\n" + renderer.observation(_shown(win, root, harden)) + extra}]
     try:

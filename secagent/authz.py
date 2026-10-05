@@ -56,6 +56,8 @@ OWNER_COMPARE = re.compile(r"\.\w+_id\b\s*(?:[=!]=|not\s+in\b|in\b)|[=!]=\s*[\w.
                            r"\.(?:owner|user|author|creator|created_by)\b\s*[=!]=|[=!]=\s*[\w.]+\.(?:owner|user|author)\b|"
                            r"(?:filter|filter_by|where|get|get_object_or_404|exclude)\([^\n]*\b\w+_id\s*=\s*"
                            r"(?:self\.)?(?:request\.user|current_user|user|actor)\b")
+CREDENTIAL_COMPARE = re.compile(r"(?:headers|cookies|META)\b[^\n]*(?:[=!]=|compare_digest)|"
+                                r"compare_digest\([^\n]*(?:headers|cookies|META|token|key)", re.I)
 ADMIN_ONLY = re.compile(r"admin|superuser|is_staff\b", re.I)
 
 
@@ -367,6 +369,8 @@ def _classify(body: str, owner_cols: set[str]) -> str | None:
         return "login"
     if GATE.search(body) and re.search(r"headers|cookies|token|secret|key", body, re.I):
         return "login"                      # a gate on a request credential, whatever it is called
+    if CREDENTIAL_COMPARE.search(body):
+        return "login"                      # v5: returns whether a request credential equals a secret
     return None
 
 
