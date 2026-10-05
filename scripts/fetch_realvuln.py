@@ -73,7 +73,12 @@ def fetch(framework: str, OUT: Path, commit: str | None) -> int:
     gt_dir.mkdir(parents=True, exist_ok=True)
     for p in gt_paths:
         gt = json.loads(get(f"https://raw.githubusercontent.com/{BENCH}/{bench_sha}/{p}"))
-        if gt.get("language") != "python" or gt.get("framework") != framework:
+        if gt.get("language") != "python":
+            continue
+        if framework == "other":                    # every Python target outside the three sets already used
+            if gt.get("framework") in ("flask", "fastapi", "django"):
+                continue
+        elif gt.get("framework") != framework:
             continue
         (gt_dir / f"{gt['repo_id']}.json").write_text(json.dumps(gt, indent=2), encoding="utf-8")
         targets.append(gt)

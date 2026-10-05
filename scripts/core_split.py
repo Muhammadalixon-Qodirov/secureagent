@@ -22,7 +22,8 @@ from secagent.evaluate import DATASETS, wilson  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 CORE = {"CWE-639", "CWE-862", "CWE-863", "CWE-284", "CWE-285", "CWE-306", "CWE-425", "CWE-566"}
-GT = {"realvuln": "eval/realvuln", "realvuln_fastapi": "eval/realvuln_fastapi", "realvuln_django": "eval/realvuln_django"}
+GT = {"realvuln": "eval/realvuln", "realvuln_fastapi": "eval/realvuln_fastapi", "realvuln_django": "eval/realvuln_django",
+      "realvuln_other": "eval/realvuln_other"}
 
 
 def main() -> int:

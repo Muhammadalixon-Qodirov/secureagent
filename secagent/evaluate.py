@@ -106,6 +106,9 @@ DATASETS = {
     # test set for v4, frozen before v4 was written (docs/django_protocol.md)
     "realvuln_django": (lambda: load_realvuln(ROOT / "eval" / "realvuln_django"),
                         ROOT / "eval" / "realvuln_django" / "targets", ROOT / "runs" / "eval_django"),
+    # test set for v5, frozen before v5 was written (docs/other_protocol.md): aiohttp, tornado, no framework
+    "realvuln_other": (lambda: load_realvuln(ROOT / "eval" / "realvuln_other"),
+                       ROOT / "eval" / "realvuln_other" / "targets", ROOT / "runs" / "eval_other"),
 }
 
 

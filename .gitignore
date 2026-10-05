@@ -18,3 +18,4 @@ runs/
 eval/realvuln/targets/
 eval/realvuln_fastapi/targets/
 eval/realvuln_django/targets/
+eval/realvuln_other/targets/
