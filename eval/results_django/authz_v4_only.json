@@ -1,0 +1,3729 @@
+{
+  "system": "authz_v4_only",
+  "metrics": {
+    "sql_injection": {
+      "tp": 0,
+      "fn": 18,
+      "fp_lookalike": 0,
+      "fp_unmatched": 0,
+      "precision": null,
+      "precision_ci95": null,
+      "recall": 0.0,
+      "recall_ci95": [
+        0.0,
+        0.176
+      ],
+      "f1": null,
+      "lookalike_fp_rate": 0.0,
+      "safe_cases": 21
+    },
+    "path_traversal": {
+      "tp": 0,
+      "fn": 36,
+      "fp_lookalike": 0,
+      "fp_unmatched": 0,
+      "precision": null,
+      "precision_ci95": null,
+      "recall": 0.0,
+      "recall_ci95": [
+        0.0,
+        0.096
+      ],
+      "f1": null,
+      "lookalike_fp_rate": 0.0,
+      "safe_cases": 7
+    },
+    "authorization_idor": {
+      "tp": 41,
+      "fn": 109,
+      "fp_lookalike": 8,
+      "fp_unmatched": 109,
+      "precision": 0.259,
+      "precision_ci95": [
+        0.197,
+        0.333
+      ],
+      "recall": 0.273,
+      "recall_ci95": [
+        0.208,
+        0.35
+      ],
+      "f1": 0.266,
+      "lookalike_fp_rate": 0.178,
+      "safe_cases": 45
+    },
+    "micro": {
+      "tp": 41,
+      "fn": 163,
+      "fp_lookalike": 8,
+      "fp_unmatched": 109,
+      "precision": 0.259,
+      "precision_ci95": [
+        0.197,
+        0.333
+      ],
+      "recall": 0.201,
+      "recall_ci95": [
+        0.152,
+        0.261
+      ],
+      "f1": 0.227,
+      "lookalike_fp_rate": 0.11,
+      "safe_cases": 73
+    }
+  },
+  "per_app": {
+    "djangoat": {
+      "tp": [
+        "djangoat-020",
+        "djangoat-019",
+        "djangoat-043",
+        "djangoat-021",
+        "djangoat-031"
+      ],
+      "fn": [
+        "djangoat-001",
+        "djangoat-002",
+        "djangoat-007",
+        "djangoat-018",
+        "djangoat-022",
+        "djangoat-030",
+        "djangoat-044",
+        "djangoat-045",
+        "djangoat-047"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-639",
+          "file": "app/views/users/paid_time_off/views.py",
+          "ranges": [
+            [
+              19,
+              19
+            ]
+          ],
+          "title": "Broken object-level authorization in index",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/views/users/pay/views.py",
+          "ranges": [
+            [
+              23,
+              23
+            ]
+          ],
+          "title": "Broken object-level authorization in update_dd_info",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/views/users/pay/views.py",
+          "ranges": [
+            [
+              60,
+              60
+            ]
+          ],
+          "title": "Broken object-level authorization in user_pay_index",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/views/users/pay/views.py",
+          "ranges": [
+            [
+              72,
+              72
+            ]
+          ],
+          "title": "Broken object-level authorization in user_pay",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/views/users/views.py",
+          "ranges": [
+            [
+              71,
+              71
+            ]
+          ],
+          "title": "Broken object-level authorization in user_view",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/views/users/work_info/views.py",
+          "ranges": [
+            [
+              12,
+              12
+            ]
+          ],
+          "title": "Broken object-level authorization in user_work_info_index",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-639",
+          "file": "app/views/admin/views.py",
+          "ranges": [
+            [
+              42,
+              42
+            ]
+          ],
+          "title": "Broken object-level authorization in admin_delete_user"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/views/admin/views.py",
+          "ranges": [
+            [
+              56,
+              56
+            ]
+          ],
+          "title": "Broken object-level authorization in admin_update_user"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/views/users/messages/views.py",
+          "ranges": [
+            [
+              22,
+              22
+            ]
+          ],
+          "title": "Broken object-level authorization in user_messages"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/views/users/messages/views.py",
+          "ranges": [
+            [
+              51,
+              51
+            ]
+          ],
+          "title": "Broken object-level authorization in user_message"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/views/users/paid_time_off/views.py",
+          "ranges": [
+            [
+              19,
+              19
+            ]
+          ],
+          "title": "Broken object-level authorization in index"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/views/users/pay/views.py",
+          "ranges": [
+            [
+              23,
+              23
+            ]
+          ],
+          "title": "Broken object-level authorization in update_dd_info"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/views/users/pay/views.py",
+          "ranges": [
+            [
+              43,
+              43
+            ]
+          ],
+          "title": "Broken object-level authorization in decrypt_bank_acct_num"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/views/users/pay/views.py",
+          "ranges": [
+            [
+              60,
+              60
+            ]
+          ],
+          "title": "Broken object-level authorization in user_pay_index"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/views/users/pay/views.py",
+          "ranges": [
+            [
+              72,
+              72
+            ]
+          ],
+          "title": "Broken object-level authorization in user_pay"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/views/users/views.py",
+          "ranges": [
+            [
+              71,
+              71
+            ]
+          ],
+          "title": "Broken object-level authorization in user_view"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/views/users/work_info/views.py",
+          "ranges": [
+            [
+              12,
+              12
+            ]
+          ],
+          "title": "Broken object-level authorization in user_work_info_index"
+        }
+      ],
+      "seconds": 0.3
+    },
+    "lets-be-bad-guys": {
+      "tp": [],
+      "fn": [
+        "lets-be-bad-guys-001",
+        "lets-be-bad-guys-010",
+        "lets-be-bad-guys-011"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [],
+      "seconds": 0.1
+    },
+    "pygoat": {
+      "tp": [],
+      "fn": [
+        "pygoat-001",
+        "pygoat-002",
+        "pygoat-011",
+        "pygoat-012",
+        "pygoat-013",
+        "pygoat-014",
+        "pygoat-015",
+        "pygoat-031",
+        "pygoat-032",
+        "pygoat-034",
+        "pygoat-035",
+        "pygoat-036",
+        "pygoat-037",
+        "pygoat-045",
+        "pygoat-069"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-639",
+          "file": "dockerized_labs/insec_des_lab/main.py",
+          "ranges": [
+            [
+              30,
+              30
+            ]
+          ],
+          "title": "Missing authentication on deserialize_data",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "introduction/mitre.py",
+          "ranges": [
+            [
+              214,
+              214
+            ]
+          ],
+          "title": "Missing authentication on mitre_lab_25_api",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-639",
+          "file": "dockerized_labs/insec_des_lab/main.py",
+          "ranges": [
+            [
+              30,
+              30
+            ]
+          ],
+          "title": "Missing authentication on deserialize_data"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "introduction/mitre.py",
+          "ranges": [
+            [
+              214,
+              214
+            ]
+          ],
+          "title": "Missing authentication on mitre_lab_25_api"
+        }
+      ],
+      "seconds": 0.6
+    },
+    "vc-claude-code-seeded-v2-crm-saas-django": {
+      "tp": [
+        "seeded-v2-campaign-2-191",
+        "seeded-v2-campaign-3-439"
+      ],
+      "fn": [
+        "seeded-v2-campaign-1-001",
+        "seeded-v2-campaign-1-002",
+        "seeded-v2-campaign-2-121",
+        "seeded-v2-campaign-3-369",
+        "seeded-v2-campaign-3-388",
+        "vc-claude-code-seeded-v2-crm-saas-django-enrich-009"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-639",
+          "file": "accounts/views.py",
+          "ranges": [
+            [
+              102,
+              102
+            ]
+          ],
+          "title": "Missing authentication on invite_accept",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "crm/views/customer_portal.py",
+          "ranges": [
+            [
+              119,
+              119
+            ]
+          ],
+          "title": "Broken object-level authorization in escalation_detail",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "crm_project/partner_console.py",
+          "ranges": [
+            [
+              146,
+              146
+            ]
+          ],
+          "title": "Missing authentication on acct_shell_probe_399",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [
+        {
+          "cwe": "CWE-639",
+          "file": "crm_project/partner_console.py",
+          "ranges": [
+            [
+              188,
+              188
+            ]
+          ],
+          "title": "Missing authentication on acct_xml_fold_451",
+          "case": "seeded-v2-campaign-3-439"
+        }
+      ],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-639",
+          "file": "accounts/views.py",
+          "ranges": [
+            [
+              102,
+              102
+            ]
+          ],
+          "title": "Missing authentication on invite_accept"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "crm/views/customer_portal.py",
+          "ranges": [
+            [
+              119,
+              119
+            ]
+          ],
+          "title": "Broken object-level authorization in escalation_detail"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "crm_project/partner_console.py",
+          "ranges": [
+            [
+              75,
+              75
+            ]
+          ],
+          "title": "Missing authentication on acct_workset_rebind_191"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "crm_project/partner_console.py",
+          "ranges": [
+            [
+              146,
+              146
+            ]
+          ],
+          "title": "Missing authentication on acct_shell_probe_399"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "crm_project/partner_console.py",
+          "ranges": [
+            [
+              171,
+              171
+            ]
+          ],
+          "title": "Missing authentication on acct_trust_drift_429"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "crm_project/partner_console.py",
+          "ranges": [
+            [
+              188,
+              188
+            ]
+          ],
+          "title": "Missing authentication on acct_xml_fold_451"
+        }
+      ],
+      "seconds": 1.1
+    },
+    "vc-claude-code-seeded-v2-education-lms-django": {
+      "tp": [
+        "seeded-v2-campaign-1-005",
+        "seeded-v2-campaign-3-440"
+      ],
+      "fn": [
+        "seeded-v2-campaign-2-122",
+        "seeded-v2-campaign-3-370",
+        "seeded-v2-campaign-3-389",
+        "vc-claude-code-seeded-v2-education-lms-django-enrich-001",
+        "vc-claude-code-seeded-v2-education-lms-django-enrich-004",
+        "vc-claude-code-seeded-v2-education-lms-django-enrich-005",
+        "vc-claude-code-seeded-v2-education-lms-django-enrich-006",
+        "vc-claude-code-seeded-v2-education-lms-django-enrich-012",
+        "vc-claude-code-seeded-v2-education-lms-django-enrich-013"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-639",
+          "file": "accounts/views.py",
+          "ranges": [
+            [
+              280,
+              280
+            ]
+          ],
+          "title": "Missing authentication on invitation_accept",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "assignments/views.py",
+          "ranges": [
+            [
+              251,
+              251
+            ]
+          ],
+          "title": "Broken object-level authorization in grading_queue",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "courses/views.py",
+          "ranges": [
+            [
+              286,
+              286
+            ]
+          ],
+          "title": "Broken object-level authorization in enrollment_list",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "lms/course_operations.py",
+          "ranges": [
+            [
+              136,
+              136
+            ]
+          ],
+          "title": "Missing authentication on course_shell_probe_400",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [
+        {
+          "cwe": "CWE-639",
+          "file": "lms/course_operations.py",
+          "ranges": [
+            [
+              178,
+              178
+            ]
+          ],
+          "title": "Missing authentication on course_xml_fold_452",
+          "case": "seeded-v2-campaign-3-440"
+        }
+      ],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-639",
+          "file": "accounts/views.py",
+          "ranges": [
+            [
+              280,
+              280
+            ]
+          ],
+          "title": "Missing authentication on invitation_accept"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "assignments/views.py",
+          "ranges": [
+            [
+              251,
+              251
+            ]
+          ],
+          "title": "Broken object-level authorization in grading_queue"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "courses/views.py",
+          "ranges": [
+            [
+              286,
+              286
+            ]
+          ],
+          "title": "Broken object-level authorization in enrollment_list"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "lms/course_operations.py",
+          "ranges": [
+            [
+              36,
+              36
+            ]
+          ],
+          "title": "Missing authentication on course_flag_rollup_005"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "lms/course_operations.py",
+          "ranges": [
+            [
+              136,
+              136
+            ]
+          ],
+          "title": "Missing authentication on course_shell_probe_400"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "lms/course_operations.py",
+          "ranges": [
+            [
+              161,
+              161
+            ]
+          ],
+          "title": "Missing authentication on course_trust_drift_430"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "lms/course_operations.py",
+          "ranges": [
+            [
+              178,
+              178
+            ]
+          ],
+          "title": "Missing authentication on course_xml_fold_452"
+        }
+      ],
+      "seconds": 1.0
+    },
+    "vc-claude-code-seeded-v2-healthcare-clinic-django": {
+      "tp": [
+        "seeded-v2-campaign-1-012",
+        "seeded-v2-campaign-2-193"
+      ],
+      "fn": [
+        "seeded-v2-campaign-1-010",
+        "seeded-v2-campaign-1-011",
+        "seeded-v2-campaign-3-372",
+        "seeded-v2-campaign-3-412",
+        "vc-claude-code-seeded-v2-healthcare-clinic-django-enrich-005",
+        "vc-claude-code-seeded-v2-healthcare-clinic-django-enrich-006",
+        "vc-claude-code-seeded-v2-healthcare-clinic-django-enrich-007",
+        "vc-claude-code-seeded-v2-healthcare-clinic-django-enrich-008"
+      ],
+      "fp_safe": [
+        "vc-claude-code-seeded-v2-healthcare-clinic-django-fp-001"
+      ],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-639",
+          "file": "accounts/views.py",
+          "ranges": [
+            [
+              175,
+              175
+            ]
+          ],
+          "title": "Broken object-level authorization in password_reset_confirm",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "accounts/views.py",
+          "ranges": [
+            [
+              202,
+              202
+            ]
+          ],
+          "title": "Broken object-level authorization in invite_activate",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "clinic_portal/patient_operations.py",
+          "ranges": [
+            [
+              84,
+              84
+            ]
+          ],
+          "title": "Missing authentication on patient_formula_cast_251",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "clinic_portal/patient_operations.py",
+          "ranges": [
+            [
+              133,
+              133
+            ]
+          ],
+          "title": "Missing authentication on patient_shell_probe_395",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "clinic_portal/patient_operations.py",
+          "ranges": [
+            [
+              167,
+              167
+            ]
+          ],
+          "title": "Missing authentication on patient_trust_drift_432",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "clinic_portal/patient_operations.py",
+          "ranges": [
+            [
+              183,
+              183
+            ]
+          ],
+          "title": "Missing authentication on patient_xml_fold_453",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-639",
+          "file": "accounts/views.py",
+          "ranges": [
+            [
+              175,
+              175
+            ]
+          ],
+          "title": "Broken object-level authorization in password_reset_confirm"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "accounts/views.py",
+          "ranges": [
+            [
+              202,
+              202
+            ]
+          ],
+          "title": "Broken object-level authorization in invite_activate"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "clinic_portal/patient_operations.py",
+          "ranges": [
+            [
+              28,
+              28
+            ]
+          ],
+          "title": "Missing authentication on patient_filebox_slot_010"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "clinic_portal/patient_operations.py",
+          "ranges": [
+            [
+              60,
+              60
+            ]
+          ],
+          "title": "Missing authentication on patient_bundle_thaw_169"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "clinic_portal/patient_operations.py",
+          "ranges": [
+            [
+              73,
+              73
+            ]
+          ],
+          "title": "Missing authentication on patient_workset_rebind_193"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "clinic_portal/patient_operations.py",
+          "ranges": [
+            [
+              84,
+              84
+            ]
+          ],
+          "title": "Missing authentication on patient_formula_cast_251"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "clinic_portal/patient_operations.py",
+          "ranges": [
+            [
+              133,
+              133
+            ]
+          ],
+          "title": "Missing authentication on patient_shell_probe_395"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "clinic_portal/patient_operations.py",
+          "ranges": [
+            [
+              167,
+              167
+            ]
+          ],
+          "title": "Missing authentication on patient_trust_drift_432"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "clinic_portal/patient_operations.py",
+          "ranges": [
+            [
+              183,
+              183
+            ]
+          ],
+          "title": "Missing authentication on patient_xml_fold_453"
+        }
+      ],
+      "seconds": 1.5
+    },
+    "vc-claude-code-seeded-v2-hr-payroll-django": {
+      "tp": [
+        "seeded-v2-campaign-2-124",
+        "seeded-v2-campaign-2-194"
+      ],
+      "fn": [
+        "seeded-v2-campaign-1-013",
+        "seeded-v2-campaign-1-014",
+        "seeded-v2-campaign-3-373",
+        "seeded-v2-campaign-3-391",
+        "seeded-v2-campaign-3-413",
+        "vc-claude-code-seeded-v2-hr-payroll-django-enrich-001",
+        "vc-claude-code-seeded-v2-hr-payroll-django-enrich-008"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-639",
+          "file": "accounts/views.py",
+          "ranges": [
+            [
+              251,
+              251
+            ]
+          ],
+          "title": "Missing authentication on invite_accept",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "hr_portal/payroll_operations.py",
+          "ranges": [
+            [
+              69,
+              69
+            ]
+          ],
+          "title": "Missing authentication on payroll_bundle_thaw_170",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "hr_portal/payroll_operations.py",
+          "ranges": [
+            [
+              93,
+              93
+            ]
+          ],
+          "title": "Missing authentication on payroll_formula_cast_252",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "hr_portal/payroll_operations.py",
+          "ranges": [
+            [
+              151,
+              151
+            ]
+          ],
+          "title": "Missing authentication on payroll_shell_probe_402",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "hr_portal/payroll_operations.py",
+          "ranges": [
+            [
+              176,
+              176
+            ]
+          ],
+          "title": "Missing authentication on payroll_trust_drift_433",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "hr_portal/payroll_operations.py",
+          "ranges": [
+            [
+              192,
+              192
+            ]
+          ],
+          "title": "Missing authentication on payroll_xml_fold_454",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "portal_api/views.py",
+          "ranges": [
+            [
+              100,
+              100
+            ]
+          ],
+          "title": "Missing authentication on employee_detail",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "portal_api/views.py",
+          "ranges": [
+            [
+              183,
+              183
+            ]
+          ],
+          "title": "Missing authentication on policies_list",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-639",
+          "file": "accounts/views.py",
+          "ranges": [
+            [
+              251,
+              251
+            ]
+          ],
+          "title": "Missing authentication on invite_accept"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "hr_portal/payroll_operations.py",
+          "ranges": [
+            [
+              48,
+              48
+            ]
+          ],
+          "title": "Missing authentication on payroll_broker_tile_015"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "hr_portal/payroll_operations.py",
+          "ranges": [
+            [
+              69,
+              69
+            ]
+          ],
+          "title": "Missing authentication on payroll_bundle_thaw_170"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "hr_portal/payroll_operations.py",
+          "ranges": [
+            [
+              82,
+              82
+            ]
+          ],
+          "title": "Missing authentication on payroll_workset_rebind_194"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "hr_portal/payroll_operations.py",
+          "ranges": [
+            [
+              93,
+              93
+            ]
+          ],
+          "title": "Missing authentication on payroll_formula_cast_252"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "hr_portal/payroll_operations.py",
+          "ranges": [
+            [
+              151,
+              151
+            ]
+          ],
+          "title": "Missing authentication on payroll_shell_probe_402"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "hr_portal/payroll_operations.py",
+          "ranges": [
+            [
+              176,
+              176
+            ]
+          ],
+          "title": "Missing authentication on payroll_trust_drift_433"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "hr_portal/payroll_operations.py",
+          "ranges": [
+            [
+              192,
+              192
+            ]
+          ],
+          "title": "Missing authentication on payroll_xml_fold_454"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "portal_api/views.py",
+          "ranges": [
+            [
+              100,
+              100
+            ]
+          ],
+          "title": "Missing authentication on employee_detail"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "portal_api/views.py",
+          "ranges": [
+            [
+              183,
+              183
+            ]
+          ],
+          "title": "Missing authentication on policies_list"
+        }
+      ],
+      "seconds": 1.1
+    },
+    "vc-claude-code-seeded-v2-legal-case-django": {
+      "tp": [],
+      "fn": [
+        "seeded-v2-campaign-1-017",
+        "seeded-v2-campaign-2-125",
+        "seeded-v2-campaign-3-374",
+        "seeded-v2-campaign-3-392",
+        "seeded-v2-campaign-3-414",
+        "vc-claude-code-seeded-v2-legal-case-django-enrich-001",
+        "vc-claude-code-seeded-v2-legal-case-django-enrich-002"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-639",
+          "file": "cases/views_clients.py",
+          "ranges": [
+            [
+              71,
+              71
+            ]
+          ],
+          "title": "Broken object-level authorization in client_detail",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "legal_firm/case_operations.py",
+          "ranges": [
+            [
+              63,
+              63
+            ]
+          ],
+          "title": "Missing authentication on case_bundle_thaw_171",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "legal_firm/case_operations.py",
+          "ranges": [
+            [
+              83,
+              83
+            ]
+          ],
+          "title": "Missing authentication on case_formula_cast_253",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "legal_firm/case_operations.py",
+          "ranges": [
+            [
+              187,
+              187
+            ]
+          ],
+          "title": "Missing authentication on case_xml_fold_455",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-639",
+          "file": "cases/views_clients.py",
+          "ranges": [
+            [
+              71,
+              71
+            ]
+          ],
+          "title": "Broken object-level authorization in client_detail"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "legal_firm/case_operations.py",
+          "ranges": [
+            [
+              63,
+              63
+            ]
+          ],
+          "title": "Missing authentication on case_bundle_thaw_171"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "legal_firm/case_operations.py",
+          "ranges": [
+            [
+              83,
+              83
+            ]
+          ],
+          "title": "Missing authentication on case_formula_cast_253"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "legal_firm/case_operations.py",
+          "ranges": [
+            [
+              187,
+              187
+            ]
+          ],
+          "title": "Missing authentication on case_xml_fold_455"
+        }
+      ],
+      "seconds": 0.9
+    },
+    "vc-codex-high-seeded-v2-crm-saas-django": {
+      "tp": [
+        "seeded-v2-campaign-2-133",
+        "seeded-v2-campaign-2-202",
+        "seeded-v2-campaign-3-623"
+      ],
+      "fn": [
+        "seeded-v2-campaign-1-061",
+        "seeded-v2-campaign-1-062",
+        "seeded-v2-campaign-3-563",
+        "seeded-v2-campaign-3-592",
+        "seeded-v2-campaign-3-613"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-639",
+          "file": "config/partner_console.py",
+          "ranges": [
+            [
+              188,
+              188
+            ]
+          ],
+          "title": "Missing authentication on acct_trust_drift_643",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "crm/views.py",
+          "ranges": [
+            [
+              349,
+              349
+            ]
+          ],
+          "title": "Missing authentication on accept_invite",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-639",
+          "file": "config/partner_console.py",
+          "ranges": [
+            [
+              48,
+              48
+            ]
+          ],
+          "title": "Missing authentication on acct_relay_note_063"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "config/partner_console.py",
+          "ranges": [
+            [
+              75,
+              75
+            ]
+          ],
+          "title": "Missing authentication on acct_workset_rebind_202"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "config/partner_console.py",
+          "ranges": [
+            [
+              180,
+              180
+            ]
+          ],
+          "title": "Missing authentication on acct_shell_probe_633"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "config/partner_console.py",
+          "ranges": [
+            [
+              188,
+              188
+            ]
+          ],
+          "title": "Missing authentication on acct_trust_drift_643"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "crm/views.py",
+          "ranges": [
+            [
+              349,
+              349
+            ]
+          ],
+          "title": "Missing authentication on accept_invite"
+        }
+      ],
+      "seconds": 0.6
+    },
+    "vc-codex-high-seeded-v2-education-lms-django": {
+      "tp": [
+        "seeded-v2-campaign-1-065",
+        "seeded-v2-campaign-3-624"
+      ],
+      "fn": [
+        "seeded-v2-campaign-2-134",
+        "seeded-v2-campaign-3-564",
+        "seeded-v2-campaign-3-593"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-639",
+          "file": "lms/views.py",
+          "ranges": [
+            [
+              396,
+              396
+            ]
+          ],
+          "title": "Broken object-level authorization in cohort_edit",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "education_lms/course_operations.py",
+          "ranges": [
+            [
+              177,
+              177
+            ]
+          ],
+          "title": "Missing authentication on course_trust_drift_644",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "lms/views.py",
+          "ranges": [
+            [
+              165,
+              165
+            ]
+          ],
+          "title": "Missing authentication on accept_invitation",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [
+        {
+          "cwe": "CWE-639",
+          "file": "education_lms/course_operations.py",
+          "ranges": [
+            [
+              169,
+              169
+            ]
+          ],
+          "title": "Missing authentication on course_shell_probe_634",
+          "case": "seeded-v2-campaign-3-624"
+        }
+      ],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-639",
+          "file": "lms/views.py",
+          "ranges": [
+            [
+              396,
+              396
+            ]
+          ],
+          "title": "Broken object-level authorization in cohort_edit"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "education_lms/course_operations.py",
+          "ranges": [
+            [
+              36,
+              36
+            ]
+          ],
+          "title": "Missing authentication on course_preflet_roll_065"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "education_lms/course_operations.py",
+          "ranges": [
+            [
+              153,
+              153
+            ]
+          ],
+          "title": "Missing authentication on course_xml_fold_616"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "education_lms/course_operations.py",
+          "ranges": [
+            [
+              169,
+              169
+            ]
+          ],
+          "title": "Missing authentication on course_shell_probe_634"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "education_lms/course_operations.py",
+          "ranges": [
+            [
+              177,
+              177
+            ]
+          ],
+          "title": "Missing authentication on course_trust_drift_644"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "lms/views.py",
+          "ranges": [
+            [
+              165,
+              165
+            ]
+          ],
+          "title": "Missing authentication on accept_invitation"
+        }
+      ],
+      "seconds": 0.9
+    },
+    "vc-codex-high-seeded-v2-healthcare-clinic-django": {
+      "tp": [
+        "seeded-v2-campaign-1-072",
+        "seeded-v2-campaign-2-204",
+        "seeded-v2-campaign-3-626"
+      ],
+      "fn": [
+        "seeded-v2-campaign-1-070",
+        "seeded-v2-campaign-1-071",
+        "seeded-v2-campaign-3-566",
+        "seeded-v2-campaign-3-606",
+        "vc-codex-high-seeded-v2-healthcare-clinic-django-enrich-006"
+      ],
+      "fp_safe": [
+        "vc-codex-high-seeded-v2-healthcare-clinic-django-fp-001",
+        "vc-codex-high-seeded-v2-healthcare-clinic-django-fp-004"
+      ],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-639",
+          "file": "clinic_portal/patient_operations.py",
+          "ranges": [
+            [
+              84,
+              84
+            ]
+          ],
+          "title": "Missing authentication on patient_formula_cast_262",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "clinic_portal/patient_operations.py",
+          "ranges": [
+            [
+              182,
+              182
+            ]
+          ],
+          "title": "Missing authentication on patient_trust_drift_646",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "portal/views.py",
+          "ranges": [
+            [
+              177,
+              177
+            ]
+          ],
+          "title": "Missing authentication on profile",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "portal/views.py",
+          "ranges": [
+            [
+              197,
+              197
+            ]
+          ],
+          "title": "Missing authentication on notifications_mark_read",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "portal/views.py",
+          "ranges": [
+            [
+              411,
+              411
+            ]
+          ],
+          "title": "Missing authentication on appointment_detail",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "portal/views.py",
+          "ranges": [
+            [
+              607,
+              607
+            ]
+          ],
+          "title": "Missing authentication on visit_summary_detail",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-639",
+          "file": "clinic_portal/patient_operations.py",
+          "ranges": [
+            [
+              28,
+              28
+            ]
+          ],
+          "title": "Missing authentication on patient_drop_shelf_070"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "clinic_portal/patient_operations.py",
+          "ranges": [
+            [
+              60,
+              60
+            ]
+          ],
+          "title": "Missing authentication on patient_bundle_thaw_179"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "clinic_portal/patient_operations.py",
+          "ranges": [
+            [
+              73,
+              73
+            ]
+          ],
+          "title": "Missing authentication on patient_workset_rebind_204"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "clinic_portal/patient_operations.py",
+          "ranges": [
+            [
+              84,
+              84
+            ]
+          ],
+          "title": "Missing authentication on patient_formula_cast_262"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "clinic_portal/patient_operations.py",
+          "ranges": [
+            [
+              159,
+              159
+            ]
+          ],
+          "title": "Missing authentication on patient_xml_fold_617"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "clinic_portal/patient_operations.py",
+          "ranges": [
+            [
+              182,
+              182
+            ]
+          ],
+          "title": "Missing authentication on patient_trust_drift_646"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "portal/views.py",
+          "ranges": [
+            [
+              177,
+              177
+            ]
+          ],
+          "title": "Missing authentication on profile"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "portal/views.py",
+          "ranges": [
+            [
+              197,
+              197
+            ]
+          ],
+          "title": "Missing authentication on notifications_mark_read"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "portal/views.py",
+          "ranges": [
+            [
+              411,
+              411
+            ]
+          ],
+          "title": "Missing authentication on appointment_detail"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "portal/views.py",
+          "ranges": [
+            [
+              566,
+              566
+            ]
+          ],
+          "title": "Missing authentication on document_download"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "portal/views.py",
+          "ranges": [
+            [
+              607,
+              607
+            ]
+          ],
+          "title": "Missing authentication on visit_summary_detail"
+        }
+      ],
+      "seconds": 0.7
+    },
+    "vc-codex-high-seeded-v2-hr-payroll-django": {
+      "tp": [
+        "seeded-v2-campaign-3-627"
+      ],
+      "fn": [
+        "seeded-v2-campaign-1-073",
+        "seeded-v2-campaign-1-074",
+        "seeded-v2-campaign-2-136",
+        "seeded-v2-campaign-3-567",
+        "seeded-v2-campaign-3-595",
+        "seeded-v2-campaign-3-607"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-639",
+          "file": "portal/views.py",
+          "ranges": [
+            [
+              800,
+              800
+            ]
+          ],
+          "title": "Broken object-level authorization in policy_edit",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "portal/views.py",
+          "ranges": [
+            [
+              812,
+              812
+            ]
+          ],
+          "title": "Broken object-level authorization in policy_delete",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "hr_portal/payroll_operations.py",
+          "ranges": [
+            [
+              69,
+              69
+            ]
+          ],
+          "title": "Missing authentication on payroll_bundle_thaw_180",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "hr_portal/payroll_operations.py",
+          "ranges": [
+            [
+              89,
+              89
+            ]
+          ],
+          "title": "Missing authentication on payroll_formula_cast_263",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "hr_portal/payroll_operations.py",
+          "ranges": [
+            [
+              191,
+              191
+            ]
+          ],
+          "title": "Missing authentication on payroll_trust_drift_647",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "portal/views.py",
+          "ranges": [
+            [
+              489,
+              489
+            ]
+          ],
+          "title": "Broken object-level authorization in task_detail",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "portal/views.py",
+          "ranges": [
+            [
+              936,
+              936
+            ]
+          ],
+          "title": "Missing authentication on invite_accept",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-639",
+          "file": "portal/views.py",
+          "ranges": [
+            [
+              800,
+              800
+            ]
+          ],
+          "title": "Broken object-level authorization in policy_edit"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "portal/views.py",
+          "ranges": [
+            [
+              812,
+              812
+            ]
+          ],
+          "title": "Broken object-level authorization in policy_delete"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "hr_portal/payroll_operations.py",
+          "ranges": [
+            [
+              69,
+              69
+            ]
+          ],
+          "title": "Missing authentication on payroll_bundle_thaw_180"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "hr_portal/payroll_operations.py",
+          "ranges": [
+            [
+              89,
+              89
+            ]
+          ],
+          "title": "Missing authentication on payroll_formula_cast_263"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "hr_portal/payroll_operations.py",
+          "ranges": [
+            [
+              168,
+              168
+            ]
+          ],
+          "title": "Missing authentication on payroll_xml_fold_618"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "hr_portal/payroll_operations.py",
+          "ranges": [
+            [
+              191,
+              191
+            ]
+          ],
+          "title": "Missing authentication on payroll_trust_drift_647"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "portal/views.py",
+          "ranges": [
+            [
+              489,
+              489
+            ]
+          ],
+          "title": "Broken object-level authorization in task_detail"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "portal/views.py",
+          "ranges": [
+            [
+              936,
+              936
+            ]
+          ],
+          "title": "Missing authentication on invite_accept"
+        }
+      ],
+      "seconds": 0.9
+    },
+    "vc-codex-high-seeded-v2-legal-case-django": {
+      "tp": [
+        "seeded-v2-campaign-3-628"
+      ],
+      "fn": [
+        "seeded-v2-campaign-1-077",
+        "seeded-v2-campaign-2-137",
+        "seeded-v2-campaign-3-568",
+        "seeded-v2-campaign-3-589",
+        "seeded-v2-campaign-3-608"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-639",
+          "file": "cases/views.py",
+          "ranges": [
+            [
+              211,
+              211
+            ]
+          ],
+          "title": "Missing authentication on accept_invite",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "cases/views.py",
+          "ranges": [
+            [
+              1038,
+              1038
+            ]
+          ],
+          "title": "Missing authentication on api_matter_documents",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "legalcase/case_operations.py",
+          "ranges": [
+            [
+              63,
+              63
+            ]
+          ],
+          "title": "Missing authentication on case_bundle_thaw_181",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "legalcase/case_operations.py",
+          "ranges": [
+            [
+              83,
+              83
+            ]
+          ],
+          "title": "Missing authentication on case_formula_cast_264",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "legalcase/case_operations.py",
+          "ranges": [
+            [
+              186,
+              186
+            ]
+          ],
+          "title": "Missing authentication on case_trust_drift_648",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-639",
+          "file": "cases/views.py",
+          "ranges": [
+            [
+              211,
+              211
+            ]
+          ],
+          "title": "Missing authentication on accept_invite"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "cases/views.py",
+          "ranges": [
+            [
+              1038,
+              1038
+            ]
+          ],
+          "title": "Missing authentication on api_matter_documents"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "legalcase/case_operations.py",
+          "ranges": [
+            [
+              63,
+              63
+            ]
+          ],
+          "title": "Missing authentication on case_bundle_thaw_181"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "legalcase/case_operations.py",
+          "ranges": [
+            [
+              83,
+              83
+            ]
+          ],
+          "title": "Missing authentication on case_formula_cast_264"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "legalcase/case_operations.py",
+          "ranges": [
+            [
+              163,
+              163
+            ]
+          ],
+          "title": "Missing authentication on case_xml_fold_619"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "legalcase/case_operations.py",
+          "ranges": [
+            [
+              186,
+              186
+            ]
+          ],
+          "title": "Missing authentication on case_trust_drift_648"
+        }
+      ],
+      "seconds": 0.7
+    },
+    "vc-codex-seeded-v2-crm-saas-django": {
+      "tp": [
+        "seeded-v2-campaign-2-197"
+      ],
+      "fn": [
+        "seeded-v2-campaign-2-127",
+        "seeded-v2-campaign-3-466",
+        "seeded-v2-campaign-3-494",
+        "seeded-v2-campaign-3-526",
+        "vc-codex-seeded-v2-crm-saas-django-enrich-001",
+        "vc-codex-seeded-v2-crm-saas-django-enrich-005",
+        "vc-codex-seeded-v2-crm-saas-django-enrich-008",
+        "vc-codex-seeded-v2-crm-saas-django-enrich-009",
+        "vc-codex-seeded-v2-crm-saas-django-enrich-010"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-639",
+          "file": "operations/views.py",
+          "ranges": [
+            [
+              164,
+              164
+            ]
+          ],
+          "title": "Broken object-level authorization in organization_delete",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "operations/views.py",
+          "ranges": [
+            [
+              534,
+              534
+            ]
+          ],
+          "title": "Broken object-level authorization in user_edit",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "crm_platform/partner_console.py",
+          "ranges": [
+            [
+              65,
+              65
+            ]
+          ],
+          "title": "Missing authentication on acct_bundle_thaw_174",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "crm_platform/partner_console.py",
+          "ranges": [
+            [
+              157,
+              157
+            ]
+          ],
+          "title": "Missing authentication on acct_shell_probe_506",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "crm_platform/partner_console.py",
+          "ranges": [
+            [
+              189,
+              189
+            ]
+          ],
+          "title": "Missing authentication on acct_trust_drift_546",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-639",
+          "file": "operations/views.py",
+          "ranges": [
+            [
+              164,
+              164
+            ]
+          ],
+          "title": "Broken object-level authorization in organization_delete"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "operations/views.py",
+          "ranges": [
+            [
+              534,
+              534
+            ]
+          ],
+          "title": "Broken object-level authorization in user_edit"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "crm_platform/partner_console.py",
+          "ranges": [
+            [
+              65,
+              65
+            ]
+          ],
+          "title": "Missing authentication on acct_bundle_thaw_174"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "crm_platform/partner_console.py",
+          "ranges": [
+            [
+              78,
+              78
+            ]
+          ],
+          "title": "Missing authentication on acct_workset_rebind_197"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "crm_platform/partner_console.py",
+          "ranges": [
+            [
+              157,
+              157
+            ]
+          ],
+          "title": "Missing authentication on acct_shell_probe_506"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "crm_platform/partner_console.py",
+          "ranges": [
+            [
+              189,
+              189
+            ]
+          ],
+          "title": "Missing authentication on acct_trust_drift_546"
+        }
+      ],
+      "seconds": 0.3
+    },
+    "vc-codex-seeded-v2-education-lms-django": {
+      "tp": [
+        "vc-codex-seeded-v2-education-lms-django-enrich-014",
+        "seeded-v2-campaign-1-036",
+        "seeded-v2-campaign-2-198",
+        "seeded-v2-campaign-3-527"
+      ],
+      "fn": [
+        "seeded-v2-campaign-1-034",
+        "seeded-v2-campaign-1-035",
+        "seeded-v2-campaign-3-467",
+        "vc-codex-seeded-v2-education-lms-django-enrich-003",
+        "vc-codex-seeded-v2-education-lms-django-enrich-009"
+      ],
+      "fp_safe": [
+        "vc-codex-seeded-v2-education-lms-django-fp-004",
+        "vc-codex-seeded-v2-education-lms-django-fp-001"
+      ],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-639",
+          "file": "lms/views.py",
+          "ranges": [
+            [
+              304,
+              304
+            ]
+          ],
+          "title": "Broken object-level authorization in assignment_transition",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "lms/views.py",
+          "ranges": [
+            [
+              381,
+              381
+            ]
+          ],
+          "title": "Broken object-level authorization in grading_detail",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "lms/views.py",
+          "ranges": [
+            [
+              466,
+              466
+            ]
+          ],
+          "title": "Broken object-level authorization in moderate_thread",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "lms/views.py",
+          "ranges": [
+            [
+              602,
+              602
+            ]
+          ],
+          "title": "Broken object-level authorization in admin_user_edit",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "config/course_operations.py",
+          "ranges": [
+            [
+              141,
+              141
+            ]
+          ],
+          "title": "Missing authentication on course_shell_probe_501",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "config/course_operations.py",
+          "ranges": [
+            [
+              181,
+              181
+            ]
+          ],
+          "title": "Missing authentication on course_trust_drift_547",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "lms/views.py",
+          "ranges": [
+            [
+              405,
+              405
+            ]
+          ],
+          "title": "Broken object-level authorization in release_grade_view",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-639",
+          "file": "lms/views.py",
+          "ranges": [
+            [
+              203,
+              203
+            ]
+          ],
+          "title": "Broken object-level authorization in course_edit"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "lms/views.py",
+          "ranges": [
+            [
+              304,
+              304
+            ]
+          ],
+          "title": "Broken object-level authorization in assignment_transition"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "lms/views.py",
+          "ranges": [
+            [
+              381,
+              381
+            ]
+          ],
+          "title": "Broken object-level authorization in grading_detail"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "lms/views.py",
+          "ranges": [
+            [
+              466,
+              466
+            ]
+          ],
+          "title": "Broken object-level authorization in moderate_thread"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "lms/views.py",
+          "ranges": [
+            [
+              602,
+              602
+            ]
+          ],
+          "title": "Broken object-level authorization in admin_user_edit"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "lms/views.py",
+          "ranges": [
+            [
+              676,
+              676
+            ]
+          ],
+          "title": "Broken object-level authorization in api_course_assignments"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "config/course_operations.py",
+          "ranges": [
+            [
+              28,
+              28
+            ]
+          ],
+          "title": "Missing authentication on course_blob_shelf_034"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "config/course_operations.py",
+          "ranges": [
+            [
+              60,
+              60
+            ]
+          ],
+          "title": "Missing authentication on course_bundle_thaw_175"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "config/course_operations.py",
+          "ranges": [
+            [
+              73,
+              73
+            ]
+          ],
+          "title": "Missing authentication on course_workset_rebind_198"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "config/course_operations.py",
+          "ranges": [
+            [
+              141,
+              141
+            ]
+          ],
+          "title": "Missing authentication on course_shell_probe_501"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "config/course_operations.py",
+          "ranges": [
+            [
+              158,
+              158
+            ]
+          ],
+          "title": "Missing authentication on course_xml_fold_519"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "config/course_operations.py",
+          "ranges": [
+            [
+              181,
+              181
+            ]
+          ],
+          "title": "Missing authentication on course_trust_drift_547"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "lms/views.py",
+          "ranges": [
+            [
+              405,
+              405
+            ]
+          ],
+          "title": "Broken object-level authorization in release_grade_view"
+        }
+      ],
+      "seconds": 0.5
+    },
+    "vc-codex-seeded-v2-healthcare-clinic-django": {
+      "tp": [
+        "seeded-v2-campaign-1-041",
+        "seeded-v2-campaign-3-529"
+      ],
+      "fn": [
+        "seeded-v2-campaign-2-129",
+        "seeded-v2-campaign-3-469",
+        "seeded-v2-campaign-3-496",
+        "seeded-v2-campaign-3-539",
+        "vc-codex-seeded-v2-healthcare-clinic-django-enrich-006",
+        "vc-codex-seeded-v2-healthcare-clinic-django-enrich-014",
+        "vc-codex-seeded-v2-healthcare-clinic-django-enrich-015",
+        "vc-codex-seeded-v2-healthcare-clinic-django-enrich-016",
+        "vc-codex-seeded-v2-healthcare-clinic-django-enrich-017",
+        "vc-codex-seeded-v2-healthcare-clinic-django-enrich-018"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-639",
+          "file": "clinic/views.py",
+          "ranges": [
+            [
+              187,
+              187
+            ]
+          ],
+          "title": "Broken object-level authorization in patient_edit",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "clinic/views.py",
+          "ranges": [
+            [
+              425,
+              425
+            ]
+          ],
+          "title": "Broken object-level authorization in document_review",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "clinic/views.py",
+          "ranges": [
+            [
+              554,
+              554
+            ]
+          ],
+          "title": "Broken object-level authorization in provider_edit",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "clinic_project/patient_operations.py",
+          "ranges": [
+            [
+              76,
+              76
+            ]
+          ],
+          "title": "Missing authentication on patient_formula_cast_256",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "clinic_project/patient_operations.py",
+          "ranges": [
+            [
+              142,
+              142
+            ]
+          ],
+          "title": "Missing authentication on patient_shell_probe_508",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "clinic_project/patient_operations.py",
+          "ranges": [
+            [
+              175,
+              175
+            ]
+          ],
+          "title": "Missing authentication on patient_trust_drift_549",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-639",
+          "file": "clinic/views.py",
+          "ranges": [
+            [
+              187,
+              187
+            ]
+          ],
+          "title": "Broken object-level authorization in patient_edit"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "clinic/views.py",
+          "ranges": [
+            [
+              425,
+              425
+            ]
+          ],
+          "title": "Broken object-level authorization in document_review"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "clinic/views.py",
+          "ranges": [
+            [
+              554,
+              554
+            ]
+          ],
+          "title": "Broken object-level authorization in provider_edit"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "clinic_project/patient_operations.py",
+          "ranges": [
+            [
+              36,
+              36
+            ]
+          ],
+          "title": "Missing authentication on patient_panel_rebind_041"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "clinic_project/patient_operations.py",
+          "ranges": [
+            [
+              76,
+              76
+            ]
+          ],
+          "title": "Missing authentication on patient_formula_cast_256"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "clinic_project/patient_operations.py",
+          "ranges": [
+            [
+              142,
+              142
+            ]
+          ],
+          "title": "Missing authentication on patient_shell_probe_508"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "clinic_project/patient_operations.py",
+          "ranges": [
+            [
+              150,
+              150
+            ]
+          ],
+          "title": "Missing authentication on patient_xml_fold_520"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "clinic_project/patient_operations.py",
+          "ranges": [
+            [
+              175,
+              175
+            ]
+          ],
+          "title": "Missing authentication on patient_trust_drift_549"
+        }
+      ],
+      "seconds": 0.4
+    },
+    "vc-codex-seeded-v2-hr-payroll-django": {
+      "tp": [
+        "seeded-v2-campaign-3-530"
+      ],
+      "fn": [
+        "seeded-v2-campaign-2-130",
+        "seeded-v2-campaign-3-470",
+        "seeded-v2-campaign-3-497",
+        "seeded-v2-campaign-3-540",
+        "vc-codex-seeded-v2-hr-payroll-django-enrich-003",
+        "vc-codex-seeded-v2-hr-payroll-django-enrich-008",
+        "vc-codex-seeded-v2-hr-payroll-django-enrich-009",
+        "vc-codex-seeded-v2-hr-payroll-django-enrich-010",
+        "vc-codex-seeded-v2-hr-payroll-django-enrich-011",
+        "vc-codex-seeded-v2-hr-payroll-django-enrich-012",
+        "vc-codex-seeded-v2-hr-payroll-django-enrich-013",
+        "vc-codex-seeded-v2-hr-payroll-django-enrich-020"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-639",
+          "file": "config/payroll_operations.py",
+          "ranges": [
+            [
+              65,
+              65
+            ]
+          ],
+          "title": "Missing authentication on payroll_bundle_thaw_176",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "config/payroll_operations.py",
+          "ranges": [
+            [
+              87,
+              87
+            ]
+          ],
+          "title": "Missing authentication on payroll_formula_cast_257",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "config/payroll_operations.py",
+          "ranges": [
+            [
+              102,
+              102
+            ]
+          ],
+          "title": "Missing authentication on payroll_relay_probe_355",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "config/payroll_operations.py",
+          "ranges": [
+            [
+              190,
+              190
+            ]
+          ],
+          "title": "Missing authentication on payroll_trust_drift_550",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-639",
+          "file": "config/payroll_operations.py",
+          "ranges": [
+            [
+              65,
+              65
+            ]
+          ],
+          "title": "Missing authentication on payroll_bundle_thaw_176"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "config/payroll_operations.py",
+          "ranges": [
+            [
+              87,
+              87
+            ]
+          ],
+          "title": "Missing authentication on payroll_formula_cast_257"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "config/payroll_operations.py",
+          "ranges": [
+            [
+              102,
+              102
+            ]
+          ],
+          "title": "Missing authentication on payroll_relay_probe_355"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "config/payroll_operations.py",
+          "ranges": [
+            [
+              165,
+              165
+            ]
+          ],
+          "title": "Missing authentication on payroll_xml_fold_521"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "config/payroll_operations.py",
+          "ranges": [
+            [
+              190,
+              190
+            ]
+          ],
+          "title": "Missing authentication on payroll_trust_drift_550"
+        }
+      ],
+      "seconds": 0.4
+    },
+    "vc-codex-seeded-v2-legal-case-django": {
+      "tp": [
+        "seeded-v2-campaign-1-048",
+        "seeded-v2-campaign-3-531"
+      ],
+      "fn": [
+        "seeded-v2-campaign-1-046",
+        "seeded-v2-campaign-1-047",
+        "seeded-v2-campaign-3-471",
+        "seeded-v2-campaign-3-499",
+        "seeded-v2-campaign-3-541",
+        "vc-codex-seeded-v2-legal-case-django-enrich-003"
+      ],
+      "fp_safe": [
+        "vc-codex-seeded-v2-legal-case-django-fp-001"
+      ],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-639",
+          "file": "legalcase/case_operations.py",
+          "ranges": [
+            [
+              80,
+              80
+            ]
+          ],
+          "title": "Missing authentication on case_formula_cast_258",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "legalcase/case_operations.py",
+          "ranges": [
+            [
+              142,
+              142
+            ]
+          ],
+          "title": "Missing authentication on case_shell_probe_502",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "legalcase/case_operations.py",
+          "ranges": [
+            [
+              184,
+              184
+            ]
+          ],
+          "title": "Missing authentication on case_trust_drift_551",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-639",
+          "file": "legalcase/case_operations.py",
+          "ranges": [
+            [
+              28,
+              28
+            ]
+          ],
+          "title": "Missing authentication on case_docbin_slot_046"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "legalcase/case_operations.py",
+          "ranges": [
+            [
+              60,
+              60
+            ]
+          ],
+          "title": "Missing authentication on case_bundle_thaw_177"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "legalcase/case_operations.py",
+          "ranges": [
+            [
+              80,
+              80
+            ]
+          ],
+          "title": "Missing authentication on case_formula_cast_258"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "legalcase/case_operations.py",
+          "ranges": [
+            [
+              142,
+              142
+            ]
+          ],
+          "title": "Missing authentication on case_shell_probe_502"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "legalcase/case_operations.py",
+          "ranges": [
+            [
+              159,
+              159
+            ]
+          ],
+          "title": "Missing authentication on case_xml_fold_522"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "legalcase/case_operations.py",
+          "ranges": [
+            [
+              184,
+              184
+            ]
+          ],
+          "title": "Missing authentication on case_trust_drift_551"
+        }
+      ],
+      "seconds": 0.5
+    },
+    "vc-kimi-code-seeded-v2-crm-saas-django": {
+      "tp": [
+        "seeded-v2-campaign-2-207",
+        "seeded-v2-campaign-3-690"
+      ],
+      "fn": [
+        "seeded-v2-campaign-2-139",
+        "seeded-v2-campaign-3-660",
+        "seeded-v2-campaign-3-719",
+        "vc-kimi-code-seeded-v2-crm-saas-django-enrich-004",
+        "vc-kimi-code-seeded-v2-crm-saas-django-enrich-008"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-639",
+          "file": "crm/crm/views.py",
+          "ranges": [
+            [
+              714,
+              714
+            ]
+          ],
+          "title": "Broken object-level authorization in webhook_edit",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "crm/core/partner_console.py",
+          "ranges": [
+            [
+              65,
+              65
+            ]
+          ],
+          "title": "Missing authentication on acct_bundle_thaw_184",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "crm/core/partner_console.py",
+          "ranges": [
+            [
+              182,
+              182
+            ]
+          ],
+          "title": "Missing authentication on acct_trust_drift_730",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "crm/crm/views.py",
+          "ranges": [
+            [
+              763,
+              763
+            ]
+          ],
+          "title": "Broken object-level authorization in webhook_detail",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-639",
+          "file": "crm/crm/views.py",
+          "ranges": [
+            [
+              714,
+              714
+            ]
+          ],
+          "title": "Broken object-level authorization in webhook_edit"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "crm/core/partner_console.py",
+          "ranges": [
+            [
+              65,
+              65
+            ]
+          ],
+          "title": "Missing authentication on acct_bundle_thaw_184"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "crm/core/partner_console.py",
+          "ranges": [
+            [
+              78,
+              78
+            ]
+          ],
+          "title": "Missing authentication on acct_workset_rebind_207"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "crm/core/partner_console.py",
+          "ranges": [
+            [
+              156,
+              156
+            ]
+          ],
+          "title": "Missing authentication on acct_shell_probe_700"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "crm/core/partner_console.py",
+          "ranges": [
+            [
+              182,
+              182
+            ]
+          ],
+          "title": "Missing authentication on acct_trust_drift_730"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "crm/crm/views.py",
+          "ranges": [
+            [
+              763,
+              763
+            ]
+          ],
+          "title": "Broken object-level authorization in webhook_detail"
+        }
+      ],
+      "seconds": 0.5
+    },
+    "vc-kimi-code-seeded-v2-education-lms-django": {
+      "tp": [
+        "seeded-v2-campaign-1-096",
+        "seeded-v2-campaign-2-208",
+        "seeded-v2-campaign-3-691"
+      ],
+      "fn": [
+        "seeded-v2-campaign-1-094",
+        "seeded-v2-campaign-1-095",
+        "seeded-v2-campaign-3-661",
+        "seeded-v2-campaign-3-711",
+        "vc-kimi-code-seeded-v2-education-lms-django-enrich-007",
+        "vc-kimi-code-seeded-v2-education-lms-django-enrich-008",
+        "vc-kimi-code-seeded-v2-education-lms-django-enrich-009"
+      ],
+      "fp_safe": [
+        "vc-kimi-code-seeded-v2-education-lms-django-fp-001"
+      ],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-639",
+          "file": "lms/course_operations.py",
+          "ranges": [
+            [
+              168,
+              168
+            ]
+          ],
+          "title": "Missing authentication on course_trust_drift_727",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "lms/course_operations.py",
+          "ranges": [
+            [
+              177,
+              177
+            ]
+          ],
+          "title": "Missing authentication on course_xml_fold_735",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-639",
+          "file": "lms/course_operations.py",
+          "ranges": [
+            [
+              28,
+              28
+            ]
+          ],
+          "title": "Missing authentication on course_spool_slot_094"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "lms/course_operations.py",
+          "ranges": [
+            [
+              60,
+              60
+            ]
+          ],
+          "title": "Missing authentication on course_bundle_thaw_185"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "lms/course_operations.py",
+          "ranges": [
+            [
+              73,
+              73
+            ]
+          ],
+          "title": "Missing authentication on course_workset_rebind_208"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "lms/course_operations.py",
+          "ranges": [
+            [
+              151,
+              151
+            ]
+          ],
+          "title": "Missing authentication on course_shell_probe_701"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "lms/course_operations.py",
+          "ranges": [
+            [
+              168,
+              168
+            ]
+          ],
+          "title": "Missing authentication on course_trust_drift_727"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "lms/course_operations.py",
+          "ranges": [
+            [
+              177,
+              177
+            ]
+          ],
+          "title": "Missing authentication on course_xml_fold_735"
+        }
+      ],
+      "seconds": 0.4
+    },
+    "vc-kimi-code-seeded-v2-healthcare-clinic-django": {
+      "tp": [
+        "seeded-v2-campaign-1-101"
+      ],
+      "fn": [
+        "seeded-v2-campaign-2-141",
+        "seeded-v2-campaign-3-663",
+        "seeded-v2-campaign-3-693",
+        "seeded-v2-campaign-3-713",
+        "seeded-v2-campaign-3-721",
+        "vc-kimi-code-seeded-v2-healthcare-clinic-django-enrich-004",
+        "vc-kimi-code-seeded-v2-healthcare-clinic-django-enrich-010",
+        "vc-kimi-code-seeded-v2-healthcare-clinic-django-enrich-011"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-639",
+          "file": "clinic_portal/patient_operations.py",
+          "ranges": [
+            [
+              76,
+              76
+            ]
+          ],
+          "title": "Missing authentication on patient_formula_cast_267",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "clinic_portal/patient_operations.py",
+          "ranges": [
+            [
+              168,
+              168
+            ]
+          ],
+          "title": "Missing authentication on patient_trust_drift_732",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "portal/views.py",
+          "ranges": [
+            [
+              894,
+              894
+            ]
+          ],
+          "title": "Broken object-level authorization in provider_detail",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-639",
+          "file": "clinic_portal/patient_operations.py",
+          "ranges": [
+            [
+              36,
+              36
+            ]
+          ],
+          "title": "Missing authentication on patient_chartlet_roll_101"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "clinic_portal/patient_operations.py",
+          "ranges": [
+            [
+              76,
+              76
+            ]
+          ],
+          "title": "Missing authentication on patient_formula_cast_267"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "clinic_portal/patient_operations.py",
+          "ranges": [
+            [
+              168,
+              168
+            ]
+          ],
+          "title": "Missing authentication on patient_trust_drift_732"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "portal/views.py",
+          "ranges": [
+            [
+              894,
+              894
+            ]
+          ],
+          "title": "Broken object-level authorization in provider_detail"
+        }
+      ],
+      "seconds": 0.5
+    },
+    "vc-kimi-code-seeded-v2-hr-payroll-django": {
+      "tp": [],
+      "fn": [
+        "seeded-v2-campaign-2-142",
+        "seeded-v2-campaign-3-664",
+        "seeded-v2-campaign-3-694",
+        "seeded-v2-campaign-3-714",
+        "seeded-v2-campaign-3-722",
+        "vc-kimi-code-seeded-v2-hr-payroll-django-enrich-004",
+        "vc-kimi-code-seeded-v2-hr-payroll-django-enrich-010"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-639",
+          "file": "accounts/views.py",
+          "ranges": [
+            [
+              31,
+              31
+            ]
+          ],
+          "title": "Broken object-level authorization in register",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "compensation/views.py",
+          "ranges": [
+            [
+              146,
+              146
+            ]
+          ],
+          "title": "Broken object-level authorization in comp_request_hr_approve",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "api/views.py",
+          "ranges": [
+            [
+              108,
+              108
+            ]
+          ],
+          "title": "Broken object-level authorization in api_employee_detail",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "hr_payroll/payroll_operations.py",
+          "ranges": [
+            [
+              65,
+              65
+            ]
+          ],
+          "title": "Missing authentication on payroll_bundle_thaw_186",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "hr_payroll/payroll_operations.py",
+          "ranges": [
+            [
+              87,
+              87
+            ]
+          ],
+          "title": "Missing authentication on payroll_formula_cast_268",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "hr_payroll/payroll_operations.py",
+          "ranges": [
+            [
+              183,
+              183
+            ]
+          ],
+          "title": "Missing authentication on payroll_trust_drift_733",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-639",
+          "file": "accounts/views.py",
+          "ranges": [
+            [
+              31,
+              31
+            ]
+          ],
+          "title": "Broken object-level authorization in register"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "compensation/views.py",
+          "ranges": [
+            [
+              146,
+              146
+            ]
+          ],
+          "title": "Broken object-level authorization in comp_request_hr_approve"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "api/views.py",
+          "ranges": [
+            [
+              108,
+              108
+            ]
+          ],
+          "title": "Broken object-level authorization in api_employee_detail"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "hr_payroll/payroll_operations.py",
+          "ranges": [
+            [
+              65,
+              65
+            ]
+          ],
+          "title": "Missing authentication on payroll_bundle_thaw_186"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "hr_payroll/payroll_operations.py",
+          "ranges": [
+            [
+              87,
+              87
+            ]
+          ],
+          "title": "Missing authentication on payroll_formula_cast_268"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "hr_payroll/payroll_operations.py",
+          "ranges": [
+            [
+              183,
+              183
+            ]
+          ],
+          "title": "Missing authentication on payroll_trust_drift_733"
+        }
+      ],
+      "seconds": 0.6
+    },
+    "vc-kimi-code-seeded-v2-legal-case-django": {
+      "tp": [
+        "vc-kimi-code-seeded-v2-legal-case-django-enrich-005",
+        "seeded-v2-campaign-1-108"
+      ],
+      "fn": [
+        "seeded-v2-campaign-1-106",
+        "seeded-v2-campaign-1-107",
+        "seeded-v2-campaign-3-665",
+        "seeded-v2-campaign-3-715",
+        "vc-kimi-code-seeded-v2-legal-case-django-enrich-006",
+        "vc-kimi-code-seeded-v2-legal-case-django-enrich-007"
+      ],
+      "fp_safe": [
+        "vc-kimi-code-seeded-v2-legal-case-django-fp-001"
+      ],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-639",
+          "file": "accounts/views.py",
+          "ranges": [
+            [
+              101,
+              101
+            ]
+          ],
+          "title": "Broken object-level authorization in user_edit",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "clients/views.py",
+          "ranges": [
+            [
+              62,
+              62
+            ]
+          ],
+          "title": "Broken object-level authorization in client_edit",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "clients/views.py",
+          "ranges": [
+            [
+              80,
+              80
+            ]
+          ],
+          "title": "Broken object-level authorization in client_delete",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "deadlines/views.py",
+          "ranges": [
+            [
+              104,
+              104
+            ]
+          ],
+          "title": "Broken object-level authorization in deadline_delete",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "documents/views.py",
+          "ranges": [
+            [
+              154,
+              154
+            ]
+          ],
+          "title": "Broken object-level authorization in document_delete",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "matters/views.py",
+          "ranges": [
+            [
+              97,
+              97
+            ]
+          ],
+          "title": "Broken object-level authorization in matter_delete",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "notes/views.py",
+          "ranges": [
+            [
+              88,
+              88
+            ]
+          ],
+          "title": "Broken object-level authorization in client_message_send",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "tasks/views.py",
+          "ranges": [
+            [
+              101,
+              101
+            ]
+          ],
+          "title": "Broken object-level authorization in task_delete",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "clients/views.py",
+          "ranges": [
+            [
+              36,
+              36
+            ]
+          ],
+          "title": "Broken object-level authorization in client_detail",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "legalcase/case_operations.py",
+          "ranges": [
+            [
+              80,
+              80
+            ]
+          ],
+          "title": "Missing authentication on case_formula_cast_269",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "legalcase/case_operations.py",
+          "ranges": [
+            [
+              140,
+              140
+            ]
+          ],
+          "title": "Missing authentication on case_shell_probe_695",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "legalcase/case_operations.py",
+          "ranges": [
+            [
+              166,
+              166
+            ]
+          ],
+          "title": "Missing authentication on case_trust_drift_728",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "legalcase/case_operations.py",
+          "ranges": [
+            [
+              175,
+              175
+            ]
+          ],
+          "title": "Missing authentication on case_xml_fold_736",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-639",
+          "file": "accounts/views.py",
+          "ranges": [
+            [
+              101,
+              101
+            ]
+          ],
+          "title": "Broken object-level authorization in user_edit"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "clients/views.py",
+          "ranges": [
+            [
+              62,
+              62
+            ]
+          ],
+          "title": "Broken object-level authorization in client_edit"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "clients/views.py",
+          "ranges": [
+            [
+              80,
+              80
+            ]
+          ],
+          "title": "Broken object-level authorization in client_delete"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "deadlines/views.py",
+          "ranges": [
+            [
+              104,
+              104
+            ]
+          ],
+          "title": "Broken object-level authorization in deadline_delete"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "documents/views.py",
+          "ranges": [
+            [
+              154,
+              154
+            ]
+          ],
+          "title": "Broken object-level authorization in document_delete"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "matters/views.py",
+          "ranges": [
+            [
+              97,
+              97
+            ]
+          ],
+          "title": "Broken object-level authorization in matter_delete"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "notes/views.py",
+          "ranges": [
+            [
+              88,
+              88
+            ]
+          ],
+          "title": "Broken object-level authorization in client_message_send"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "tasks/views.py",
+          "ranges": [
+            [
+              101,
+              101
+            ]
+          ],
+          "title": "Broken object-level authorization in task_delete"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "api/views.py",
+          "ranges": [
+            [
+              46,
+              46
+            ]
+          ],
+          "title": "Broken object-level authorization in api_matter_detail"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "clients/views.py",
+          "ranges": [
+            [
+              36,
+              36
+            ]
+          ],
+          "title": "Broken object-level authorization in client_detail"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "legalcase/case_operations.py",
+          "ranges": [
+            [
+              28,
+              28
+            ]
+          ],
+          "title": "Missing authentication on case_blob_shelf_106"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "legalcase/case_operations.py",
+          "ranges": [
+            [
+              60,
+              60
+            ]
+          ],
+          "title": "Missing authentication on case_bundle_thaw_187"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "legalcase/case_operations.py",
+          "ranges": [
+            [
+              80,
+              80
+            ]
+          ],
+          "title": "Missing authentication on case_formula_cast_269"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "legalcase/case_operations.py",
+          "ranges": [
+            [
+              140,
+              140
+            ]
+          ],
+          "title": "Missing authentication on case_shell_probe_695"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "legalcase/case_operations.py",
+          "ranges": [
+            [
+              166,
+              166
+            ]
+          ],
+          "title": "Missing authentication on case_trust_drift_728"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "legalcase/case_operations.py",
+          "ranges": [
+            [
+              175,
+              175
+            ]
+          ],
+          "title": "Missing authentication on case_xml_fold_736"
+        }
+      ],
+      "seconds": 0.6
+    }
+  }
+}

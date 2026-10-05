@@ -85,9 +85,41 @@ hidden Unicode is removed and flagged, a verifier may withdraw a finding only by
 naming a line of code) 0 of 8 succeed. The defences were written against these
 cases, so that is a regression result, not an independent estimate.
 
+## v4: helper resolution and Django, tested on a third independent set (RealVuln Django, 23 apps, 277 entries)
+
+The T11 analysis pointed at authorization delegated to helper functions. v4
+classifies helpers and dependencies from their bodies, shows those bodies to
+the verifier, adds Django routing and views, and reads handler and sink files
+first within an 80-window budget. It was frozen (code hash recorded and pushed)
+before it ran on 23 Django apps that no version had seen
+([`docs/django_protocol.md`](docs/django_protocol.md)); each system ran once.
+
+| System | TP | FP | Precision (95% CI) | Recall (95% CI) | F1 | Time / app |
+|---|---|---|---|---|---|---|
+| Semgrep only | 0 | 0 | n/a | 0.00 (0.00–0.02) | n/a | 11 s |
+| Single-shot LLM | 27 | 68 | 0.28 (0.20–0.38) | 0.13 (0.09–0.19) | **0.18** | 62 s |
+| Agent v2 | 2 | 2 | 0.50 (0.15–0.85) | 0.01 (0.00–0.04) | 0.02 | 40 s |
+| Agent v3 | 1 | 4 | 0.20 (0.04–0.62) | 0.01 (0.00–0.03) | 0.01 | 40 s |
+| v4 authorization analysis only (no model) | 41 | 117 | 0.26 (0.20–0.33) | 0.20 (0.15–0.26) | 0.23 | 1 s |
+| **Agent v4** | 13 | 51 | 0.20 (0.12–0.32) | 0.06 (0.04–0.11) | 0.10 | 96 s |
+
+Honest reading: **a negative result.** The claim v4 was built for — fewer IDOR
+false positives than v2/v3 without losing recall on access-control bugs — is
+not supported: 48 IDOR false positives against 2 and 4, at 6 of 59 core
+access-control entries against 2 and 1. v2 and v3 are not precise here, they
+are blind: their 40-window budget is spent alphabetically on `admin.py`,
+migrations and models, and the views are never read (the runs report
+`partial` coverage). v4 does read the views and still loses to one prompt per
+file (F1 0.10 against 0.18). Its model-free analysis scores best under the
+declared rule, but 29 of its 41 true positives are location coincidences on
+bugs of another kind, which the verifier correctly withdraws. Across the three
+sets, development-set numbers did not transfer (F1 0.51 → 0.24 → 0.10) and
+each new framework exposed a coverage assumption. Details:
+[`docs/experiments.md#t13`](docs/experiments.md).
+
 ## Quick start
 
-Tested from a fresh clone on Windows 11 (Python 3.10, Ollama 0.35, RTX 3050 8 GB); 99 tests pass (no model needed).
+Tested from a fresh clone on Windows 11 (Python 3.10, Ollama 0.35, RTX 3050 8 GB); 105 tests pass (no model needed).
 
 ```bash
 python -m venv .venv && .venv/Scripts/pip install -r requirements.txt   # use .venv/bin/ on Linux/macOS
@@ -113,6 +145,8 @@ ollama pull qwen3:8b
 .venv/Scripts/python -m secagent.evaluate --dataset realvuln --systems agent_v2
 .venv/Scripts/python scripts/fetch_realvuln.py --framework fastapi --out eval/realvuln_fastapi --commit 7a710251f55c17d32d3adcb13d37468e2e3b9e4a
 .venv/Scripts/python -m secagent.evaluate --dataset realvuln_fastapi --systems agent_v3
+.venv/Scripts/python scripts/fetch_realvuln.py --framework django --out eval/realvuln_django --commit 7a710251f55c17d32d3adcb13d37468e2e3b9e4a
+.venv/Scripts/python -m secagent.evaluate --dataset realvuln_django --systems agent_v4
 .venv/Scripts/python scripts/injection_suite.py --harden                     # prompt-injection suite
 ```
 

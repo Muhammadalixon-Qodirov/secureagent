@@ -585,3 +585,101 @@ this note is the correction to its interpretation. The core access-control
 entries here are mostly role-present-but-object-scope-missing bugs ("any
 underwriter can update any application", "dispatcher sees workers of other
 regions"), which no rule in v3 targets.
+
+## T13 — v4 on the independent Django test set (2026-10-05)
+
+Protocol `docs/django_protocol.md`: data frozen before v4 existed; v4 frozen
+(commit `613b32a`, code hash `0b17455e08bfb8a9`, pushed) before `agent_v4`
+or its ablation ran here; every system run once; all model systems report the
+frozen hash. Two deviations are recorded in the protocol (baselines were
+started before the freeze but not read; runs were resumed across a two-hour
+job limit). 23 apps, 277 entries (204 vulnerable, 73 traps). Full tables:
+`eval/results_django/RESULTS.md`.
+
+What v4 is: v3 with injection hardening, plus (a) helpers and dependencies
+classified from their bodies instead of their names, (b) Django routing and
+views (`secagent/authz_django.py`: `urls.py`, function views, class-based
+views, DRF viewsets, `permission_classes`), (c) the verifier is shown the
+bodies of the helpers a handler calls, (d) an 80-window budget that reads
+handler files and files with SQL / file sinks first.
+
+| System | TP | FP | Precision (95% CI) | Recall (95% CI) | F1 | Time / app |
+|---|---|---|---|---|---|---|
+| Semgrep only (project rules) | 0 | 0 | n/a | 0.00 (0.00–0.02) | n/a | 11 s |
+| Single-shot LLM | 27 | 68 | 0.28 (0.20–0.38) | 0.13 (0.09–0.19) | **0.18** | 62 s |
+| Agent v2 | 2 | 2 | 0.50 (0.15–0.85) | 0.01 (0.00–0.04) | 0.02 | 40 s |
+| Agent v3 | 1 | 4 | 0.20 (0.04–0.62) | 0.01 (0.00–0.03) | 0.01 | 40 s |
+| v4 authorization analysis only (no model) | 41 | 117 | 0.26 (0.20–0.33) | 0.20 (0.15–0.26) | 0.23 | 1 s |
+| **Agent v4** | 13 | 51 | 0.20 (0.12–0.32) | 0.06 (0.04–0.11) | 0.10 | 96 s |
+
+Per family (TP / FP): SQLi — single-shot 6/24, v4 3/2 (of 18); path
+traversal — single-shot 13/9, v4 1/1 (of 36); IDOR — single-shot 8/35,
+v2 2/2, v3 1/4, v4 9/48, v4 analysis only 41/117 (of 150).
+
+Secondary metric (amendment 1; `scripts/core_split.py realvuln_django`), IDOR
+entries whose primary CWE is access control proper — 59 of 150:
+
+| System | IDOR TP core | IDOR TP other | IDOR FP | Core recall (95% CI) | Core precision |
+|---|---|---|---|---|---|
+| Single-shot LLM | 2 | 6 | 35 | 0.03 (0.01–0.12) | 0.05 |
+| Agent v2 | 2 | 0 | 2 | 0.03 (0.01–0.12) | 0.50 |
+| Agent v3 | 1 | 0 | 4 | 0.02 (0.00–0.09) | 0.20 |
+| v4 authorization analysis only | 12 | 29 | 117 | 0.20 (0.12–0.32) | 0.09 |
+| **Agent v4** | 6 | 3 | 48 | 0.10 (0.05–0.20) | 0.11 |
+
+What the test says:
+
+1. **The claim v4 was built for is not supported.** It was "fewer IDOR false
+   positives than v2/v3 without losing core recall". v4 has 48 IDOR false
+   positives against 2 and 4. Core recall is higher (6 of 59 against 2 and
+   1), with overlapping intervals. Core precision is 0.11 — the same level
+   as v3 on FastAPI (0.08): helper resolution did not fix IDOR precision.
+2. **The comparison with v2/v3 is degenerate, and that is a finding about
+   v2/v3.** They are not precise on Django, they are blind: 5 and 6
+   candidates in 857 windows. Their 40-window budget is spent in
+   alphabetical order on `admin.py`, `apps.py`, migrations and models, and
+   575 windows — the views — were never read (16 of 23 runs report
+   `partial`). v3 has no Django routing, so it seeded nothing. The run
+   reports said so; the numbers follow.
+3. **The whole agent loses to the single-shot baseline here** (F1 0.10
+   against 0.18; 13 TP against 27). v4 reads the views (93 windows skipped,
+   6 `partial` runs) and still finds 3 of 18 SQL injections and 1 of 36 path
+   traversals, where one prompt per file finds 6 and 13 — with far more
+   false positives (24 and 9 against 2 and 1). The sweep prompt and its
+   candidate threshold were tuned on Flask teaching apps and are too
+   conservative on Django code. On this set nothing in the agent beyond the
+   deterministic analysis earns its cost.
+4. **The deterministic analysis is again the strongest component per
+   second** (F1 0.23, one second per app, no model) — but most of its true
+   positives are location coincidences. 29 of its 41 fall on entries that
+   are not access-control bugs, the same effect as in the T11 erratum: the
+   Django path does not recognise the seeded `if not _wrk_gate(request):
+   return _nope()` gate, flags those endpoints as "missing authentication",
+   and the flags land on unrelated seeded bugs. The verifier withdraws them
+   for the right reason (94 of its 113 withdrawals are missing-authentication
+   claims, typically citing the gate line) — which is why the full agent
+   scores lower than its own ablation under the declared rule (33 of the 41
+   are gone, 5 others are added). On core entries the verifier halves recall
+   (12 → 6) while cutting false positives 117 → 48.
+5. Semgrep with the project's Flask-oriented rules reports nothing at all.
+
+Across the three independent sets the pattern is now consistent: numbers from
+the set a version was developed on do not transfer (Flask F1 0.51 → FastAPI
+0.24 → Django 0.10), precision on IDOR stays near 0.1–0.2 on generated
+multi-role apps whatever is added, and each new framework exposes a coverage
+assumption (rules, routing, reading order) rather than a reasoning limit.
+
+### How v4 got here (dev data — not results)
+
+Three v4 drafts were run on the dev sets before the freeze. Draft 1 put the
+authorization facts into the sweep prompt, which suppressed SQL-injection
+candidates (Flask SQLi 17 → 12); facts now go to the verifier only. Draft 2's
+reading order dropped files with SQL sinks; fixed with the sink-first order
+and the 80-window budget. Draft 3 (`a666e4f`) cut FastAPI IDOR false
+positives 270 → 101 but core true positives 23 → 10: audit helpers
+(`AuditLog(actor_id=user.id)`) were classified as owner checks, so every
+handler that wrote an audit row counted as scoped. That was fixed in the
+frozen commit with one regular expression and a unit test; only the
+deterministic pass was re-run on dev before the freeze (FastAPI 13 core TP /
+66 IDOR FP against 16 / 223 for v3's pass).
+

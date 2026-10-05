@@ -29,7 +29,7 @@ has actually read, with an audit trail of every tool call.
   code on the host — I designed this one so that cannot happen.
 - **Measure before claiming.** I froze each evaluation before running it
   (a 48-case synthetic holdout; 15 public Flask apps from the RealVuln
-  benchmark, 130 labelled entries; later 21 FastAPI apps), compared against
+  benchmark, 130 labelled entries; later 21 FastAPI and 23 Django apps), compared against
   Semgrep and a single-prompt LLM baseline, and logged every deviation.
 - **Knowledge used where it helps.** I built a 49-source knowledge base
   (CWE, OWASP, framework docs) with provenance. Recent studies show raw CWE
@@ -79,9 +79,28 @@ the model, and a finding can be withdrawn only by pointing at a line of code —
 after which none of the eight succeed. A learned false-positive filter did not
 beat the verifier (too little data) and is reported as a negative result.
 
-**Honest limits.** IDOR precision on unfamiliar code is low (0.13 on the
-FastAPI set) and the next step is clear but not built: resolve authorization
-helper functions. The public apps may be in the model's training data; samples
+**Third round: the fix I expected to work did not.** The FastAPI analysis
+pointed at helper functions, so v4 resolves them (helpers are classified from
+their bodies and shown to the verifier) and adds Django support. I froze it
+and ran it once on 23 Django apps nothing had been developed on:
+
+| | True positives | False positives | Precision | Recall | F1 |
+|---|---|---|---|---|---|
+| Single-prompt LLM | 27 | 68 | 0.28 | 0.13 | **0.18** |
+| Agent v2 / v3 | 2 / 1 | 2 / 4 | – | 0.01 | 0.02 / 0.01 |
+| **Agent v4** | 13 | 51 | 0.20 | 0.06 | 0.10 |
+
+This is a negative result. v2 and v3 are blind on Django — their reading
+budget is used up on migrations and models before any view is read — and v4,
+which does read the views, still loses to a single prompt per file, with IDOR
+precision no better than before. Over three test sets the F1 of "the current
+best agent" went 0.51 → 0.24 → 0.10: each number from a set I had developed on
+was too optimistic, and each new framework exposed an assumption about
+coverage rather than a limit of the model.
+
+**Honest limits.** IDOR precision on unfamiliar code is low (about 0.1–0.2 on
+the FastAPI and Django sets) and resolving helper functions did not fix it; on
+Django the agent is worse than the single-prompt baseline. The public apps may be in the model's training data; samples
 are small and intervals overlap; greedy decoding was not fully deterministic;
 the injection defences were written against my own eight cases; lab-based
 exploit verification is designed but not enabled.
@@ -92,7 +111,7 @@ the system with an AI coding assistant; the research notes, experiment log and
 protocols in `docs/` record the decisions and why they were made.
 
 To try it: `README.md` → Quick start (about 10 minutes; tested from a fresh
-clone; 99 tests run without a model).
+clone; 105 tests run without a model).
 
 Best regards,
 Muhammadalixon Qodirov

@@ -1,0 +1,528 @@
+{
+  "system": "semgrep",
+  "metrics": {
+    "sql_injection": {
+      "tp": 0,
+      "fn": 18,
+      "fp_lookalike": 0,
+      "fp_unmatched": 0,
+      "precision": null,
+      "precision_ci95": null,
+      "recall": 0.0,
+      "recall_ci95": [
+        0.0,
+        0.176
+      ],
+      "f1": null,
+      "lookalike_fp_rate": 0.0,
+      "safe_cases": 21
+    },
+    "path_traversal": {
+      "tp": 0,
+      "fn": 36,
+      "fp_lookalike": 0,
+      "fp_unmatched": 0,
+      "precision": null,
+      "precision_ci95": null,
+      "recall": 0.0,
+      "recall_ci95": [
+        0.0,
+        0.096
+      ],
+      "f1": null,
+      "lookalike_fp_rate": 0.0,
+      "safe_cases": 7
+    },
+    "authorization_idor": {
+      "tp": 0,
+      "fn": 150,
+      "fp_lookalike": 0,
+      "fp_unmatched": 0,
+      "precision": null,
+      "precision_ci95": null,
+      "recall": 0.0,
+      "recall_ci95": [
+        0.0,
+        0.025
+      ],
+      "f1": null,
+      "lookalike_fp_rate": 0.0,
+      "safe_cases": 45
+    },
+    "micro": {
+      "tp": 0,
+      "fn": 204,
+      "fp_lookalike": 0,
+      "fp_unmatched": 0,
+      "precision": null,
+      "precision_ci95": null,
+      "recall": 0.0,
+      "recall_ci95": [
+        0.0,
+        0.018
+      ],
+      "f1": null,
+      "lookalike_fp_rate": 0.0,
+      "safe_cases": 73
+    }
+  },
+  "per_app": {
+    "djangoat": {
+      "tp": [],
+      "fn": [
+        "djangoat-001",
+        "djangoat-002",
+        "djangoat-007",
+        "djangoat-018",
+        "djangoat-019",
+        "djangoat-020",
+        "djangoat-021",
+        "djangoat-022",
+        "djangoat-030",
+        "djangoat-031",
+        "djangoat-043",
+        "djangoat-044",
+        "djangoat-045",
+        "djangoat-047"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [],
+      "seconds": 11.9
+    },
+    "lets-be-bad-guys": {
+      "tp": [],
+      "fn": [
+        "lets-be-bad-guys-001",
+        "lets-be-bad-guys-010",
+        "lets-be-bad-guys-011"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [],
+      "seconds": 9.2
+    },
+    "pygoat": {
+      "tp": [],
+      "fn": [
+        "pygoat-001",
+        "pygoat-002",
+        "pygoat-011",
+        "pygoat-012",
+        "pygoat-013",
+        "pygoat-014",
+        "pygoat-015",
+        "pygoat-031",
+        "pygoat-032",
+        "pygoat-034",
+        "pygoat-035",
+        "pygoat-036",
+        "pygoat-037",
+        "pygoat-045",
+        "pygoat-069"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [],
+      "seconds": 12.2
+    },
+    "vc-claude-code-seeded-v2-crm-saas-django": {
+      "tp": [],
+      "fn": [
+        "seeded-v2-campaign-1-001",
+        "seeded-v2-campaign-1-002",
+        "seeded-v2-campaign-2-121",
+        "seeded-v2-campaign-2-191",
+        "seeded-v2-campaign-3-369",
+        "seeded-v2-campaign-3-388",
+        "seeded-v2-campaign-3-439",
+        "vc-claude-code-seeded-v2-crm-saas-django-enrich-009"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [],
+      "seconds": 9.2
+    },
+    "vc-claude-code-seeded-v2-education-lms-django": {
+      "tp": [],
+      "fn": [
+        "seeded-v2-campaign-1-005",
+        "seeded-v2-campaign-2-122",
+        "seeded-v2-campaign-3-370",
+        "seeded-v2-campaign-3-389",
+        "seeded-v2-campaign-3-440",
+        "vc-claude-code-seeded-v2-education-lms-django-enrich-001",
+        "vc-claude-code-seeded-v2-education-lms-django-enrich-004",
+        "vc-claude-code-seeded-v2-education-lms-django-enrich-005",
+        "vc-claude-code-seeded-v2-education-lms-django-enrich-006",
+        "vc-claude-code-seeded-v2-education-lms-django-enrich-012",
+        "vc-claude-code-seeded-v2-education-lms-django-enrich-013"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [],
+      "seconds": 12.8
+    },
+    "vc-claude-code-seeded-v2-healthcare-clinic-django": {
+      "tp": [],
+      "fn": [
+        "seeded-v2-campaign-1-010",
+        "seeded-v2-campaign-1-011",
+        "seeded-v2-campaign-1-012",
+        "seeded-v2-campaign-2-193",
+        "seeded-v2-campaign-3-372",
+        "seeded-v2-campaign-3-412",
+        "vc-claude-code-seeded-v2-healthcare-clinic-django-enrich-005",
+        "vc-claude-code-seeded-v2-healthcare-clinic-django-enrich-006",
+        "vc-claude-code-seeded-v2-healthcare-clinic-django-enrich-007",
+        "vc-claude-code-seeded-v2-healthcare-clinic-django-enrich-008"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [],
+      "seconds": 8.7
+    },
+    "vc-claude-code-seeded-v2-hr-payroll-django": {
+      "tp": [],
+      "fn": [
+        "seeded-v2-campaign-1-013",
+        "seeded-v2-campaign-1-014",
+        "seeded-v2-campaign-2-124",
+        "seeded-v2-campaign-2-194",
+        "seeded-v2-campaign-3-373",
+        "seeded-v2-campaign-3-391",
+        "seeded-v2-campaign-3-413",
+        "vc-claude-code-seeded-v2-hr-payroll-django-enrich-001",
+        "vc-claude-code-seeded-v2-hr-payroll-django-enrich-008"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [],
+      "seconds": 8.3
+    },
+    "vc-claude-code-seeded-v2-legal-case-django": {
+      "tp": [],
+      "fn": [
+        "seeded-v2-campaign-1-017",
+        "seeded-v2-campaign-2-125",
+        "seeded-v2-campaign-3-374",
+        "seeded-v2-campaign-3-392",
+        "seeded-v2-campaign-3-414",
+        "vc-claude-code-seeded-v2-legal-case-django-enrich-001",
+        "vc-claude-code-seeded-v2-legal-case-django-enrich-002"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [],
+      "seconds": 9.8
+    },
+    "vc-codex-high-seeded-v2-crm-saas-django": {
+      "tp": [],
+      "fn": [
+        "seeded-v2-campaign-1-061",
+        "seeded-v2-campaign-1-062",
+        "seeded-v2-campaign-2-133",
+        "seeded-v2-campaign-2-202",
+        "seeded-v2-campaign-3-563",
+        "seeded-v2-campaign-3-592",
+        "seeded-v2-campaign-3-613",
+        "seeded-v2-campaign-3-623"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [],
+      "seconds": 8.7
+    },
+    "vc-codex-high-seeded-v2-education-lms-django": {
+      "tp": [],
+      "fn": [
+        "seeded-v2-campaign-1-065",
+        "seeded-v2-campaign-2-134",
+        "seeded-v2-campaign-3-564",
+        "seeded-v2-campaign-3-593",
+        "seeded-v2-campaign-3-624"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [],
+      "seconds": 8.4
+    },
+    "vc-codex-high-seeded-v2-healthcare-clinic-django": {
+      "tp": [],
+      "fn": [
+        "seeded-v2-campaign-1-070",
+        "seeded-v2-campaign-1-071",
+        "seeded-v2-campaign-1-072",
+        "seeded-v2-campaign-2-204",
+        "seeded-v2-campaign-3-566",
+        "seeded-v2-campaign-3-606",
+        "seeded-v2-campaign-3-626",
+        "vc-codex-high-seeded-v2-healthcare-clinic-django-enrich-006"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [],
+      "seconds": 10.8
+    },
+    "vc-codex-high-seeded-v2-hr-payroll-django": {
+      "tp": [],
+      "fn": [
+        "seeded-v2-campaign-1-073",
+        "seeded-v2-campaign-1-074",
+        "seeded-v2-campaign-2-136",
+        "seeded-v2-campaign-3-567",
+        "seeded-v2-campaign-3-595",
+        "seeded-v2-campaign-3-607",
+        "seeded-v2-campaign-3-627"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [],
+      "seconds": 8.8
+    },
+    "vc-codex-high-seeded-v2-legal-case-django": {
+      "tp": [],
+      "fn": [
+        "seeded-v2-campaign-1-077",
+        "seeded-v2-campaign-2-137",
+        "seeded-v2-campaign-3-568",
+        "seeded-v2-campaign-3-589",
+        "seeded-v2-campaign-3-608",
+        "seeded-v2-campaign-3-628"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [],
+      "seconds": 8.9
+    },
+    "vc-codex-seeded-v2-crm-saas-django": {
+      "tp": [],
+      "fn": [
+        "seeded-v2-campaign-2-127",
+        "seeded-v2-campaign-2-197",
+        "seeded-v2-campaign-3-466",
+        "seeded-v2-campaign-3-494",
+        "seeded-v2-campaign-3-526",
+        "vc-codex-seeded-v2-crm-saas-django-enrich-001",
+        "vc-codex-seeded-v2-crm-saas-django-enrich-005",
+        "vc-codex-seeded-v2-crm-saas-django-enrich-008",
+        "vc-codex-seeded-v2-crm-saas-django-enrich-009",
+        "vc-codex-seeded-v2-crm-saas-django-enrich-010"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [],
+      "seconds": 9.1
+    },
+    "vc-codex-seeded-v2-education-lms-django": {
+      "tp": [],
+      "fn": [
+        "seeded-v2-campaign-1-034",
+        "seeded-v2-campaign-1-035",
+        "seeded-v2-campaign-1-036",
+        "seeded-v2-campaign-2-198",
+        "seeded-v2-campaign-3-467",
+        "seeded-v2-campaign-3-527",
+        "vc-codex-seeded-v2-education-lms-django-enrich-003",
+        "vc-codex-seeded-v2-education-lms-django-enrich-009",
+        "vc-codex-seeded-v2-education-lms-django-enrich-014"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [],
+      "seconds": 15.4
+    },
+    "vc-codex-seeded-v2-healthcare-clinic-django": {
+      "tp": [],
+      "fn": [
+        "seeded-v2-campaign-1-041",
+        "seeded-v2-campaign-2-129",
+        "seeded-v2-campaign-3-469",
+        "seeded-v2-campaign-3-496",
+        "seeded-v2-campaign-3-529",
+        "seeded-v2-campaign-3-539",
+        "vc-codex-seeded-v2-healthcare-clinic-django-enrich-006",
+        "vc-codex-seeded-v2-healthcare-clinic-django-enrich-014",
+        "vc-codex-seeded-v2-healthcare-clinic-django-enrich-015",
+        "vc-codex-seeded-v2-healthcare-clinic-django-enrich-016",
+        "vc-codex-seeded-v2-healthcare-clinic-django-enrich-017",
+        "vc-codex-seeded-v2-healthcare-clinic-django-enrich-018"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [],
+      "seconds": 10.2
+    },
+    "vc-codex-seeded-v2-hr-payroll-django": {
+      "tp": [],
+      "fn": [
+        "seeded-v2-campaign-2-130",
+        "seeded-v2-campaign-3-470",
+        "seeded-v2-campaign-3-497",
+        "seeded-v2-campaign-3-530",
+        "seeded-v2-campaign-3-540",
+        "vc-codex-seeded-v2-hr-payroll-django-enrich-003",
+        "vc-codex-seeded-v2-hr-payroll-django-enrich-008",
+        "vc-codex-seeded-v2-hr-payroll-django-enrich-009",
+        "vc-codex-seeded-v2-hr-payroll-django-enrich-010",
+        "vc-codex-seeded-v2-hr-payroll-django-enrich-011",
+        "vc-codex-seeded-v2-hr-payroll-django-enrich-012",
+        "vc-codex-seeded-v2-hr-payroll-django-enrich-013",
+        "vc-codex-seeded-v2-hr-payroll-django-enrich-020"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [],
+      "seconds": 11.6
+    },
+    "vc-codex-seeded-v2-legal-case-django": {
+      "tp": [],
+      "fn": [
+        "seeded-v2-campaign-1-046",
+        "seeded-v2-campaign-1-047",
+        "seeded-v2-campaign-1-048",
+        "seeded-v2-campaign-3-471",
+        "seeded-v2-campaign-3-499",
+        "seeded-v2-campaign-3-531",
+        "seeded-v2-campaign-3-541",
+        "vc-codex-seeded-v2-legal-case-django-enrich-003"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [],
+      "seconds": 14.6
+    },
+    "vc-kimi-code-seeded-v2-crm-saas-django": {
+      "tp": [],
+      "fn": [
+        "seeded-v2-campaign-2-139",
+        "seeded-v2-campaign-2-207",
+        "seeded-v2-campaign-3-660",
+        "seeded-v2-campaign-3-690",
+        "seeded-v2-campaign-3-719",
+        "vc-kimi-code-seeded-v2-crm-saas-django-enrich-004",
+        "vc-kimi-code-seeded-v2-crm-saas-django-enrich-008"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [],
+      "seconds": 10.5
+    },
+    "vc-kimi-code-seeded-v2-education-lms-django": {
+      "tp": [],
+      "fn": [
+        "seeded-v2-campaign-1-094",
+        "seeded-v2-campaign-1-095",
+        "seeded-v2-campaign-1-096",
+        "seeded-v2-campaign-2-208",
+        "seeded-v2-campaign-3-661",
+        "seeded-v2-campaign-3-691",
+        "seeded-v2-campaign-3-711",
+        "vc-kimi-code-seeded-v2-education-lms-django-enrich-007",
+        "vc-kimi-code-seeded-v2-education-lms-django-enrich-008",
+        "vc-kimi-code-seeded-v2-education-lms-django-enrich-009"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [],
+      "seconds": 10.5
+    },
+    "vc-kimi-code-seeded-v2-healthcare-clinic-django": {
+      "tp": [],
+      "fn": [
+        "seeded-v2-campaign-1-101",
+        "seeded-v2-campaign-2-141",
+        "seeded-v2-campaign-3-663",
+        "seeded-v2-campaign-3-693",
+        "seeded-v2-campaign-3-713",
+        "seeded-v2-campaign-3-721",
+        "vc-kimi-code-seeded-v2-healthcare-clinic-django-enrich-004",
+        "vc-kimi-code-seeded-v2-healthcare-clinic-django-enrich-010",
+        "vc-kimi-code-seeded-v2-healthcare-clinic-django-enrich-011"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [],
+      "seconds": 11.0
+    },
+    "vc-kimi-code-seeded-v2-hr-payroll-django": {
+      "tp": [],
+      "fn": [
+        "seeded-v2-campaign-2-142",
+        "seeded-v2-campaign-3-664",
+        "seeded-v2-campaign-3-694",
+        "seeded-v2-campaign-3-714",
+        "seeded-v2-campaign-3-722",
+        "vc-kimi-code-seeded-v2-hr-payroll-django-enrich-004",
+        "vc-kimi-code-seeded-v2-hr-payroll-django-enrich-010"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [],
+      "seconds": 11.3
+    },
+    "vc-kimi-code-seeded-v2-legal-case-django": {
+      "tp": [],
+      "fn": [
+        "seeded-v2-campaign-1-106",
+        "seeded-v2-campaign-1-107",
+        "seeded-v2-campaign-1-108",
+        "seeded-v2-campaign-3-665",
+        "seeded-v2-campaign-3-715",
+        "vc-kimi-code-seeded-v2-legal-case-django-enrich-005",
+        "vc-kimi-code-seeded-v2-legal-case-django-enrich-006",
+        "vc-kimi-code-seeded-v2-legal-case-django-enrich-007"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [],
+      "seconds": 9.7
+    }
+  }
+}

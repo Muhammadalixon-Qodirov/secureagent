@@ -1,0 +1,2491 @@
+{
+  "system": "single_shot",
+  "metrics": {
+    "sql_injection": {
+      "tp": 6,
+      "fn": 12,
+      "fp_lookalike": 1,
+      "fp_unmatched": 23,
+      "precision": 0.2,
+      "precision_ci95": [
+        0.095,
+        0.373
+      ],
+      "recall": 0.333,
+      "recall_ci95": [
+        0.163,
+        0.563
+      ],
+      "f1": 0.25,
+      "lookalike_fp_rate": 0.048,
+      "safe_cases": 21
+    },
+    "path_traversal": {
+      "tp": 13,
+      "fn": 23,
+      "fp_lookalike": 0,
+      "fp_unmatched": 9,
+      "precision": 0.591,
+      "precision_ci95": [
+        0.387,
+        0.767
+      ],
+      "recall": 0.361,
+      "recall_ci95": [
+        0.225,
+        0.524
+      ],
+      "f1": 0.448,
+      "lookalike_fp_rate": 0.0,
+      "safe_cases": 7
+    },
+    "authorization_idor": {
+      "tp": 8,
+      "fn": 142,
+      "fp_lookalike": 0,
+      "fp_unmatched": 35,
+      "precision": 0.186,
+      "precision_ci95": [
+        0.097,
+        0.326
+      ],
+      "recall": 0.053,
+      "recall_ci95": [
+        0.027,
+        0.102
+      ],
+      "f1": 0.083,
+      "lookalike_fp_rate": 0.0,
+      "safe_cases": 45
+    },
+    "micro": {
+      "tp": 27,
+      "fn": 177,
+      "fp_lookalike": 1,
+      "fp_unmatched": 67,
+      "precision": 0.284,
+      "precision_ci95": [
+        0.203,
+        0.382
+      ],
+      "recall": 0.132,
+      "recall_ci95": [
+        0.093,
+        0.186
+      ],
+      "f1": 0.181,
+      "lookalike_fp_rate": 0.014,
+      "safe_cases": 73
+    }
+  },
+  "per_app": {
+    "djangoat": {
+      "tp": [
+        "djangoat-030",
+        "djangoat-047",
+        "djangoat-031",
+        "djangoat-007"
+      ],
+      "fn": [
+        "djangoat-001",
+        "djangoat-002",
+        "djangoat-018",
+        "djangoat-019",
+        "djangoat-020",
+        "djangoat-021",
+        "djangoat-022",
+        "djangoat-043",
+        "djangoat-044",
+        "djangoat-045"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-639",
+          "file": "app/models/Performance/performance.py",
+          "ranges": [
+            [
+              49,
+              49
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "app/tests/views/test_users.py",
+          "ranges": [
+            [
+              310,
+              310
+            ]
+          ],
+          "title": "SQL Injection in User View",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "app/tests/vulnerabilities/test_a1_command_injection.py",
+          "ranges": [
+            [
+              20,
+              20
+            ]
+          ],
+          "title": "Command Injection via OS Path Manipulation",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/tests/vulnerabilities/test_a4_insecure_direct_object_reference.py",
+          "ranges": [
+            [
+              89,
+              89
+            ]
+          ],
+          "title": "Insecure Direct Object Reference (IDOR)",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/tests/vulnerabilities/test_a7_missing_access_control.py",
+          "ranges": [
+            [
+              29,
+              29
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "app/tests/vulnerabilities/test_extra_remote_code_execution.py",
+          "ranges": [
+            [
+              25,
+              25
+            ]
+          ],
+          "title": "SQL Injection",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "app/views/api/mobile/views.py",
+          "ranges": [
+            [
+              18,
+              18
+            ]
+          ],
+          "title": "Dynamic SQL Query Construction",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "app/views/api/mobile/views.py",
+          "ranges": [
+            [
+              28,
+              28
+            ]
+          ],
+          "title": "Dynamic SQL Query Construction",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "app/views/api/users/views.py",
+          "ranges": [
+            [
+              19,
+              19
+            ]
+          ],
+          "title": "Dynamic SQL Query Construction",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "app/views/api/users/views.py",
+          "ranges": [
+            [
+              35,
+              35
+            ]
+          ],
+          "title": "Dynamic SQL Query Construction",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "app/views/api/users/views.py",
+          "ranges": [
+            [
+              41,
+              41
+            ]
+          ],
+          "title": "Dynamic SQL Query Construction",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/views/api/users/views.py",
+          "ranges": [
+            [
+              41,
+              41
+            ]
+          ],
+          "title": "Broken Object-Level Authorization",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/views/users/views.py",
+          "ranges": [
+            [
+              57,
+              57
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/views/users/views.py",
+          "ranges": [
+            [
+              70,
+              70
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [
+        {
+          "cwe": "CWE-639",
+          "file": "app/views/api/users/views.py",
+          "ranges": [
+            [
+              35,
+              35
+            ]
+          ],
+          "title": "Broken Object-Level Authorization",
+          "case": "djangoat-047"
+        }
+      ],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-22",
+          "file": "app/models/Benefits/benefits.py",
+          "ranges": [
+            [
+              33,
+              33
+            ]
+          ],
+          "title": "Path Traversal via Full File Name Construction"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/models/Performance/performance.py",
+          "ranges": [
+            [
+              49,
+              49
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "app/tests/views/test_users.py",
+          "ranges": [
+            [
+              310,
+              310
+            ]
+          ],
+          "title": "SQL Injection in User View"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "app/tests/vulnerabilities/test_a1_command_injection.py",
+          "ranges": [
+            [
+              20,
+              20
+            ]
+          ],
+          "title": "Command Injection via OS Path Manipulation"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/tests/vulnerabilities/test_a4_insecure_direct_object_reference.py",
+          "ranges": [
+            [
+              89,
+              89
+            ]
+          ],
+          "title": "Insecure Direct Object Reference (IDOR)"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/tests/vulnerabilities/test_a7_missing_access_control.py",
+          "ranges": [
+            [
+              29,
+              29
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "app/tests/vulnerabilities/test_extra_remote_code_execution.py",
+          "ranges": [
+            [
+              25,
+              25
+            ]
+          ],
+          "title": "SQL Injection"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "app/views/api/mobile/views.py",
+          "ranges": [
+            [
+              18,
+              18
+            ]
+          ],
+          "title": "Dynamic SQL Query Construction"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "app/views/api/mobile/views.py",
+          "ranges": [
+            [
+              28,
+              28
+            ]
+          ],
+          "title": "Dynamic SQL Query Construction"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "app/views/api/users/views.py",
+          "ranges": [
+            [
+              19,
+              19
+            ]
+          ],
+          "title": "Dynamic SQL Query Construction"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "app/views/api/users/views.py",
+          "ranges": [
+            [
+              35,
+              35
+            ]
+          ],
+          "title": "Dynamic SQL Query Construction"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/views/api/users/views.py",
+          "ranges": [
+            [
+              19,
+              19
+            ]
+          ],
+          "title": "Broken Object-Level Authorization"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/views/api/users/views.py",
+          "ranges": [
+            [
+              35,
+              35
+            ]
+          ],
+          "title": "Broken Object-Level Authorization"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "app/views/api/users/views.py",
+          "ranges": [
+            [
+              41,
+              41
+            ]
+          ],
+          "title": "Dynamic SQL Query Construction"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/views/api/users/views.py",
+          "ranges": [
+            [
+              41,
+              41
+            ]
+          ],
+          "title": "Broken Object-Level Authorization"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/views/users/pay/views.py",
+          "ranges": [
+            [
+              39,
+              39
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        },
+        {
+          "cwe": "CWE-22",
+          "file": "app/views/users/benefit_forms/views.py",
+          "ranges": [
+            [
+              25,
+              25
+            ]
+          ],
+          "title": "Path Traversal"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/views/users/views.py",
+          "ranges": [
+            [
+              57,
+              57
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "app/views/users/views.py",
+          "ranges": [
+            [
+              70,
+              70
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        }
+      ],
+      "seconds": 115.0
+    },
+    "lets-be-bad-guys": {
+      "tp": [
+        "lets-be-bad-guys-001",
+        "lets-be-bad-guys-011"
+      ],
+      "fn": [
+        "lets-be-bad-guys-010"
+      ],
+      "fp_safe": [
+        "lets-be-bad-guys-fp-001"
+      ],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-89",
+          "file": "badguys/vulnerable/views.py",
+          "ranges": [
+            [
+              22,
+              22
+            ]
+          ],
+          "title": "SQL Injection via User Input"
+        },
+        {
+          "cwe": "CWE-22",
+          "file": "badguys/vulnerable/views.py",
+          "ranges": [
+            [
+              39,
+              39
+            ]
+          ],
+          "title": "Path Traversal Vulnerability"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "badguys/vulnerable/views.py",
+          "ranges": [
+            [
+              130,
+              130
+            ]
+          ],
+          "title": "Broken Object-Level Authorization (IDOR)"
+        }
+      ],
+      "seconds": 10.7
+    },
+    "pygoat": {
+      "tp": [
+        "pygoat-001",
+        "pygoat-002",
+        "pygoat-015"
+      ],
+      "fn": [
+        "pygoat-011",
+        "pygoat-012",
+        "pygoat-013",
+        "pygoat-014",
+        "pygoat-031",
+        "pygoat-032",
+        "pygoat-034",
+        "pygoat-035",
+        "pygoat-036",
+        "pygoat-037",
+        "pygoat-045",
+        "pygoat-069"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-639",
+          "file": "dockerized_labs/broken_auth_lab/app.py",
+          "ranges": [
+            [
+              112,
+              112
+            ]
+          ],
+          "title": "Broken Object-Level Authorization (IDOR)",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-22",
+          "file": "dockerized_labs/sensitive_data_exposure/dataexposure/views.py",
+          "ranges": [
+            [
+              120,
+              120
+            ]
+          ],
+          "title": "Path Traversal",
+          "family": "path_traversal"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "dockerized_labs/sensitive_data_exposure/dataexposure/views.py",
+          "ranges": [
+            [
+              120,
+              120
+            ]
+          ],
+          "title": "SQL Injection",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-22",
+          "file": "introduction/playground/ssrf/main.py",
+          "ranges": [
+            [
+              11,
+              11
+            ]
+          ],
+          "title": "Path Traversal via File Parameter",
+          "family": "path_traversal"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "introduction/playground/ssrf/test.py",
+          "ranges": [
+            [
+              8,
+              8
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "introduction/views.py",
+          "ranges": [
+            [
+              158,
+              158
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "introduction/views.py",
+          "ranges": [
+            [
+              430,
+              430
+            ]
+          ],
+          "title": "Command Injection via Shell Execution",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "introduction/views.py",
+          "ranges": [
+            [
+              460,
+              460
+            ]
+          ],
+          "title": "Evaluated User Input Leading to Code Execution",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "introduction/views.py",
+          "ranges": [
+            [
+              628,
+              628
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "introduction/views.py",
+          "ranges": [
+            [
+              666,
+              666
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-22",
+          "file": "introduction/views.py",
+          "ranges": [
+            [
+              715,
+              715
+            ]
+          ],
+          "title": "Path Traversal via User Input",
+          "family": "path_traversal"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-639",
+          "file": "dockerized_labs/broken_auth_lab/app.py",
+          "ranges": [
+            [
+              112,
+              112
+            ]
+          ],
+          "title": "Broken Object-Level Authorization (IDOR)"
+        },
+        {
+          "cwe": "CWE-22",
+          "file": "dockerized_labs/sensitive_data_exposure/dataexposure/views.py",
+          "ranges": [
+            [
+              120,
+              120
+            ]
+          ],
+          "title": "Path Traversal"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "dockerized_labs/sensitive_data_exposure/dataexposure/views.py",
+          "ranges": [
+            [
+              120,
+              120
+            ]
+          ],
+          "title": "SQL Injection"
+        },
+        {
+          "cwe": "CWE-22",
+          "file": "introduction/playground/ssrf/main.py",
+          "ranges": [
+            [
+              11,
+              11
+            ]
+          ],
+          "title": "Path Traversal via File Parameter"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "introduction/playground/ssrf/test.py",
+          "ranges": [
+            [
+              8,
+              8
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "introduction/views.py",
+          "ranges": [
+            [
+              158,
+              158
+            ]
+          ],
+          "title": "SQL Injection via String Concatenation"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "introduction/views.py",
+          "ranges": [
+            [
+              158,
+              158
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "introduction/views.py",
+          "ranges": [
+            [
+              430,
+              430
+            ]
+          ],
+          "title": "Command Injection via Shell Execution"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "introduction/views.py",
+          "ranges": [
+            [
+              460,
+              460
+            ]
+          ],
+          "title": "Evaluated User Input Leading to Code Execution"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "introduction/views.py",
+          "ranges": [
+            [
+              628,
+              628
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "introduction/views.py",
+          "ranges": [
+            [
+              666,
+              666
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        },
+        {
+          "cwe": "CWE-22",
+          "file": "introduction/views.py",
+          "ranges": [
+            [
+              715,
+              715
+            ]
+          ],
+          "title": "Path Traversal via User Input"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "introduction/views.py",
+          "ranges": [
+            [
+              864,
+              864
+            ]
+          ],
+          "title": "SQL Injection via String Concatenation"
+        },
+        {
+          "cwe": "CWE-22",
+          "file": "introduction/views.py",
+          "ranges": [
+            [
+              923,
+              923
+            ]
+          ],
+          "title": "Path Traversal via User Input"
+        }
+      ],
+      "seconds": 75.0
+    },
+    "vc-claude-code-seeded-v2-crm-saas-django": {
+      "tp": [],
+      "fn": [
+        "seeded-v2-campaign-1-001",
+        "seeded-v2-campaign-1-002",
+        "seeded-v2-campaign-2-121",
+        "seeded-v2-campaign-2-191",
+        "seeded-v2-campaign-3-369",
+        "seeded-v2-campaign-3-388",
+        "seeded-v2-campaign-3-439",
+        "vc-claude-code-seeded-v2-crm-saas-django-enrich-009"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-89",
+          "file": "crm/views/imports_exports.py",
+          "ranges": [
+            [
+              67,
+              67
+            ]
+          ],
+          "title": "SQL Injection in Contact Creation/Update",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "crm/views/imports_exports.py",
+          "ranges": [
+            [
+              94,
+              94
+            ]
+          ],
+          "title": "SQL Injection in Organization Creation/Update",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "crm/views/imports_exports.py",
+          "ranges": [
+            [
+              45,
+              45
+            ]
+          ],
+          "title": "Broken Object-Level Authorization (IDOR) for Contacts",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "crm/views/imports_exports.py",
+          "ranges": [
+            [
+              83,
+              83
+            ]
+          ],
+          "title": "Broken Object-Level Authorization (IDOR) for Organizations",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-89",
+          "file": "crm/views/imports_exports.py",
+          "ranges": [
+            [
+              67,
+              67
+            ]
+          ],
+          "title": "SQL Injection in Contact Creation/Update"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "crm/views/imports_exports.py",
+          "ranges": [
+            [
+              94,
+              94
+            ]
+          ],
+          "title": "SQL Injection in Organization Creation/Update"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "crm/views/imports_exports.py",
+          "ranges": [
+            [
+              45,
+              45
+            ]
+          ],
+          "title": "Broken Object-Level Authorization (IDOR) for Contacts"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "crm/views/imports_exports.py",
+          "ranges": [
+            [
+              83,
+              83
+            ]
+          ],
+          "title": "Broken Object-Level Authorization (IDOR) for Organizations"
+        }
+      ],
+      "seconds": 143.9
+    },
+    "vc-claude-code-seeded-v2-education-lms-django": {
+      "tp": [
+        "vc-claude-code-seeded-v2-education-lms-django-enrich-012"
+      ],
+      "fn": [
+        "seeded-v2-campaign-1-005",
+        "seeded-v2-campaign-2-122",
+        "seeded-v2-campaign-3-370",
+        "seeded-v2-campaign-3-389",
+        "seeded-v2-campaign-3-440",
+        "vc-claude-code-seeded-v2-education-lms-django-enrich-001",
+        "vc-claude-code-seeded-v2-education-lms-django-enrich-004",
+        "vc-claude-code-seeded-v2-education-lms-django-enrich-005",
+        "vc-claude-code-seeded-v2-education-lms-django-enrich-006",
+        "vc-claude-code-seeded-v2-education-lms-django-enrich-013"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-89",
+          "file": "lms/course_operations.py",
+          "ranges": [
+            [
+              32,
+              32
+            ]
+          ],
+          "title": "SQL Injection via String Concatenation",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "lms/course_operations.py",
+          "ranges": [
+            [
+              130,
+              130
+            ]
+          ],
+          "title": "Broken Object-Level Authorization via File Write",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-89",
+          "file": "lms/course_operations.py",
+          "ranges": [
+            [
+              32,
+              32
+            ]
+          ],
+          "title": "SQL Injection via String Concatenation"
+        },
+        {
+          "cwe": "CWE-22",
+          "file": "lms/course_operations.py",
+          "ranges": [
+            [
+              80,
+              80
+            ]
+          ],
+          "title": "Path Traversal via File Write"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "lms/course_operations.py",
+          "ranges": [
+            [
+              130,
+              130
+            ]
+          ],
+          "title": "Broken Object-Level Authorization via File Write"
+        }
+      ],
+      "seconds": 73.9
+    },
+    "vc-claude-code-seeded-v2-healthcare-clinic-django": {
+      "tp": [
+        "seeded-v2-campaign-3-412"
+      ],
+      "fn": [
+        "seeded-v2-campaign-1-010",
+        "seeded-v2-campaign-1-011",
+        "seeded-v2-campaign-1-012",
+        "seeded-v2-campaign-2-193",
+        "seeded-v2-campaign-3-372",
+        "vc-claude-code-seeded-v2-healthcare-clinic-django-enrich-005",
+        "vc-claude-code-seeded-v2-healthcare-clinic-django-enrich-006",
+        "vc-claude-code-seeded-v2-healthcare-clinic-django-enrich-007",
+        "vc-claude-code-seeded-v2-healthcare-clinic-django-enrich-008"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-22",
+          "file": "clinic_portal/patient_operations.py",
+          "ranges": [
+            [
+              57,
+              57
+            ]
+          ],
+          "title": "Potential Path Traversal via Redirect",
+          "family": "path_traversal"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "clinic_portal/patient_operations.py",
+          "ranges": [
+            [
+              100,
+              100
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-89",
+          "file": "clinic_portal/patient_operations.py",
+          "ranges": [
+            [
+              157,
+              157
+            ]
+          ],
+          "title": "Potential SQL Injection via MongoDB Query"
+        },
+        {
+          "cwe": "CWE-22",
+          "file": "clinic_portal/patient_operations.py",
+          "ranges": [
+            [
+              57,
+              57
+            ]
+          ],
+          "title": "Potential Path Traversal via Redirect"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "clinic_portal/patient_operations.py",
+          "ranges": [
+            [
+              100,
+              100
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        }
+      ],
+      "seconds": 103.8
+    },
+    "vc-claude-code-seeded-v2-hr-payroll-django": {
+      "tp": [
+        "seeded-v2-campaign-3-413",
+        "seeded-v2-campaign-3-391"
+      ],
+      "fn": [
+        "seeded-v2-campaign-1-013",
+        "seeded-v2-campaign-1-014",
+        "seeded-v2-campaign-2-124",
+        "seeded-v2-campaign-2-194",
+        "seeded-v2-campaign-3-373",
+        "vc-claude-code-seeded-v2-hr-payroll-django-enrich-001",
+        "vc-claude-code-seeded-v2-hr-payroll-django-enrich-008"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-639",
+          "file": "hr_portal/payroll_operations.py",
+          "ranges": [
+            [
+              165,
+              165
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR via MongoDB Query Construction",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-89",
+          "file": "hr_portal/payroll_operations.py",
+          "ranges": [
+            [
+              165,
+              165
+            ]
+          ],
+          "title": "SQL Injection via MongoDB Query Construction"
+        },
+        {
+          "cwe": "CWE-22",
+          "file": "hr_portal/payroll_operations.py",
+          "ranges": [
+            [
+              146,
+              146
+            ]
+          ],
+          "title": "Path Traversal via File Name Construction"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "hr_portal/payroll_operations.py",
+          "ranges": [
+            [
+              165,
+              165
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR via MongoDB Query Construction"
+        }
+      ],
+      "seconds": 101.4
+    },
+    "vc-claude-code-seeded-v2-legal-case-django": {
+      "tp": [],
+      "fn": [
+        "seeded-v2-campaign-1-017",
+        "seeded-v2-campaign-2-125",
+        "seeded-v2-campaign-3-374",
+        "seeded-v2-campaign-3-392",
+        "seeded-v2-campaign-3-414",
+        "vc-claude-code-seeded-v2-legal-case-django-enrich-001",
+        "vc-claude-code-seeded-v2-legal-case-django-enrich-002"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [],
+      "seconds": 73.0
+    },
+    "vc-codex-high-seeded-v2-crm-saas-django": {
+      "tp": [
+        "seeded-v2-campaign-1-062"
+      ],
+      "fn": [
+        "seeded-v2-campaign-1-061",
+        "seeded-v2-campaign-2-133",
+        "seeded-v2-campaign-2-202",
+        "seeded-v2-campaign-3-563",
+        "seeded-v2-campaign-3-592",
+        "seeded-v2-campaign-3-613",
+        "seeded-v2-campaign-3-623"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-89",
+          "file": "config/partner_console.py",
+          "ranges": [
+            [
+              90,
+              90
+            ]
+          ],
+          "title": "SQL Injection via MongoDB Query Construction",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "config/partner_console.py",
+          "ranges": [
+            [
+              90,
+              90
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-89",
+          "file": "config/partner_console.py",
+          "ranges": [
+            [
+              90,
+              90
+            ]
+          ],
+          "title": "SQL Injection via MongoDB Query Construction"
+        },
+        {
+          "cwe": "CWE-22",
+          "file": "config/partner_console.py",
+          "ranges": [
+            [
+              40,
+              40
+            ]
+          ],
+          "title": "Path Traversal via File Path Construction"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "config/partner_console.py",
+          "ranges": [
+            [
+              90,
+              90
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        }
+      ],
+      "seconds": 52.9
+    },
+    "vc-codex-high-seeded-v2-education-lms-django": {
+      "tp": [],
+      "fn": [
+        "seeded-v2-campaign-1-065",
+        "seeded-v2-campaign-2-134",
+        "seeded-v2-campaign-3-564",
+        "seeded-v2-campaign-3-593",
+        "seeded-v2-campaign-3-624"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-89",
+          "file": "education_lms/course_operations.py",
+          "ranges": [
+            [
+              32,
+              32
+            ]
+          ],
+          "title": "SQL Injection via String Concatenation in HTML Response",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-22",
+          "file": "education_lms/course_operations.py",
+          "ranges": [
+            [
+              80,
+              80
+            ]
+          ],
+          "title": "Path Traversal via File Writing with Unsanitized Input",
+          "family": "path_traversal"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "education_lms/course_operations.py",
+          "ranges": [
+            [
+              138,
+              138
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR in File Upload",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "lms/tests.py",
+          "ranges": [
+            [
+              108,
+              108
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "lms/tests.py",
+          "ranges": [
+            [
+              121,
+              121
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "lms/tests.py",
+          "ranges": [
+            [
+              143,
+              143
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "lms/tests.py",
+          "ranges": [
+            [
+              165,
+              165
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-89",
+          "file": "education_lms/course_operations.py",
+          "ranges": [
+            [
+              32,
+              32
+            ]
+          ],
+          "title": "SQL Injection via String Concatenation in HTML Response"
+        },
+        {
+          "cwe": "CWE-22",
+          "file": "education_lms/course_operations.py",
+          "ranges": [
+            [
+              80,
+              80
+            ]
+          ],
+          "title": "Path Traversal via File Writing with Unsanitized Input"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "education_lms/course_operations.py",
+          "ranges": [
+            [
+              138,
+              138
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR in File Upload"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "lms/tests.py",
+          "ranges": [
+            [
+              108,
+              108
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "lms/tests.py",
+          "ranges": [
+            [
+              121,
+              121
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "lms/tests.py",
+          "ranges": [
+            [
+              143,
+              143
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "lms/tests.py",
+          "ranges": [
+            [
+              165,
+              165
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        }
+      ],
+      "seconds": 66.9
+    },
+    "vc-codex-high-seeded-v2-healthcare-clinic-django": {
+      "tp": [
+        "seeded-v2-campaign-3-606"
+      ],
+      "fn": [
+        "seeded-v2-campaign-1-070",
+        "seeded-v2-campaign-1-071",
+        "seeded-v2-campaign-1-072",
+        "seeded-v2-campaign-2-204",
+        "seeded-v2-campaign-3-566",
+        "seeded-v2-campaign-3-626",
+        "vc-codex-high-seeded-v2-healthcare-clinic-django-enrich-006"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-22",
+          "file": "clinic_portal/patient_operations.py",
+          "ranges": [
+            [
+              164,
+              164
+            ]
+          ],
+          "title": "XML External Entity Processing",
+          "family": "path_traversal"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "clinic_portal/patient_operations.py",
+          "ranges": [
+            [
+              100,
+              100
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR in Patient Identity Ping",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-89",
+          "file": "clinic_portal/patient_operations.py",
+          "ranges": [
+            [
+              156,
+              156
+            ]
+          ],
+          "title": "SQL Injection via MongoDB Query Construction"
+        },
+        {
+          "cwe": "CWE-22",
+          "file": "clinic_portal/patient_operations.py",
+          "ranges": [
+            [
+              164,
+              164
+            ]
+          ],
+          "title": "XML External Entity Processing"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "clinic_portal/patient_operations.py",
+          "ranges": [
+            [
+              100,
+              100
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR in Patient Identity Ping"
+        }
+      ],
+      "seconds": 65.5
+    },
+    "vc-codex-high-seeded-v2-hr-payroll-django": {
+      "tp": [
+        "seeded-v2-campaign-1-074",
+        "seeded-v2-campaign-2-136"
+      ],
+      "fn": [
+        "seeded-v2-campaign-1-073",
+        "seeded-v2-campaign-3-567",
+        "seeded-v2-campaign-3-595",
+        "seeded-v2-campaign-3-607",
+        "seeded-v2-campaign-3-627"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-89",
+          "file": "hr_portal/payroll_operations.py",
+          "ranges": [
+            [
+              40,
+              40
+            ]
+          ],
+          "title": "SQL Injection via File Path Construction",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "hr_portal/payroll_operations.py",
+          "ranges": [
+            [
+              154,
+              154
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-89",
+          "file": "hr_portal/payroll_operations.py",
+          "ranges": [
+            [
+              40,
+              40
+            ]
+          ],
+          "title": "SQL Injection via File Path Construction"
+        },
+        {
+          "cwe": "CWE-22",
+          "file": "hr_portal/payroll_operations.py",
+          "ranges": [
+            [
+              40,
+              40
+            ]
+          ],
+          "title": "Path Traversal via File Path Construction"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "hr_portal/payroll_operations.py",
+          "ranges": [
+            [
+              63,
+              63
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "hr_portal/payroll_operations.py",
+          "ranges": [
+            [
+              154,
+              154
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        }
+      ],
+      "seconds": 69.4
+    },
+    "vc-codex-high-seeded-v2-legal-case-django": {
+      "tp": [
+        "seeded-v2-campaign-3-589",
+        "seeded-v2-campaign-3-568"
+      ],
+      "fn": [
+        "seeded-v2-campaign-1-077",
+        "seeded-v2-campaign-2-137",
+        "seeded-v2-campaign-3-608",
+        "seeded-v2-campaign-3-628"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-89",
+          "file": "legalcase/case_operations.py",
+          "ranges": [
+            [
+              32,
+              32
+            ]
+          ],
+          "title": "SQL Injection via String Concatenation",
+          "family": "sql_injection"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-89",
+          "file": "legalcase/case_operations.py",
+          "ranges": [
+            [
+              32,
+              32
+            ]
+          ],
+          "title": "SQL Injection via String Concatenation"
+        },
+        {
+          "cwe": "CWE-22",
+          "file": "legalcase/case_operations.py",
+          "ranges": [
+            [
+              140,
+              140
+            ]
+          ],
+          "title": "Path Traversal via User Input"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "legalcase/case_operations.py",
+          "ranges": [
+            [
+              110,
+              110
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        }
+      ],
+      "seconds": 51.0
+    },
+    "vc-codex-seeded-v2-crm-saas-django": {
+      "tp": [
+        "vc-codex-seeded-v2-crm-saas-django-enrich-001"
+      ],
+      "fn": [
+        "seeded-v2-campaign-2-127",
+        "seeded-v2-campaign-2-197",
+        "seeded-v2-campaign-3-466",
+        "seeded-v2-campaign-3-494",
+        "seeded-v2-campaign-3-526",
+        "vc-codex-seeded-v2-crm-saas-django-enrich-005",
+        "vc-codex-seeded-v2-crm-saas-django-enrich-008",
+        "vc-codex-seeded-v2-crm-saas-django-enrich-009",
+        "vc-codex-seeded-v2-crm-saas-django-enrich-010"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-89",
+          "file": "crm_platform/partner_console.py",
+          "ranges": [
+            [
+              33,
+              33
+            ]
+          ],
+          "title": "SQL Injection via String Interpolation",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "crm_platform/partner_console.py",
+          "ranges": [
+            [
+              152,
+              152
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [
+        {
+          "cwe": "CWE-79",
+          "file": "operations/urls.py",
+          "ranges": [
+            [
+              31,
+              31
+            ]
+          ],
+          "title": "Potential Path Traversal via CSV Export"
+        }
+      ],
+      "findings": [
+        {
+          "cwe": "CWE-89",
+          "file": "crm_platform/partner_console.py",
+          "ranges": [
+            [
+              33,
+              33
+            ]
+          ],
+          "title": "SQL Injection via String Interpolation"
+        },
+        {
+          "cwe": "CWE-22",
+          "file": "crm_platform/partner_console.py",
+          "ranges": [
+            [
+              95,
+              95
+            ]
+          ],
+          "title": "Path Traversal via String Interpolation"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "crm_platform/partner_console.py",
+          "ranges": [
+            [
+              152,
+              152
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        },
+        {
+          "cwe": "CWE-79",
+          "file": "operations/urls.py",
+          "ranges": [
+            [
+              31,
+              31
+            ]
+          ],
+          "title": "Potential Path Traversal via CSV Export"
+        }
+      ],
+      "seconds": 33.2
+    },
+    "vc-codex-seeded-v2-education-lms-django": {
+      "tp": [],
+      "fn": [
+        "seeded-v2-campaign-1-034",
+        "seeded-v2-campaign-1-035",
+        "seeded-v2-campaign-1-036",
+        "seeded-v2-campaign-2-198",
+        "seeded-v2-campaign-3-467",
+        "seeded-v2-campaign-3-527",
+        "vc-codex-seeded-v2-education-lms-django-enrich-003",
+        "vc-codex-seeded-v2-education-lms-django-enrich-009",
+        "vc-codex-seeded-v2-education-lms-django-enrich-014"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-89",
+          "file": "config/course_operations.py",
+          "ranges": [
+            [
+              46,
+              46
+            ]
+          ],
+          "title": "SQL Injection via Unsanitized Input",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-22",
+          "file": "config/course_operations.py",
+          "ranges": [
+            [
+              57,
+              57
+            ]
+          ],
+          "title": "Path Traversal via Redirect",
+          "family": "path_traversal"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "config/course_operations.py",
+          "ranges": [
+            [
+              100,
+              100
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-89",
+          "file": "config/course_operations.py",
+          "ranges": [
+            [
+              46,
+              46
+            ]
+          ],
+          "title": "SQL Injection via Unsanitized Input"
+        },
+        {
+          "cwe": "CWE-22",
+          "file": "config/course_operations.py",
+          "ranges": [
+            [
+              57,
+              57
+            ]
+          ],
+          "title": "Path Traversal via Redirect"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "config/course_operations.py",
+          "ranges": [
+            [
+              100,
+              100
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        }
+      ],
+      "seconds": 38.9
+    },
+    "vc-codex-seeded-v2-healthcare-clinic-django": {
+      "tp": [
+        "seeded-v2-campaign-3-496"
+      ],
+      "fn": [
+        "seeded-v2-campaign-1-041",
+        "seeded-v2-campaign-2-129",
+        "seeded-v2-campaign-3-469",
+        "seeded-v2-campaign-3-529",
+        "seeded-v2-campaign-3-539",
+        "vc-codex-seeded-v2-healthcare-clinic-django-enrich-006",
+        "vc-codex-seeded-v2-healthcare-clinic-django-enrich-014",
+        "vc-codex-seeded-v2-healthcare-clinic-django-enrich-015",
+        "vc-codex-seeded-v2-healthcare-clinic-django-enrich-016",
+        "vc-codex-seeded-v2-healthcare-clinic-django-enrich-017",
+        "vc-codex-seeded-v2-healthcare-clinic-django-enrich-018"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-89",
+          "file": "clinic_project/patient_operations.py",
+          "ranges": [
+            [
+              130,
+              130
+            ]
+          ],
+          "title": "Jinja Template Injection",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "clinic_project/patient_operations.py",
+          "ranges": [
+            [
+              171,
+              171
+            ]
+          ],
+          "title": "MongoDB Query Injection",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-89",
+          "file": "clinic_project/patient_operations.py",
+          "ranges": [
+            [
+              130,
+              130
+            ]
+          ],
+          "title": "Jinja Template Injection"
+        },
+        {
+          "cwe": "CWE-22",
+          "file": "clinic_project/patient_operations.py",
+          "ranges": [
+            [
+              137,
+              137
+            ]
+          ],
+          "title": "Path Traversal"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "clinic_project/patient_operations.py",
+          "ranges": [
+            [
+              171,
+              171
+            ]
+          ],
+          "title": "MongoDB Query Injection"
+        }
+      ],
+      "seconds": 37.8
+    },
+    "vc-codex-seeded-v2-hr-payroll-django": {
+      "tp": [
+        "vc-codex-seeded-v2-hr-payroll-django-enrich-020",
+        "seeded-v2-campaign-3-470"
+      ],
+      "fn": [
+        "seeded-v2-campaign-2-130",
+        "seeded-v2-campaign-3-497",
+        "seeded-v2-campaign-3-530",
+        "seeded-v2-campaign-3-540",
+        "vc-codex-seeded-v2-hr-payroll-django-enrich-003",
+        "vc-codex-seeded-v2-hr-payroll-django-enrich-008",
+        "vc-codex-seeded-v2-hr-payroll-django-enrich-009",
+        "vc-codex-seeded-v2-hr-payroll-django-enrich-010",
+        "vc-codex-seeded-v2-hr-payroll-django-enrich-011",
+        "vc-codex-seeded-v2-hr-payroll-django-enrich-012",
+        "vc-codex-seeded-v2-hr-payroll-django-enrich-013"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-89",
+          "file": "config/payroll_operations.py",
+          "ranges": [
+            [
+              32,
+              32
+            ]
+          ],
+          "title": "SQL Injection via String Interpolation",
+          "family": "sql_injection"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-89",
+          "file": "config/payroll_operations.py",
+          "ranges": [
+            [
+              32,
+              32
+            ]
+          ],
+          "title": "SQL Injection via String Interpolation"
+        },
+        {
+          "cwe": "CWE-22",
+          "file": "config/payroll_operations.py",
+          "ranges": [
+            [
+              82,
+              82
+            ]
+          ],
+          "title": "Path Traversal via File Write"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "config/payroll_operations.py",
+          "ranges": [
+            [
+              115,
+              115
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        }
+      ],
+      "seconds": 33.4
+    },
+    "vc-codex-seeded-v2-legal-case-django": {
+      "tp": [
+        "seeded-v2-campaign-3-541",
+        "seeded-v2-campaign-3-499",
+        "seeded-v2-campaign-3-471"
+      ],
+      "fn": [
+        "seeded-v2-campaign-1-046",
+        "seeded-v2-campaign-1-047",
+        "seeded-v2-campaign-1-048",
+        "seeded-v2-campaign-3-531",
+        "vc-codex-seeded-v2-legal-case-django-enrich-003"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-89",
+          "file": "legalcase/case_operations.py",
+          "ranges": [
+            [
+              181,
+              181
+            ]
+          ],
+          "title": "SQL Injection via MongoDB Query"
+        },
+        {
+          "cwe": "CWE-22",
+          "file": "legalcase/case_operations.py",
+          "ranges": [
+            [
+              137,
+              137
+            ]
+          ],
+          "title": "Path Traversal via File Writing"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "legalcase/case_operations.py",
+          "ranges": [
+            [
+              107,
+              107
+            ]
+          ],
+          "title": "Broken Object-Level Authorization in Identity Hint"
+        }
+      ],
+      "seconds": 34.8
+    },
+    "vc-kimi-code-seeded-v2-crm-saas-django": {
+      "tp": [],
+      "fn": [
+        "seeded-v2-campaign-2-139",
+        "seeded-v2-campaign-2-207",
+        "seeded-v2-campaign-3-660",
+        "seeded-v2-campaign-3-690",
+        "seeded-v2-campaign-3-719",
+        "vc-kimi-code-seeded-v2-crm-saas-django-enrich-004",
+        "vc-kimi-code-seeded-v2-crm-saas-django-enrich-008"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-89",
+          "file": "crm/core/partner_console.py",
+          "ranges": [
+            [
+              32,
+              32
+            ]
+          ],
+          "title": "SQL Injection via String Interpolation",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-22",
+          "file": "crm/core/partner_console.py",
+          "ranges": [
+            [
+              93,
+              93
+            ]
+          ],
+          "title": "Path Traversal via File System Traversal",
+          "family": "path_traversal"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "crm/core/partner_console.py",
+          "ranges": [
+            [
+              176,
+              176
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-89",
+          "file": "crm/core/partner_console.py",
+          "ranges": [
+            [
+              32,
+              32
+            ]
+          ],
+          "title": "SQL Injection via String Interpolation"
+        },
+        {
+          "cwe": "CWE-22",
+          "file": "crm/core/partner_console.py",
+          "ranges": [
+            [
+              93,
+              93
+            ]
+          ],
+          "title": "Path Traversal via File System Traversal"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "crm/core/partner_console.py",
+          "ranges": [
+            [
+              176,
+              176
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        }
+      ],
+      "seconds": 49.9
+    },
+    "vc-kimi-code-seeded-v2-education-lms-django": {
+      "tp": [],
+      "fn": [
+        "seeded-v2-campaign-1-094",
+        "seeded-v2-campaign-1-095",
+        "seeded-v2-campaign-1-096",
+        "seeded-v2-campaign-2-208",
+        "seeded-v2-campaign-3-661",
+        "seeded-v2-campaign-3-691",
+        "seeded-v2-campaign-3-711",
+        "vc-kimi-code-seeded-v2-education-lms-django-enrich-007",
+        "vc-kimi-code-seeded-v2-education-lms-django-enrich-008",
+        "vc-kimi-code-seeded-v2-education-lms-django-enrich-009"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [],
+      "seconds": 39.6
+    },
+    "vc-kimi-code-seeded-v2-healthcare-clinic-django": {
+      "tp": [],
+      "fn": [
+        "seeded-v2-campaign-1-101",
+        "seeded-v2-campaign-2-141",
+        "seeded-v2-campaign-3-663",
+        "seeded-v2-campaign-3-693",
+        "seeded-v2-campaign-3-713",
+        "seeded-v2-campaign-3-721",
+        "vc-kimi-code-seeded-v2-healthcare-clinic-django-enrich-004",
+        "vc-kimi-code-seeded-v2-healthcare-clinic-django-enrich-010",
+        "vc-kimi-code-seeded-v2-healthcare-clinic-django-enrich-011"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [],
+      "seconds": 45.0
+    },
+    "vc-kimi-code-seeded-v2-hr-payroll-django": {
+      "tp": [
+        "seeded-v2-campaign-3-664"
+      ],
+      "fn": [
+        "seeded-v2-campaign-2-142",
+        "seeded-v2-campaign-3-694",
+        "seeded-v2-campaign-3-714",
+        "seeded-v2-campaign-3-722",
+        "vc-kimi-code-seeded-v2-hr-payroll-django-enrich-004",
+        "vc-kimi-code-seeded-v2-hr-payroll-django-enrich-010"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-639",
+          "file": "api/views.py",
+          "ranges": [
+            [
+              88,
+              88
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "api/views.py",
+          "ranges": [
+            [
+              111,
+              111
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "hr_payroll/payroll_operations.py",
+          "ranges": [
+            [
+              32,
+              32
+            ]
+          ],
+          "title": "SQL Injection via String Interpolation",
+          "family": "sql_injection"
+        },
+        {
+          "cwe": "CWE-22",
+          "file": "hr_payroll/payroll_operations.py",
+          "ranges": [
+            [
+              82,
+              82
+            ]
+          ],
+          "title": "Path Traversal via User Input",
+          "family": "path_traversal"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-639",
+          "file": "api/views.py",
+          "ranges": [
+            [
+              88,
+              88
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "api/views.py",
+          "ranges": [
+            [
+              111,
+              111
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        },
+        {
+          "cwe": "CWE-89",
+          "file": "hr_payroll/payroll_operations.py",
+          "ranges": [
+            [
+              32,
+              32
+            ]
+          ],
+          "title": "SQL Injection via String Interpolation"
+        },
+        {
+          "cwe": "CWE-22",
+          "file": "hr_payroll/payroll_operations.py",
+          "ranges": [
+            [
+              82,
+              82
+            ]
+          ],
+          "title": "Path Traversal via User Input"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "hr_payroll/payroll_operations.py",
+          "ranges": [
+            [
+              116,
+              116
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        }
+      ],
+      "seconds": 57.1
+    },
+    "vc-kimi-code-seeded-v2-legal-case-django": {
+      "tp": [],
+      "fn": [
+        "seeded-v2-campaign-1-106",
+        "seeded-v2-campaign-1-107",
+        "seeded-v2-campaign-1-108",
+        "seeded-v2-campaign-3-665",
+        "seeded-v2-campaign-3-715",
+        "vc-kimi-code-seeded-v2-legal-case-django-enrich-005",
+        "vc-kimi-code-seeded-v2-legal-case-django-enrich-006",
+        "vc-kimi-code-seeded-v2-legal-case-django-enrich-007"
+      ],
+      "fp_safe": [],
+      "fp_unmatched": [
+        {
+          "cwe": "CWE-639",
+          "file": "documents/views.py",
+          "ranges": [
+            [
+              43,
+              43
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "documents/views.py",
+          "ranges": [
+            [
+              80,
+              80
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "documents/views.py",
+          "ranges": [
+            [
+              101,
+              101
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "family": "authorization_idor"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "documents/views.py",
+          "ranges": [
+            [
+              154,
+              154
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR",
+          "family": "authorization_idor"
+        }
+      ],
+      "duplicates": [],
+      "out_of_scope": [],
+      "findings": [
+        {
+          "cwe": "CWE-639",
+          "file": "documents/views.py",
+          "ranges": [
+            [
+              43,
+              43
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "documents/views.py",
+          "ranges": [
+            [
+              80,
+              80
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "documents/views.py",
+          "ranges": [
+            [
+              101,
+              101
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        },
+        {
+          "cwe": "CWE-639",
+          "file": "documents/views.py",
+          "ranges": [
+            [
+              154,
+              154
+            ]
+          ],
+          "title": "Broken Object-Level Authorization / IDOR"
+        }
+      ],
+      "seconds": 55.7
+    }
+  }
+}
