@@ -353,7 +353,7 @@ def _owner_constraint(body: str, owned_cols: set[str]) -> list[str]:
     return ev
 
 
-def _classify(body: str, owner_cols: set[str]) -> str | None:
+def _classify(body: str, owner_cols: set[str], v5: bool = False) -> str | None:
     """What a function's body enforces: owner (compares an owner column / *_id attribute in a function
     that knows the user), role, login, or nothing."""
     cols = "|".join(re.escape(c) for c in owner_cols)
@@ -369,12 +369,13 @@ def _classify(body: str, owner_cols: set[str]) -> str | None:
         return "login"
     if GATE.search(body) and re.search(r"headers|cookies|token|secret|key", body, re.I):
         return "login"                      # a gate on a request credential, whatever it is called
-    if CREDENTIAL_COMPARE.search(body):
+    if v5 and CREDENTIAL_COMPARE.search(body):
         return "login"                      # v5: returns whether a request credential equals a secret
     return None
 
 
-def helper_summaries(trees: dict, files: dict[str, str], owner_cols: set[str]) -> dict[str, tuple[str, str, int, int]]:
+def helper_summaries(trees: dict, files: dict[str, str], owner_cols: set[str],
+                     v5: bool = False) -> dict[str, tuple[str, str, int, int]]:
     """name -> (summary, file, start, end) for project functions that enforce something, callees included
     (two rounds: a loader that calls an owner check is itself an owner check)."""
     info: dict[str, tuple[str | None, str, int, int, set[str]]] = {}
@@ -386,7 +387,7 @@ def helper_summaries(trees: dict, files: dict[str, str], owner_cols: set[str]) -
                 is_route = _route_info(n)[0]
                 body = "\n".join(lines[n.lineno - 1:n.end_lineno])
                 called = {_call_name(c) for c in ast.walk(n) if isinstance(c, ast.Call)} - {n.name}
-                info[n.name] = (None if is_route else _classify(body, owner_cols), rel, n.lineno, n.end_lineno or n.lineno,
+                info[n.name] = (None if is_route else _classify(body, owner_cols, v5), rel, n.lineno, n.end_lineno or n.lineno,
                                 set() if is_route else called)
     summ = {k: v[0] for k, v in info.items()}
     for _ in range(2):
@@ -402,7 +403,8 @@ def helper_summaries(trees: dict, files: dict[str, str], owner_cols: set[str]) -
     return out
 
 
-def route_facts(files: dict[str, str], owned: dict[str, OwnedModel], resolve: bool = False) -> list[RouteFacts]:
+def route_facts(files: dict[str, str], owned: dict[str, OwnedModel], resolve: bool = False,
+                v5: bool = False) -> list[RouteFacts]:
     defs: dict[str, str] = {}
     trees = {}
     for rel, src in files.items():
@@ -415,7 +417,7 @@ def route_facts(files: dict[str, str], owned: dict[str, OwnedModel], resolve: bo
             if isinstance(n, (ast.FunctionDef, ast.AsyncFunctionDef)):
                 defs.setdefault(n.name, "\n".join(lines[n.lineno - 1:n.end_lineno]))
     owner_cols = {c for o in owned.values() for c in o.owner_columns}
-    summaries = helper_summaries(trees, files, owner_cols) if resolve else {}
+    summaries = helper_summaries(trees, files, owner_cols, v5) if resolve else {}
     out = []
     for rel, tree in trees.items():
         lines = files[rel].splitlines()
@@ -558,9 +560,10 @@ def _django_facts(files, trees, defs, owned, owner_cols, summaries) -> list[Rout
 
 # ---------------------------------------------------------------- candidates
 
-def idor_candidates(root: Path, py_files: list[Path], resolve: bool = False
+def idor_candidates(root: Path, py_files: list[Path], resolve: bool = False, v5: bool = False
                     ) -> tuple[list[IdorCandidate], dict[str, OwnedModel], list[RouteFacts]]:
-    """resolve=True is v4: helpers and dependencies are classified from their bodies (helper_summaries)."""
+    """resolve=True is v4: helpers and dependencies are classified from their bodies (helper_summaries).
+    v5=True adds boolean credential gates and the file-local consistency rule for missing authentication."""
     files = {}
     for p in py_files:
         try:
@@ -568,7 +571,7 @@ def idor_candidates(root: Path, py_files: list[Path], resolve: bool = False
         except OSError:
             continue
     owned, _ = ownership_map(files)
-    facts = route_facts(files, owned, resolve)
+    facts = route_facts(files, owned, resolve, v5)
     cands = []
     for r in facts:
         if not r.id_params or not r.models_accessed or r.owner_constraint or (r.auth == "role" and not resolve):
@@ -592,7 +595,7 @@ def idor_candidates(root: Path, py_files: list[Path], resolve: bool = False
                       + (f"; {len(siblings)} other handler(s) on {mname} do check ownership" if siblings else ""))
             cands.append(IdorCandidate(r, owned[mname], reason, 0 if r.writes else 1, siblings[:2]))
             break
-    cands += _missing_auth_candidates(facts, files, {id(c.route) for c in cands})
+    cands += _missing_auth_candidates(facts, files, {id(c.route) for c in cands}, v5)
     cands.sort(key=lambda c: (c.priority, c.route.file, c.route.line_start))
     return cands, owned, facts
 
@@ -600,7 +603,8 @@ def idor_candidates(root: Path, py_files: list[Path], resolve: bool = False
 MISSING_AUTH = OwnedModel("(endpoint)", "", [], "missing authentication", "", 0)
 
 
-def _missing_auth_candidates(facts: list[RouteFacts], files: dict[str, str], taken: set[int]) -> list[IdorCandidate]:
+def _missing_auth_candidates(facts: list[RouteFacts], files: dict[str, str], taken: set[int],
+                             v5: bool = False) -> list[IdorCandidate]:
     """Consistency (RoleCast/MACE): when most routes of the app require authentication, a route
     that does something sensitive without any is suspicious."""
     if len(facts) < 3:
@@ -615,6 +619,14 @@ def _missing_auth_candidates(facts: list[RouteFacts], files: dict[str, str], tak
             continue
         body = "\n".join(files[r.file].splitlines()[r.line_start - 1:r.line_end])
         dangerous = bool(DANGEROUS_SINK.search(body))      # strong signal: any authenticated route is enough
+        # v5, file-local consistency: nearly every handler in this file is gated and this one is not
+        same_file = [s for s in facts if s.file == r.file]
+        gated = [s for s in same_file if s.auth != "none"]
+        if v5 and len(same_file) >= 4 and len(gated) / len(same_file) >= 0.75:
+            out.append(IdorCandidate(r, MISSING_AUTH, f"{','.join(r.methods)} {r.path or r.function}: no "
+                                     f"authentication check, while {len(gated)} of {len(same_file)} handlers in this "
+                                     f"file are gated (e.g. {', '.join(a.function for a in gated[:3])})", 1, gated[:2]))
+            continue
         if not dangerous and not (mostly_authed and (r.writes or (r.models_accessed and r.id_params)
                                                      or SENSITIVE_BODY.search(body))):
             continue

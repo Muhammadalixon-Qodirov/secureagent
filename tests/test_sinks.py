@@ -80,4 +80,5 @@ def test_boolean_credential_gate_is_authentication():
     body = ('def _gate(request):\n'
             '    secret = os.environ.get("OPS_TOKEN")\n'
             '    return bool(secret and request.headers.get("x-internal-token") == secret)\n')
-    assert _classify(body, set()) == "login"
+    assert _classify(body, set(), v5=True) == "login"
+    assert _classify(body, set()) is None                   # v4 behaviour is unchanged

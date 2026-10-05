@@ -175,12 +175,13 @@ def _python_files(root: Path) -> list[Path]:
     return out
 
 
-def _authz_seeds(root: Path, registry: ToolRegistry, stats: SweepStats, notes: list[str], resolve: bool = False):
+def _authz_seeds(root: Path, registry: ToolRegistry, stats: SweepStats, notes: list[str], resolve: bool = False,
+                 v5: bool = False):
     """v3: deterministic IDOR / missing-auth candidates from the ownership map and route facts
     (secagent/authz.py). Each handler is read through the registry so the finding has a real
     read event; the reason and the guarded siblings become verifier context."""
     seeds, context, handlers = [], {}, []
-    cands, owned, facts = idor_candidates(root, _python_files(root), resolve=resolve)
+    cands, owned, facts = idor_candidates(root, _python_files(root), resolve=resolve, v5=v5)
     if owned:
         notes.append("ownership map: " + ", ".join(f"{k} ({v.via})" for k, v in sorted(owned.items()))[:600])
     seen = set()
@@ -268,7 +269,7 @@ def run_sweep(config: Config, model, registry: ToolRegistry, verify: bool = True
     handlers: list[tuple[str, int, int]] = []
     facts: list = []
     if authz and "authorization_idor" in families:
-        candidates, context, handlers, facts = _authz_seeds(root, registry, stats, notes, resolve)
+        candidates, context, handlers, facts = _authz_seeds(root, registry, stats, notes, resolve, sinks)
     spans: dict[int, tuple[int, int]] = {}
     if sinks:
         s_seeds, s_ctx, spans = _sink_seeds(root, registry, stats, notes, families)
