@@ -80,8 +80,42 @@ stated under Deviations.
 
 ## Frozen code
 
-(to be filled in when v4 is frozen)
+Recorded 2026-10-05, **before `agent_v4` or any v4 ablation was run on this
+set**.
+
+- v4 = commit `613b32a`; `secagent/*.py` code hash **`0b17455e08bfb8a9`**
+  (`secagent.evaluate._code_hash()`, LF line endings as checked out).
+- Primary system: **`agent_v4`** (v3 with injection hardening + helper
+  resolution + Django views + helper bodies shown to the verifier + 80-window
+  budget, handler and sink files first).
+- Ablation, declared now: `authz_v4_only` (deterministic seeds only, no model).
+- Dev numbers at the time of the freeze (seen data, not a result):
+  - Three v4 drafts were run in full on the dev sets. The last one (commit
+    `a666e4f`, kept as `agent_v4_draft3`) gave, on FastAPI, IDOR false
+    positives 270 -> 101 against v3 **and core true positives 23 -> 10** -
+    i.e. it failed the claim on dev. On Flask: 31 TP / 13 FP (v3: 33 / 7).
+  - Diagnosis of the lost FastAPI findings: audit/logging helpers
+    (`AuditLog(actor_id=user.id)`) were classified as owner checks, so every
+    handler that wrote an audit row counted as scoped and was never seeded.
+    Fixed in `613b32a` (one regular expression, with a unit test).
+  - After the fix only the deterministic pass was re-run on dev before the
+    freeze: `authz_v4_only` FastAPI 13 core TP / 66 IDOR FP (v3's
+    `authz_only`: 16 / 223), Flask 8 TP / 2 FP. The full `agent_v4` dev
+    re-run of the frozen code is done **after** the run on this set and
+    cannot change the code.
+- No further tuning: whatever the dev re-run shows, the code above is what is
+  judged here.
 
 ## Deviations
 
-(none yet)
+1. **Baselines were started before the v4 freeze.** `semgrep`, `single_shot`,
+   `agent_v2`, `agent_v3` were launched on this set on 2026-10-05 while the
+   last v4 bug was being diagnosed on the FastAPI dev set (to use the GPU
+   time). When the fix was written and the freeze recorded, `semgrep` had
+   finished and the three model systems had not completed a single app; no
+   score, finding or log line from this set had been read. The fix touches
+   only code behind `resolve=True`, which none of the baselines use.
+2. Background jobs on this machine are stopped after two hours, so runs are
+   resumed (`evaluate` skips apps that already have a `result.json`; an app
+   interrupted midway is run again from scratch). Each app still has exactly
+   one completed run per system.
