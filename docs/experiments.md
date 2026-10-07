@@ -779,3 +779,22 @@ one, which led to accepting unambiguous seeds on static evidence. Drafts on
 the seen sets: Flask F1 0.57–0.59 (v3: 0.51), Django 0.31–0.32 (v4: 0.10,
 single-shot 0.18), holdout 0.83–0.85.
 
+The frozen code was re-run in full on the four seen sets after the run above
+(same hash `a95b3f6387e20904`; seen data, the scan was tuned on it, and it
+cannot change the code):
+
+| Seen set | best earlier agent | single-shot | deterministic passes only | **Agent v5 (frozen)** |
+|---|---|---|---|---|
+| Holdout (48) | - | F1 0.52 | 0.95 (20 TP / 0 FP) | 0.86 (19 TP / 3 FP) |
+| Flask (130) | 0.51 (v3: 33 / 7) | 0.41 | 0.52 (33 / 4) | 0.58 (41 / 10) |
+| FastAPI (244) | 0.24 (v3: 61 / 273) | 0.14 | 0.40 (72 / 104) | 0.40 (84 / 157) |
+| Django (277) | 0.10 (v4: 13 / 51) | 0.18 | 0.35 (63 / 92) | 0.39 (60 / 48) |
+
+Per family on these sets v5 finds most injection-type entries (SQLi 19 of 22
+on FastAPI, 18 of 18 on Django; path traversal 35 of 35 and 31 of 36) - on
+the unseen set it was 7 of 10 and 2 of 13. The gap between these numbers and
+T14 is the size of the tuning effect, and the reason only T14 is a result.
+IDOR is unchanged by v5: core access-control recall 22 of 53 on FastAPI
+(v3: 23) and 5 of 59 on Django (v4: 6), with precision near 0.1 - still the
+open problem.
+
