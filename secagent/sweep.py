@@ -81,6 +81,71 @@ class VerdictV2(BaseModel):
     control_line: int | None = None
 
 
+class VerdictV6(BaseModel):
+    """v6 (docs/V6_REJA.md steps 4-6). Five verdicts instead of a yes/no (OpenAnt), and the verifier may
+    ask for ONE project function or class by name when the deciding code is not shown (Vulnhuntr)."""
+    model_config = ConfigDict(extra="forbid")
+    analysis: str
+    verdict: Literal["vulnerable", "bypassable", "inconclusive", "protected", "safe"]
+    control_line: int | None = None
+    control_file: str | None = None
+    need_symbol: str | None = None
+
+
+VERIFY_V6 = (
+    "\nGive one verdict:\n"
+    "- vulnerable: the value reaches the operation with no control.\n"
+    "- bypassable: there is a control, but it can be got around (a text test on a path such as startswith "
+    "without a separator or a search for '..', a deny-list, a check on a different value).\n"
+    "- protected: a control in the shown code defeats the claim - give its line in control_line (and "
+    "control_file if it is in another shown file).\n"
+    "- safe: the value is not controlled by a caller at all - give the line that shows it in control_line.\n"
+    "- inconclusive: the deciding code is not shown.\n"
+    "If one function or class that is called here but not shown would decide it, put its bare name in "
+    "need_symbol; it will be shown to you once and you will be asked again."
+)
+
+VERIFY_V6_AUTHZ = (
+    "\nJudge this as a constrained attacker would: an ordinary authenticated user of ANOTHER account or "
+    "tenant, with no admin role, no credentials of the victim and no access to the server. The claim holds "
+    "only if that attacker can read or change something that belongs to someone else through this code - "
+    "say whose object and by which request. If the object is restricted to the caller (owner / tenant / "
+    "membership compared with the acting user, in this code or in a shown helper), or it is the caller's "
+    "own data, or it is public by design, the verdict is protected or safe. A sibling route on the same "
+    "object that does scope it is evidence that this one must too. A role check alone does not scope which "
+    "objects a user of that role may touch."
+)
+RETRY_NOTE = "Your previous reply was not valid JSON for the schema. Reply again with the JSON object only."
+
+
+def _decide(model, msgs: list[dict], schema, retry: bool):
+    """One model call; with retry=True (v6) an unusable reply is asked for once more (PentAGI's reflector)."""
+    try:
+        reply = model.decide(msgs, schema=schema.model_json_schema())
+        return schema.model_validate_json(reply.content), reply
+    except (ModelError, ValidationError, json.JSONDecodeError):
+        if not retry:
+            raise
+    reply = model.decide(msgs + [{"role": "user", "content": RETRY_NOTE}], schema=schema.model_json_schema())
+    return schema.model_validate_json(reply.content), reply
+
+
+def symbol_index(root: Path, files: list[Path]) -> dict[str, list[tuple[str, int, int]]]:
+    """name -> [(file, start, end)] for every function and class of the project (v6 context requests)."""
+    import ast
+    out: dict[str, list[tuple[str, int, int]]] = {}
+    for f in files:
+        try:
+            tree = ast.parse(f.read_text(encoding="utf-8", errors="replace"))
+        except (SyntaxError, ValueError, OSError):
+            continue
+        rel = f.relative_to(root).as_posix()
+        for n in ast.walk(tree):
+            if isinstance(n, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)):
+                out.setdefault(n.name, []).append((rel, n.lineno, n.end_lineno or n.lineno))
+    return out
+
+
 def _questions(families: list[str]) -> str:
     out = []
     for fam in families:
@@ -160,6 +225,10 @@ class SweepStats:
     sink_seeds: int = 0
     sink_seeds_unverified: int = 0      # accepted on static evidence alone (v5)
     sinks_protected: int = 0            # v6: sinks behind a strong control, not seeded
+    sweep_protected: int = 0            # v6: sweep candidates on such a sink, rejected without the model
+    symbol_requests: int = 0            # v6: verifier asked for a function by name and was shown it
+    retries: int = 0                    # v6: unusable replies asked for again
+    verdicts: dict = field(default_factory=dict)
     seconds: float = 0.0
 
 
@@ -246,7 +315,7 @@ def _sink_seeds(root: Path, registry: ToolRegistry, stats: SweepStats, notes: li
     stats.sinks_protected = len(protected)
     for rel, line, family, func, ctext in protected[:40]:
         notes.append(f"protected sink (not reported): {family} at {rel}:{line} in {func} - strong control {ctext.strip()}")
-    return seeds, context, spans, strong
+    return seeds, context, spans, strong, protected
 
 
 def _fact_for(facts, path: str, line: int):
@@ -284,8 +353,10 @@ def run_sweep(config: Config, model, registry: ToolRegistry, verify: bool = True
         candidates, context, handlers, facts = _authz_seeds(root, registry, stats, notes, resolve, sinks)
     spans: dict[int, tuple[int, int]] = {}
     strong: set[int] = set()
+    protected: list = []
+    symbols = symbol_index(root, _python_files(root)) if v6 else {}
     if sinks:
-        s_seeds, s_ctx, spans, strong = _sink_seeds(root, registry, stats, notes, families, v6)
+        s_seeds, s_ctx, spans, strong, protected = _sink_seeds(root, registry, stats, notes, families, v6)
         candidates = candidates + s_seeds
         context.update(s_ctx)
 
@@ -330,9 +401,17 @@ def run_sweep(config: Config, model, registry: ToolRegistry, verify: bool = True
         msgs = [{"role": "system", "content": system}, {"role": "user", "content": user}]
         stats.sweep_calls += 1
         try:
-            reply = model.decide(msgs, schema=SweepReply.model_json_schema())
-            parsed = SweepReply.model_validate_json(reply.content)
+            parsed, reply = _decide(model, msgs, SweepReply, retry=False)
         except (ModelError, ValidationError, json.JSONDecodeError) as exc:
+            try:
+                if not v6:
+                    raise
+                stats.retries += 1
+                parsed, reply = _decide(model, msgs + [{"role": "user", "content": RETRY_NOTE}], SweepReply, retry=False)
+            except (ModelError, ValidationError, json.JSONDecodeError):
+                parsed = None
+        if parsed is None:
+            exc = ValueError("unusable reply")
             stats.invalid_replies += 1
             notes.append(f"{rel}:{a}-{b}: sweep reply unusable ({type(exc).__name__})")
             continue
@@ -371,13 +450,25 @@ def run_sweep(config: Config, model, registry: ToolRegistry, verify: bool = True
             # when the static evidence is ambiguous (possible controls, or the value arrives as a parameter).
             stats.sink_seeds_unverified += 1
             rationale += " | accepted on static evidence: request value reaches the operation, no control in the function"
+        elif v6 and not seeded and (hit := next((x for x in protected if x[0] == d["path"] and x[2] == c.family
+                                                 and abs(x[1] - c.line) <= 3), None)):
+            # the model listed a sink that the scan found behind a strong control: same answer as for a seed
+            stats.sweep_protected += 1
+            hyps.append(HypothesisSummary(id=hid, question=c.title, analysis_status="rejected",
+                                          verification_status="not_run", finding_id=None,
+                                          reason=f"protected sink: strong control {hit[4].strip()} before line {hit[1]}"))
+            continue
         elif verify:
             fact = _fact_for(facts, d["path"], c.line) if resolve and c.family == "authorization_idor" else None
             ctx = context.get(id(c), "")
             if fact is not None:
                 ctx = (ctx + "\n" if ctx else "") + _facts_text(fact)
-            v, win_event, shown = _verify(c, d["path"], registry, model, renderer, ctx, root, harden, fact,
-                                          spans.get(id(c)))
+            if v6:
+                v, win_event, shown = _verify_v6(c, d["path"], registry, model, renderer, ctx, root, harden, fact,
+                                                 spans.get(id(c)), symbols, stats)
+            else:
+                v, win_event, shown = _verify(c, d["path"], registry, model, renderer, ctx, root, harden, fact,
+                                              spans.get(id(c)))
             if v is None:
                 stats.verifier_failed += 1
                 confidence, rationale = "low", rationale + " | verifier failed"
@@ -390,11 +481,13 @@ def run_sweep(config: Config, model, registry: ToolRegistry, verify: bool = True
                 continue
             else:
                 stats.verifier_kept += 1
+                verdict = getattr(v, "verdict", None)
                 if not v.claim_holds:
                     confidence = "low"
-                    rationale += f" | verifier doubted it but named no control in the shown code ({win_event})"
+                    rationale += (f" | verifier: {verdict}, no control named in the shown code ({win_event})" if verdict
+                                  else f" | verifier doubted it but named no control in the shown code ({win_event})")
                 else:
-                    rationale += f" | verifier ({win_event}): claim holds - {v.analysis[:240]}"
+                    rationale += f" | verifier ({win_event}): {verdict or 'claim holds'} - {v.analysis[:240]}"
         line_text = next((x["text"] for x in d["lines"] if x["n"] == c.line), "")
         findings.append(Finding.model_validate({
             "id": fid, "hypothesis_ids": [hid], "title": c.title, "cwe_id": FAMILY_CWE[c.family],
@@ -491,6 +584,68 @@ def _verify(c: Candidate, path: str, registry: ToolRegistry, model, renderer: Re
         return schema.model_validate_json(reply.content), win.event_id, shown
     except (ModelError, ValidationError, json.JSONDecodeError):
         return None, win.event_id, shown
+
+
+class _V6Result:
+    """VerdictV6 seen through the older interface (claim_holds / control_line / control_file)."""
+
+    def __init__(self, v: VerdictV6):
+        self.verdict, self.analysis = v.verdict, v.analysis
+        self.claim_holds = v.verdict in ("vulnerable", "bypassable")
+        self.control_line, self.control_file = v.control_line, v.control_file
+
+
+MAX_SYMBOL_ROUNDS = 2
+
+
+def _verify_v6(c: Candidate, path: str, registry: ToolRegistry, model, renderer: Renderer, context: str,
+               root: Path, harden: bool, fact, span, symbols: dict, stats: SweepStats):
+    """v6 verifier: five verdicts, attacker framing for authorization claims, and up to two rounds in which
+    the model names a project function and the controller shows it (resolved from the AST index)."""
+    a, b = max(1, c.line - VERIFY_PADDING), c.line + VERIFY_PADDING
+    if span is not None:
+        a, b = min(a, max(span[0], c.line - 90)), max(b, min(span[1], c.line + 40))
+    if fact is not None:
+        a, b = min(a, fact.line_start), max(b, min(fact.line_end, fact.line_start + 110))
+    win = registry.execute("read_file", {"path": path, "start_line": a, "end_line": b})
+    if win.status != "ok":
+        return None, win.event_id, []
+    shown, extra = [win.event_id], ""
+    for name, hf, ha, hb, kind in (fact.helpers if fact is not None else []):
+        h = registry.execute("read_file", {"path": hf, "start_line": ha, "end_line": min(hb, ha + 60)})
+        if h.status == "ok":
+            shown.append(h.event_id)
+            extra += f"\n\nHELPER {name} ({kind} check):\n" + renderer.observation(_shown(h, root, harden))
+    claim = f"CLAIM: {c.title} ({FAMILY_CWE[c.family]}) at {path}:{c.line}\nreason given: {c.reason}"
+    if context:
+        claim += "\n" + context
+    if c.family == "authorization_idor":
+        addendum = (VERIFY_V4_MISSING_AUTH if c.title.startswith("Missing authentication") else
+                    (VERIFY_V4_ADDENDUM if fact is not None else "") + VERIFY_V6_AUTHZ)
+    else:
+        addendum = VERIFY_V5_SINK if span is not None else ""
+    system = VERIFY_SYSTEM + addendum + VERIFY_V6
+    asked: set[str] = set()
+    for _ in range(MAX_SYMBOL_ROUNDS + 1):
+        msgs = [{"role": "system", "content": system},
+                {"role": "user", "content": claim + "\n\n" + renderer.observation(_shown(win, root, harden)) + extra}]
+        try:
+            v, _reply = _decide(model, msgs, VerdictV6, retry=True)
+        except (ModelError, ValidationError, json.JSONDecodeError):
+            return None, win.event_id, shown
+        name = (v.need_symbol or "").strip().split("(")[0].split(".")[-1]
+        if not name or name in asked or name not in symbols or len(asked) >= MAX_SYMBOL_ROUNDS:
+            break                                   # nothing asked, asked twice, or not a project symbol
+        asked.add(name)
+        sf, sa, sb = next((x for x in symbols[name] if x[0] == path), symbols[name][0])
+        h = registry.execute("read_file", {"path": sf, "start_line": sa, "end_line": min(sb, sa + 80)})
+        if h.status != "ok":
+            break
+        stats.symbol_requests += 1
+        shown.append(h.event_id)
+        extra += f"\n\nREQUESTED {name} ({sf}:{sa}):\n" + renderer.observation(_shown(h, root, harden))
+    stats.verdicts[v.verdict] = stats.verdicts.get(v.verdict, 0) + 1
+    return _V6Result(v), win.event_id, shown
 
 
 def _in_window(line: int, registry: ToolRegistry, event_id: str) -> bool:
