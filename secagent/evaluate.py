@@ -97,6 +97,27 @@ def load_realvuln(realvuln: Path = REALVULN) -> tuple[list[Case], dict[str, str]
     return cases, cwe_family
 
 
+def load_cve_replay(split: str) -> tuple[list[Case], dict[str, str]]:
+    """CVE-replay set (docs/cve_replay_protocol.md). Every advisory gives two "apps": the parent of the
+    fix (one vulnerable case at the lines the fix changed) and the fix itself (one safe case at the
+    same place - a finding there after the fix is a look-alike false positive)."""
+    base = ROOT / "eval" / "cve_replay" / split
+    frozen = json.loads((base / "FROZEN.json").read_text(encoding="utf-8"))
+    for rel, digest in frozen["files"].items():
+        f = base / "targets" / rel
+        if not f.exists() or hashlib.sha256(f.read_bytes()).hexdigest() != digest:
+            raise SystemExit(f"CVE-replay target changed or missing after freezing: {rel}")
+    _, cwe_family = load_holdout()
+    pad = REALVULN_LINE_TOLERANCE - LINE_SLACK
+    cases = []
+    for e in json.loads((base / "ground_truth.json").read_text(encoding="utf-8")):
+        for label, key, vulnerable in (("vulnerable", "vulnerable_ranges", True), ("fixed", "fixed_ranges", False)):
+            loci = [(f["path"], max(1, a - pad), b + pad) for f in e["files"] for a, b in f[key]]
+            cases.append(Case(e["id"] if vulnerable else e["id"] + ":fixed", f"{e['id']}/{label}", e["family"],
+                              vulnerable, loci, f"{e['repo_url']} {e['fix_commit'][:12]}"))
+    return cases, cwe_family
+
+
 DATASETS = {
     "holdout": (load_holdout, HOLDOUT / "apps", OUT),
     "realvuln": (load_realvuln, REALVULN / "targets", ROOT / "runs" / "eval_realvuln"),
@@ -109,6 +130,11 @@ DATASETS = {
     # test set for v5, frozen before v5 was written (docs/other_protocol.md): aiohttp, tornado, no framework
     "realvuln_other": (lambda: load_realvuln(ROOT / "eval" / "realvuln_other"),
                        ROOT / "eval" / "realvuln_other" / "targets", ROOT / "runs" / "eval_other"),
+    # real 2026 advisories, vulnerable/fixed pairs; dev half for development, test half frozen for v6
+    "cve_dev": (lambda: load_cve_replay("dev"), ROOT / "eval" / "cve_replay" / "dev" / "targets",
+                ROOT / "runs" / "eval_cve_dev"),
+    "cve_test": (lambda: load_cve_replay("test"), ROOT / "eval" / "cve_replay" / "test" / "targets",
+                 ROOT / "runs" / "eval_cve_test"),
 }
 
 

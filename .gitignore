@@ -19,3 +19,6 @@ eval/realvuln/targets/
 eval/realvuln_fastapi/targets/
 eval/realvuln_django/targets/
 eval/realvuln_other/targets/
+eval/cve_replay/_cache/
+eval/cve_replay/dev/targets/
+eval/cve_replay/test/targets/

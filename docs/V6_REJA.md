@@ -1,0 +1,87 @@
+# v6 reja: solishtiruvdan olingan g'oyalarni qo'shish
+
+Sana: 2026-10-07. Asos: [`SOLISHTIRUV.md`](SOLISHTIRUV.md) ning 5-bo'limi.
+Bu fayl ish tartibini belgilaydi; har qadam tugaganda pastdagi "Holat"
+ustuni yangilanadi.
+
+## Asosiy qoida
+
+v5 dan keyin benchmarkda ko'rilmagan Python ma'lumoti qolmadi. Shuning uchun
+tartib qat'iy:
+
+1. **Avval yangi test to'plami**, va uning sinov yarmi qotiriladi.
+2. Keyin g'oyalar birma-bir qo'shiladi, faqat ishlab chiqish (dev)
+   ma'lumotida tekshiriladi.
+3. Oxirida v6 muzlatiladi va sinov yarmida **bir marta** ishga tushiriladi.
+
+Har bir g'oya `v6` bayrog'i ortida qo'shiladi, ya'ni v2–v5 o'zgarmaydi. Dev
+ma'lumotida zarar bergan g'oya olib tashlanadi va bu yerda yoziladi.
+
+## Qadamlar
+
+| # | Qadam | Qayerdan | Nima quriladi | Qabul sharti | Holat |
+|---|---|---|---|---|---|
+| 1 | CVE-replay test to'plami | mythos-agent, CyberGym | `scripts/build_cve_replay.py`: PyPI maslahatlar bazasidan (OSV) uch turdagi, tuzatish commit'i bor yozuvlar; har biri uchun zaif va tuzatilgan holat; dev / sinov bo'linishi | To'plam yuklangan, hash bilan qotirilgan, protokol push qilingan | **bajarildi** (dev 28, sinov 30 ta yozuv) |
+| 2 | Juft baholash | CyberGym | `secagent/evaluate.py` ga `cve_replay` to'plami va baholash: zaif holatda topish, tuzatilgan holatda jim turish | Skript dev yarmida ishlaydi, testlar o'tadi | **bajarildi** |
+| 3 | Dev yarmida boshlang'ich o'lchov | – | single-shot va v5 ni **faqat dev yarmida** ishga tushirish; xatolar tahlili | Jadval va qisqa tahlil shu faylda | boshlanmagan |
+| 4 | Besh javobli hukm | OpenAnt, cyber-harness | Verifier javobi: zaif / chetlab o'tsa bo'ladi / noaniq / himoyalangan / xavfsiz; "noaniq" past ishonch bilan saqlanadi | Dev to'plamlarda F1 pasaymaydi | boshlanmagan |
+| 5 | IDOR verifier'i hujumchi rolida | OpenAnt, CyberStrike | IDOR da'vosi uchun: cheklangan hujumchi, zarar boshqa foydalanuvchiga yetishi shart; himoyalangan qo'shni route dalil sifatida | Dev'da IDOR soxta signali kamayadi, core recall pasaymaydi | boshlanmagan |
+| 6 | Nomi bo'yicha kontekst | Vulnhuntr | Verifier bitta funksiya yoki klassni nomi bilan so'rashi mumkin; controller AST indeksidan topib beradi; ko'pi bilan 2 aylanish, takror so'rovda to'xtaydi | Dev'da F1 pasaymaydi; so'rovlar soni hisobotda | boshlanmagan |
+| 7 | Yetib borish tartibi | OpenAnt | Handler'lardan call graph; oynalar budjeti avval yetib boriladigan kodga sarflanadi | Django dev'da o'tkazib yuborilgan oynalar kamayadi | boshlanmagan |
+| 8 | Mustahkamlik | PentAGI, claude-code-security-review | Buzuq model javobida bir marta qayta urinish; qat'iy istisnolar ro'yxati (test, migratsiya, seed fayllari va h.k.) | `invalid_replies` kamayadi | boshlanmagan |
+| 9 | Chiqish | Shannon, numasec | SARIF fayl; bosqichlar bo'yicha yo'qotish jadvali hisobotda | SARIF sxema tekshiruvidan o'tadi | boshlanmagan |
+| 10 | Muzlatish va sinov | – | v6 hash'i protokolga yoziladi, push; sinov yarmida single-shot, v5, v6 bir martadan | T15 `docs/experiments.md` da | boshlanmagan |
+
+## 1-qadam tafsiloti: CVE-replay to'plami
+
+**Manba.** OSV'ning ochiq PyPI bazasi
+(`osv-vulnerabilities.storage.googleapis.com/PyPI/all.zip`). 2026-10-07 dagi
+dastlabki sanoq: uch turdagi 670 ga yaqin yozuvda GitHub tuzatish commit'i
+bor (path traversal 343, IDOR/avtorizatsiya 257, SQL injection 70); ulardan
+322 tasi 2026-yilda e'lon qilingan.
+
+**Tanlash (oldindan belgilangan, natijani ko'rmasdan):**
+- faqat **2026-yilda e'lon qilingan** yozuvlar: ular qwen3:8b o'qitilgan
+  ma'lumotdan keyin chiqqan, ya'ni model ularni "yodlagan" bo'lishi mumkin
+  emas;
+- bitta GitHub tuzatish commit'i, u kamida bitta test bo'lmagan `.py` faylni
+  o'zgartirgan, o'zgargan Python fayllar 5 tadan ko'p emas;
+- turi CWE bo'yicha: SQL injection (89, 564, 943), path traversal (22, 23, 36,
+  73), avtorizatsiya (639, 862, 863, 284, 285, 306);
+- yozuv identifikatorining SHA-256 qiymati bo'yicha tartiblanadi; juft
+  o'rindagilar dev, toq o'rindagilar sinov yarmiga tushadi.
+
+**Har bir yozuv uchun:** zaif holat (tuzatish commit'ining ota-onasi) va
+tuzatilgan holat (commit'ning o'zi). To'liq repo emas, faqat tekshiriladigan
+doira saqlanadi: o'zgargan fayllar va ular bilan bir papkadagi `.py` fayllar
+(hajm chegarasi bilan). Bu "papka ishorasi berilgan" darajadagi sinov; buni
+natijada ochiq yozish kerak.
+
+**Baholash:**
+- **Topildi:** zaif holatda, o'zgargan faylda, o'zgargan satrlardan ±10 satr
+  ichida, shu turdagi topilma bor.
+- **Juft muvaffaqiyat:** zaif holatda topildi **va** tuzatilgan holatda o'sha
+  joyda shu turdagi topilma yo'q.
+- Qo'shimcha: har holatga to'g'ri kelmagan topilmalar soni. Bu yerda
+  yorliqlanmagan joy "soxta" ekani aniq emas, shuning uchun precision emas,
+  "boshqa topilmalar soni" deb beriladi.
+
+**Ma'lum cheklovlar (oldindan):**
+- Tuzatish satrlari zaiflik joyi bilan har doim ham ustma-ust tushmaydi.
+- Haqiqiy kutubxonalar o'quv ilovalaridan boshqacha: zaiflik ko'pincha veb
+  handler'da emas, kutubxona funksiyasida. Past natija kutiladi.
+- To'plam yozuvlari turli hajmda; ba'zilari yuklanmasligi mumkin (o'chirilgan
+  repo). Tashlab ketilganlar sababi bilan ro'yxatga yoziladi.
+
+## Nima qilinmaydi
+
+- Kodni ishga tushirish yoki ekspluatatsiya (agent faqat o'qiydi).
+- Sinov yarmiga qarab sozlash. Sinov yarmi 10-qadamgacha ochilmaydi.
+- Ko'rilgan to'rt to'plamdagi raqamni natija sifatida ko'rsatish.
+
+## Vaqt taxmini
+
+1–3-qadamlar: bir ish kuni atrofida (asosan yuklash va tekshirish).
+4–9-qadamlar: har biri yarim kundan bir kungacha, dev sinovlari GPU'da
+1–3 soatdan. 10-qadam: bir necha soat GPU. Jami bir haftaga yaqin ish;
+qadamlar ketma-ket, har biri alohida commit.

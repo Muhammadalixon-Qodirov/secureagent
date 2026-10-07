@@ -1,0 +1,1896 @@
+[
+  {
+    "id": "GHSA-gfm2-xm6c-37qc",
+    "family": "authorization_idor",
+    "cwes": [
+      "CWE-639"
+    ],
+    "published": "2026-05-14",
+    "repo_url": "https://github.com/open-webui/open-webui",
+    "fix_commit": "cf4218e688def6f11d195aeda6665ae5b5376b67",
+    "parent_commit": "33a4d1b4122dbbc013d85d9501bb42e4e627612f",
+    "files": [
+      {
+        "path": "backend/open_webui/main.py",
+        "vulnerable_ranges": [
+          [
+            1695,
+            1695
+          ],
+          [
+            1699,
+            1701
+          ],
+          [
+            1702,
+            1702
+          ],
+          [
+            1724,
+            1724
+          ],
+          [
+            1726,
+            1734
+          ],
+          [
+            1737,
+            1750
+          ],
+          [
+            1752,
+            1754
+          ],
+          [
+            1786,
+            1798
+          ],
+          [
+            1827,
+            1827
+          ],
+          [
+            1878,
+            1889
+          ],
+          [
+            1890,
+            1890
+          ],
+          [
+            1964,
+            1964
+          ]
+        ],
+        "fixed_ranges": [
+          [
+            1696,
+            1712
+          ],
+          [
+            1716,
+            1717
+          ],
+          [
+            1719,
+            1719
+          ],
+          [
+            1742,
+            1744
+          ],
+          [
+            1746,
+            1792
+          ],
+          [
+            1795,
+            1828
+          ],
+          [
+            1830,
+            1895
+          ],
+          [
+            1926,
+            1926
+          ],
+          [
+            1955,
+            1955
+          ],
+          [
+            2006,
+            2051
+          ],
+          [
+            2053,
+            2054
+          ],
+          [
+            2129,
+            2130
+          ]
+        ]
+      },
+      {
+        "path": "backend/open_webui/models/chats.py",
+        "vulnerable_ranges": [
+          [
+            296,
+            296
+          ],
+          [
+            299,
+            299
+          ]
+        ],
+        "fixed_ranges": [
+          [
+            296,
+            296
+          ],
+          [
+            298,
+            298
+          ]
+        ]
+      },
+      {
+        "path": "backend/open_webui/routers/chats.py",
+        "vulnerable_ranges": [
+          [
+            560,
+            560
+          ]
+        ],
+        "fixed_ranges": [
+          [
+            561,
+            561
+          ]
+        ]
+      },
+      {
+        "path": "backend/open_webui/utils/automations.py",
+        "vulnerable_ranges": [
+          [
+            310,
+            310
+          ],
+          [
+            311,
+            311
+          ],
+          [
+            381,
+            381
+          ]
+        ],
+        "fixed_ranges": [
+          [
+            310,
+            310
+          ],
+          [
+            312,
+            312
+          ],
+          [
+            382,
+            388
+          ]
+        ]
+      },
+      {
+        "path": "backend/open_webui/utils/middleware.py",
+        "vulnerable_ranges": [
+          [
+            2156,
+            2156
+          ],
+          [
+            2158,
+            2159
+          ],
+          [
+            3063,
+            3063
+          ],
+          [
+            3184,
+            3184
+          ],
+          [
+            4695,
+            4695
+          ]
+        ],
+        "fixed_ranges": [
+          [
+            2156,
+            2156
+          ],
+          [
+            2158,
+            2159
+          ],
+          [
+            3064,
+            3167
+          ],
+          [
+            3289,
+            3289
+          ],
+          [
+            4801,
+            4801
+          ]
+        ]
+      }
+    ],
+    "scope_files": 25
+  },
+  {
+    "id": "GHSA-wvm9-9g5j-623f",
+    "family": "authorization_idor",
+    "cwes": [
+      "CWE-863"
+    ],
+    "published": "2026-09-10",
+    "repo_url": "https://github.com/open-webui/open-webui",
+    "fix_commit": "d799e81edbdc971c6deb096b6474cd95b93504bf",
+    "parent_commit": "c0d09a5de93d48517efe043ea2f4a2f6a7a44fc3",
+    "files": [
+      {
+        "path": "backend/open_webui/routers/auths.py",
+        "vulnerable_ranges": [
+          [
+            1707,
+            1707
+          ]
+        ],
+        "fixed_ranges": [
+          [
+            1708,
+            1724
+          ]
+        ]
+      },
+      {
+        "path": "backend/open_webui/utils/oauth.py",
+        "vulnerable_ranges": [
+          [
+            1522,
+            1523
+          ],
+          [
+            1587,
+            1587
+          ],
+          [
+            1966,
+            2037
+          ]
+        ],
+        "fixed_ranges": [
+          [
+            1522,
+            1523
+          ],
+          [
+            1588,
+            1671
+          ],
+          [
+            2050,
+            2057
+          ]
+        ]
+      }
+    ],
+    "scope_files": 25
+  },
+  {
+    "id": "GHSA-p8rw-8qj3-hf33",
+    "family": "path_traversal",
+    "cwes": [
+      "CWE-22"
+    ],
+    "published": "2026-09-02",
+    "repo_url": "https://github.com/omnigent-ai/omnigent",
+    "fix_commit": "7ca0cca3c9a65c04c489edf68f0e080424a26868",
+    "parent_commit": "b18dab9dff4f3b7e01e7359984d7af51caf8b88c",
+    "files": [
+      {
+        "path": "omnigent/server/bundles.py",
+        "vulnerable_ranges": [
+          [
+            12,
+            12
+          ],
+          [
+            46,
+            46
+          ],
+          [
+            73,
+            73
+          ]
+        ],
+        "fixed_ranges": [
+          [
+            13,
+            26
+          ],
+          [
+            60,
+            61
+          ],
+          [
+            89,
+            109
+          ]
+        ]
+      }
+    ],
+    "scope_files": 25
+  },
+  {
+    "id": "GHSA-4h97-p9wq-chqj",
+    "family": "authorization_idor",
+    "cwes": [
+      "CWE-862"
+    ],
+    "published": "2026-08-18",
+    "repo_url": "https://github.com/Netflix/lemur",
+    "fix_commit": "5683bbea8b10cce07f9a8abf1e4a7d3b2031c585",
+    "parent_commit": "e9ade7dad5c9bc1369a831554ed6df3277c9cbae",
+    "files": [
+      {
+        "path": "lemur/certificates/views.py",
+        "vulnerable_ranges": [
+          [
+            1576,
+            1576
+          ],
+          [
+            1588,
+            1593
+          ],
+          [
+            1596,
+            1602
+          ],
+          [
+            1606,
+            1606
+          ],
+          [
+            1608,
+            1608
+          ]
+        ],
+        "fixed_ranges": [
+          [
+            1572,
+            1572
+          ],
+          [
+            1584,
+            1596
+          ],
+          [
+            1599,
+            1600
+          ],
+          [
+            1603,
+            1603
+          ],
+          [
+            1605,
+            1605
+          ]
+        ]
+      }
+    ],
+    "scope_files": 9
+  },
+  {
+    "id": "GHSA-ffgh-3jrf-8wvh",
+    "family": "path_traversal",
+    "cwes": [
+      "CWE-22"
+    ],
+    "published": "2026-04-16",
+    "repo_url": "https://github.com/WeblateOrg/weblate",
+    "fix_commit": "e30dbcb33ae78e754ecef192d54f996b89cb4e15",
+    "parent_commit": "eb29fd5764cdf3d9fd83ca521d052aa62478e2f6",
+    "files": [
+      {
+        "path": "weblate/trans/discovery.py",
+        "vulnerable_ranges": [
+          [
+            189,
+            189
+          ],
+          [
+            191,
+            191
+          ],
+          [
+            196,
+            196
+          ]
+        ],
+        "fixed_ranges": [
+          [
+            191,
+            191
+          ],
+          [
+            194,
+            198
+          ],
+          [
+            203,
+            203
+          ]
+        ]
+      },
+      {
+        "path": "weblate/utils/files.py",
+        "vulnerable_ranges": [
+          [
+            81,
+            93
+          ],
+          [
+            101,
+            101
+          ]
+        ],
+        "fixed_ranges": [
+          [
+            81,
+            94
+          ],
+          [
+            103,
+            122
+          ]
+        ]
+      },
+      {
+        "path": "weblate/vcs/base.py",
+        "vulnerable_ranges": [
+          [
+            177,
+            178
+          ],
+          [
+            180,
+            180
+          ],
+          [
+            184,
+            184
+          ],
+          [
+            188,
+            188
+          ]
+        ],
+        "fixed_ranges": [
+          [
+            177,
+            178
+          ],
+          [
+            180,
+            180
+          ],
+          [
+            184,
+            184
+          ],
+          [
+            188,
+            191
+          ]
+        ]
+      }
+    ],
+    "scope_files": 25
+  },
+  {
+    "id": "GHSA-m6w7-qv66-g3mf",
+    "family": "path_traversal",
+    "cwes": [
+      "CWE-22"
+    ],
+    "published": "2026-03-03",
+    "repo_url": "https://github.com/bentoml/BentoML",
+    "fix_commit": "4e0eb007765ac04c7924220d643f264715cc9670",
+    "parent_commit": "3ba9d54637312aa2a9c7c35540c18c30317cac3f",
+    "files": [
+      {
+        "path": "src/bentoml/_internal/utils/filesystem.py",
+        "vulnerable_ranges": [
+          [
+            60,
+            60
+          ],
+          [
+            63,
+            64
+          ],
+          [
+            73,
+            73
+          ],
+          [
+            91,
+            91
+          ]
+        ],
+        "fixed_ranges": [
+          [
+            61,
+            61
+          ],
+          [
+            64,
+            65
+          ],
+          [
+            75,
+            85
+          ],
+          [
+            104,
+            111
+          ]
+        ]
+      }
+    ],
+    "scope_files": 17
+  },
+  {
+    "id": "GHSA-xjgw-4wvw-rgm4",
+    "family": "path_traversal",
+    "cwes": [
+      "CWE-22",
+      "CWE-73"
+    ],
+    "published": "2026-03-10",
+    "repo_url": "https://github.com/sooperset/mcp-atlassian",
+    "fix_commit": "52b9b0997681e87244b20d58034deae89c91631e",
+    "parent_commit": "ab36f8161bba807b16964f2c6124174c9eca1acf",
+    "files": [
+      {
+        "path": "src/mcp_atlassian/confluence/attachments.py",
+        "vulnerable_ranges": [
+          [
+            187,
+            187
+          ],
+          [
+            233,
+            233
+          ]
+        ],
+        "fixed_ranges": [
+          [
+            189,
+            191
+          ],
+          [
+            238,
+            240
+          ]
+        ]
+      },
+      {
+        "path": "src/mcp_atlassian/jira/attachments.py",
+        "vulnerable_ranges": [
+          [
+            40,
+            45
+          ],
+          [
+            217,
+            222
+          ]
+        ],
+        "fixed_ranges": [
+          [
+            41,
+            42
+          ],
+          [
+            214,
+            215
+          ]
+        ]
+      },
+      {
+        "path": "src/mcp_atlassian/utils/__init__.py",
+        "vulnerable_ranges": [
+          [
+            26,
+            26
+          ]
+        ],
+        "fixed_ranges": [
+          [
+            27,
+            27
+          ]
+        ]
+      },
+      {
+        "path": "src/mcp_atlassian/utils/io.py",
+        "vulnerable_ranges": [
+          [
+            17,
+            17
+          ]
+        ],
+        "fixed_ranges": [
+          [
+            21,
+            58
+          ]
+        ]
+      }
+    ],
+    "scope_files": 25
+  },
+  {
+    "id": "GHSA-c635-393c-hcx2",
+    "family": "authorization_idor",
+    "cwes": [
+      "CWE-863"
+    ],
+    "published": "2026-06-02",
+    "repo_url": "https://github.com/prefecthq/prefect",
+    "fix_commit": "e21617125335025b4b27e7d6f0ca028e8e8f3b79",
+    "parent_commit": "d7a24b6f7bd68168501d9ecb67dd50a2b23868db",
+    "files": [
+      {
+        "path": "src/prefect/server/api/server.py",
+        "vulnerable_ranges": [
+          [
+            419,
+            419
+          ],
+          [
+            425,
+            429
+          ]
+        ],
+        "fixed_ranges": [
+          [
+            420,
+            420
+          ],
+          [
+            426,
+            433
+          ]
+        ]
+      }
+    ],
+    "scope_files": 25
+  },
+  {
+    "id": "GHSA-3p7x-94q9-jq9x",
+    "family": "authorization_idor",
+    "cwes": [
+      "CWE-284",
+      "CWE-639"
+    ],
+    "published": "2026-02-05",
+    "repo_url": "https://github.com/pgadmin-org/pgadmin4",
+    "fix_commit": "62e2d18b0261f88086db65059a6078db07169f18",
+    "parent_commit": "3b184dbeeef93911e6e659e17db80b3a3fa0df81",
+    "files": [
+      {
+        "path": "web/pgadmin/tools/restore/__init__.py",
+        "vulnerable_ranges": [
+          [
+            78,
+            78
+          ]
+        ],
+        "fixed_ranges": [
+          [
+            77,
+            83
+          ]
+        ]
+      },
+      {
+        "path": "web/pgadmin/utils/constants.py",
+        "vulnerable_ranges": [
+          [
+            179,
+            179
+          ]
+        ],
+        "fixed_ranges": [
+          [
+            180,
+            180
+          ]
+        ]
+      }
+    ],
+    "scope_files": 25
+  },
+  {
+    "id": "GHSA-vf2x-4v53-pm7v",
+    "family": "path_traversal",
+    "cwes": [
+      "CWE-73"
+    ],
+    "published": "2026-09-24",
+    "repo_url": "https://github.com/streamlink/streamlink",
+    "fix_commit": "4b99c64dde21ea70c24d9ffdbd15849b05f465c6",
+    "parent_commit": "46c9b288b5f95176b15cc05daf55285b5c3f0e10",
+    "files": [
+      {
+        "path": "src/streamlink/session/http.py",
+        "vulnerable_ranges": [
+          [
+            114,
+            114
+          ],
+          [
+            261,
+            261
+          ]
+        ],
+        "fixed_ranges": [
+          [
+            117,
+            120
+          ],
+          [
+            268,
+            302
+          ]
+        ]
+      }
+    ],
+    "scope_files": 6
+  },
+  {
+    "id": "GHSA-wp53-j4wj-2cfg",
+    "family": "path_traversal",
+    "cwes": [
+      "CWE-22"
+    ],
+    "published": "2026-01-26",
+    "repo_url": "https://github.com/Kludex/python-multipart",
+    "fix_commit": "9433f4bbc9652bdde82bbe380984e32f8cfc89c4",
+    "parent_commit": "d5c91ecb0aa1cae03fe2d9811d193c952e714f17",
+    "files": [
+      {
+        "path": "python_multipart/multipart.py",
+        "vulnerable_ranges": [
+          [
+            378,
+            378
+          ]
+        ],
+        "fixed_ranges": [
+          [
+            378,
+            380
+          ]
+        ]
+      }
+    ],
+    "scope_files": 4
+  },
+  {
+    "id": "GHSA-cj54-hpcc-gj6h",
+    "family": "path_traversal",
+    "cwes": [
+      "CWE-22"
+    ],
+    "published": "2026-07-31",
+    "repo_url": "https://github.com/thumbor/thumbor",
+    "fix_commit": "3b986d13677b30fe6651c8c72ebb25957ac0a40d",
+    "parent_commit": "471ef279700e9f79941d451acf88abe1601df875",
+    "files": [
+      {
+        "path": "thumbor/loaders/file_loader.py",
+        "vulnerable_ranges": [
+          [
+            17,
+            17
+          ],
+          [
+            19,
+            25
+          ],
+          [
+            34,
+            35
+          ],
+          [
+            37,
+            37
+          ]
+        ],
+        "fixed_ranges": [
+          [
+            18,
+            24
+          ],
+          [
+            26,
+            33
+          ],
+          [
+            42,
+            46
+          ],
+          [
+            48,
+            50
+          ]
+        ]
+      }
+    ],
+    "scope_files": 6
+  },
+  {
+    "id": "GHSA-6497-prx7-gpmq",
+    "family": "sql_injection",
+    "cwes": [
+      "CWE-89"
+    ],
+    "published": "2026-01-30",
+    "repo_url": "https://github.com/geopandas/geopandas",
+    "fix_commit": "6aa8ef14ffdee4ba1044349ab948e1a1fbfaf419",
+    "parent_commit": "c301579e0ac4034c19bece63c08bf628613700b4",
+    "files": [
+      {
+        "path": "geopandas/io/sql.py",
+        "vulnerable_ranges": [
+          [
+            434,
+            434
+          ]
+        ],
+        "fixed_ranges": [
+          [
+            434,
+            438
+          ]
+        ]
+      }
+    ],
+    "scope_files": 6
+  },
+  {
+    "id": "GHSA-5639-2j2p-m4mx",
+    "family": "path_traversal",
+    "cwes": [
+      "CWE-22"
+    ],
+    "published": "2026-10-05",
+    "repo_url": "https://github.com/sqlalchemy/mako",
+    "fix_commit": "000ed85e4e48771eff460bf4fc721fb43de80e08",
+    "parent_commit": "411b4ac6cf054e61a8fb44c236990fda1e41ade4",
+    "files": [
+      {
+        "path": "mako/template.py",
+        "vulnerable_ranges": [
+          [
+            268,
+            268
+          ]
+        ],
+        "fixed_ranges": [
+          [
+            269,
+            274
+          ]
+        ]
+      }
+    ],
+    "scope_files": 17
+  },
+  {
+    "id": "GHSA-9726-w42j-3qjr",
+    "family": "path_traversal",
+    "cwes": [
+      "CWE-22"
+    ],
+    "published": "2026-01-08",
+    "repo_url": "https://github.com/mmaitre314/picklescan",
+    "fix_commit": "a01c58d5dd7960db557b849817c0ab83ab111ef1",
+    "parent_commit": "323bd004691e442b109b00a1251cd9acc1a4be98",
+    "files": [
+      {
+        "path": "src/picklescan/scanner.py",
+        "vulnerable_ranges": [
+          [
+            127,
+            127
+          ],
+          [
+            183,
+            183
+          ]
+        ],
+        "fixed_ranges": [
+          [
+            128,
+            128
+          ],
+          [
+            185,
+            185
+          ]
+        ]
+      }
+    ],
+    "scope_files": 6
+  },
+  {
+    "id": "GHSA-xrqw-3rrv-vx5w",
+    "family": "path_traversal",
+    "cwes": [
+      "CWE-22"
+    ],
+    "published": "2026-08-02",
+    "repo_url": "https://github.com/huggingface/transformers",
+    "fix_commit": "eaaaf8494dd5386634ae37d1d122212fdc315be5",
+    "parent_commit": "47949d3a0e1cf9248f2a3eb3cd0deb12ee37b9e9",
+    "files": [
+      {
+        "path": "src/transformers/processing_utils.py",
+        "vulnerable_ranges": [
+          [
+            1148,
+            1148
+          ]
+        ],
+        "fixed_ranges": [
+          [
+            1149,
+            1151
+          ]
+        ]
+      },
+      {
+        "path": "src/transformers/tokenization_utils_base.py",
+        "vulnerable_ranges": [
+          [
+            3316,
+            3316
+          ]
+        ],
+        "fixed_ranges": [
+          [
+            3317,
+            3319
+          ]
+        ]
+      }
+    ],
+    "scope_files": 25
+  },
+  {
+    "id": "GHSA-w8fp-g9rh-34jh",
+    "family": "authorization_idor",
+    "cwes": [
+      "CWE-285"
+    ],
+    "published": "2026-03-31",
+    "repo_url": "https://github.com/scitokens/scitokens",
+    "fix_commit": "7a237c0f642efb9e8c36ac564b745895cca83583",
+    "parent_commit": "66b075c35da18f8364276553513a53c596b4b8e3",
+    "files": [
+      {
+        "path": "src/scitokens/scitokens.py",
+        "vulnerable_ranges": [
+          [
+            685,
+            685
+          ],
+          [
+            696,
+            696
+          ],
+          [
+            716,
+            716
+          ]
+        ],
+        "fixed_ranges": [
+          [
+            686,
+            695
+          ],
+          [
+            706,
+            706
+          ],
+          [
+            726,
+            726
+          ]
+        ]
+      }
+    ],
+    "scope_files": 3
+  },
+  {
+    "id": "GHSA-xx4j-w367-7247",
+    "family": "authorization_idor",
+    "cwes": [
+      "CWE-285",
+      "CWE-306"
+    ],
+    "published": "2026-08-25",
+    "repo_url": "https://github.com/djust-org/djust",
+    "fix_commit": "1ae8aa9246b80477de7ddc4d90319a3b267bef04",
+    "parent_commit": "3b369d0c1a5e1efd6d63ad244ef5874440675bd2",
+    "files": [
+      {
+        "path": "python/djust/websocket.py",
+        "vulnerable_ranges": [
+          [
+            1979,
+            1979
+          ],
+          [
+            1985,
+            1985
+          ],
+          [
+            2005,
+            2005
+          ],
+          [
+            2006,
+            2006
+          ],
+          [
+            2527,
+            2527
+          ],
+          [
+            2539,
+            2539
+          ],
+          [
+            2556,
+            2556
+          ]
+        ],
+        "fixed_ranges": [
+          [
+            1980,
+            1987
+          ],
+          [
+            1994,
+            2001
+          ],
+          [
+            2022,
+            2025
+          ],
+          [
+            2027,
+            2031
+          ],
+          [
+            2553,
+            2559
+          ],
+          [
+            2572,
+            2572
+          ],
+          [
+            2590,
+            2590
+          ]
+        ]
+      }
+    ],
+    "scope_files": 25
+  },
+  {
+    "id": "GHSA-47pj-3jcm-6whg",
+    "family": "authorization_idor",
+    "cwes": [
+      "CWE-863"
+    ],
+    "published": "2026-08-06",
+    "repo_url": "https://github.com/langchain-ai/langgraph",
+    "fix_commit": "66ebe1a0da921e73f0f9f879ba105d314c079f7c",
+    "parent_commit": "41341457342327166d72fc11952ab28fb61ec0bf",
+    "files": [
+      {
+        "path": "libs/checkpoint-postgres/langgraph/store/postgres/base.py",
+        "vulnerable_ranges": [
+          [
+            466,
+            467
+          ],
+          [
+            620,
+            626
+          ],
+          [
+            628,
+            628
+          ],
+          [
+            1274,
+            1276
+          ],
+          [
+            1278,
+            1279
+          ],
+          [
+            1282,
+            1282
+          ]
+        ],
+        "fixed_ranges": [
+          [
+            467,
+            469
+          ],
+          [
+            622,
+            628
+          ],
+          [
+            630,
+            632
+          ],
+          [
+            1278,
+            1278
+          ],
+          [
+            1279,
+            1279
+          ],
+          [
+            1283,
+            1330
+          ]
+        ]
+      },
+      {
+        "path": "libs/checkpoint-sqlite/langgraph/store/sqlite/aio.py",
+        "vulnerable_ranges": [
+          [
+            152,
+            152
+          ]
+        ],
+        "fixed_ranges": [
+          [
+            155,
+            161
+          ]
+        ]
+      },
+      {
+        "path": "libs/checkpoint-sqlite/langgraph/store/sqlite/base.py",
+        "vulnerable_ranges": [
+          [
+            96,
+            98
+          ],
+          [
+            100,
+            101
+          ],
+          [
+            464,
+            465
+          ],
+          [
+            506,
+            506
+          ],
+          [
+            509,
+            509
+          ],
+          [
+            511,
+            511
+          ],
+          [
+            552,
+            561
+          ],
+          [
+            787,
+            787
+          ]
+        ],
+        "fixed_ranges": [
+          [
+            96,
+            162
+          ],
+          [
+            163,
+            163
+          ],
+          [
+            526,
+            530
+          ],
+          [
+            571,
+            574
+          ],
+          [
+            577,
+            577
+          ],
+          [
+            579,
+            579
+          ],
+          [
+            620,
+            641
+          ],
+          [
+            868,
+            870
+          ]
+        ]
+      }
+    ],
+    "scope_files": 6
+  },
+  {
+    "id": "GHSA-9rg3-9pvr-6p27",
+    "family": "path_traversal",
+    "cwes": [
+      "CWE-22"
+    ],
+    "published": "2026-01-06",
+    "repo_url": "https://github.com/Project-MONAI/MONAI",
+    "fix_commit": "4014c8475626f20f158921ae0cf98ed259ae4d59",
+    "parent_commit": "2291e0b91415b3775b3357bc282af11296702de9",
+    "files": [
+      {
+        "path": "monai/bundle/scripts.py",
+        "vulnerable_ranges": [
+          [
+            291,
+            293
+          ]
+        ],
+        "fixed_ranges": [
+          [
+            290,
+            291
+          ]
+        ]
+      }
+    ],
+    "scope_files": 9
+  },
+  {
+    "id": "GHSA-rh5m-2482-966c",
+    "family": "sql_injection",
+    "cwes": [
+      "CWE-89"
+    ],
+    "published": "2026-03-31",
+    "repo_url": "https://github.com/scitokens/scitokens",
+    "fix_commit": "3dba108853f2f4a6c0f2325c03779bf083c41cf2",
+    "parent_commit": "66b075c35da18f8364276553513a53c596b4b8e3",
+    "files": [
+      {
+        "path": "src/scitokens/utils/keycache.py",
+        "vulnerable_ranges": [
+          [
+            83,
+            83
+          ],
+          [
+            97,
+            98
+          ],
+          [
+            103,
+            104
+          ],
+          [
+            140,
+            141
+          ],
+          [
+            157,
+            158
+          ],
+          [
+            160,
+            161
+          ],
+          [
+            217,
+            220
+          ],
+          [
+            226,
+            226
+          ]
+        ],
+        "fixed_ranges": [
+          [
+            83,
+            83
+          ],
+          [
+            97,
+            97
+          ],
+          [
+            102,
+            103
+          ],
+          [
+            139,
+            139
+          ],
+          [
+            155,
+            155
+          ],
+          [
+            157,
+            158
+          ],
+          [
+            214,
+            219
+          ],
+          [
+            225,
+            225
+          ]
+        ]
+      }
+    ],
+    "scope_files": 6
+  },
+  {
+    "id": "GHSA-2wxc-x7rj-hg8f",
+    "family": "path_traversal",
+    "cwes": [
+      "CWE-22"
+    ],
+    "published": "2026-08-26",
+    "repo_url": "https://github.com/ronf/asyncssh",
+    "fix_commit": "d730803b8e4e94c20c7580d90f94d1e05f9f58de",
+    "parent_commit": "3d515ba9ba0cd9990d248bdf62bcf05d51261a88",
+    "files": [
+      {
+        "path": "asyncssh/scp.py",
+        "vulnerable_ranges": [
+          [
+            138,
+            138
+          ]
+        ],
+        "fixed_ranges": [
+          [
+            139,
+            142
+          ]
+        ]
+      }
+    ],
+    "scope_files": 25
+  },
+  {
+    "id": "GHSA-fvww-7h3r-vfhp",
+    "family": "authorization_idor",
+    "cwes": [
+      "CWE-863"
+    ],
+    "published": "2026-10-05",
+    "repo_url": "https://github.com/langchain-ai/langgraph",
+    "fix_commit": "5a77be5e8bec1600ad0a865638d88c1368497559",
+    "parent_commit": "bdb8a9c7a4aa1390af225f6a5d292e5088659bd5",
+    "files": [
+      {
+        "path": "libs/sdk-py/langgraph_sdk/auth/__init__.py",
+        "vulnerable_ranges": [
+          [
+            343,
+            343
+          ],
+          [
+            344,
+            344
+          ],
+          [
+            346,
+            346
+          ],
+          [
+            395,
+            396
+          ],
+          [
+            411,
+            411
+          ],
+          [
+            419,
+            425
+          ],
+          [
+            430,
+            432
+          ],
+          [
+            433,
+            433
+          ],
+          [
+            435,
+            436
+          ],
+          [
+            446,
+            446
+          ],
+          [
+            469,
+            469
+          ],
+          [
+            504,
+            504
+          ]
+        ],
+        "fixed_ranges": [
+          [
+            344,
+            344
+          ],
+          [
+            346,
+            347
+          ],
+          [
+            349,
+            352
+          ],
+          [
+            401,
+            402
+          ],
+          [
+            417,
+            417
+          ],
+          [
+            424,
+            424
+          ],
+          [
+            429,
+            461
+          ],
+          [
+            463,
+            476
+          ],
+          [
+            478,
+            484
+          ],
+          [
+            495,
+            495
+          ],
+          [
+            519,
+            519
+          ],
+          [
+            555,
+            555
+          ]
+        ]
+      }
+    ],
+    "scope_files": 3
+  },
+  {
+    "id": "GHSA-6c8m-q6g9-vrw3",
+    "family": "authorization_idor",
+    "cwes": [
+      "CWE-862"
+    ],
+    "published": "2026-08-18",
+    "repo_url": "https://github.com/Netflix/lemur",
+    "fix_commit": "751c970ec42a53d00ecc9c6a96e0e51b6737ae53",
+    "parent_commit": "2fedb8fba47a36990a9c7edc390d5260145ff403",
+    "files": [
+      {
+        "path": "lemur/destinations/schemas.py",
+        "vulnerable_ranges": [
+          [
+            32,
+            32
+          ]
+        ],
+        "fixed_ranges": [
+          [
+            33,
+            35
+          ]
+        ]
+      },
+      {
+        "path": "lemur/destinations/views.py",
+        "vulnerable_ranges": [
+          [
+            36,
+            36
+          ],
+          [
+            198,
+            198
+          ],
+          [
+            360,
+            360
+          ]
+        ],
+        "fixed_ranges": [
+          [
+            37,
+            37
+          ],
+          [
+            200,
+            200
+          ],
+          [
+            363,
+            363
+          ]
+        ]
+      },
+      {
+        "path": "lemur/plugins/lemur_sftp/plugin.py",
+        "vulnerable_ranges": [
+          [
+            13,
+            13
+          ],
+          [
+            67,
+            67
+          ],
+          [
+            81,
+            81
+          ]
+        ],
+        "fixed_ranges": [
+          [
+            13,
+            13
+          ],
+          [
+            68,
+            68
+          ],
+          [
+            83,
+            83
+          ]
+        ]
+      }
+    ],
+    "scope_files": 7
+  },
+  {
+    "id": "GHSA-x46r-mf5g-xpr6",
+    "family": "sql_injection",
+    "cwes": [
+      "CWE-89"
+    ],
+    "published": "2026-03-09",
+    "repo_url": "https://github.com/nicolargo/glances",
+    "fix_commit": "39161f0d6fd723d83f534b48f24cdca722573336",
+    "parent_commit": "faa29ac9143c89c7b8b157ee9d7064d1ed128196",
+    "files": [
+      {
+        "path": "glances/exports/glances_timescaledb/__init__.py",
+        "vulnerable_ranges": [
+          [
+            80,
+            84
+          ],
+          [
+            88,
+            93
+          ],
+          [
+            140,
+            141
+          ],
+          [
+            156,
+            158
+          ],
+          [
+            178,
+            178
+          ],
+          [
+            182,
+            191
+          ],
+          [
+            199,
+            199
+          ],
+          [
+            201,
+            202
+          ],
+          [
+            205,
+            205
+          ]
+        ],
+        "fixed_ranges": [
+          [
+            82,
+            82
+          ],
+          [
+            86,
+            88
+          ],
+          [
+            135,
+            136
+          ],
+          [
+            151,
+            153
+          ],
+          [
+            173,
+            176
+          ],
+          [
+            180,
+            198
+          ],
+          [
+            206,
+            206
+          ],
+          [
+            208,
+            215
+          ],
+          [
+            218,
+            218
+          ]
+        ]
+      }
+    ],
+    "scope_files": 1
+  },
+  {
+    "id": "GHSA-v833-3823-cmhp",
+    "family": "authorization_idor",
+    "cwes": [
+      "CWE-863"
+    ],
+    "published": "2026-07-31",
+    "repo_url": "https://github.com/onionshare/onionshare",
+    "fix_commit": "a090e97193efc91fbeac9dace7793ea568b83cf5",
+    "parent_commit": "8cc75e1d7e88bd31f7276733449d412bf71c8999",
+    "files": [
+      {
+        "path": "cli/onionshare_cli/web/receive_mode.py",
+        "vulnerable_ranges": [
+          [
+            94,
+            94
+          ],
+          [
+            97,
+            97
+          ],
+          [
+            135,
+            135
+          ],
+          [
+            197,
+            200
+          ],
+          [
+            231,
+            231
+          ],
+          [
+            379,
+            379
+          ],
+          [
+            525,
+            525
+          ],
+          [
+            588,
+            588
+          ],
+          [
+            590,
+            591
+          ]
+        ],
+        "fixed_ranges": [
+          [
+            95,
+            95
+          ],
+          [
+            98,
+            100
+          ],
+          [
+            139,
+            150
+          ],
+          [
+            212,
+            215
+          ],
+          [
+            246,
+            248
+          ],
+          [
+            397,
+            397
+          ],
+          [
+            544,
+            553
+          ],
+          [
+            617,
+            617
+          ],
+          [
+            619,
+            634
+          ]
+        ]
+      }
+    ],
+    "scope_files": 7
+  },
+  {
+    "id": "GHSA-g8gc-6c4h-jg86",
+    "family": "authorization_idor",
+    "cwes": [
+      "CWE-639"
+    ],
+    "published": "2026-02-26",
+    "repo_url": "https://github.com/wger-project/wger",
+    "fix_commit": "29876a1954fe959e4b58ef070170e81703dab60e",
+    "parent_commit": "a912c313b8fec21469ff47e6f51a1040d03c92e8",
+    "files": [
+      {
+        "path": "wger/nutrition/api/views.py",
+        "vulnerable_ranges": [
+          [
+            301,
+            301
+          ],
+          [
+            356,
+            356
+          ],
+          [
+            403,
+            403
+          ]
+        ],
+        "fixed_ranges": [
+          [
+            301,
+            301
+          ],
+          [
+            356,
+            356
+          ],
+          [
+            403,
+            403
+          ]
+        ]
+      }
+    ],
+    "scope_files": 6
+  },
+  {
+    "id": "GHSA-x783-xp3g-mqhp",
+    "family": "sql_injection",
+    "cwes": [
+      "CWE-89"
+    ],
+    "published": "2026-04-10",
+    "repo_url": "https://github.com/MervinPraison/PraisonAI",
+    "fix_commit": "0accebb2e3c3ec2fca66bbea0444fb7a35f0b4ef",
+    "parent_commit": "757559f67f1c37388288605f8d893ff9e10fb6ed",
+    "files": [
+      {
+        "path": "src/praisonai/praisonai/gateway/server.py",
+        "vulnerable_ranges": [
+          [
+            205,
+            205
+          ]
+        ],
+        "fixed_ranges": [
+          [
+            206,
+            206
+          ]
+        ]
+      },
+      {
+        "path": "src/praisonai/praisonai/persistence/conversation/sqlite.py",
+        "vulnerable_ranges": [
+          [
+            48,
+            48
+          ]
+        ],
+        "fixed_ranges": [
+          [
+            49,
+            54
+          ]
+        ]
+      }
+    ],
+    "scope_files": 18
+  }
+]
