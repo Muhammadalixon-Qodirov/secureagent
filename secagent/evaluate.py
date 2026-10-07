@@ -321,12 +321,13 @@ def _code_hash() -> str:
 
 
 def run_v2(app_dir: Path, out_dir: Path, model, verify: bool = True, authz: bool = False,
-           sweep: bool = True, harden: bool = False, resolve: bool = False, sinks: bool = False) -> tuple[list[Norm], dict]:
+           sweep: bool = True, harden: bool = False, resolve: bool = False, sinks: bool = False,
+           v6: bool = False) -> tuple[list[Norm], dict]:
     from .sweep import run_sweep
     cfg = _config(app_dir)
     reg = ToolRegistry(cfg, Trace(out_dir))
     res = run_sweep(cfg, model, reg, verify=verify, run_dir=out_dir, authz=authz, sweep=sweep, harden=harden, resolve=resolve,
-                    sinks=sinks)
+                    sinks=sinks, v6=v6)
     norms = [Norm(f.cwe_id, f.evidence[0].file, [(e.line_start, e.line_end) for e in f.evidence], f.title)
              for f in res.final.findings]
     return norms, {"findings": len(norms), "status": res.final.status, "sweep": res.stats.__dict__,
@@ -369,6 +370,10 @@ SYSTEMS = {
     "agent_v5": lambda d, o, m: run_v2(d, o, m, verify=True, authz=True, harden=True, resolve=True, sinks=True),
     "sinks_v5_only": lambda d, o, m: run_v2(d, o, m, verify=False, sweep=False, sinks=True),
     "seeds_v5_only": lambda d, o, m: run_v2(d, o, m, verify=False, authz=True, sweep=False, resolve=True, sinks=True),
+    # v6: ideas taken from other open-source agents (docs/SOLISHTIRUV.md, docs/V6_REJA.md), judged on CVE replay
+    "agent_v6": lambda d, o, m: run_v2(d, o, m, verify=True, authz=True, harden=True, resolve=True, sinks=True, v6=True),
+    "seeds_v6_only": lambda d, o, m: run_v2(d, o, m, verify=False, authz=True, sweep=False, resolve=True, sinks=True,
+                                            v6=True),
 }
 
 
@@ -394,6 +399,12 @@ def evaluate(systems: list[str], apps: list[str] | None = None, dataset: str = "
                 t0 = time.monotonic()
                 norms, info = SYSTEMS[system](apps_root / app, app_dir, model)
                 info["seconds"] = round(time.monotonic() - t0, 1)
+                sw = info.get("sweep") or {}
+                if sw.get("sweep_calls") and sw.get("invalid_replies") == sw["sweep_calls"]:
+                    # every model call failed: the model server is down, not "nothing found"
+                    # (this silently produced nine empty runs on 2026-10-07 after a reboot)
+                    shutil.rmtree(app_dir, ignore_errors=True)
+                    raise SystemExit(f"{system} on {app}: all {sw['sweep_calls']} model calls failed - is Ollama running?")
                 app_dir.mkdir(parents=True, exist_ok=True)
                 done.write_text(json.dumps({"norms": [n.__dict__ for n in norms], "info": info},
                                            indent=2, ensure_ascii=False), encoding="utf-8")

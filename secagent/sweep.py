@@ -159,6 +159,7 @@ class SweepStats:
     authz_seeds: int = 0
     sink_seeds: int = 0
     sink_seeds_unverified: int = 0      # accepted on static evidence alone (v5)
+    sinks_protected: int = 0            # v6: sinks behind a strong control, not seeded
     seconds: float = 0.0
 
 
@@ -213,7 +214,8 @@ def _authz_seeds(root: Path, registry: ToolRegistry, stats: SweepStats, notes: l
     return seeds, context, handlers, facts
 
 
-def _sink_seeds(root: Path, registry: ToolRegistry, stats: SweepStats, notes: list[str], families: list[str]):
+def _sink_seeds(root: Path, registry: ToolRegistry, stats: SweepStats, notes: list[str], families: list[str],
+                v6: bool = False):
     """v5: deterministic injection-sink candidates (secagent/sinks.py). The enclosing function is read
     through the registry so the finding has a real read event; the scan's facts become verifier context."""
     files = {}
@@ -226,7 +228,8 @@ def _sink_seeds(root: Path, registry: ToolRegistry, stats: SweepStats, notes: li
         except OSError:
             continue
     seeds, context, spans, strong = [], {}, {}, set()
-    for s in sink_scan(files):
+    protected: list = []
+    for s in sink_scan(files, v6=v6, protected=protected):
         if s.family not in families:
             continue
         ev = registry.execute("read_file", {"path": s.file, "start_line": s.func_start, "end_line": s.func_end})
@@ -236,10 +239,13 @@ def _sink_seeds(root: Path, registry: ToolRegistry, stats: SweepStats, notes: li
         c = Candidate(family=s.family, reason=s.reason, line=s.line, title=s.title)
         context[id(c)] = sink_render(s)
         spans[id(c)] = (s.func_start, s.func_end)
-        if s.priority == 0 and not s.controls:
-            strong.add(id(c))
+        if s.priority == 0 and (not s.controls if not v6 else not s.control):
+            strong.add(id(c))                   # v6: a weak check is still asked about; nothing at all is not
         seeds.append((c, ev.event_id, ev.data))
     stats.sink_seeds = len(seeds)
+    stats.sinks_protected = len(protected)
+    for rel, line, family, func, ctext in protected[:40]:
+        notes.append(f"protected sink (not reported): {family} at {rel}:{line} in {func} - strong control {ctext.strip()}")
     return seeds, context, spans, strong
 
 
@@ -256,7 +262,7 @@ def _facts_text(r) -> str:
 
 def run_sweep(config: Config, model, registry: ToolRegistry, verify: bool = True,
               run_dir: Path | None = None, authz: bool = False, sweep: bool = True,
-              harden: bool = False, resolve: bool = False, sinks: bool = False) -> SweepResult:
+              harden: bool = False, resolve: bool = False, sinks: bool = False, v6: bool = False) -> SweepResult:
     """authz=True is v3 (deterministic IDOR seeds); sweep=False skips the model sweep (ablation);
     resolve=True is v4: helpers/dependencies classified from their bodies, facts shown to the sweep,
     helper bodies shown to the verifier;
@@ -279,7 +285,7 @@ def run_sweep(config: Config, model, registry: ToolRegistry, verify: bool = True
     spans: dict[int, tuple[int, int]] = {}
     strong: set[int] = set()
     if sinks:
-        s_seeds, s_ctx, spans, strong = _sink_seeds(root, registry, stats, notes, families)
+        s_seeds, s_ctx, spans, strong = _sink_seeds(root, registry, stats, notes, families, v6)
         candidates = candidates + s_seeds
         context.update(s_ctx)
 

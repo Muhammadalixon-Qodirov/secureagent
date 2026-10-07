@@ -65,6 +65,17 @@ NON_REQUEST_FILE = re.compile(r"/(management/commands|migrations|scripts?|fixtur
                               r"manage|setup|conftest|settings\w*|config\w*|wsgi|asgi)\.py$")
 FILE_PARAM = re.compile(r"file_?name|\bfname\b|\bfile_?path\b|^path$|^file$", re.I)
 MAX_SEEDS = 60
+# ---- v6: how strong is the control in front of the sink (docs/V6_REJA.md, step 4)
+# Real fixes (CVE-replay dev half) replace a weak containment check by a strong one, or add a strong one;
+# v5 flagged both versions alike. Strong: the path is resolved and compared structurally, or reduced to a
+# single component. Weak: a text test on the path string that prefix confusion or encoding gets around.
+STRONG_PATH = re.compile(r"commonpath\(|\.is_relative_to\(|\.relative_to\(|secure_filename\(|safe_join\(|"
+                         r"send_from_directory\(|os\.path\.basename\(|\bbasename\(|"
+                         r"\.resolve\(\)\.parent\s*[!=]=|\.startswith\([^)\n]*(?:os\.sep|sep\b|[\"']/[\"'])")
+WEAK_PATH = re.compile(r"\.startswith\(|[\"']\.\.[\"']\s+(?:not\s+)?in\b|\.replace\(\s*[\"']\.\.|normpath\(|"
+                       r"\.lstrip\(\s*[\"'][./\\]+[\"']")
+STRONG_SQL = re.compile(r"sql\.Identifier\(|sql\.Literal\(|sql\.Placeholder\(|quote_ident\(|quote_name\(|"
+                        r"\.isidentifier\(\)|bindparam\(|sqlalchemy\.sql\.expression")
 SAME_BUG_LINES = 15                 # sinks of one family this close together in one function are one seed
 
 
@@ -80,6 +91,7 @@ class SinkSeed:
     func_end: int
     priority: int                   # 0 = request-like source in the function, 1 = reaches the sink through a parameter
     controls: list[str]
+    control: str = ""               # v6: "" none seen, "weak: <text>" a bypassable check stands before the sink
 
 
 def _name(n: ast.AST) -> str:
@@ -267,8 +279,34 @@ def _constant_path(n: ast.AST) -> bool:
     return isinstance(n, ast.Constant) or not _names(n)
 
 
-def scan(files: dict[str, str]) -> list[SinkSeed]:
-    """files: relative path -> source. Seeds sorted by priority, capped at MAX_SEEDS."""
+def _guards(funcs: dict) -> set[str]:
+    """v6: project functions that are themselves a strong path check (return or raise on containment)."""
+    return {f.fn.name for f in funcs.values()
+            if STRONG_PATH.search(f.text) and re.search(r"\breturn\b|\braise\b", f.text)
+            and not any(True for c in _own_calls(f.fn) if _name(c.func) in ("open", "read_text", "write_text",
+                                                                              "read_bytes", "write_bytes"))}
+
+
+def _control(f: "_Func", line: int, family: str, guards: set[str]) -> tuple[str, str]:
+    """(strength, text) of the control standing before `line` in f: strong / weak / ''."""
+    before = "\n".join(f.text.splitlines()[:max(line - f.fn.lineno, 0) + 1])
+    if family == "sql_injection":
+        m = STRONG_SQL.search(f.text)
+        return ("strong", m.group(0)) if m else ("", "")
+    m = STRONG_PATH.search(before)
+    if m:
+        return "strong", m.group(0)
+    called = sorted({_name(c.func) for c in _own_calls(f.fn) if c.lineno <= line} & guards)
+    if called:
+        return "strong", called[0] + "()"
+    m = WEAK_PATH.search(before)
+    return ("weak", m.group(0)) if m else ("", "")
+
+
+def scan(files: dict[str, str], v6: bool = False, protected: list | None = None) -> list[SinkSeed]:
+    """files: relative path -> source. Seeds sorted by priority, capped at MAX_SEEDS.
+    v6=True: a sink behind a strong control is not seeded (it is appended to `protected` with the control
+    for the report); one behind a weak control is seeded as bypassable."""
     trees = {}
     for rel, src in files.items():
         try:
@@ -294,6 +332,7 @@ def scan(files: dict[str, str]) -> list[SinkSeed]:
             if any(f.origin(a) == 0 for a in list(call.args) + [k.value for k in call.keywords]):
                 fed.add(_name(call.func))
 
+    guards = _guards(funcs) if v6 else set()
     seeds: list[SinkSeed] = []
     for (rel, _), f in funcs.items():
         if NON_REQUEST_FILE.search("/" + rel):
@@ -317,13 +356,22 @@ def scan(files: dict[str, str]) -> list[SinkSeed]:
             controls = sorted(set(m.group(0) for m in (PATH_CONTROLS if family == "path_traversal" else SQL_CONTROLS)
                                   .finditer(f.text)))[:4]
             src = ("a request-like value" if prio == 0 else "a parameter of this function") + f" ({', '.join(names)[:80]})"
-            seeds.append(SinkSeed(rel, call.lineno, family,
-                                  ("NoSQL injection (query filter taken from the request) in " if "NoSQL" in what
-                                   else "SQL injection in " if family == "sql_injection"
-                                   else "Path traversal in ") + f.fn.name,
-                                  f"{what}; the value comes from {src}; no parameter binding / containment "
-                                  f"recognised by the scan", f.fn.name, f.fn.lineno, f.fn.end_lineno or f.fn.lineno,
-                                  prio, controls))
+            strength, ctext = _control(f, call.lineno, family, guards) if v6 else ("", "")
+            if strength == "strong":
+                if protected is not None:
+                    protected.append((rel, call.lineno, family, f.fn.name, ctext))
+                continue
+            title = ("NoSQL injection (query filter taken from the request) in " if "NoSQL" in what
+                     else "SQL injection in " if family == "sql_injection"
+                     else "Path traversal (containment check can be bypassed) in " if strength == "weak"
+                     else "Path traversal in ") + f.fn.name
+            reason = (f"{what}; the value comes from {src}; " +
+                      (f"the only check before it is a text test on the path ({ctext.strip()}), which prefix "
+                       f"confusion or an encoded separator gets around" if strength == "weak"
+                       else "no parameter binding / containment recognised by the scan"))
+            seeds.append(SinkSeed(rel, call.lineno, family, title, reason, f.fn.name, f.fn.lineno,
+                                  f.fn.end_lineno or f.fn.lineno, prio, controls,
+                                  f"weak: {ctext.strip()}" if strength == "weak" else ""))
     seeds.sort(key=lambda s: (s.priority, s.file, s.line))
     out = []
     for s in seeds:                                 # nearby sinks of one family in one function: one seed

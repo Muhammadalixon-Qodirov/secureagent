@@ -111,3 +111,51 @@ def test_strong_sink_seeds_are_not_sent_to_the_verifier(tmp_path):
     assert titles == ["Path traversal in get", "Path traversal in report"]      # request value, no control: kept
     assert len(model.asked) == 1 and "find_user" in model.asked[0]              # parameter-fed SQL: verifier asked
     assert res.stats.sink_seeds == 3 and res.stats.sink_seeds_unverified == 2
+
+
+GUARDED = '''
+import os
+from pathlib import Path
+
+ROOT = "/srv/files"
+
+
+def inside(root, path):
+    return os.path.commonpath([root, path]) == root
+
+
+def weak(request):
+    path = os.path.abspath(os.path.join(ROOT, request.args["name"]))
+    if not path.startswith(ROOT):
+        raise ValueError("outside")
+    return open(path).read()
+
+
+def strong(request):
+    path = os.path.abspath(os.path.join(ROOT, request.args["name"]))
+    if os.path.commonpath([ROOT, path]) != ROOT:
+        raise ValueError("outside")
+    return open(path).read()
+
+
+def via_helper(request):
+    path = os.path.abspath(os.path.join(ROOT, request.args["name"]))
+    if not inside(ROOT, path):
+        raise ValueError("outside")
+    return open(path).read()
+
+
+def bare(request):
+    return open(os.path.join(ROOT, request.args["name"])).read()
+'''
+
+
+def test_v6_control_strength_separates_weak_from_strong_checks():
+    v5 = {s.func for s in scan({"app.py": GUARDED})}
+    assert v5 == {"weak", "strong", "via_helper", "bare"}           # v5 cannot tell the versions apart
+    protected = []
+    v6 = {s.func: s for s in scan({"app.py": GUARDED}, v6=True, protected=protected)}
+    assert set(v6) == {"weak", "bare"}
+    assert v6["weak"].control.startswith("weak") and "bypassed" in v6["weak"].title
+    assert v6["bare"].control == ""
+    assert {p[3] for p in protected} == {"strong", "via_helper"}    # kept for the report, not reported
