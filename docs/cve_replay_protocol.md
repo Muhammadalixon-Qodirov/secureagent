@@ -137,4 +137,12 @@ Recorded 2026-10-08, **before any system was run on the test half**.
 
 ## Deviations
 
-(none yet)
+1. **The freeze was not on GitHub when the test run started.** The machine's
+   git credentials stopped working on 2026-10-07 (push asks for a login that
+   an unattended session cannot give), so commits `406566d` … `61a325a`,
+   including the v6 freeze, existed only locally when the systems were
+   started on the test half on 2026-10-08. The order is recorded by the local
+   commit timestamps and by the timestamps inside the run results; the
+   commits are pushed unchanged as soon as a login is possible. The protocol
+   itself and both frozen halves were pushed on 2026-10-07 (`061c457`),
+   before any v6 code existed.
