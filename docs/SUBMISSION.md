@@ -148,5 +148,13 @@ protocols in `docs/` record the decisions and why they were made.
 To try it: `README.md` → Quick start (about 10 minutes; tested from a fresh
 clone; 115 tests run without a model).
 
+**A request about feedback.** Whatever you decide, I would be grateful for
+your feedback. If the decision is not to move forward, I would appreciate it
+if you could explain the reasons in as much detail as you are able to share,
+and tell me what I would have needed to do differently to be hired. I am at
+the stage of building experience: I am learning how the application process
+works and what is expected of an ML engineer in practice, and I want to study
+my mistakes and close the gaps in my knowledge.
+
 Best regards,
 Muhammadalixon Qodirov
