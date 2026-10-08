@@ -75,3 +75,20 @@ v7 = commit `1d8f021`, `secagent/*.py` hash **`223a451dd78c7cab`**. Yozilgan
 vaqt: 2026-10-08, `cve_test2` da hech bir tizim ishga tushirilmasidan oldin.
 Sinovda `agent_v5`, `agent_v7` va modelsiz `seeds_v7_only` bir martadan
 ishlaydi.
+
+### Yakuniy sinov (`cve_test2`, 16 ta maslahat, bir marta)
+
+| Tizim | Zaif holatda topdi | Juft muvaffaqiyat | Boshqa topilmalar / holat |
+|---|---|---|---|
+| Agent v5 | 1 | 1/16 = 0.06 (0.01–0.28) | 1.7 |
+| v7 skaneri (modelsiz) | 3 | 3/16 = 0.19 (0.07–0.43) | 1.9 |
+| **Agent v7** | 3 | 3/16 = 0.19 (0.07–0.43) | 2.2 |
+
+Kutish bajarildi (v7 v5 dan past emas), lekin 16 ta juft bundan ortig'ini
+ko'rsatmaydi. Foyda verifier'dan emas: modelsiz skanerning o'zi ham shu 3
+tasini topgan; v5 ning verifier'i ikkita to'g'ri topilmani rad etgan. v7 ning
+besh javobli verifier'i injection da'volarining 75 tasidan atigi 3 tasini rad
+etdi (v5: 82 tadan 32), ya'ni to'g'risini ham, yorliqlanmaganini ham deyarli
+hammasini o'tkazadi: jami 76 topilma, v5 da 54. Avtorizatsiya: hech bir tizim
+8 tadan birortasini topmadi. Batafsil: `docs/experiments.md` T16.
+

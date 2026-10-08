@@ -130,7 +130,11 @@ must flag the first and not the second. On 30 such pairs the single prompt
 solved 0, v5 solved 3 and the new v6 solved 4. That is no measurable gain,
 and the rule that looked best while I developed it (2 → 5 pairs on the
 development half) gave 1 → 1 on the test half. Real library code is also far
-harder than teaching apps: 23 of 30 advisories were found by nothing.
+harder than teaching apps: 23 of 30 advisories were found by nothing. On the
+earlier sets v6 also produced more false alarms; I traced that to the richer
+verdict format (the model withdraws less when offered five verdicts than a
+yes/no) and fixed it in v7, which is back to v5's noise level and reads
+Python 2 code the earlier versions skipped.
 
 **Honest limits.** IDOR precision on unfamiliar code is low (about 0.1–0.2 on
 the FastAPI and Django sets) and resolving helper functions did not fix it; on
@@ -146,7 +150,7 @@ the system with an AI coding assistant; the research notes, experiment log and
 protocols in `docs/` record the decisions and why they were made.
 
 To try it: `README.md` → Quick start (about 10 minutes; tested from a fresh
-clone; 115 tests run without a model).
+clone; 120 tests run without a model).
 
 **A request about feedback.** Whatever you decide, I would be grateful for
 your feedback. If the decision is not to move forward, I would appreciate it

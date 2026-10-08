@@ -896,3 +896,72 @@ the freeze (7 → 10) and was not followed up on the larger sets, which should
 have been done first. Taken together with the test half, **v5 remains the
 better default**; v6's verifier changes are not an improvement.
 
+## T16 — v7: the authorization noise of v6 fixed, and the ideas left over (2026-10-08)
+
+T15 left two things open: v6 was noisier than v5 on authorization, and six
+of the fifteen ideas in `docs/SOLISHTIRUV.md` had not been tried. Plan and
+dev history: `docs/V7_REJA.md`.
+
+v7 = v6 plus: authorization claims are reported only when the verifier
+confirms them; a sweep claim on a handler where the analysis found the owner
+comparison is rejected without a model call (a "precedent", after
+claude-code-security-review); the verifier is shown the project's own
+security idioms and a short framework card (Strix's skills); Python 2 sources
+are read through `lib2to3`; an optional `secagent.yml` in the reviewed
+project adds its own sources, sanitisers and sinks (Semgrep's declarative
+lists); `--changed-since <ref>` reviews only changed files. Not added, with
+reasons, in the plan: ast-grep, variant search, loop detection, reachability.
+
+**What the dev runs showed (seen data).** The first draft kept the
+five-verdict verifier for authorization and only refused unconfirmed claims:
+Django IDOR false positives went 55 → 47, not back to v5's 38, and the rule
+removed a single claim. The cause was not the kept "inconclusive" verdicts
+but the format: asked for one of five verdicts the model says "vulnerable"
+more often and withdraws less (Django withdrawals: 57 with v5's yes/no, 43
+with v6, 38 with the draft). The frozen v7 therefore sends authorization
+claims back to the yes/no verifier, with the idioms and the framework card as
+context:
+
+| Seen set | Agent v5 (TP / FP, F1) | Agent v6 | **Agent v7** | IDOR TP / FP: v5 → v6 → v7 |
+|---|---|---|---|---|
+| Flask | 41 / 10, 0.58 | 43 / 13, 0.59 | 42 / 10, 0.59 | 13 / 7 → 15 / 10 → 14 / 6 |
+| Django | 60 / 48, 0.385 | 63 / 67, 0.377 | 62 / 48, 0.395 | 11 / 38 → 14 / 55 → 13 / 38 |
+
+On these two sets v7 has v5's false positives and one or two more true
+positives. The Python 2 fix recovers the tornado app that T14 lost entirely
+(model-free pass on that set: 6 → 8 true positives). FastAPI and the CVE dev
+half were not run with v7, to keep the testing short.
+
+**Unseen data.** A third CVE-replay half was built from repositories in
+neither earlier half (`docs/cve_replay_protocol.md`, addendum): 16 advisories,
+8 path traversal and 8 authorization. v7 was frozen (commit `1d8f021`, code
+hash `223a451dd78c7cab`, pushed) before anything ran on it; each system ran
+once.
+
+| System | Detected | Still flagged after the fix | Pair success (95% CI) | Path / authz pairs | Other findings per snapshot |
+|---|---|---|---|---|---|
+| Agent v5 | 1/16 | 0 | 1/16 = 0.06 (0.01–0.28) | 1/8 / 0/8 | 1.7 |
+| v7 deterministic passes (no model) | 3/16 | 0 | 3/16 = 0.19 (0.07–0.43) | 3/8 / 0/8 | 1.9 |
+| **Agent v7** | 3/16 | 0 | 3/16 = 0.19 (0.07–0.43) | 3/8 / 0/8 | 2.2 |
+
+What it says:
+
+1. The stated expectation holds: v7 is not below v5 (3 pairs against 1).
+   Sixteen pairs cannot show more than that; the intervals overlap.
+2. **The gain is not the verifier's.** The model-free pass alone has the same
+   three pairs. v5 found the same sinks and its verifier withdrew two true
+   ones. On this half v7's five-verdict verifier withdrew 3 of 75 injection
+   claims where v5's withdrew 32 of 82 — it lets almost everything through.
+   That keeps true findings and unlabelled ones alike: 76 findings against
+   54, 2.2 other findings per snapshot against 1.7. The leniency that hurt
+   on authorization is present on injection too; here it happened to help.
+3. Authorization on real library code remains unsolved: 0 of 8 for every
+   system, and the analysis produced no seed at all (no routes or owned
+   models of the kind it knows).
+
+Taken together: v7 removes v6's regression and adds practical features
+(Python 2, project word lists, change review, SARIF). Whether it is better
+than v5 at finding vulnerabilities is not established — more pairs on sixteen
+advisories, more findings to read, and no difference on the earlier sets
+beyond one or two cases.
+

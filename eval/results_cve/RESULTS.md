@@ -23,3 +23,12 @@ The dev half was used for development; the test half was run once after the v6 f
 | seeds_v6_only | 7/28 = 0.25 (0.13–0.43) | 2 of 7 detected; 2 in all | 5/28 = 0.18 (0.08–0.36) | 3/4 / 2/12 / 0/12 | 2.2 |
 | single_shot | 2/28 = 0.07 (0.02–0.23) | 0 of 2 detected; 0 in all | 2/28 = 0.07 (0.02–0.23) | 2/4 / 0/12 / 0/12 | 2.9 |
 
+Third half (repositories in neither half above), run once after the v7 freeze:
+
+# cve_test2: 16 advisories (sql_injection 0, path_traversal 8, authorization_idor 8)
+
+| System | Detected (95% CI) | Still flagged after the fix | Pair success (95% CI) | SQLi / path / authz pairs | Other findings per snapshot |
+|---|---|---|---|---|---|
+| agent_v5 | 1/16 = 0.06 (0.01–0.28) | 0 of 1 detected; 0 in all | 1/16 = 0.06 (0.01–0.28) | 0/0 / 1/8 / 0/8 | 1.7 |
+| agent_v7 | 3/16 = 0.19 (0.07–0.43) | 0 of 3 detected; 0 in all | 3/16 = 0.19 (0.07–0.43) | 0/0 / 3/8 / 0/8 | 2.2 |
+| seeds_v7_only | 3/16 = 0.19 (0.07–0.43) | 0 of 3 detected; 0 in all | 3/16 = 0.19 (0.07–0.43) | 0/0 / 3/8 / 0/8 | 1.9 |

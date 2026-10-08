@@ -171,13 +171,20 @@ from weak ones in the scan — went from 2 to 5 pairs on the development half
 and from 1 to 1 on the test half. And real library code is far harder than
 teaching apps: 23 of 30 advisories were not found by any system. On the
 earlier sets v6 is also noisier than v5 on authorization (FastAPI: 5 more
-true findings, 70 more false ones), so **v5 remains the recommended mode**;
-what v6 contributes is the new test, SARIF output and the pipeline table.
-Details: [`docs/experiments.md#t15`](docs/experiments.md).
+true findings, 70 more false ones). **v7** removes that regression — the
+cause turned out to be the five-verdict format itself, under which the model
+withdraws less — and adds Python 2 sources, per-project word lists
+(`secagent.yml`) and `--changed-since <ref>` for reviewing a change. On Flask
+and Django it has v5's false positives with one or two more true positives; on
+a third half of 16 unseen advisories it solved 3 pairs against v5's 1, with
+overlapping intervals and about 40% more findings to read. So v7 is the most
+complete mode and v5 the quietest; neither is shown to be better at finding
+vulnerabilities. Details: [`docs/experiments.md`](docs/experiments.md), T15
+and T16.
 
 ## Quick start
 
-Tested from a fresh clone on Windows 11 (Python 3.10, Ollama 0.35, RTX 3050 8 GB); 115 tests pass (no model needed).
+Tested from a fresh clone on Windows 11 (Python 3.10, Ollama 0.35, RTX 3050 8 GB); 120 tests pass (no model needed).
 
 ```bash
 python -m venv .venv && .venv/Scripts/pip install -r requirements.txt   # use .venv/bin/ on Linux/macOS
