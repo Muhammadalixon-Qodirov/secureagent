@@ -129,8 +129,13 @@ class _Func:
     """Value flow inside one function. origin(expr) is 0 when the value is request-like, 1 when it comes
     from a parameter, None when it is neither (constants, configuration, stored data, sanitised values)."""
 
-    def __init__(self, fn: ast.AST, lines: list[str], in_class: bool = False):
+    def __init__(self, fn: ast.AST, lines: list[str], in_class: bool = False, extra: dict | None = None):
         self.fn = fn
+        extra = extra or {}
+        self.san = SANITIZERS | set(extra.get("sanitizers") or [])
+        self.src_extra = re.compile("|".join(re.escape(x) for x in extra["sources"])) if extra.get("sources") else None
+        self.sql_methods = SQL_METHODS | set(extra.get("sql_sinks") or [])
+        self.file_funcs = FILE_FUNCS | set(extra.get("file_sinks") or [])
         args = fn.args
         self.params = {a.arg for a in args.posonlyargs + args.args + args.kwonlyargs} - NOT_PARAMS
         self.text = "\n".join(lines[fn.lineno - 1:fn.end_lineno])
@@ -148,7 +153,7 @@ class _Func:
             for t in targets:
                 for name in _names(t):
                     self.assign.setdefault(name, []).append(value)
-        self.req = {p for p in self.params if SOURCE_WORDS.search(p)}
+        self.req = {p for p in self.params if self._source(p)}
         # an entry point's parameters are the request: a function registered under a URL path by a
         # decorator ("/items/{id}"), or an HTTP-verb method of a class (get, post, do_GET, ...)
         routed = any(isinstance(d, ast.Call) and any(isinstance(a, ast.Constant) and isinstance(a.value, str)
@@ -180,16 +185,16 @@ class _Func:
             txt = ast.unparse(n)
             if NOT_SOURCE.search(txt):
                 return None
-            if SOURCE_WORDS.search(txt):
+            if self._source(txt):
                 return 0
             return self.origin(n.value)
         if isinstance(n, ast.Subscript):
             return self.origin(n.value)
         if isinstance(n, ast.Call):
             name, callee = _name(n.func), ast.unparse(n.func)
-            if name in SANITIZERS or NOT_SOURCE.search(callee) or DB_LOOKUP.search(callee + "("):
+            if name in self.san or NOT_SOURCE.search(callee) or DB_LOOKUP.search(callee + "("):
                 return None
-            if SOURCE_WORDS.search(callee):
+            if self._source(callee):
                 return 0
             if name not in PROPAGATORS:                     # an unknown function returns its own data
                 return None
@@ -200,6 +205,9 @@ class _Func:
         if isinstance(n, ast.Starred):
             return self.origin(n.value)
         return self._min(list(ast.iter_child_nodes(n)))
+
+    def _source(self, text: str) -> bool:
+        return bool(SOURCE_WORDS.search(text) or (self.src_extra and self.src_extra.search(text)))
 
     def _min(self, nodes) -> int | None:
         kinds = [k for k in (self.origin(x) for x in nodes) if k is not None]
@@ -237,7 +245,7 @@ def _own_calls(fn: ast.AST):
 
 def _sql_sink(call: ast.Call, f: _Func, file_text: str):
     name = _name(call.func)
-    if (isinstance(call.func, ast.Attribute) and name in SQL_METHODS or name in SQL_WRAPPERS) and call.args:
+    if (isinstance(call.func, ast.Attribute) and name in f.sql_methods or name in SQL_WRAPPERS) and call.args:
         arg = call.args[0]
         if isinstance(arg, ast.Call) and _name(arg.func) in SQL_WRAPPERS and arg.args:
             if name not in SQL_WRAPPERS:
@@ -263,7 +271,7 @@ def _file_sink(call: ast.Call, f: _Func):
     if (isinstance(call.func, ast.Attribute) and name == "save" and call.args
             and not isinstance(call.args[0], ast.Starred)):
         return "upload saved under a computed path", f.resolve(call.args[0])
-    if name in FILE_FUNCS and call.args:
+    if name in f.file_funcs and call.args:
         if isinstance(call.func, ast.Attribute) and _name(call.func.value) not in ("os", "shutil", "io", "codecs", "path"):
             return None
         return f"{name}() on a computed path", f.resolve(call.args[0])
@@ -303,7 +311,22 @@ def _control(f: "_Func", line: int, family: str, guards: set[str]) -> tuple[str,
     return ("weak", m.group(0)) if m else ("", "")
 
 
-def scan(files: dict[str, str], v6: bool = False, protected: list | None = None) -> list[SinkSeed]:
+def _py2_to_py3(src: str) -> str | None:
+    """Python 2 source rewritten by lib2to3 so that `ast` can read it; statements stay on their lines.
+    None when lib2to3 is missing (Python 3.13+) or cannot parse the file either."""
+    try:
+        from lib2to3.refactor import RefactoringTool, get_fixers_from_package
+        import logging
+        logging.getLogger("lib2to3").setLevel(logging.ERROR)
+        tool = RefactoringTool(get_fixers_from_package("lib2to3.fixes"))
+        out = str(tool.refactor_string(src if src.endswith("\n") else src + "\n", "<py2>"))
+        return out if len(out.splitlines()) == len((src if src.endswith("\n") else src + "\n").splitlines()) else None
+    except Exception:                               # noqa: BLE001 - any failure means "still unparsable"
+        return None
+
+
+def scan(files: dict[str, str], v6: bool = False, protected: list | None = None, py2: bool = False,
+         extra: dict | None = None) -> list[SinkSeed]:
     """files: relative path -> source. Seeds sorted by priority, capped at MAX_SEEDS.
     v6=True: a sink behind a strong control is not seeded (it is appended to `protected` with the control
     for the report); one behind a weak control is seeded as bypassable."""
@@ -312,19 +335,26 @@ def scan(files: dict[str, str], v6: bool = False, protected: list | None = None)
         try:
             trees[rel] = ast.parse(src)
         except (SyntaxError, ValueError):
-            continue
+            converted = _py2_to_py3(src) if py2 else None          # v7
+            if converted is None:
+                continue
+            try:
+                trees[rel] = ast.parse(converted)
+                files = {**files, rel: converted}
+            except (SyntaxError, ValueError):
+                continue
     funcs: dict[tuple[str, int], _Func] = {}
     for rel, tree in trees.items():
         lines = files[rel].splitlines()
         methods = {id(m) for c in ast.walk(tree) if isinstance(c, ast.ClassDef) for m in c.body}
         for fn in _functions(tree):
-            funcs[(rel, fn.lineno)] = _Func(fn, lines, id(fn) in methods)
+            funcs[(rel, fn.lineno)] = _Func(fn, lines, id(fn) in methods, extra)
         top = [st for st in tree.body if not isinstance(st, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef))]
         if top:
             mod = ast.FunctionDef(name="<module>", args=ast.arguments(posonlyargs=[], args=[], kwonlyargs=[],
                                   kw_defaults=[], defaults=[]), body=top, decorator_list=[],
                                   lineno=1, end_lineno=len(lines) or 1)
-            funcs[(rel, 0)] = _Func(mod, lines)
+            funcs[(rel, 0)] = _Func(mod, lines, False, extra)
     # which function names are called with a request-like argument somewhere in the project
     fed: set[str] = set()
     for f in funcs.values():

@@ -32,10 +32,15 @@ def main(argv: list[str] | None = None) -> int:
     rv = sub.add_parser("review", help="review a codebase you are authorized to review")
     rv.add_argument("--target", type=Path, help="authorized root (overrides config authorized_roots)")
     rv.add_argument("--config", type=Path)
-    rv.add_argument("--mode", choices=["v6", "v5", "v4", "v3", "v2", "v1"], default="v2",
+    rv.add_argument("--mode", choices=["v7", "v6", "v5", "v4", "v3", "v2", "v1"], default="v2",
                     help="v2: coverage sweep + verifier (default); v3: v2 + deterministic authorization "
                          "analysis; v4: + helper resolution and Django; v5: + injection-sink seeds; "
-                         "v6: + control strength, five-verdict verifier, context by name; v1: tool-using agent loop")
+                         "v6: + control strength, five-verdict verifier, context by name; v7: v6 with authorization "
+                         "claims reported only when confirmed, Python 2 sources, project word lists; "
+                         "v1: tool-using agent loop")
+    rv.add_argument("--changed-since", metavar="GIT_REF",
+                    help="review a change: report findings only in Python files changed since this git ref "
+                         "(the analysis still reads the whole project)")
     rv.add_argument("--single-pass", action="store_true", help="v1 only: one open-ended pass instead of one per family")
     rv.add_argument("--no-verify", action="store_true", help="skip the independent verifier (ablation)")
     rv.add_argument("--no-harden", action="store_true",
@@ -57,10 +62,21 @@ def main(argv: list[str] | None = None) -> int:
     registry = ToolRegistry(config, Trace(run_dir))
     model = OllamaModel(config, seed=a.seed)
     pipeline = None
-    if a.mode in ("v2", "v3", "v4", "v5", "v6"):
+    only = None
+    if a.changed_since:
+        import subprocess
+        root = Path(config.authorized_roots[0])
+        r = subprocess.run(["git", "-C", str(root), "diff", "--name-only", "--relative", a.changed_since, "--", "*.py"],
+                           capture_output=True, text=True)
+        if r.returncode != 0:
+            print(f"--changed-since: git diff failed: {r.stderr.strip()[:200]}", file=sys.stderr)
+            return 2
+        only = {x.strip() for x in r.stdout.splitlines() if x.strip()}
+        print(f"reviewing {len(only)} changed Python file(s) since {a.changed_since}")
+    if a.mode in ("v2", "v3", "v4", "v5", "v6", "v7"):
         sw = run_sweep(config, model, registry, verify=not a.no_verify, run_dir=run_dir, authz=a.mode != "v2",
-                       harden=not a.no_harden, resolve=a.mode in ("v4", "v5", "v6"), sinks=a.mode in ("v5", "v6"),
-                       v6=a.mode == "v6")
+                       harden=not a.no_harden, resolve=a.mode in ("v4", "v5", "v6", "v7"),
+                       sinks=a.mode in ("v5", "v6", "v7"), v6=a.mode == "v6", v7=a.mode == "v7", only=only)
         final, notes = sw.final, sw.notes
         st = sw.stats
         pipeline = [("Windows read by the model", st.windows), ("Windows not read (budget)", st.windows_skipped),
@@ -92,7 +108,8 @@ def main(argv: list[str] | None = None) -> int:
             "mode": {"v2": "v2 coverage sweep", "v3": "v3 coverage sweep + authorization analysis",
                      "v4": "v4 coverage sweep + authorization analysis with helper resolution",
                      "v5": "v5 = v4 + deterministic injection-sink seeds",
-                     "v6": "v6 = v5 + control strength, five-verdict verifier, context by name"}.get(a.mode)
+                     "v6": "v6 = v5 + control strength, five-verdict verifier, context by name",
+                     "v7": "v7 = v6 with authorization claims reported only when confirmed"}.get(a.mode)
             or ("v1 single pass" if a.single_pass else "v1 per family"),
             "verifier": "off" if a.no_verify else "on", "families": ", ".join(config.enabled_families)}
     (run_dir / "report.md").write_text(render(final, Path(config.authorized_roots[0]).name, meta, notes, pipeline),

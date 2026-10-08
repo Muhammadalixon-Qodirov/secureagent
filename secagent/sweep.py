@@ -228,6 +228,8 @@ class SweepStats:
     sweep_protected: int = 0            # v6: sweep candidates on such a sink, rejected without the model
     symbol_requests: int = 0            # v6: verifier asked for a function by name and was shown it
     retries: int = 0                    # v6: unusable replies asked for again
+    authz_excluded: int = 0             # v7: sweep IDOR claims on a handler the analysis found owner-scoped
+    authz_unconfirmed: int = 0          # v7: authorization claims the verifier did not confirm, not reported
     verdicts: dict = field(default_factory=dict)
     seconds: float = 0.0
 
@@ -283,8 +285,25 @@ def _authz_seeds(root: Path, registry: ToolRegistry, stats: SweepStats, notes: l
     return seeds, context, handlers, facts
 
 
+def _project_extra(root: Path, notes: list[str]) -> dict:
+    """v7: optional secagent.yml in the reviewed project with its own sources / sanitizers / sinks."""
+    f = root / "secagent.yml"
+    if not f.is_file():
+        return {}
+    try:
+        data = yaml.safe_load(f.read_text(encoding="utf-8")) or {}
+    except (yaml.YAMLError, OSError):
+        notes.append("secagent.yml could not be read; ignored")
+        return {}
+    keys = ("sources", "sanitizers", "sql_sinks", "file_sinks")
+    extra = {k: [str(x) for x in data.get(k) or []][:50] for k in keys}
+    if any(extra.values()):
+        notes.append("project word lists from secagent.yml: " + ", ".join(f"{k}={len(v)}" for k, v in extra.items() if v))
+    return extra
+
+
 def _sink_seeds(root: Path, registry: ToolRegistry, stats: SweepStats, notes: list[str], families: list[str],
-                v6: bool = False):
+                v6: bool = False, v7: bool = False):
     """v5: deterministic injection-sink candidates (secagent/sinks.py). The enclosing function is read
     through the registry so the finding has a real read event; the scan's facts become verifier context."""
     files = {}
@@ -298,7 +317,7 @@ def _sink_seeds(root: Path, registry: ToolRegistry, stats: SweepStats, notes: li
             continue
     seeds, context, spans, strong = [], {}, {}, set()
     protected: list = []
-    for s in sink_scan(files, v6=v6, protected=protected):
+    for s in sink_scan(files, v6=v6, protected=protected, py2=v7, extra=_project_extra(root, notes) if v7 else None):
         if s.family not in families:
             continue
         ev = registry.execute("read_file", {"path": s.file, "start_line": s.func_start, "end_line": s.func_end})
@@ -331,7 +350,8 @@ def _facts_text(r) -> str:
 
 def run_sweep(config: Config, model, registry: ToolRegistry, verify: bool = True,
               run_dir: Path | None = None, authz: bool = False, sweep: bool = True,
-              harden: bool = False, resolve: bool = False, sinks: bool = False, v6: bool = False) -> SweepResult:
+              harden: bool = False, resolve: bool = False, sinks: bool = False, v6: bool = False,
+              v7: bool = False, only: set[str] | None = None) -> SweepResult:
     """authz=True is v3 (deterministic IDOR seeds); sweep=False skips the model sweep (ablation);
     resolve=True is v4: helpers/dependencies classified from their bodies, facts shown to the sweep,
     helper bodies shown to the verifier;
@@ -354,9 +374,16 @@ def run_sweep(config: Config, model, registry: ToolRegistry, verify: bool = True
     spans: dict[int, tuple[int, int]] = {}
     strong: set[int] = set()
     protected: list = []
+    v6 = v6 or v7                       # v7 builds on v6 (docs/V7_REJA.md)
     symbols = symbol_index(root, _python_files(root)) if v6 else {}
+    idioms = (_idioms(facts) if v7 else "")
+    card = FRAMEWORK_CARDS.get(_framework(root, _python_files(root)) or "", "") if v7 else ""
+    if only is not None:                # review of a change: analysis sees the project, findings only in these files
+        candidates = [x for x in candidates if x[2]["path"] in only]
     if sinks:
-        s_seeds, s_ctx, spans, strong, protected = _sink_seeds(root, registry, stats, notes, families, v6)
+        s_seeds, s_ctx, spans, strong, protected = _sink_seeds(root, registry, stats, notes, families, v6, v7)
+        if only is not None:
+            s_seeds = [x for x in s_seeds if x[2]["path"] in only]
         candidates = candidates + s_seeds
         context.update(s_ctx)
 
@@ -364,6 +391,8 @@ def run_sweep(config: Config, model, registry: ToolRegistry, verify: bool = True
     for py in (_python_files(root) if sweep else []):
         rel = py.relative_to(root).as_posix()
         if resolve and "/migrations/" in "/" + rel:         # generated schema history, no request handling
+            continue
+        if only is not None and rel not in only:
             continue
         src = py.read_text(encoding="utf-8", errors="replace")
         if SINK_HINT.search(src):
@@ -458,14 +487,25 @@ def run_sweep(config: Config, model, registry: ToolRegistry, verify: bool = True
                                           verification_status="not_run", finding_id=None,
                                           reason=f"protected sink: strong control {hit[4].strip()} before line {hit[1]}"))
             continue
+        elif (v7 and not seeded and c.family == "authorization_idor"
+              and (own := _fact_for(facts, d["path"], c.line)) is not None and own.owner_constraint):
+            # a precedent applied before any model call: the analysis found the owner comparison in this handler
+            stats.authz_excluded += 1
+            hyps.append(HypothesisSummary(id=hid, question=c.title, analysis_status="rejected",
+                                          verification_status="not_run", finding_id=None,
+                                          reason="owner check found by the authorization analysis: "
+                                                 + "; ".join(own.owner_evidence)[:200]))
+            continue
         elif verify:
             fact = _fact_for(facts, d["path"], c.line) if resolve and c.family == "authorization_idor" else None
             ctx = context.get(id(c), "")
             if fact is not None:
                 ctx = (ctx + "\n" if ctx else "") + _facts_text(fact)
+            if v7 and c.family == "authorization_idor":
+                ctx = "\n".join(x for x in (ctx, idioms, card) if x)
             if v6:
                 v, win_event, shown = _verify_v6(c, d["path"], registry, model, renderer, ctx, root, harden, fact,
-                                                 spans.get(id(c)), symbols, stats)
+                                                 spans.get(id(c)), symbols, stats, attacker=not v7)
             else:
                 v, win_event, shown = _verify(c, d["path"], registry, model, renderer, ctx, root, harden, fact,
                                               spans.get(id(c)))
@@ -478,6 +518,15 @@ def run_sweep(config: Config, model, registry: ToolRegistry, verify: bool = True
                                               verification_status="not_run",
                                               reason=f"verifier ({win_event}): control at line {v.control_line}: "
                                                      f"{v.analysis[:240]}", finding_id=None))
+                continue
+            elif v7 and c.family == "authorization_idor" and not v.claim_holds:
+                # v6 kept "inconclusive" and "protected without a line" and paid for it in false positives
+                # (FastAPI IDOR FP 132 -> 202). An authorization claim is reported only when confirmed.
+                stats.authz_unconfirmed += 1
+                hyps.append(HypothesisSummary(id=hid, question=c.title, analysis_status="rejected",
+                                              verification_status="not_run", finding_id=None,
+                                              reason=f"not confirmed by the verifier ({win_event}): "
+                                                     f"{getattr(v, 'verdict', 'doubted')} - {v.analysis[:200]}"))
                 continue
             else:
                 stats.verifier_kept += 1
@@ -586,6 +635,52 @@ def _verify(c: Candidate, path: str, registry: ToolRegistry, model, renderer: Re
         return None, win.event_id, shown
 
 
+FRAMEWORK_CARDS = {
+    "django": "Django idioms that scope an object to the caller: a lookup filtered by the user "
+              "(get_object_or_404(Model, pk=pk, owner=request.user), Model.objects.filter(user=request.user)), "
+              "get_queryset() filtered by self.request.user, a DRF permission class with has_object_permission, "
+              "UserPassesTestMixin.test_func comparing the object with the user. login_required / IsAuthenticated "
+              "alone authenticate, they do not scope.",
+    "fastapi": "FastAPI idioms that scope an object to the caller: a query filtered by the current user's id or "
+               "tenant (Model.owner_id == current_user.id), a dependency or helper that loads the object and "
+               "raises 403/404 when it is not the caller's. Depends(get_current_user) alone authenticates, it "
+               "does not scope.",
+    "flask": "Flask idioms that scope an object to the caller: a query filtered by current_user.id / "
+             "session['user_id'], a comparison of the row's owner with the current user followed by abort(403/404). "
+             "@login_required alone authenticates, it does not scope.",
+}
+
+
+def _framework(root: Path, files: list[Path]) -> str | None:
+    seen = {"django": 0, "fastapi": 0, "flask": 0}
+    for f in files[:200]:
+        try:
+            head = f.read_text(encoding="utf-8", errors="replace")[:4000]
+        except OSError:
+            continue
+        for name in seen:
+            if re.search(rf"^\s*(?:from|import)\s+{name}\b", head, re.M):
+                seen[name] += 1
+    best = max(seen, key=seen.get)
+    return best if seen[best] else None
+
+
+def _idioms(facts: list) -> str:
+    """v7: how THIS project scopes objects, counted from the route facts (trusted, no model)."""
+    scoped = [r for r in facts if r.owner_constraint]
+    with_id = [r for r in facts if r.id_params and r.models_accessed]
+    helpers = sorted({h[0] for r in facts for h in r.helpers if h[4] == "owner"})
+    if not facts:
+        return ""
+    txt = (f"PROJECT SECURITY IDIOMS (from AST, trusted): {len(scoped)} of {len(with_id) or len(facts)} handlers that "
+           f"load an object by a request id compare its owner / tenant with the acting user")
+    if helpers:
+        txt += "; ownership helpers of this project: " + ", ".join(helpers[:8])
+    if scoped:
+        txt += "; for example " + ", ".join(f"{r.function} ({r.file}:{r.line_start})" for r in scoped[:3])
+    return txt
+
+
 class _V6Result:
     """VerdictV6 seen through the older interface (claim_holds / control_line / control_file)."""
 
@@ -599,7 +694,7 @@ MAX_SYMBOL_ROUNDS = 2
 
 
 def _verify_v6(c: Candidate, path: str, registry: ToolRegistry, model, renderer: Renderer, context: str,
-               root: Path, harden: bool, fact, span, symbols: dict, stats: SweepStats):
+               root: Path, harden: bool, fact, span, symbols: dict, stats: SweepStats, attacker: bool = True):
     """v6 verifier: five verdicts, attacker framing for authorization claims, and up to two rounds in which
     the model names a project function and the controller shows it (resolved from the AST index)."""
     a, b = max(1, c.line - VERIFY_PADDING), c.line + VERIFY_PADDING
@@ -621,7 +716,7 @@ def _verify_v6(c: Candidate, path: str, registry: ToolRegistry, model, renderer:
         claim += "\n" + context
     if c.family == "authorization_idor":
         addendum = (VERIFY_V4_MISSING_AUTH if c.title.startswith("Missing authentication") else
-                    (VERIFY_V4_ADDENDUM if fact is not None else "") + VERIFY_V6_AUTHZ)
+                    (VERIFY_V4_ADDENDUM if fact is not None else "") + (VERIFY_V6_AUTHZ if attacker else ""))
     else:
         addendum = VERIFY_V5_SINK if span is not None else ""
     system = VERIFY_SYSTEM + addendum + VERIFY_V6

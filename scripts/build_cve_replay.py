@@ -182,6 +182,9 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--per-family", type=int, default=12)
     ap.add_argument("--only", choices=["dev", "test"])
+    ap.add_argument("--fresh", metavar="NAME",
+                    help="build a further half NAME from advisories in repositories that no existing half uses "
+                         "(one advisory per repository)")
     a = ap.parse_args()
     OUT.mkdir(parents=True, exist_ok=True)
     zip_path = OUT / "_cache" / "pypi_osv.zip"
@@ -194,7 +197,16 @@ def main() -> int:
     cands = candidates(zip_path)
     print(f"OSV dump {osv_sha[:12]}: {len(cands)} candidate advisories "
           f"(dev {sum(c['split'] == 'dev' for c in cands)}, test {sum(c['split'] == 'test' for c in cands)})")
-    for split in ([a.only] if a.only else ["dev", "test"]):
+    used_repos: set[str] = set()
+    if a.fresh:                                             # repositories already in any half are off limits
+        for gt in OUT.glob("*/ground_truth.json"):
+            if gt.parent.name != a.fresh:
+                used_repos |= {e["repo_url"].split("github.com/")[1].lower()
+                               for e in json.loads(gt.read_text(encoding="utf-8"))}
+        for c in cands:
+            c["split"] = a.fresh if f"{c['owner']}/{c['repo']}".lower() not in used_repos else "used"
+        print(f"fresh half {a.fresh!r}: {sum(c['split'] == a.fresh for c in cands)} candidates in unused repositories")
+    for split in ([a.fresh] if a.fresh else [a.only] if a.only else ["dev", "test"]):
         dest = OUT / split / "targets"
         if dest.exists():
             shutil.rmtree(dest)
@@ -203,7 +215,7 @@ def main() -> int:
         per_repo: dict[str, int] = {}
         for c in (x for x in cands if x["split"] == split):
             key = f"{c['owner']}/{c['repo']}".lower()
-            if count[c["family"]] >= a.per_family or per_repo.get(key, 0) >= PER_REPO:
+            if count[c["family"]] >= a.per_family or per_repo.get(key, 0) >= (1 if a.fresh else PER_REPO):
                 continue
             try:
                 e = build(c, WORK, dest)

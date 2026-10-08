@@ -135,6 +135,9 @@ DATASETS = {
                 ROOT / "runs" / "eval_cve_dev"),
     "cve_test": (lambda: load_cve_replay("test"), ROOT / "eval" / "cve_replay" / "test" / "targets",
                  ROOT / "runs" / "eval_cve_test"),
+    # a further half from repositories in neither of the above, built for v7 (docs/V7_REJA.md)
+    "cve_test2": (lambda: load_cve_replay("test2"), ROOT / "eval" / "cve_replay" / "test2" / "targets",
+                  ROOT / "runs" / "eval_cve_test2"),
 }
 
 
@@ -322,12 +325,12 @@ def _code_hash() -> str:
 
 def run_v2(app_dir: Path, out_dir: Path, model, verify: bool = True, authz: bool = False,
            sweep: bool = True, harden: bool = False, resolve: bool = False, sinks: bool = False,
-           v6: bool = False) -> tuple[list[Norm], dict]:
+           v6: bool = False, v7: bool = False) -> tuple[list[Norm], dict]:
     from .sweep import run_sweep
     cfg = _config(app_dir)
     reg = ToolRegistry(cfg, Trace(out_dir))
     res = run_sweep(cfg, model, reg, verify=verify, run_dir=out_dir, authz=authz, sweep=sweep, harden=harden, resolve=resolve,
-                    sinks=sinks, v6=v6)
+                    sinks=sinks, v6=v6, v7=v7)
     norms = [Norm(f.cwe_id, f.evidence[0].file, [(e.line_start, e.line_end) for e in f.evidence], f.title)
              for f in res.final.findings]
     return norms, {"findings": len(norms), "status": res.final.status, "sweep": res.stats.__dict__,
@@ -374,6 +377,11 @@ SYSTEMS = {
     "agent_v6": lambda d, o, m: run_v2(d, o, m, verify=True, authz=True, harden=True, resolve=True, sinks=True, v6=True),
     "seeds_v6_only": lambda d, o, m: run_v2(d, o, m, verify=False, authz=True, sweep=False, resolve=True, sinks=True,
                                             v6=True),
+    # v7: v6 with the authorization noise fixed (confirmed claims only, project idioms, framework card, owner
+    # precedent), Python 2 sources readable, optional project word lists (docs/V7_REJA.md)
+    "agent_v7": lambda d, o, m: run_v2(d, o, m, verify=True, authz=True, harden=True, resolve=True, sinks=True, v7=True),
+    "seeds_v7_only": lambda d, o, m: run_v2(d, o, m, verify=False, authz=True, sweep=False, resolve=True, sinks=True,
+                                            v7=True),
 }
 
 

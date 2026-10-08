@@ -22,3 +22,4 @@ eval/realvuln_other/targets/
 eval/cve_replay/_cache/
 eval/cve_replay/dev/targets/
 eval/cve_replay/test/targets/
+eval/cve_replay/test2/targets/

@@ -1,0 +1,1186 @@
+[
+  {
+    "id": "GHSA-442q-2j6p-642g",
+    "family": "path_traversal",
+    "cwes": [
+      "CWE-22"
+    ],
+    "published": "2026-07-28",
+    "repo_url": "https://github.com/koxudaxi/datamodel-code-generator",
+    "fix_commit": "d2d5cecd9fd3a2a6dbf148bf0740b83a11fc6820",
+    "parent_commit": "2ff4a72b4550a2b2069754c5b075b1655067e5fb",
+    "files": [
+      {
+        "path": "src/datamodel_code_generator/parser/xmlschema.py",
+        "vulnerable_ranges": [
+          [
+            513,
+            513
+          ],
+          [
+            522,
+            522
+          ],
+          [
+            608,
+            608
+          ]
+        ],
+        "fixed_ranges": [
+          [
+            513,
+            513
+          ],
+          [
+            523,
+            537
+          ],
+          [
+            623,
+            623
+          ]
+        ]
+      }
+    ],
+    "scope_files": 15
+  },
+  {
+    "id": "GHSA-5j8p-5rrj-8wjg",
+    "family": "path_traversal",
+    "cwes": [
+      "CWE-22"
+    ],
+    "published": "2026-05-29",
+    "repo_url": "https://github.com/hanxi/xiaomusic",
+    "fix_commit": "88404da7a283f2c0a796a4cd16bbb6e6aa1f4722",
+    "parent_commit": "c6679a69e4295a7e508f5ec157b60c5ac5b8a041",
+    "files": [
+      {
+        "path": "xiaomusic/api/routers/file.py",
+        "vulnerable_ranges": [
+          [
+            968,
+            968
+          ],
+          [
+            975,
+            975
+          ],
+          [
+            1022,
+            1022
+          ]
+        ],
+        "fixed_ranges": [
+          [
+            968,
+            968
+          ],
+          [
+            975,
+            975
+          ],
+          [
+            1022,
+            1022
+          ]
+        ]
+      }
+    ],
+    "scope_files": 7
+  },
+  {
+    "id": "GHSA-j98m-w3xp-9f56",
+    "family": "path_traversal",
+    "cwes": [
+      "CWE-22"
+    ],
+    "published": "2026-04-14",
+    "repo_url": "https://github.com/haris-musa/excel-mcp-server",
+    "fix_commit": "f51340ecd5778952405044b203d3a2d4c8a46833",
+    "parent_commit": "de4dc75f6ba629ccd2e097f5963235846be622e6",
+    "files": [
+      {
+        "path": "src/excel_mcp/server.py",
+        "vulnerable_ranges": [
+          [
+            74,
+            74
+          ],
+          [
+            84,
+            86
+          ],
+          [
+            88,
+            88
+          ],
+          [
+            90,
+            91
+          ],
+          [
+            93,
+            94
+          ]
+        ],
+        "fixed_ranges": [
+          [
+            75,
+            86
+          ],
+          [
+            96,
+            97
+          ],
+          [
+            98,
+            98
+          ],
+          [
+            100,
+            111
+          ],
+          [
+            113,
+            113
+          ]
+        ]
+      }
+    ],
+    "scope_files": 14
+  },
+  {
+    "id": "GHSA-39mp-8hj3-5c49",
+    "family": "path_traversal",
+    "cwes": [
+      "CWE-22",
+      "CWE-36"
+    ],
+    "published": "2026-03-01",
+    "repo_url": "https://github.com/gradio-app/gradio",
+    "fix_commit": "6011b00d0154b85532fa901dd73cf8fa7d86fd04",
+    "parent_commit": "e29e1ccd5874cb98b813ed4f7f72d9fef2935016",
+    "files": [
+      {
+        "path": "gradio/utils.py",
+        "vulnerable_ranges": [
+          [
+            1698,
+            1698
+          ]
+        ],
+        "fixed_ranges": [
+          [
+            1699,
+            1699
+          ]
+        ]
+      }
+    ],
+    "scope_files": 25
+  },
+  {
+    "id": "GHSA-v2xr-wvrv-p969",
+    "family": "path_traversal",
+    "cwes": [
+      "CWE-22"
+    ],
+    "published": "2026-03-05",
+    "repo_url": "https://github.com/vibrantlabsai/ragas",
+    "fix_commit": "b28433709cbedbb531db79dadcfbdbd3aa6adcb0",
+    "parent_commit": "c35021085c47843b659537460468bfbe8b63612c",
+    "files": [
+      {
+        "path": "src/ragas/prompt/multi_modal_prompt.py",
+        "vulnerable_ranges": [
+          [
+            29,
+            29
+          ],
+          [
+            144,
+            144
+          ],
+          [
+            146,
+            146
+          ],
+          [
+            148,
+            161
+          ],
+          [
+            163,
+            163
+          ],
+          [
+            167,
+            167
+          ],
+          [
+            170,
+            180
+          ],
+          [
+            182,
+            185
+          ],
+          [
+            187,
+            187
+          ],
+          [
+            190,
+            190
+          ],
+          [
+            192,
+            195
+          ],
+          [
+            197,
+            199
+          ],
+          [
+            201,
+            203
+          ],
+          [
+            205,
+            214
+          ]
+        ],
+        "fixed_ranges": [
+          [
+            35,
+            67
+          ],
+          [
+            183,
+            186
+          ],
+          [
+            188,
+            192
+          ],
+          [
+            194,
+            202
+          ],
+          [
+            204,
+            275
+          ],
+          [
+            279,
+            279
+          ],
+          [
+            282,
+            314
+          ],
+          [
+            316,
+            490
+          ],
+          [
+            492,
+            496
+          ],
+          [
+            499,
+            514
+          ],
+          [
+            516,
+            521
+          ],
+          [
+            523,
+            524
+          ],
+          [
+            526,
+            529
+          ],
+          [
+            531,
+            593
+          ]
+        ]
+      }
+    ],
+    "scope_files": 7
+  },
+  {
+    "id": "GHSA-76hw-p97h-883f",
+    "family": "path_traversal",
+    "cwes": [
+      "CWE-22"
+    ],
+    "published": "2026-04-14",
+    "repo_url": "https://github.com/wkentaro/gdown",
+    "fix_commit": "af569fc6ed300b7974dee66dc51e9f01b57b4dff",
+    "parent_commit": "7f4cb689c5e4e31a55fd007fc400c50975f42799",
+    "files": [
+      {
+        "path": "gdown/download.py",
+        "vulnerable_ranges": [
+          [
+            63,
+            63
+          ],
+          [
+            69,
+            70
+          ],
+          [
+            74,
+            75
+          ],
+          [
+            286,
+            286
+          ]
+        ],
+        "fixed_ranges": [
+          [
+            64,
+            71
+          ],
+          [
+            77,
+            77
+          ],
+          [
+            81,
+            81
+          ],
+          [
+            292,
+            292
+          ]
+        ]
+      },
+      {
+        "path": "gdown/download_folder.py",
+        "vulnerable_ranges": [
+          [
+            185,
+            185
+          ],
+          [
+            285,
+            285
+          ]
+        ],
+        "fixed_ranges": [
+          [
+            186,
+            186
+          ],
+          [
+            287,
+            288
+          ]
+        ]
+      },
+      {
+        "path": "gdown/extractall.py",
+        "vulnerable_ranges": [
+          [
+            5,
+            5
+          ],
+          [
+            21,
+            23
+          ],
+          [
+            25,
+            25
+          ],
+          [
+            27,
+            27
+          ],
+          [
+            33,
+            36
+          ],
+          [
+            38,
+            43
+          ],
+          [
+            45,
+            45
+          ],
+          [
+            46,
+            46
+          ],
+          [
+            48,
+            48
+          ]
+        ],
+        "fixed_ranges": [
+          [
+            8,
+            13
+          ],
+          [
+            29,
+            32
+          ],
+          [
+            34,
+            34
+          ],
+          [
+            36,
+            36
+          ],
+          [
+            42,
+            42
+          ],
+          [
+            43,
+            43
+          ],
+          [
+            45,
+            54
+          ],
+          [
+            56,
+            84
+          ],
+          [
+            86,
+            86
+          ]
+        ]
+      }
+    ],
+    "scope_files": 9
+  },
+  {
+    "id": "GHSA-5jmr-gcrj-2c9q",
+    "family": "path_traversal",
+    "cwes": [
+      "CWE-22"
+    ],
+    "published": "2026-07-22",
+    "repo_url": "https://github.com/BerriAI/litellm",
+    "fix_commit": "6a15adcd64137d37f73dee76dfe7481f8c2d9196",
+    "parent_commit": "e828a91eeefbc2e6e5fe7a34ddd40a5201216b15",
+    "files": [
+      {
+        "path": "litellm/llms/litellm_proxy/skills/prompt_injection.py",
+        "vulnerable_ranges": [
+          [
+            106,
+            107
+          ]
+        ],
+        "fixed_ranges": [
+          [
+            107,
+            118
+          ]
+        ]
+      },
+      {
+        "path": "litellm/llms/litellm_proxy/skills/sandbox_executor.py",
+        "vulnerable_ranges": [
+          [
+            96,
+            96
+          ],
+          [
+            99,
+            99
+          ]
+        ],
+        "fixed_ranges": [
+          [
+            97,
+            97
+          ],
+          [
+            100,
+            105
+          ]
+        ]
+      }
+    ],
+    "scope_files": 7
+  },
+  {
+    "id": "GHSA-w8wv-vfpc-hw2w",
+    "family": "path_traversal",
+    "cwes": [
+      "CWE-22"
+    ],
+    "published": "2026-04-08",
+    "repo_url": "https://github.com/zauberzeug/nicegui",
+    "fix_commit": "d38a702e3af2da5b0708f689be8d71413fc77056",
+    "parent_commit": "2580928afff6e34d31b77ff22769d773feb817a8",
+    "files": [
+      {
+        "path": "nicegui/elements/upload_files.py",
+        "vulnerable_ranges": [
+          [
+            152,
+            152
+          ],
+          [
+            156,
+            156
+          ]
+        ],
+        "fixed_ranges": [
+          [
+            152,
+            152
+          ],
+          [
+            157,
+            161
+          ]
+        ]
+      }
+    ],
+    "scope_files": 25
+  },
+  {
+    "id": "GHSA-ph72-cqr5-qpp7",
+    "family": "authorization_idor",
+    "cwes": [
+      "CWE-639"
+    ],
+    "published": "2026-10-05",
+    "repo_url": "https://github.com/vllm-project/vllm",
+    "fix_commit": "1970f3ed4be7fa8620e4ddc4a12c36a8384cfc27",
+    "parent_commit": "f2e2936f91a794513af74d009286c69e3fb2592b",
+    "files": [
+      {
+        "path": "vllm/entrypoints/scale_out/token_in_token_out/protocol.py",
+        "vulnerable_ranges": [
+          [
+            36,
+            36
+          ],
+          [
+            39,
+            39
+          ],
+          [
+            69,
+            69
+          ],
+          [
+            186,
+            186
+          ]
+        ],
+        "fixed_ranges": [
+          [
+            36,
+            36
+          ],
+          [
+            39,
+            39
+          ],
+          [
+            70,
+            110
+          ],
+          [
+            228,
+            241
+          ]
+        ]
+      }
+    ],
+    "scope_files": 5
+  },
+  {
+    "id": "GHSA-cf6m-vc3m-7cgm",
+    "family": "authorization_idor",
+    "cwes": [
+      "CWE-306"
+    ],
+    "published": "2026-10-05",
+    "repo_url": "https://github.com/langflow-ai/langflow",
+    "fix_commit": "cb6f7508dda83ead9c3e4417e96e4b5bd9a260c3",
+    "parent_commit": "a75496142832f0ad4cd2beee248dbd19eec2288a",
+    "files": [
+      {
+        "path": "src/lfx/src/lfx/services/settings/auth.py",
+        "vulnerable_ranges": [
+          [
+            84,
+            84
+          ],
+          [
+            86,
+            86
+          ]
+        ],
+        "fixed_ranges": [
+          [
+            84,
+            84
+          ],
+          [
+            86,
+            88
+          ]
+        ]
+      }
+    ],
+    "scope_files": 8
+  },
+  {
+    "id": "GHSA-hvc7-763r-4f3h",
+    "family": "authorization_idor",
+    "cwes": [
+      "CWE-862"
+    ],
+    "published": "2026-04-01",
+    "repo_url": "https://github.com/jahlives/openssl_encrypt",
+    "fix_commit": "05e45f393886b5bf7e924d2dd42099a9dd37f91d",
+    "parent_commit": "4b2adb05cde8a7ee03cdd271755da3b377c68011",
+    "files": [
+      {
+        "path": "server/key-server/app/api/v1/keys.py",
+        "vulnerable_ranges": [
+          [
+            370,
+            370
+          ],
+          [
+            377,
+            377
+          ]
+        ],
+        "fixed_ranges": [
+          [
+            370,
+            374
+          ],
+          [
+            382,
+            384
+          ]
+        ]
+      }
+    ],
+    "scope_files": 2
+  },
+  {
+    "id": "GHSA-q4c5-2j6f-r476",
+    "family": "authorization_idor",
+    "cwes": [
+      "CWE-285",
+      "CWE-639"
+    ],
+    "published": "2026-09-22",
+    "repo_url": "https://github.com/nautobot/nautobot",
+    "fix_commit": "8682707d0391cbfd7694e3276127b78dc9cf29d8",
+    "parent_commit": "e6ff20d50e0759135c6d278e7b2ceec56ed9b3c8",
+    "files": [
+      {
+        "path": "nautobot/extras/api/serializers.py",
+        "vulnerable_ranges": [
+          [
+            167,
+            168
+          ],
+          [
+            170,
+            170
+          ],
+          [
+            175,
+            176
+          ],
+          [
+            179,
+            180
+          ],
+          [
+            185,
+            185
+          ]
+        ],
+        "fixed_ranges": [
+          [
+            167,
+            168
+          ],
+          [
+            170,
+            179
+          ],
+          [
+            184,
+            192
+          ],
+          [
+            195,
+            210
+          ],
+          [
+            215,
+            215
+          ]
+        ]
+      },
+      {
+        "path": "nautobot/extras/api/urls.py",
+        "vulnerable_ranges": [
+          [
+            12,
+            12
+          ]
+        ],
+        "fixed_ranges": [
+          [
+            11,
+            11
+          ]
+        ]
+      },
+      {
+        "path": "nautobot/extras/api/views.py",
+        "vulnerable_ranges": [
+          [
+            518,
+            525
+          ]
+        ],
+        "fixed_ranges": [
+          [
+            517,
+            517
+          ]
+        ]
+      },
+      {
+        "path": "nautobot/extras/urls.py",
+        "vulnerable_ranges": [
+          [
+            17,
+            17
+          ]
+        ],
+        "fixed_ranges": [
+          [
+            16,
+            16
+          ]
+        ]
+      },
+      {
+        "path": "nautobot/extras/views.py",
+        "vulnerable_ranges": [
+          [
+            703,
+            716
+          ]
+        ],
+        "fixed_ranges": [
+          [
+            702,
+            702
+          ]
+        ]
+      }
+    ],
+    "scope_files": 25
+  },
+  {
+    "id": "GHSA-37h2-6p4f-mp3q",
+    "family": "authorization_idor",
+    "cwes": [
+      "CWE-306"
+    ],
+    "published": "2026-07-08",
+    "repo_url": "https://github.com/oraios/serena",
+    "fix_commit": "016ccbe1c095a3eed7967737ac1d4df2754f5d96",
+    "parent_commit": "9c19d5f7f8c2e32e274ff7a6fca865ae0c1d0d09",
+    "files": [
+      {
+        "path": "src/serena/dashboard.py",
+        "vulnerable_ranges": [
+          [
+            778,
+            778
+          ],
+          [
+            779,
+            779
+          ]
+        ],
+        "fixed_ranges": [
+          [
+            779,
+            785
+          ],
+          [
+            787,
+            787
+          ]
+        ]
+      }
+    ],
+    "scope_files": 17
+  },
+  {
+    "id": "GHSA-x9vc-9ffq-p3gj",
+    "family": "authorization_idor",
+    "cwes": [
+      "CWE-306"
+    ],
+    "published": "2026-07-14",
+    "repo_url": "https://github.com/Labs64/NetLicensing-MCP",
+    "fix_commit": "fbbb1d5ff88eb5400ec933a84e75601ebee48927",
+    "parent_commit": "e826d695df5a08d250dc88e9d8843ff0042ce35a",
+    "files": [
+      {
+        "path": "src/netlicensing_mcp/safety.py",
+        "vulnerable_ranges": [
+          [
+            44,
+            46
+          ],
+          [
+            73,
+            74
+          ],
+          [
+            96,
+            97
+          ],
+          [
+            116,
+            117
+          ]
+        ],
+        "fixed_ranges": [
+          [
+            44,
+            44
+          ],
+          [
+            71,
+            71
+          ],
+          [
+            93,
+            93
+          ],
+          [
+            112,
+            112
+          ]
+        ]
+      },
+      {
+        "path": "src/netlicensing_mcp/server.py",
+        "vulnerable_ranges": [
+          [
+            286,
+            288
+          ],
+          [
+            350,
+            352
+          ],
+          [
+            924,
+            926
+          ],
+          [
+            991,
+            993
+          ],
+          [
+            1011,
+            1013
+          ],
+          [
+            1089,
+            1094
+          ],
+          [
+            1917,
+            1919
+          ],
+          [
+            1978,
+            1978
+          ],
+          [
+            2019,
+            2039
+          ]
+        ],
+        "fixed_ranges": [
+          [
+            288,
+            288
+          ],
+          [
+            350,
+            350
+          ],
+          [
+            922,
+            922
+          ],
+          [
+            987,
+            987
+          ],
+          [
+            1005,
+            1005
+          ],
+          [
+            1081,
+            1082
+          ],
+          [
+            1905,
+            1905
+          ],
+          [
+            1965,
+            1996
+          ],
+          [
+            2036,
+            2036
+          ]
+        ]
+      }
+    ],
+    "scope_files": 4
+  },
+  {
+    "id": "GHSA-x5pq-m9p8-f4vx",
+    "family": "authorization_idor",
+    "cwes": [
+      "CWE-863"
+    ],
+    "published": "2026-08-18",
+    "repo_url": "https://github.com/9001/copyparty",
+    "fix_commit": "e40755331ba9449993ff482456e6bdd2c6deb950",
+    "parent_commit": "89040874f53e426e54a94787a3e3ddfa2acd1bad",
+    "files": [
+      {
+        "path": "copyparty/httpcli.py",
+        "vulnerable_ranges": [
+          [
+            7207,
+            7207
+          ]
+        ],
+        "fixed_ranges": [
+          [
+            7207,
+            7207
+          ]
+        ]
+      }
+    ],
+    "scope_files": 25
+  },
+  {
+    "id": "GHSA-jmrh-xmgh-x9j4",
+    "family": "authorization_idor",
+    "cwes": [
+      "CWE-863"
+    ],
+    "published": "2026-04-06",
+    "repo_url": "https://github.com/dgtlmoon/changedetection.io",
+    "fix_commit": "31a760c2147e3e73a403baf6d7de34dc50429c85",
+    "parent_commit": "43bba5a1b688cafa4ba591d0fb749d96f668067f",
+    "files": [
+      {
+        "path": "changedetectionio/blueprint/backups/__init__.py",
+        "vulnerable_ranges": [
+          [
+            101,
+            101
+          ],
+          [
+            102,
+            102
+          ],
+          [
+            144,
+            144
+          ],
+          [
+            145,
+            145
+          ],
+          [
+            168,
+            168
+          ],
+          [
+            170,
+            170
+          ],
+          [
+            179,
+            179
+          ],
+          [
+            180,
+            180
+          ]
+        ],
+        "fixed_ranges": [
+          [
+            100,
+            100
+          ],
+          [
+            102,
+            102
+          ],
+          [
+            143,
+            143
+          ],
+          [
+            145,
+            145
+          ],
+          [
+            167,
+            167
+          ],
+          [
+            170,
+            170
+          ],
+          [
+            178,
+            178
+          ],
+          [
+            180,
+            180
+          ]
+        ]
+      },
+      {
+        "path": "changedetectionio/blueprint/backups/restore.py",
+        "vulnerable_ranges": [
+          [
+            177,
+            177
+          ],
+          [
+            178,
+            178
+          ],
+          [
+            187,
+            187
+          ],
+          [
+            188,
+            188
+          ]
+        ],
+        "fixed_ranges": [
+          [
+            176,
+            176
+          ],
+          [
+            178,
+            178
+          ],
+          [
+            186,
+            186
+          ],
+          [
+            188,
+            188
+          ]
+        ]
+      },
+      {
+        "path": "changedetectionio/blueprint/browser_steps/__init__.py",
+        "vulnerable_ranges": [
+          [
+            271,
+            271
+          ],
+          [
+            272,
+            272
+          ],
+          [
+            307,
+            307
+          ],
+          [
+            308,
+            308
+          ],
+          [
+            333,
+            333
+          ],
+          [
+            334,
+            334
+          ]
+        ],
+        "fixed_ranges": [
+          [
+            270,
+            270
+          ],
+          [
+            272,
+            272
+          ],
+          [
+            306,
+            306
+          ],
+          [
+            308,
+            308
+          ],
+          [
+            332,
+            332
+          ],
+          [
+            334,
+            334
+          ]
+        ]
+      }
+    ],
+    "scope_files": 3
+  }
+]
