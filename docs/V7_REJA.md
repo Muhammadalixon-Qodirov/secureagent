@@ -48,4 +48,30 @@ variant qidiruvi (skaner barcha sinklarni baribir ko'radi), takror detektori
 
 ## Holat
 
-(natijalar kelgach to'ldiriladi)
+### Dev natijalari (ko'rilgan ma'lumot — natija emas)
+
+| To'plam | v5 (to'g'ri / soxta, F1) | v6 | v7 1-variant | **v7 (muzlatilgan)** | IDOR to'g'ri / soxta: v5 → v6 → v7 |
+|---|---|---|---|---|---|
+| Holdout | 19 / 3, 0.86 | 21 / 3, 0.91 | 21 / 3, 0.91 | qayta ishga tushirilmadi | 7/1 → 8/1 → 8/2 (1-variant) |
+| Flask | 41 / 10, 0.58 | 43 / 13, 0.59 | 40 / 10, 0.57 | 42 / 10, 0.59 | 13/7 → 15/10 → 14/6 |
+| Django | 60 / 48, 0.385 | 63 / 67, 0.377 | 62 / 57, 0.384 | 62 / 48, 0.395 | 11/38 → 14/55 → 13/38 |
+
+1-variant "faqat tasdiqlangan" qoidasi bilan shovqinni to'liq tuzatmadi
+(Django IDOR soxta 47): qoida atigi 1 ta da'voni olib tashladi. Sabab besh
+javobli formatning o'zi ekan — unda model kamroq rad etadi (Django'da rad
+etishlar v5 57, v6 43, 1-variant 38). Shuning uchun muzlatilgan v7 da
+avtorizatsiya da'volari v5 ning ha/yo'q verifier'iga qaytarildi (loyiha
+odatlari va freymvork kartasi kontekst sifatida), injection da'volari besh
+javobli verifier'da qoldi.
+
+Python 2 tuzatishi (ko'rilgan "boshqa freymvorklar" to'plamida, modelsiz
+qism): tornado ilovasida 0 → 2 topilma, jami 6 → 8.
+
+FastAPI va CVE dev yarmi v7 bilan ishga tushirilmadi (vaqtni tejash uchun).
+
+### Muzlatish
+
+v7 = commit `1d8f021`, `secagent/*.py` hash **`223a451dd78c7cab`**. Yozilgan
+vaqt: 2026-10-08, `cve_test2` da hech bir tizim ishga tushirilmasidan oldin.
+Sinovda `agent_v5`, `agent_v7` va modelsiz `seeds_v7_only` bir martadan
+ishlaydi.

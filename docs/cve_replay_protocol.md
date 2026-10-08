@@ -146,3 +146,21 @@ Recorded 2026-10-08, **before any system was run on the test half**.
    commits are pushed unchanged as soon as a login is possible. The protocol
    itself and both frozen halves were pushed on 2026-10-07 (`061c457`),
    before any v6 code existed.
+
+## Addendum (2026-10-08): a third half for v7
+
+After T15 the test half is seen data. For v7 (`docs/V7_REJA.md`) a further
+half **`test2`** was built with the same rules from advisories in
+repositories that neither earlier half uses, one advisory per repository:
+**16 advisories** (path traversal 8, authorization 8; no SQL injection
+candidates were left), 16 repositories, combined SHA-256
+`399901176e3ce672…`. Only these counts were read. 20 candidates could not be
+built (reasons in its `FROZEN.json`).
+
+v7 frozen before any run on it: commit `1d8f021`, code hash
+**`223a451dd78c7cab`**. Systems, once each: `agent_v5`, `agent_v7`,
+`seeds_v7_only`. Stated in advance: sixteen pairs cannot show a difference;
+the expectation is only that v7's pair success is not below v5's. The
+evidence for v7's purpose (fewer authorization false positives than v6) is on
+seen sets and is reported as such.
+
