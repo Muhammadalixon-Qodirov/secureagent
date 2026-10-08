@@ -85,3 +85,20 @@ def test_unusable_verifier_reply_is_asked_for_once_more(tmp_path):
     assert any("SQL injection in find_user" == f.title for f in res.final.findings)
     assert any("not valid JSON" in m[-1]["content"] for m in model.prompts)
     assert res.stats.verifier_failed == 0
+
+
+def test_sarif_export_has_one_result_per_finding_with_rule_and_region(tmp_path):
+    from secagent.sarif import to_sarif
+    res, _ = run(tmp_path, {
+        "find_user": [{"analysis": "formatted into SQL", "verdict": "vulnerable"}],
+        "sorted_users": [{"analysis": "cannot tell", "verdict": "inconclusive"}],
+    })
+    doc = to_sarif(res.final, "v6")
+    run_ = doc["runs"][0]
+    assert doc["version"] == "2.1.0" and run_["tool"]["driver"]["name"] == "secagent"
+    assert [r["id"] for r in run_["tool"]["driver"]["rules"]] == ["CWE-89"]
+    assert len(run_["results"]) == len(res.final.findings) == 2
+    r = run_["results"][0]
+    region = r["locations"][0]["physicalLocation"]["region"]
+    assert r["ruleId"] == "CWE-89" and region["startLine"] >= 1 and "execute" in region["snippet"]["text"]
+    assert {x["properties"]["confidence"] for x in run_["results"]} == {"medium", "low"}

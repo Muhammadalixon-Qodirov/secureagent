@@ -70,7 +70,7 @@ def _finding_md(f: Finding) -> str:
 
 
 def render(final: FinalDecision, target: str, run_meta: dict | None = None,
-           controller_notes: list[str] | None = None) -> str:
+           controller_notes: list[str] | None = None, pipeline: list[tuple[str, int]] | None = None) -> str:
     findings = sorted(final.findings, key=lambda f: SEVERITY_ORDER.index(f.severity))
     lines = [f"# Security review — {safe_text(target)}", "",
              f"Status: **{final.status}** · findings: **{len(findings)}** · "
@@ -89,6 +89,9 @@ def render(final: FinalDecision, target: str, run_meta: dict | None = None,
         lines += ["## Hypotheses examined", "", "| Id | Status | Question | Reason |", "|---|---|---|---|"]
         lines += [f"| {safe_text(h.id)} | {h.analysis_status} | {safe_text(h.question)} | {safe_text(h.reason)} |"
                   for h in hyps] + [""]
+    if pipeline:                # v6: where candidates came from and where they were dropped
+        lines += ["## Pipeline", "", "| Stage | Count |", "|---|---|"]
+        lines += [f"| {safe_text(k)} | {int(v)} |" for k, v in pipeline] + [""]
     cov = final.coverage
     lines += ["## Coverage", "",
               f"- Reviewed paths: {', '.join(safe_text(p) for p in cov.reviewed_paths) or 'none'}",
