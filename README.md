@@ -146,9 +146,35 @@ found 31 of 36 on Django, where it was developed, and here ran into Python 2
 source it cannot parse, one very long handler, and sinks outside its list.
 Details: [`docs/experiments.md#t14`](docs/experiments.md).
 
+## v6: ideas from other agents, tested on real 2026 advisories (CVE replay, 30 advisories)
+
+With no unseen benchmark data left, a new test was built first: public PyPI
+advisories published in 2026 (after the model's training data), each as a
+pair — the code before the fix and after it
+([`docs/cve_replay_protocol.md`](docs/cve_replay_protocol.md)). A system
+succeeds on a pair when it flags the place the fix changed before the fix and
+not after. v6 then adds ideas taken from other open-source agents, compared
+one by one in [`docs/SOLISHTIRUV.md`](docs/SOLISHTIRUV.md): control strength
+and a five-verdict verifier (OpenAnt), context by symbol name (Vulnhuntr),
+attacker framing for authorization claims, retries, SARIF output.
+
+| System | Detected | Pair success (95% CI) |
+|---|---|---|
+| Single-shot LLM | 1 of 30 | 0.00 (0.00–0.11) |
+| Agent v5 | 5 of 30 | 0.10 (0.04–0.26) |
+| **Agent v6** | 6 of 30 | 0.13 (0.05–0.30) |
+
+Honest reading: **no measurable gain from v6 over v5** (4 pairs against 3,
+identical intervals); both agents beat the single-shot baseline, which solved
+none. The rule that looked best during development — telling strong controls
+from weak ones in the scan — went from 2 to 5 pairs on the development half
+and from 1 to 1 on the test half. And real library code is far harder than
+teaching apps: 23 of 30 advisories were not found by any system. Details:
+[`docs/experiments.md#t15`](docs/experiments.md).
+
 ## Quick start
 
-Tested from a fresh clone on Windows 11 (Python 3.10, Ollama 0.35, RTX 3050 8 GB); 110 tests pass (no model needed).
+Tested from a fresh clone on Windows 11 (Python 3.10, Ollama 0.35, RTX 3050 8 GB); 115 tests pass (no model needed).
 
 ```bash
 python -m venv .venv && .venv/Scripts/pip install -r requirements.txt   # use .venv/bin/ on Linux/macOS
@@ -178,6 +204,8 @@ ollama pull qwen3:8b
 .venv/Scripts/python -m secagent.evaluate --dataset realvuln_django --systems agent_v4
 .venv/Scripts/python scripts/fetch_realvuln.py --framework other --out eval/realvuln_other --commit 7a710251f55c17d32d3adcb13d37468e2e3b9e4a
 .venv/Scripts/python -m secagent.evaluate --dataset realvuln_other --systems agent_v5
+.venv/Scripts/python scripts/build_cve_replay.py                             # 2026 advisories, vulnerable/fixed pairs
+.venv/Scripts/python -m secagent.evaluate --dataset cve_test --systems agent_v6 && .venv/Scripts/python scripts/cve_pairs.py cve_test
 .venv/Scripts/python scripts/injection_suite.py --harden                     # prompt-injection suite
 ```
 

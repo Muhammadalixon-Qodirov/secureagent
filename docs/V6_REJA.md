@@ -30,7 +30,7 @@ ma'lumotida zarar bergan g'oya olib tashlanadi va bu yerda yoziladi.
 | 7 | Yetib borish tartibi | OpenAnt | Handler'lardan call graph; oynalar budjeti avval yetib boriladigan kodga sarflanadi | Django dev'da o'tkazib yuborilgan oynalar kamayadi | **qoldirildi**: dev CVE yarmida 2 450 oynadan 63 tasi o'qilmagan, foyda kichik; v6 ga kirmadi |
 | 8 | Mustahkamlik | PentAGI, claude-code-security-review | Buzuq model javobida bir marta qayta urinish; qat'iy istisnolar ro'yxati (test, migratsiya, seed fayllari va h.k.) | `invalid_replies` kamayadi | **bajarildi**: qayta urinish; model serveri o'chiq bo'lsa to'xtash. Istisnolar ro'yxati yozilmadi (v5 skanerida seed/migratsiya fayllari allaqachon tashlanadi) |
 | 9 | Chiqish | Shannon, numasec | SARIF fayl; bosqichlar bo'yicha yo'qotish jadvali hisobotda | SARIF sxema tekshiruvidan o'tadi | **bajarildi**: SARIF 2.1.0 (rasmiy sxemadan o'tdi), bosqichlar jadvali, CLI'da v5/v6 |
-| 10 | Muzlatish va sinov | – | v6 hash'i protokolga yoziladi, push; sinov yarmida single-shot, v5, v6 bir martadan | T15 `docs/experiments.md` da | **muzlatildi** (commit `ea196f2`, hash `cfa5001182c3e616`); sinov yarmi ishga tushirilmoqda |
+| 10 | Muzlatish va sinov | – | v6 hash'i protokolga yoziladi, push; sinov yarmida single-shot, v5, v6 bir martadan | T15 `docs/experiments.md` da | **bajarildi**: sinov yarmida juft muvaffaqiyat single-shot 0/30, v5 3/30, v6 4/30 (T15) |
 
 ## 1-qadam tafsiloti: CVE-replay to'plami
 
@@ -110,4 +110,19 @@ Ko'rilgan eski to'plamlarda (buzilish tekshiruvi): holdout F1 0.86 → 0.91
 Dev sinovi paytida uchragan nosozlik: 2026-10-07 da kompyuter qayta yoqilgach
 Ollama ishga tushmagan va v5 to'qqizta holatda bo'sh natija yozgan; ular
 o'chirilib qayta bajarildi, baholash kodiga himoya qo'shildi.
+
+## Yakuniy natija (sinov yarmi, 30 ta maslahat, bir marta)
+
+| Tizim | Zaif holatda topdi | Juft muvaffaqiyat |
+|---|---|---|
+| Single-shot LLM | 1 | 0/30 = 0.00 (0.00–0.11) |
+| v5 skaneri (modelsiz) | 4 | 1/30 |
+| v6 skaneri (modelsiz) | 4 | 1/30 |
+| Agent v5 | 5 | 3/30 = 0.10 (0.04–0.26) |
+| **Agent v6** | 6 | 4/30 = 0.13 (0.05–0.30) |
+
+Xulosa: olingan g'oyalar o'lchanadigan foyda bermadi (v6 va v5 orasida bitta
+yozuv farq). Dev yarmida eng yaxshi ko'ringan qoida (himoya kuchi: 2 → 5)
+sinov yarmida hech narsa bermadi (1 → 1). Ikkala agent ham single-shot'dan
+yaxshiroq. Batafsil: `docs/experiments.md` T15.
 

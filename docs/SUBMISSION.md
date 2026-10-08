@@ -119,6 +119,19 @@ about as much as the single prompt with a twentieth of the false alarms; it
 does not find more, the set is small, and the scan's own development numbers
 did not transfer (31 of 36 path traversals on Django, 2 of 13 here).
 
+**Fifth round: borrowing from other agents, on real advisories.** I compared
+my agent with 17 open-source projects (`docs/SOLISHTIRUV.md`) and took the
+ideas that fit a small local model: verdicts that separate "protected" from
+"not shown", letting the verifier ask for a function by name, judging
+authorization claims as an attacker would. With no unseen benchmark data left
+I first built a new test from PyPI advisories published in 2026 — after the
+model's training data — each as the code before and after the fix; a system
+must flag the first and not the second. On 30 such pairs the single prompt
+solved 0, v5 solved 3 and the new v6 solved 4. That is no measurable gain,
+and the rule that looked best while I developed it (2 → 5 pairs on the
+development half) gave 1 → 1 on the test half. Real library code is also far
+harder than teaching apps: 23 of 30 advisories were found by nothing.
+
 **Honest limits.** IDOR precision on unfamiliar code is low (about 0.1–0.2 on
 the FastAPI and Django sets) and resolving helper functions did not fix it; on
 Django v4 was worse than the single-prompt baseline, and v5's better result
@@ -133,7 +146,7 @@ the system with an AI coding assistant; the research notes, experiment log and
 protocols in `docs/` record the decisions and why they were made.
 
 To try it: `README.md` → Quick start (about 10 minutes; tested from a fresh
-clone; 110 tests run without a model).
+clone; 115 tests run without a model).
 
 Best regards,
 Muhammadalixon Qodirov

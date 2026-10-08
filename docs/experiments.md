@@ -798,3 +798,82 @@ IDOR is unchanged by v5: core access-control recall 22 of 53 on FastAPI
 (v3: 23) and 5 of 59 on Django (v4: 6), with precision near 0.1 - still the
 open problem.
 
+## T15 — v6 on real 2026 advisories: CVE replay (2026-10-08)
+
+After T14 no unseen Python data was left in the RealVuln benchmark, so a new
+test had to be built before anything else could be added. Protocol
+`docs/cve_replay_protocol.md` (pushed before any v6 code existed): public PyPI
+advisories **published in 2026** — after the model's training data — in the
+three families, each with one GitHub fix commit; two snapshots per advisory,
+the parent of the fix (vulnerable) and the fix (fixed), limited to the changed
+files and their directory. Split by repository into a dev half (28
+advisories) and a test half (30), so no codebase is in both. The measure is
+**pair success**: the place the fix changed is flagged before the fix and not
+after it. A system that flags a sink whatever stands in front of it scores
+zero. Plan and dev history: `docs/V6_REJA.md`; where the ideas came from:
+`docs/SOLISHTIRUV.md`. Full tables: `eval/results_cve/RESULTS.md`.
+
+What v6 adds to v5, each taken from another open-source project and put
+behind a flag: control strength in the sink scan (strong control → not
+reported, weak → "bypassable"; after OpenAnt's verdicts), a five-verdict
+verifier with attacker framing for authorization claims (OpenAnt,
+CyberStrike), context by symbol name (Vulnhuntr), a retry on unusable replies
+(PentAGI), SARIF output and a pipeline table (Shannon, numasec). v6 was frozen
+(commit `ea196f2`, code hash `cfa5001182c3e616`) before any system ran on the
+test half; each system ran once; all report the frozen hash. One deviation:
+the freeze commit could not be pushed before the run (no git credentials on
+the machine) — recorded in the protocol.
+
+Test half, 30 advisories (SQL injection 6, path traversal 12, authorization 12):
+
+| System | Detected (95% CI) | Still flagged after the fix | Pair success (95% CI) | SQLi / path / authz pairs | Other findings per snapshot |
+|---|---|---|---|---|---|
+| Single-shot LLM | 1/30 = 0.03 (0.01–0.17) | 1 | 0/30 = 0.00 (0.00–0.11) | 0/6 / 0/12 / 0/12 | 1.4 |
+| v5 deterministic passes (no model) | 4/30 = 0.13 (0.05–0.30) | 3 | 1/30 = 0.03 (0.01–0.17) | 0/6 / 1/12 / 0/12 | 1.2 |
+| v6 deterministic passes (no model) | 4/30 = 0.13 (0.05–0.30) | 3 | 1/30 = 0.03 (0.01–0.17) | 0/6 / 1/12 / 0/12 | 1.1 |
+| Agent v5 | 5/30 = 0.17 (0.07–0.34) | 3 (2 of the detected) | 3/30 = 0.10 (0.04–0.26) | 1/6 / 2/12 / 0/12 | 1.0 |
+| **Agent v6** | 6/30 = 0.20 (0.10–0.37) | 2 | 4/30 = 0.13 (0.05–0.30) | 1/6 / 2/12 / 1/12 | 1.2 |
+
+What the test says:
+
+1. **The claims hold on point estimates and show nothing more.** v6's pair
+   success is not below v5's (4 against 3 of 30) and is above the single-shot
+   baseline's (4 against 0). One advisory separates v6 from v5; the intervals
+   coincide. **No measurable gain from the borrowed ideas** is the honest
+   reading. Against single-shot the difference is larger (0.13 against 0.00)
+   but the intervals still touch.
+2. **The rule that looked best on dev did not transfer at all.** Control
+   strength raised the model-free pair success from 2 to 5 of 28 on the dev
+   half — where its patterns were written from three fixes — and from 1 to 1
+   of 30 here. On the test half it suppressed 16 sinks, eight on vulnerable
+   snapshots and eight on fixed ones: it fired on code the fixes did not
+   touch. Third time in this project that a rule tuned on one set gave
+   nothing on the next (v4's helper resolution, v5's path scan, now this).
+3. **The model does the distinguishing, not the scan.** Without a model both
+   scans keep flagging three of their four detections after the fix. With the
+   verifier, v5 and v6 turn 5 and 6 detections into 3 and 4 pairs. Reading a
+   fix requires judging the code in front of the sink, which pattern lists do
+   not do.
+4. **Real library code is a different problem from teaching apps.** 23 of the
+   30 advisories were not flagged at the right place by any system, before or
+   after the fix. The authorization analysis produced no seed at all on the
+   test half (no routes and no owned models of the kind it knows); the one
+   authorization pair came from the model sweep. Best pair success here is
+   0.13, where the same agent family reaches F1 0.4–0.6 on small web apps.
+5. The single-shot baseline is close to useless on this data (one detection,
+   and it stays flagged after the fix), with slightly more unmatched findings
+   per snapshot than the agents.
+
+What v6 does add, independent of the score: findings in SARIF, a pipeline
+table that shows where candidates came from and where they were dropped, a
+verdict vocabulary that separates "protected" from "not shown", and a guard
+that stops a run when the model server is down instead of recording empty
+results (found the hard way during the dev runs).
+
+### Dev half and seen sets (not results)
+
+Dev half, 28 advisories: pair success single-shot 2, v5 scan 2, v6 scan 5,
+agent v5 4, agent v6 6. Seen sets at the freeze: holdout F1 0.86 → 0.91,
+Flask 0.58 → 0.59 from v5 to v6. The gap between the dev and test numbers of
+the scan (5 of 28 against 1 of 30) is again the size of the tuning effect.
+
