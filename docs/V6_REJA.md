@@ -23,14 +23,14 @@ ma'lumotida zarar bergan g'oya olib tashlanadi va bu yerda yoziladi.
 |---|---|---|---|---|---|
 | 1 | CVE-replay test to'plami | mythos-agent, CyberGym | `scripts/build_cve_replay.py`: PyPI maslahatlar bazasidan (OSV) uch turdagi, tuzatish commit'i bor yozuvlar; har biri uchun zaif va tuzatilgan holat; dev / sinov bo'linishi | To'plam yuklangan, hash bilan qotirilgan, protokol push qilingan | **bajarildi** (dev 28, sinov 30 ta yozuv) |
 | 2 | Juft baholash | CyberGym | `secagent/evaluate.py` ga `cve_replay` to'plami va baholash: zaif holatda topish, tuzatilgan holatda jim turish | Skript dev yarmida ishlaydi, testlar o'tadi | **bajarildi** |
-| 3 | Dev yarmida boshlang'ich o'lchov | – | single-shot va v5 ni **faqat dev yarmida** ishga tushirish; xatolar tahlili | Jadval va qisqa tahlil shu faylda | boshlanmagan |
-| 4 | Besh javobli hukm | OpenAnt, cyber-harness | Verifier javobi: zaif / chetlab o'tsa bo'ladi / noaniq / himoyalangan / xavfsiz; "noaniq" past ishonch bilan saqlanadi | Dev to'plamlarda F1 pasaymaydi | **deterministik qismi bajarildi**: skaner himoyani kuchli / zaif / yo'q ga ajratadi. Dev CVE yarmida juft muvaffaqiyat 2 → 5 (28 tadan), ko'rilgan 4 to'plamda yo'qotish yo'q. Verifier javobini kengaytirish qoldi |
-| 5 | IDOR verifier'i hujumchi rolida | OpenAnt, CyberStrike | IDOR da'vosi uchun: cheklangan hujumchi, zarar boshqa foydalanuvchiga yetishi shart; himoyalangan qo'shni route dalil sifatida | Dev'da IDOR soxta signali kamayadi, core recall pasaymaydi | boshlanmagan |
-| 6 | Nomi bo'yicha kontekst | Vulnhuntr | Verifier bitta funksiya yoki klassni nomi bilan so'rashi mumkin; controller AST indeksidan topib beradi; ko'pi bilan 2 aylanish, takror so'rovda to'xtaydi | Dev'da F1 pasaymaydi; so'rovlar soni hisobotda | boshlanmagan |
-| 7 | Yetib borish tartibi | OpenAnt | Handler'lardan call graph; oynalar budjeti avval yetib boriladigan kodga sarflanadi | Django dev'da o'tkazib yuborilgan oynalar kamayadi | boshlanmagan |
-| 8 | Mustahkamlik | PentAGI, claude-code-security-review | Buzuq model javobida bir marta qayta urinish; qat'iy istisnolar ro'yxati (test, migratsiya, seed fayllari va h.k.) | `invalid_replies` kamayadi | boshlanmagan |
-| 9 | Chiqish | Shannon, numasec | SARIF fayl; bosqichlar bo'yicha yo'qotish jadvali hisobotda | SARIF sxema tekshiruvidan o'tadi | boshlanmagan |
-| 10 | Muzlatish va sinov | – | v6 hash'i protokolga yoziladi, push; sinov yarmida single-shot, v5, v6 bir martadan | T15 `docs/experiments.md` da | boshlanmagan |
+| 3 | Dev yarmida boshlang'ich o'lchov | – | single-shot va v5 ni **faqat dev yarmida** ishga tushirish; xatolar tahlili | Jadval va qisqa tahlil shu faylda | **bajarildi** (jadval pastda) |
+| 4 | Besh javobli hukm | OpenAnt, cyber-harness | Verifier javobi: zaif / chetlab o'tsa bo'ladi / noaniq / himoyalangan / xavfsiz; "noaniq" past ishonch bilan saqlanadi | Dev to'plamlarda F1 pasaymaydi | **bajarildi**: skaner himoyani kuchli / zaif / yo'q ga ajratadi; verifier besh xil hukm beradi |
+| 5 | IDOR verifier'i hujumchi rolida | OpenAnt, CyberStrike | IDOR da'vosi uchun: cheklangan hujumchi, zarar boshqa foydalanuvchiga yetishi shart; himoyalangan qo'shni route dalil sifatida | Dev'da IDOR soxta signali kamayadi, core recall pasaymaydi | **bajarildi** (dev'da zarar ko'rinmadi; foydasi 12 tadan 1 ta avtorizatsiya yozuvi) |
+| 6 | Nomi bo'yicha kontekst | Vulnhuntr | Verifier bitta funksiya yoki klassni nomi bilan so'rashi mumkin; controller AST indeksidan topib beradi; ko'pi bilan 2 aylanish, takror so'rovda to'xtaydi | Dev'da F1 pasaymaydi; so'rovlar soni hisobotda | **bajarildi** (dev CVE yarmida 7 marta, Flask'da 3 marta ishlatildi) |
+| 7 | Yetib borish tartibi | OpenAnt | Handler'lardan call graph; oynalar budjeti avval yetib boriladigan kodga sarflanadi | Django dev'da o'tkazib yuborilgan oynalar kamayadi | **qoldirildi**: dev CVE yarmida 2 450 oynadan 63 tasi o'qilmagan, foyda kichik; v6 ga kirmadi |
+| 8 | Mustahkamlik | PentAGI, claude-code-security-review | Buzuq model javobida bir marta qayta urinish; qat'iy istisnolar ro'yxati (test, migratsiya, seed fayllari va h.k.) | `invalid_replies` kamayadi | **bajarildi**: qayta urinish; model serveri o'chiq bo'lsa to'xtash. Istisnolar ro'yxati yozilmadi (v5 skanerida seed/migratsiya fayllari allaqachon tashlanadi) |
+| 9 | Chiqish | Shannon, numasec | SARIF fayl; bosqichlar bo'yicha yo'qotish jadvali hisobotda | SARIF sxema tekshiruvidan o'tadi | **bajarildi**: SARIF 2.1.0 (rasmiy sxemadan o'tdi), bosqichlar jadvali, CLI'da v5/v6 |
+| 10 | Muzlatish va sinov | – | v6 hash'i protokolga yoziladi, push; sinov yarmida single-shot, v5, v6 bir martadan | T15 `docs/experiments.md` da | **muzlatildi** (commit `ea196f2`, hash `cfa5001182c3e616`); sinov yarmi ishga tushirilmoqda |
 
 ## 1-qadam tafsiloti: CVE-replay to'plami
 
@@ -85,3 +85,29 @@ natijada ochiq yozish kerak.
 4–9-qadamlar: har biri yarim kundan bir kungacha, dev sinovlari GPU'da
 1–3 soatdan. 10-qadam: bir necha soat GPU. Jami bir haftaga yaqin ish;
 qadamlar ketma-ket, har biri alohida commit.
+
+## Dev natijalari (muzlatishdan oldin, ko'rilgan ma'lumot — natija emas)
+
+CVE dev yarmi, 28 ta maslahat (SQL injection 4, path traversal 12, avtorizatsiya 12):
+
+| Tizim | Zaif holatda topdi | Tuzatilgandan keyin ham belgiladi | Juft muvaffaqiyat | Boshqa topilmalar / holat |
+|---|---|---|---|---|
+| Single-shot LLM | 2 | 0 | 2/28 = 0.07 (0.02–0.23) | 2.9 |
+| v5 skaneri (modelsiz) | 7 | 5 | 2/28 = 0.07 (0.02–0.23) | 2.3 |
+| v6 skaneri (modelsiz) | 7 | 2 | 5/28 = 0.18 (0.08–0.36) | 2.2 |
+| Agent v5 | 4 | 0 | 4/28 = 0.14 (0.06–0.32) | 1.5 |
+| **Agent v6** | 7 | 2 (bittasi topilganlar ichida) | 6/28 = 0.21 (0.10–0.40) | 1.5 |
+
+v6 v5 ga nisbatan 4 ta juft qo'shdi va 2 tasini yo'qotdi (sof +2). Oraliqlar
+deyarli to'liq ustma-ust; model javobi ishga tushirishdan ishga tushirishga
+biroz o'zgaradi, shuning uchun bu farq dalil emas, faqat "zarar ko'rinmadi"
+degani. Skaner qoidalari shu yarmidagi uchta tuzatishga qarab yozilgan.
+
+Ko'rilgan eski to'plamlarda (buzilish tekshiruvi): holdout F1 0.86 → 0.91
+(21 TP / 3 FP), Flask 0.58 → 0.59 (43 TP / 13 FP; avtorizatsiya soxta signali
+7 → 10). FastAPI va Django'da v6 muzlatishdan oldin ishga tushirilmadi.
+
+Dev sinovi paytida uchragan nosozlik: 2026-10-07 da kompyuter qayta yoqilgach
+Ollama ishga tushmagan va v5 to'qqizta holatda bo'sh natija yozgan; ular
+o'chirilib qayta bajarildi, baholash kodiga himoya qo'shildi.
+

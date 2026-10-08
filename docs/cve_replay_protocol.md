@@ -106,7 +106,34 @@ merge commit: 2 and 2; commit no longer on GitHub: 2 and 1) — listed in each
 
 ## Frozen code
 
-(to be filled in when v6 is frozen)
+Recorded 2026-10-08, **before any system was run on the test half**.
+
+- v6 = commit `ea196f2`; `secagent/*.py` code hash **`cfa5001182c3e616`**
+  (`secagent.evaluate._code_hash()`, LF line endings as checked out).
+- Primary system: **`agent_v6`** = v5 plus, all behind a `v6` flag:
+  1. control strength in the sink scan (`secagent/sinks.py`): a sink behind a
+     strong control (structural path containment, a single path component,
+     SQL identifier quoting) is not reported; one behind a weak control (a
+     text test on the path) is reported as bypassable; project functions
+     that are themselves a strong path check count as one;
+  2. a five-verdict verifier (vulnerable / bypassable / inconclusive /
+     protected / safe), attacker framing for authorization claims, and up to
+     two rounds in which the verifier names a project function and is shown
+     it;
+  3. one retry on an unusable model reply; sweep candidates that sit on a
+     protected sink are rejected without the model.
+  Not part of v6: reachability ordering (step 7 of the plan, dropped).
+- Systems to run here, once each: `single_shot`, `agent_v5`, `agent_v6`, and
+  the model-free ablations `seeds_v5_only`, `seeds_v6_only`.
+- `agent_v5` runs from this same commit; its code path is unchanged by the
+  flag (unit tests; identical deterministic output on the four seen sets
+  apart from the v6-only branches), but its recorded hash is this commit's,
+  not `a95b3f6387e20904`.
+- Dev numbers at the freeze (seen data): `docs/V6_REJA.md`. On the dev half
+  pair success was 6/28 for v6 against 4/28 for v5 and 2/28 for single-shot;
+  intervals overlap almost entirely. The scan's control rules were written
+  from three fixes in the dev half.
+- No further tuning: the code above is what is judged here.
 
 ## Deviations
 
