@@ -877,3 +877,22 @@ agent v5 4, agent v6 6. Seen sets at the freeze: holdout F1 0.86 → 0.91,
 Flask 0.58 → 0.59 from v5 to v6. The gap between the dev and test numbers of
 the scan (5 of 28 against 1 of 30) is again the size of the tuning effect.
 
+After the test run the frozen v6 was also run on the two larger seen sets,
+which had not been checked before the freeze:
+
+| Seen set | Agent v5 (TP / FP, F1) | Agent v6 (TP / FP, F1) | IDOR false positives v5 → v6 |
+|---|---|---|---|
+| Holdout | 19 / 3, 0.86 | 21 / 3, 0.91 | 1 → 1 |
+| Flask | 41 / 10, 0.58 | 43 / 13, 0.59 | 7 → 10 |
+| FastAPI | 84 / 157, 0.40 | 90 / 235, 0.36 | 132 → 202 |
+| Django | 60 / 48, 0.39 | 63 / 67, 0.38 | 38 → 55 |
+
+**v6 is noisier than v5 on authorization.** On every set it keeps a few more
+true positives and many more IDOR false positives (FastAPI: +5 true, +70
+false). The five-verdict verifier with attacker framing withdraws fewer
+claims than v5's yes/no verifier: "inconclusive" and a "protected" verdict
+without a control line are both kept. That cost was visible on Flask before
+the freeze (7 → 10) and was not followed up on the larger sets, which should
+have been done first. Taken together with the test half, **v5 remains the
+better default**; v6's verifier changes are not an improvement.
+

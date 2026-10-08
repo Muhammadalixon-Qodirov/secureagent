@@ -126,3 +126,19 @@ yozuv farq). Dev yarmida eng yaxshi ko'ringan qoida (himoya kuchi: 2 → 5)
 sinov yarmida hech narsa bermadi (1 → 1). Ikkala agent ham single-shot'dan
 yaxshiroq. Batafsil: `docs/experiments.md` T15.
 
+## Muzlatishdan keyin aniqlangan kamchilik
+
+Muzlatilgan v6 FastAPI va Django'da (ko'rilgan to'plamlar) ham ishga
+tushirildi; bu muzlatishdan oldin qilinmagan edi:
+
+| To'plam | v5 (to'g'ri / soxta, F1) | v6 (to'g'ri / soxta, F1) | IDOR soxta signali |
+|---|---|---|---|
+| FastAPI | 84 / 157, 0.40 | 90 / 235, 0.36 | 132 → 202 |
+| Django | 60 / 48, 0.39 | 63 / 67, 0.38 | 38 → 55 |
+
+v6 avtorizatsiyada v5 dan shovqinliroq: bir necha qo'shimcha to'g'ri topilma
+evaziga ancha ko'p soxta signal. Sababi 4–5-qadamlardagi verifier: "noaniq"
+hukm va nazorat satrisiz "himoyalangan" hukmi topilmani saqlab qoladi. Xulosa:
+**amalda v5 standart bo'lib qoladi**; v6 dan SARIF, bosqichlar jadvali, server
+tekshiruvi va CVE-replay test usuli foydali.
+

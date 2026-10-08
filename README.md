@@ -169,8 +169,11 @@ identical intervals); both agents beat the single-shot baseline, which solved
 none. The rule that looked best during development — telling strong controls
 from weak ones in the scan — went from 2 to 5 pairs on the development half
 and from 1 to 1 on the test half. And real library code is far harder than
-teaching apps: 23 of 30 advisories were not found by any system. Details:
-[`docs/experiments.md#t15`](docs/experiments.md).
+teaching apps: 23 of 30 advisories were not found by any system. On the
+earlier sets v6 is also noisier than v5 on authorization (FastAPI: 5 more
+true findings, 70 more false ones), so **v5 remains the recommended mode**;
+what v6 contributes is the new test, SARIF output and the pipeline table.
+Details: [`docs/experiments.md#t15`](docs/experiments.md).
 
 ## Quick start
 
