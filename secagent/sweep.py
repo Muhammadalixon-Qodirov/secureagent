@@ -503,12 +503,22 @@ def run_sweep(config: Config, model, registry: ToolRegistry, verify: bool = True
                 ctx = (ctx + "\n" if ctx else "") + _facts_text(fact)
             if v7 and c.family == "authorization_idor":
                 ctx = "\n".join(x for x in (ctx, idioms, card) if x)
-            if v6:
+            # v7: authorization claims go back to v5's yes/no verifier. With five verdicts the model said
+            # "vulnerable" more often and withdrew less (Django: 57 withdrawals with v5, 43 with v6, 38 with
+            # v7 draft 1), with or without the attacker framing. Injection claims keep the five verdicts.
+            if v6 and not (v7 and c.family == "authorization_idor"):
                 v, win_event, shown = _verify_v6(c, d["path"], registry, model, renderer, ctx, root, harden, fact,
                                                  spans.get(id(c)), symbols, stats, attacker=not v7)
             else:
                 v, win_event, shown = _verify(c, d["path"], registry, model, renderer, ctx, root, harden, fact,
                                               spans.get(id(c)))
+            if v is None and v7 and c.family == "authorization_idor":
+                stats.verifier_failed += 1
+                stats.authz_unconfirmed += 1
+                hyps.append(HypothesisSummary(id=hid, question=c.title, analysis_status="rejected",
+                                              verification_status="not_run", finding_id=None,
+                                              reason=f"not confirmed: the verifier gave no usable answer ({win_event})"))
+                continue
             if v is None:
                 stats.verifier_failed += 1
                 confidence, rationale = "low", rationale + " | verifier failed"

@@ -105,7 +105,7 @@ def test_authorization_claims_are_reported_only_when_confirmed(tmp_path):
     show_line = line_of(NOTES, "def show(note_id):") + 1
     model = Model(
         sweep=[Candidate(family="authorization_idor", reason="loads a note by id", line=show_line, title="IDOR in show")],
-        verdicts={"raw": {"analysis": "cannot tell", "verdict": "inconclusive"}},
+        verdicts={"raw": {"analysis": "cannot tell", "claim_holds": False}},
     )
     res = review(tmp_path, model)
     titles = [f.title for f in res.final.findings]
@@ -126,7 +126,7 @@ def test_confirmed_authorization_claim_is_reported_with_project_idioms_shown(tmp
             seen.append(messages[-1]["content"])
             return super().decide(messages, schema)
 
-    model = Recording(sweep=[], verdicts={"raw": {"analysis": "any user reads any note", "verdict": "vulnerable"}})
+    model = Recording(sweep=[], verdicts={"raw": {"analysis": "any user reads any note", "claim_holds": True}})
     res = review(tmp_path, model)
     assert any("raw" in f.title for f in res.final.findings)
     prompt = next(x for x in seen if x.startswith("CLAIM") and "raw" in x.split("\n")[0])
@@ -137,9 +137,9 @@ def test_review_of_a_change_reports_only_in_the_changed_files(tmp_path):
     root = tmp_path / "t"
     root.mkdir()
     (root / "other.py").write_text("def f(request):\n    return open('/srv/' + request.args['n']).read()\n", encoding="utf-8")
-    model = Model(sweep=[], verdicts={"raw": {"analysis": "x", "verdict": "inconclusive"}})
+    model = Model(sweep=[], verdicts={"raw": {"analysis": "x", "claim_holds": False}})
     everything = review(tmp_path, model, sweep=False)
-    changed = review(tmp_path, Model(sweep=[], verdicts={"raw": {"analysis": "x", "verdict": "inconclusive"}}),
+    changed = review(tmp_path, Model(sweep=[], verdicts={"raw": {"analysis": "x", "claim_holds": False}}),
                      sweep=False, only={"other.py"})
     assert {f.evidence[0].file for f in everything.final.findings} == {"app.py", "other.py"}
     assert {f.evidence[0].file for f in changed.final.findings} == {"other.py"}
